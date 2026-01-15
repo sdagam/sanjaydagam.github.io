@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">SD</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="research.html" class="active">Research</a></li>
+                <li><a href="blog.html">Applied Math Blog</a></li>
+                <li><a href="mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="apps.html">iOS Apps</a></li>
+                <li><a href="activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Research</h1>
+        <p>Exploring complex systems through network science, epidemiology, and computational modeling.</p>
+    </header>
+
+    <section class="content-section">
+        <div class="content-container">
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-content">
+                        <span class="project-tag">Network Science · Epidemiology</span>
+                        <h3>Safe Zones: The Paradigm Effect in Epidemic Intervention</h3>
+                        <p>
+                            Investigating a novel phenomenon in epidemic dynamics on complex networks: the "paradigm effect" 
+                            where betweenness centrality-based edge removal outperforms random removal during active epidemics 
+                            but underperforms at equilibrium states. This research explores the counterintuitive Bridge 
+                            Preservation Paradox—a phase transition where random removal strategies become more effective 
+                            at high intervention intensities on scale-free networks.
+                        </p>
+                        <p>
+                            Using synthetic network topologies including Barabási-Albert and Erdős-Rényi models, combined 
+                            with SIS/SIR epidemic simulations, this work challenges conventional assumptions about optimal 
+                            intervention strategies in disease spread.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">ISEF 2025 Project →</a>
+                            <a href="#" class="project-link">View Paper →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-content">
+                        <span class="project-tag">Atmospheric Science</span>
+                        <h3>Wisconsin Ozone Dynamics and Lake Breeze Effects</h3>
+                        <p>
+                            Investigating temporal and spatial gradients in ozone concentrations across Wisconsin, 
+                            with particular focus on the unique meteorological effects created by Lake Michigan. 
+                            This research examines how lake breeze circulation patterns influence air quality 
+                            and pollutant transport in the region.
+                        </p>
+                        <p>
+                            Analysis includes comprehensive climatology studies of precipitation patterns in Milwaukee, 
+                            revealing concentration into heavier events and implications for regional climate trends.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Research Summary →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-content">
+                        <span class="project-tag">Public Health · Statistics</span>
+                        <h3>LGBTQ+ Youth Mental Health Disparities in Wisconsin</h3>
+                        <p>
+                            Applying sophisticated causal inference methodologies to analyze mental health disparities 
+                            among LGBTQ+ youth across Wisconsin counties. This research employs mediation analysis 
+                            and propensity score techniques to identify contributing factors and potential interventions.
+                        </p>
+                        <p>
+                            The goal is to generate evidence-based insights that can inform policy and support 
+                            programs targeting vulnerable youth populations.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Statistical Analysis →</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-content">
+                        <span class="project-tag">Network Science</span>
+                        <h3>Synthetic vs. Real-World Network Validation</h3>
+                        <p>
+                            Comparative analysis of epidemic spreading dynamics on synthetic network models versus 
+                            real-world contact networks. This work explores the validity of using simplified models 
+                            like Barabási-Albert and Erdős-Rényi networks as proxies for actual human interaction 
+                            patterns in epidemiological modeling.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Methodology →</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: var(--color-bg-alt);">
+        <div class="content-container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-lg);">Research Interests</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon">🌐</div>
+                    <h3>Complex Networks</h3>
+                    <p>Graph theory, centrality measures, network topology, and their applications to real-world systems.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🦠</div>
+                    <h3>Computational Epidemiology</h3>
+                    <p>Mathematical modeling of disease spread, intervention strategies, and population dynamics.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">📊</div>
+                    <h3>Causal Inference</h3>
+                    <p>Statistical methods for understanding cause-effect relationships from observational data.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🌤️</div>
+                    <h3>Atmospheric Science</h3>
+                    <p>Regional climate patterns, air quality, and meteorological phenomena.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="/cdn-cgi/l/email-protection#a5d6c4cbcfc4dce5c0ddc4c8d5c9c08bc6cac8">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script d
