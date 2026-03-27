@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied Math Blog | Sanjay Dagam</title>
+<meta name="description" content="52 articles exploring applied mathematics across statistics, network science, physics, calculus, CS/AI, and engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+:root {
+  --cat-stats:      #7d6608; --cat-stats-bg:   #fff8e1;
+  --cat-network:    #784212; --cat-network-bg: #fff3e0;
+  --cat-physics:    #922b21; --cat-physics-bg: #fde8e8;
+  --cat-calc:       #1a5276; --cat-calc-bg:    #e3f0f8;
+  --cat-cs:         #512e5f; --cat-cs-bg:      #f0ebf8;
+  --cat-eng:        #1e8449; --cat-eng-bg:     #e8f8ee;
+}
+
+/* ── Hero ── */
+.blog-hero {
+  background: linear-gradient(140deg, #0e0e1c 0%, #1a1a3a 55%, #0d1f35 100%);
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.blog-hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 60%, rgba(45,91,227,.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 25%, rgba(120,50,200,.09) 0%, transparent 55%);
+  pointer-events: none;
+}
+.blog-hero-inner { position: relative; max-width: 740px; margin: 0 auto; }
+.blog-hero h1 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  color: #fff;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  margin-bottom: .9rem;
+}
+.blog-hero h1 em { font-style: italic; color: #a5b4fc; }
+.blog-hero .sub {
+  color: rgba(255,255,255,.58);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 560px;
+  margin: 0 auto 2.2rem;
+}
+.blog-stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+.blog-stat .num {
+  display: block;
+  font-family: "Instrument Serif", serif;
+  font-size: 2rem; color: #fff; line-height: 1;
+}
+.blog-stat .lbl {
+  display: block;
+  font-family: "DM Sans", sans-serif;
+  font-size: .72rem; color: rgba(255,255,255,.4);
+  letter-spacing: .08em; text-transform: uppercase; margin-top: .25rem;
+}
+
+/* ── Controls ── */
+.blog-controls {
+  background: #fff;
+  border-bottom: 1px solid #e8e8f0;
+  padding: 1.1rem 2rem;
+  position: sticky; top: 0; z-index: 90;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+.controls-inner { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: .85rem; }
+.search-row { display: flex; align-items: center; gap: .75rem; }
+.search-wrap { flex: 1; position: relative; }
+.search-icon {
+  position: absolute; left: .8rem; top: 50%; transform: translateY(-50%);
+  color: #b0b0c8; pointer-events: none; width: 15px; height: 15px;
+}
+#search-input {
+  width: 100%;
+  padding: .55rem 1rem .55rem 2.4rem;
+  border: 1.5px solid #e0e0ec; border-radius: 8px;
+  font-family: "DM Sans", sans-serif; font-size: .88rem; color: #0f0f14;
+  background: #fafafa; outline: none; transition: border-color .15s;
+}
+#search-input:focus { border-color: #2d5be3; background: #fff; }
+#search-input::placeholder { color: #b8b8cc; }
+.results-count { font-family: "DM Sans", sans-serif; font-size: .78rem; color: #b0b0c8; white-space: nowrap; min-width: 76px; text-align: right; }
+.filter-row { display: flex; gap: .38rem; flex-wrap: wrap; align-items: center; }
+.filter-lbl { font-family: "DM Sans", sans-serif; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: #b0b0c8; margin-right: .15rem; white-space: nowrap; }
+.pill {
+  display: inline-flex; align-items: center; gap: .25rem;
+  padding: .25rem .65rem; border-radius: 2rem; border: 1.5px solid #e0e0ec;
+  font-family: "DM Sans", sans-serif; font-size: .73rem; font-weight: 500;
+  cursor: pointer; background: #fff; color: #3a3a4a;
+  transition: all .14s; white-space: nowrap;
+}
+.pill:hover { border-color: #2d5be3; color: #2d5be3; }
+.pill.active { border-color: transparent !important; color: #fff !important; background: #2d5be3 !important; }
+.pill.active.ps { background: var(--cat-stats)   !important; }
+.pill.active.pn { background: var(--cat-network) !important; }
+.pill.active.pp { background: var(--cat-physics) !important; }
+.pill.active.pc { background: var(--cat-calc)    !important; }
+.pill.active.px { background: var(--cat-cs)      !important; }
+.pill.active.pe { background: var(--cat-eng)     !important; }
+.dot { width: 3px; height: 3px; border-radius: 50%; background: #d8d8e8; flex-shrink: 0; align-self: center; }
+
+/* ── Featured ── */
+.featured-wrap {
+  background: #f8f7f4;
+  border-bottom: 1px solid #eaeaf0;
+  padding: 2.5rem 2rem;
+}
+.featured-inner { max-width: 1180px; margin: 0 auto; }
+.sec-label { font-family: "DM Sans", sans-serif; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #b0b0c8; margin-bottom: 1.1rem; }
+.featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .9rem; }
+.f-card {
+  background: #fff; border: 1.5px solid #eaeaf0; border-radius: 10px;
+  padding: 1.15rem; text-decoration: none;
+  display: flex; flex-direction: column; gap: .45rem;
+  transition: border-color .15s, box-shadow .15s, transform .14s;
+}
+.f-card:hover { border-color: #2d5be3; box-shadow: 0 4px 18px rgba(45,91,227,.1); transform: translateY(-2px); }
+.f-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
+.f-card .f-date { font-family: "DM Sans", sans-serif; font-size: .73rem; color: #b0b0c8; margin-top: auto; }
+
+/* ── Category badge ── */
+.badge {
+  display: inline-block; font-family: "DM Sans", sans-serif;
+  font-size: .65rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .06em; padding: .17rem .52rem; border-radius: 2rem;
+  white-space: nowrap; align-self: flex-start;
+}
+.bs { background: var(--cat-stats-bg);   color: var(--cat-stats);   }
+.bn { background: var(--cat-network-bg); color: var(--cat-network); }
+.bp { background: var(--cat-physics-bg); color: var(--cat-physics); }
+.bc { background: var(--cat-calc-bg);    color: var(--cat-calc);    }
+.bx { background: var(--cat-cs-bg);      color: var(--cat-cs);      }
+.be { background: var(--cat-eng-bg);     color: var(--cat-eng);     }
+
+/* ── Articles section ── */
+.articles-wrap { max-width: 1180px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+.batch-head {
+  display: flex; align-items: baseline; gap: .9rem;
+  margin: 2.5rem 0 1.1rem;
+  padding-bottom: .65rem;
+  border-bottom: 2px solid #0f0f14;
+}
+.batch-head:first-child { margin-top: 0; }
+.batch-head h2 { font-family: "Instrument Serif", serif; font-size: 1.35rem; color: #0f0f14; font-weight: 400; }
+.batch-head .bm { font-family: "DM Sans", sans-serif; font-size: .78rem; color: #b0b0c8; }
+.batch-head .bc2 { margin-left: auto; font-family: "JetBrains Mono", monospace; font-size: .7rem; color: #c8c8d8; }
+
+.articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: .9rem; }
+
+.a-card {
+  background: #fff; border: 1.5px solid #eaeaf0; border-radius: 10px;
+  padding: 1.1rem 1.2rem; text-decoration: none;
+  display: flex; flex-direction: column; gap: .4rem;
+  transition: border-color .14s, box-shadow .14s, transform .12s;
+}
+.a-card:hover { border-color: #c5d2f8; box-shadow: 0 4px 16px rgba(45,91,227,.08); transform: translateY(-1px); }
+.a-card .top { display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
+.a-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
+.a-card .adate { font-family: "DM Sans", sans-serif; font-size: .72rem; color: #b8b8cc; margin-top: auto; padding-top: .2rem; }
+.a-num { font-family: "JetBrains Mono", monospace; font-size: .65rem; color: #d0d0e0; }
+
+/* ── No results ── */
+.no-results { text-align: center; padding: 5rem 1rem; display: none; }
+.no-results.show { display: block; }
+.no-results .nr-title { font-family: "Instrument Serif", serif; font-size: 1.5rem; color: #3a3a4a; margin-bottom: .4rem; }
+.no-results p { font-family: "DM Sans", sans-serif; color: #b0b0c8; font-size: .9rem; }
+
+/* ── About ── */
+.blog-about { background: #0e0e1c; padding: 3.5rem 2rem; text-align: center; }
+.about-inner { max-width: 620px; margin: 0 auto; }
+.blog-about h2 { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: #fff; font-weight: 400; margin-bottom: .9rem; }
+.blog-about p { font-family: "DM Sans", sans-serif; font-size: .92rem; color: rgba(255,255,255,.5); line-height: 1.72; margin-bottom: 1.4rem; }
+.topic-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; }
+.topic-chip { font-family: "DM Sans", sans-serif; font-size: .73rem; padding: .28rem .75rem; border: 1px solid rgba(255,255,255,.14); border-radius: 2rem; color: rgba(255,255,255,.5); }
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .blog-hero { padding: 3.5rem 1.25rem 2.5rem; }
+  .blog-controls { padding: .9rem 1.25rem; }
+  .featured-wrap, .articles-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .articles-grid { grid-template-columns: 1fr; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .batch-head .bc2 { display: none; }
+  .blog-stats { gap: 1.5rem; }
+  .blog-stat .num { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar — matches existing site exactly -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">SD</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="blog.html" class="active">Applied Math Blog</a></li>
+      <li><a href="mental-health.html">Mental Health Initiative</a></li>
+      <li><a href="apps.html">iOS Apps</a></li>
+      <li><a href="activities.html">Activities</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="blog-hero">
+  <div class="blog-hero-inner">
+    <h1>Applied <em>Mathematics</em><br>in the Real World</h1>
+    <p class="sub">A weekly blog exploring how mathematics shapes science, technology, and everyday life — from birthday paradoxes to chaos theory, Fourier transforms to conservation laws.</p>
+    <div class="blog-stats">
+      <div class="blog-stat"><span class="num">52</span><span class="lbl">Articles Published</span></div>
+      <div class="blog-stat"><span class="num">156</span><span class="lbl">Planned Total</span></div>
+      <div class="blog-stat"><span class="num">9</span><span class="lbl">Topic Areas</span></div>
+      <div class="blog-stat"><span class="num">3</span><span class="lbl">Years of Content</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Sticky search + filter bar -->
+<div class="blog-controls">
+  <div class="controls-inner">
+    <div class="search-row">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 15 15" fill="none">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.5 10.5L13.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search articles, topics, concepts…" autocomplete="off">
+      </div>
+      <span class="results-count" id="results-count">52 articles</span>
+    </div>
+    <div class="filter-row">
+      <span class="filter-lbl">Topic:</span>
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill ps" data-filter="Statistics &amp; Probability">Statistics</button>
+      <button class="pill pn" data-filter="Network Science">Network Science</button>
+      <button class="pill pp" data-filter="Physics Applications">Physics</button>
+      <button class="pill pc" data-filter="Calculus Applications">Calculus</button>
+      <button class="pill px" data-filter="Computer Science/AI">CS / AI</button>
+      <button class="pill pe" data-filter="Engineering Applications">Engineering</button>
+      <span class="dot"></span>
+      <span class="filter-lbl">Batch:</span>
+      <button class="pill" data-batch="1">Batch 1</button>
+      <button class="pill" data-batch="2">Batch 2</button>
+    </div>
+  </div>
+</div>
+
+<!-- Featured articles -->
+<section class="featured-wrap" id="featured-section">
+  <div class="featured-inner">
+    <div class="sec-label">★ Featured Articles</div>
+    <div class="featured-grid">
+      <a href="articles/birthday-paradox.html" class="f-card">
+        <span class="badge bs">Statistics</span>
+        <h3>The Birthday Paradox: Why Probability Defies Intuition</h3>
+        <span class="f-date">January 6, 2024</span>
+      </a>
+      <a href="articles/gradient-descent.html" class="f-card">
+        <span class="badge bx">CS / AI</span>
+        <h3>Gradient Descent: How Machines Learn by Rolling Downhill</h3>
+        <span class="f-date">April 13, 2024</span>
+      </a>
+      <a href="articles/chaos-theory.html" class="f-card">
+        <span class="badge bp">Physics</span>
+        <h3>Chaos Theory: The Butterfly Effect and Sensitive Dependence</h3>
+        <span class="f-date">October 12, 2024</span>
+      </a>
+      <a href="articles/epidemic-spreading.html" class="f-card">
+        <span class="badge bn">Network Science</span>
+        <h3>Epidemic Spreading: The Mathematics of Contagion</h3>
+        <span class="f-date">June 1, 2024</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- All articles rendered by JS -->
+<div class="articles-wrap" id="articles-root"></div>
+<div class="no-results" id="no-results">
+  <p class="nr-title">No articles found</p>
+  <p>Try a different search term or clear the filters.</p>
+</div>
+
+<!-- About -->
+<section class="blog-about">
+  <div class="about-inner">
+    <h2>About This Blog</h2>
+    <p>Mathematics becomes truly exciting when you see how it powers the world around us. Each article connects a core concept to a real application — written for students with an AP Calculus background who want to explore what comes next.</p>
+    <p>The series follows a deliberate progression: foundations in 2024 → engineering depth in late 2024 → linear algebra in 2025 → differential equations and real analysis in 2026–2027.</p>
+    <div class="topic-chips">
+      <span class="topic-chip">Statistics & Probability</span>
+      <span class="topic-chip">Network Science</span>
+      <span class="topic-chip">Physics Applications</span>
+      <span class="topic-chip">Calculus Applications</span>
+      <span class="topic-chip">CS / AI</span>
+      <span class="topic-chip">Engineering Applications</span>
+      <span class="topic-chip">Linear Algebra</span>
+      <span class="topic-chip">Differential Equations</span>
+      <span class="topic-chip">Real Analysis</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer — matches existing site exactly -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+    <div class="footer-links">
+      <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:sdagam@example.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ARTICLES = [
+  {num:1,  title:"The Birthday Paradox: Why Probability Defies Intuition",              cat:"Statistics & Probability",  date:"January 6, 2024",      batch:1, file:"birthday-paradox.html"},
+  {num:2,  title:"Six Degrees of Separation: The Small World Phenomenon",               cat:"Network Science",            date:"January 13, 2024",     batch:1, file:"six-degrees-separation.html"},
+  {num:3,  title:"Terminal Velocity: When Falling Objects Stop Accelerating",           cat:"Physics Applications",       date:"January 20, 2024",     batch:1, file:"terminal-velocity.html"},
+  {num:4,  title:"Optimization in Nature: Why Honeycombs Are Hexagonal",               cat:"Calculus Applications",      date:"January 27, 2024",     batch:1, file:"honeycombs-hexagonal.html"},
+  {num:5,  title:"Binary Search: The Power of Halving",                                cat:"Computer Science/AI",        date:"February 3, 2024",     batch:1, file:"binary-search.html"},
+  {num:6,  title:"Bayes' Theorem: Updating Beliefs with Evidence",                     cat:"Statistics & Probability",  date:"February 10, 2024",    batch:1, file:"bayes-theorem.html"},
+  {num:7,  title:"Scale-Free Networks: Why the Rich Get Richer",                       cat:"Network Science",            date:"February 17, 2024",    batch:1, file:"scale-free-networks.html"},
+  {num:8,  title:"Resonance: How Soldiers Can Collapse Bridges",                       cat:"Physics Applications",       date:"February 24, 2024",    batch:1, file:"resonance.html"},
+  {num:9,  title:"Related Rates: How Fast Is That Shadow Growing?",                    cat:"Calculus Applications",      date:"March 2, 2024",        batch:1, file:"related-rates.html"},
+  {num:10, title:"Hash Functions: The Magic Behind Instant Lookups",                   cat:"Computer Science/AI",        date:"March 9, 2024",        batch:1, file:"hash-functions.html"},
+  {num:11, title:"The Central Limit Theorem: Why the Bell Curve Is Everywhere",        cat:"Statistics & Probability",  date:"March 16, 2024",       batch:1, file:"central-limit-theorem.html"},
+  {num:12, title:"Graph Coloring: Scheduling, Maps, and the Four Color Theorem",       cat:"Network Science",            date:"March 23, 2024",       batch:1, file:"graph-coloring.html"},
+  {num:13, title:"The Doppler Effect: Why Sirens Change Pitch",                        cat:"Physics Applications",       date:"March 30, 2024",       batch:1, file:"doppler-effect.html"},
+  {num:14, title:"The Brachistochrone: The Fastest Path Is Not the Straight One",      cat:"Calculus Applications",      date:"April 6, 2024",        batch:1, file:"brachistochrone.html"},
+  {num:15, title:"Gradient Descent: How Machines Learn by Rolling Downhill",           cat:"Computer Science/AI",        date:"April 13, 2024",       batch:1, file:"gradient-descent.html"},
+  {num:16, title:"Monte Carlo Methods: Using Randomness to Solve Hard Problems",       cat:"Statistics & Probability",  date:"April 20, 2024",       batch:1, file:"monte-carlo-methods.html"},
+  {num:17, title:"Centrality Measures: Who Really Matters in a Network?",              cat:"Network Science",            date:"April 27, 2024",       batch:1, file:"centrality-measures.html"},
+  {num:18, title:"Simple Harmonic Motion: The Oscillation Underlying Everything",      cat:"Physics Applications",       date:"May 4, 2024",          batch:1, file:"simple-harmonic-motion.html"},
+  {num:19, title:"Exponential Growth and Decay: The Mathematics of Rapid Change",      cat:"Calculus Applications",      date:"May 11, 2024",         batch:1, file:"exponential-growth-decay.html"},
+  {num:20, title:"Big O Notation: Measuring Algorithmic Efficiency",                   cat:"Computer Science/AI",        date:"May 18, 2024",         batch:1, file:"big-o-notation.html"},
+  {num:21, title:"The Law of Large Numbers: Why Casinos Always Win",                   cat:"Statistics & Probability",  date:"May 25, 2024",         batch:1, file:"law-of-large-numbers.html"},
+  {num:22, title:"Epidemic Spreading: The Mathematics of Contagion",                   cat:"Network Science",            date:"June 1, 2024",         batch:1, file:"epidemic-spreading.html"},
+  {num:23, title:"The Inverse Square Law: Why Distance Matters So Much",               cat:"Physics Applications",       date:"June 8, 2024",         batch:1, file:"inverse-square-law.html"},
+  {num:24, title:"Taylor Series: Approximating the Complex with the Simple",           cat:"Calculus Applications",      date:"June 15, 2024",        batch:1, file:"taylor-series.html"},
+  {num:25, title:"Recursion: When Problems Solve Themselves",                          cat:"Computer Science/AI",        date:"June 22, 2024",        batch:1, file:"recursion.html"},
+  {num:26, title:"Regression to the Mean: Why Extremes Don't Last",                   cat:"Statistics & Probability",  date:"June 29, 2024",        batch:1, file:"regression-to-mean.html"},
+  {num:27, title:"The Fourier Transform: Decomposing Signals into Frequencies",        cat:"Engineering Applications",   date:"July 6, 2024",         batch:2, file:"fourier-transform.html"},
+  {num:28, title:"Hypothesis Testing: How Science Decides What's True",               cat:"Statistics & Probability",  date:"July 13, 2024",        batch:2, file:"hypothesis-testing.html"},
+  {num:29, title:"Arc Length and Surface Area: Measuring Curves and Shells",           cat:"Calculus Applications",      date:"July 20, 2024",        batch:2, file:"arc-length-surface-area.html"},
+  {num:30, title:"Random Graphs: The Erdos-Renyi Model",                               cat:"Network Science",            date:"July 27, 2024",        batch:2, file:"random-graphs.html"},
+  {num:31, title:"Fluid Dynamics: Why Planes Fly",                                    cat:"Physics Applications",       date:"August 3, 2024",       batch:2, file:"fluid-dynamics.html"},
+  {num:32, title:"Control Theory: How Thermostats and Autopilots Work",               cat:"Engineering Applications",   date:"August 10, 2024",      batch:2, file:"control-theory.html"},
+  {num:33, title:"Confidence Intervals: What Polls Really Tell Us",                   cat:"Statistics & Probability",  date:"August 17, 2024",      batch:2, file:"confidence-intervals.html"},
+  {num:34, title:"Integration by Parts: The Product Rule in Reverse",                 cat:"Calculus Applications",      date:"August 24, 2024",      batch:2, file:"integration-by-parts.html"},
+  {num:35, title:"Community Detection: Finding Clusters in Networks",                 cat:"Network Science",            date:"August 31, 2024",      batch:2, file:"community-detection.html"},
+  {num:36, title:"Entropy and the Second Law of Thermodynamics",                      cat:"Physics Applications",       date:"September 7, 2024",    batch:2, file:"entropy-second-law.html"},
+  {num:37, title:"PID Controllers: The Algorithm Behind Industrial Automation",       cat:"Engineering Applications",   date:"September 14, 2024",   batch:2, file:"pid-controllers.html"},
+  {num:38, title:"Correlation vs. Causation: Why the Distinction Matters",            cat:"Statistics & Probability",  date:"September 21, 2024",   batch:2, file:"correlation-causation.html"},
+  {num:39, title:"Multivariable Calculus: Gradients and Directional Derivatives",     cat:"Calculus Applications",      date:"September 28, 2024",   batch:2, file:"multivariable-calculus.html"},
+  {num:40, title:"Link Prediction: Forecasting New Connections",                      cat:"Network Science",            date:"October 5, 2024",      batch:2, file:"link-prediction.html"},
+  {num:41, title:"Chaos Theory: The Butterfly Effect and Sensitive Dependence",       cat:"Physics Applications",       date:"October 12, 2024",     batch:2, file:"chaos-theory.html"},
+  {num:42, title:"Signal Filtering: Separating Noise from Data",                      cat:"Engineering Applications",   date:"October 19, 2024",     batch:2, file:"signal-filtering.html"},
+  {num:43, title:"Survival Analysis: Modeling Time-to-Event Data",                   cat:"Statistics & Probability",  date:"October 26, 2024",     batch:2, file:"survival-analysis.html"},
+  {num:44, title:"Lagrange Multipliers: Optimization Under Constraints",              cat:"Calculus Applications",      date:"November 2, 2024",     batch:2, file:"lagrange-multipliers.html"},
+  {num:45, title:"Network Resilience: Robustness and Cascading Failures",             cat:"Network Science",            date:"November 9, 2024",     batch:2, file:"network-resilience.html"},
+  {num:46, title:"Dimensional Analysis: How Units Unlock Physics Problems",           cat:"Physics Applications",       date:"November 16, 2024",    batch:2, file:"dimensional-analysis.html"},
+  {num:47, title:"Feedback Loops: Stability, Oscillation, and Runaway Systems",       cat:"Engineering Applications",   date:"November 23, 2024",    batch:2, file:"feedback-loops.html"},
+  {num:48, title:"The Poisson Distribution: Modeling Rare Events",                   cat:"Statistics & Probability",  date:"November 30, 2024",    batch:2, file:"poisson-distribution.html"},
+  {num:49, title:"The Fundamental Theorem of Calculus: Bridging Derivatives and Integrals", cat:"Calculus Applications", date:"December 7, 2024",  batch:2, file:"fundamental-theorem-calculus.html"},
+  {num:50, title:"Bipartite Networks: Modeling Two-Mode Systems",                     cat:"Network Science",            date:"December 14, 2024",    batch:2, file:"bipartite-networks.html"},
+  {num:51, title:"Conservation Laws: Why Symmetry Implies Invariance",               cat:"Physics Applications",       date:"December 21, 2024",    batch:2, file:"conservation-laws.html"},
+  {num:52, title:"Numerical Methods: When Exact Solutions Don't Exist",              cat:"Engineering Applications",   date:"December 28, 2024",    batch:2, file:"numerical-methods.html"},
+];
+
+const BATCHES = {
+  1: {label:"Batch 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
+  2: {label:"Batch 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
+};
+
+const BADGE = {
+  "Statistics & Probability": "bs", "Network Science": "bn",
+  "Physics Applications": "bp",     "Calculus Applications": "bc",
+  "Computer Science/AI": "bx",      "Engineering Applications": "be",
+};
+const SHORT = {
+  "Statistics & Probability":"Statistics","Network Science":"Network Science",
+  "Physics Applications":"Physics","Calculus Applications":"Calculus",
+  "Computer Science/AI":"CS / AI","Engineering Applications":"Engineering",
+};
+
+function slug(t){
+  return t.toLowerCase().replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").substring(0,60);
+}
+
+let filterCat="all", filterBatch=null, filterQ="";
+
+function filtered(){
+  return ARTICLES.filter(a=>{
+    if(filterCat!=="all" && a.cat!==filterCat) return false;
+    if(filterBatch!==null && a.batch!==filterBatch) return false;
+    if(filterQ){
+      const q=filterQ.toLowerCase();
+      if(!a.title.toLowerCase().includes(q) && !a.cat.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function render(){
+  const list=filtered();
+  const root=document.getElementById("articles-root");
+  const nr=document.getElementById("no-results");
+  const cnt=document.getElementById("results-count");
+  const feat=document.getElementById("featured-section");
+
+  cnt.textContent = list.length===ARTICLES.length
+    ? `${ARTICLES.length} articles`
+    : `${list.length} of ${ARTICLES.length}`;
+
+  feat.style.display=(filterCat==="all"&&filterBatch===null&&!filterQ)?"":"none";
+
+  if(!list.length){root.innerHTML="";nr.classList.add("show");return;}
+  nr.classList.remove("show");
+
+  const byBatch={};
+  list.forEach(a=>{(byBatch[a.batch]=byBatch[a.batch]||[]).push(a);});
+
+  root.innerHTML=Object.keys(byBatch).sort((a,b)=>a-b).map(b=>{
+    const info=BATCHES[b]||{label:`Batch ${b}`,period:"",desc:""};
+    const arts=byBatch[b];
+    return `<div class="batch-head">
+      <h2>${info.label}</h2>
+      <span class="bm">${info.period} &middot; ${info.desc}</span>
+      <span class="bc2">${arts.length} article${arts.length!==1?"s":""}</span>
+    </div>
+    <div class="articles-grid">
+      ${arts.map(a=>`
+        <a href="articles/${a.file}" class="a-card">
+          <div class="top">
+            <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
+            <span class="a-num">#${a.num}</span>
+          </div>
+          <h3>${a.title}</h3>
+          <span class="adate">${a.date}</span>
+        </a>`).join("")}
+    </div>`;
+  }).join("");
+}
+
+// Filter pill — categories
+document.querySelectorAll(".pill[data-filter]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    filterCat=btn.dataset.filter;
+    document.querySelectorAll(".pill[data-filter]").forEach(b=>b.classList.toggle("active",b.dataset.filter===filterCat));
+    render();
+  });
+});
+
+// Filter pill — batches
+document.querySelectorAll(".pill[data-batch]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const b=parseInt(btn.dataset.batch);
+    filterBatch=(filterBatch===b?null:b);
+    document.querySelectorAll(".pill[data-batch]").forEach(x=>x.classList.toggle("active",parseInt(x.dataset.batch)===filterBatch));
+    render();
+  });
+});
+
+// Search
+document.getElementById("search-input").addEventListener("input",e=>{
+  filterQ=e.target.value.trim();
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
