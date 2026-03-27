@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resonance: How Soldiers Can Collapse Bridges — Applied Math Blog</title>
+<meta name="description" content="Article 8 of the Applied Math Blog by Sanjay Dagam. Resonance: How Soldiers Can Collapse Bridges. Published February 24, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Physics Applications</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-physics">Physics Applications</span>
+    <h1 class="article-title">Resonance: How Soldiers Can Collapse Bridges</h1>
+    <div class="article-meta">
+      <span>#8</span>
+      <span>February 24, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>In 1831, a suspension bridge near Manchester collapsed when 74 soldiers marched across in step. This "small world" phenomenon—the Broughton Suspension Bridge disaster—led to a standing order still observed today: soldiers break step when crossing bridges. The culprit was resonance—a phenomenon where small periodic forces can build to catastrophic amplitudes.</p>
+  <h2>Natural Frequency</h2>
+  <p>Every physical object has natural frequencies at which it prefers to vibrate, determined by its mass and stiffness. For a simple mass on a spring:</p>
+  <div class="math-block">f = (1/2π)√(k/m)</div>
+  <p>Stiffer systems vibrate faster; heavier systems vibrate slower. This same principle applies to bridges, wine glasses, buildings, and molecules.</p>
+  <h2>The Mathematics of Driven Oscillators</h2>
+  <p>A damped oscillator driven by a periodic force follows:</p>
+  <div class="math-block">m(d²x/dt²) + b(dx/dt) + kx = F₀cos(ωt)</div>
+  <p>When driving frequency ω equals natural frequency ω₀ = √(k/m), the amplitude maximizes. With low damping, this resonant peak becomes extremely sharp—small forces produce enormous responses.</p>
+  <h2>Catastrophic Resonance</h2>
+  <p>The most famous resonance disaster was the Tacoma Narrows Bridge collapse in 1940. Moderate winds set up vortices that drove the bridge at its torsional resonance frequency. Over hours, oscillations grew until the bridge tore itself apart.</p>
+  <p>The Millennium Bridge in London wobbled dangerously on opening day in 2000. Pedestrians unconsciously synchronized their steps to the bridge's sway, creating a feedback loop that amplified lateral oscillations.</p>
+  <h2>Beneficial Resonance</h2>
+  <p>Resonance isn't always destructive. MRI machines exploit nuclear magnetic resonance—hydrogen atoms in your body resonate at frequencies determined by local magnetic fields, revealing tissue structure. Radio receivers use resonant circuits to select specific frequencies. Musical instruments depend on resonance to amplify string vibrations. Quartz watches keep time through mechanical resonance at 32,768 Hz.</p>
+  <h2>Conclusion</h2>
+  <p>Resonance demonstrates how frequency matching can amplify tiny inputs into massive outputs. The mathematics—solving the driven oscillator equation—applies from atomic to architectural scales, explaining both disasters and technologies. Soldiers still break step on bridges, respecting the destructive potential of synchronized forces matching a structure's natural rhythm.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="scale-free-networks.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Scale-Free Networks: Why the Rich Get Richer
+    </a>
+    <a href="related-rates.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Related Rates: How Fast Is That Shadow Growing?
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

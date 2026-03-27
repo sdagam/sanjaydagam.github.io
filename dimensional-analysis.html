@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Related Rates: How Fast Is That Shadow Growing? — Applied Math Blog</title>
+<meta name="description" content="Article 9 of the Applied Math Blog by Sanjay Dagam. Related Rates: How Fast Is That Shadow Growing?. Published March 2, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Calculus Applications</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">Related Rates: How Fast Is That Shadow Growing?</h1>
+    <div class="article-meta">
+      <span>#9</span>
+      <span>March 2, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>A 6-foot person walks away from a 15-foot streetlight at 4 feet per second. How fast is their shadow lengthening? This classic calculus problem illustrates related rates—using derivatives to connect changing quantities through geometric or physical relationships.</p>
+  <h2>Setting Up the Problem</h2>
+  <p>Let x represent the person's distance from the light and s represent the shadow length. The shadow tip is at distance (x + s) from the light. By similar triangles:</p>
+  <div class="math-block">15 / (x + s) = 6 / s   →   9s = 6x   →   s = (2/3)x</div>
+  <p>This relationship holds at every moment—the shadow length is always two-thirds of the person's distance from the light.</p>
+  <h2>Differentiating with Respect to Time</h2>
+  <p>Both x and s change with time. Differentiating s = (2/3)x with respect to time t:</p>
+  <div class="math-block">ds/dt = (2/3) × (dx/dt)</div>
+  <p>We know dx/dt = 4 feet per second. Therefore ds/dt = (2/3) × 4 = 8/3 ≈ 2.67 ft/s. Remarkably, this rate doesn't depend on where the person is.</p>
+  <h2>Another Classic: The Sliding Ladder</h2>
+  <p>A 10-foot ladder leans against a wall. The base slides away at 1 ft/s. How fast does the top slide down when the base is 6 feet from the wall? Let x be the base distance and y the height. The Pythagorean theorem gives x² + y² = 100.</p>
+  <div class="math-block">2x(dx/dt) + 2y(dy/dt) = 0   →   dy/dt = −0.75 ft/s</div>
+  <p>At x = 8, y = 6, the top slides at 1.33 ft/s. Near the floor (x = 9.9, y = 1.4), it plummets at over 7 ft/s.</p>
+  <h2>Real-World Applications</h2>
+  <p>Related rates solve practical engineering and physics problems. Air traffic controllers implicitly solve related rates problems when predicting whether flight paths will intersect. Astronomers use similar techniques to calculate how apparent positions of celestial objects change. Economists apply the concept when relating rates of change in interconnected markets.</p>
+  <h2>Conclusion</h2>
+  <p>Related rates exemplify calculus as the mathematics of change. By connecting changing quantities through geometric or physical relationships, we deduce rates that aren't directly observable from rates we can measure. The technique appears throughout physics, engineering, and any field involving dynamic systems.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="resonance.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Resonance: How Soldiers Can Collapse Bridges
+    </a>
+    <a href="hash-functions.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Hash Functions: The Magic Behind Instant Lookups
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

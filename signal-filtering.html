@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Birthday Paradox: Why Probability Defies Intuition — Applied Math Blog</title>
+<meta name="description" content="Article 1 of the Applied Math Blog by Sanjay Dagam. The Birthday Paradox: Why Probability Defies Intuition. Published January 6, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Statistics & Probability</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics & Probability</span>
+    <h1 class="article-title">The Birthday Paradox: Why Probability Defies Intuition</h1>
+    <div class="article-meta">
+      <span>#1</span>
+      <span>January 6, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>How many people do you need in a room before there's a 50% chance that two of them share a birthday? Most people guess around 183—half of 365. The actual answer? Just 23. This counterintuitive result, known as the Birthday Paradox, reveals how poorly our brains handle probability and has profound implications for fields ranging from cryptography to DNA forensics.</p>
+  <h2>Reframing the Question</h2>
+  <p>The key insight is that we're not asking "does someone share YOUR birthday?" We're asking "do ANY two people share A birthday?" This subtle shift dramatically changes the math. With just yourself, you're checking against one person. But in a room of 23 people, we're checking all possible pairs—and there are far more pairs than people.</p>
+  <p>With 23 people, there are 253 possible pairs, calculated as 23 × 22 ÷ 2. Each individual pair has only about a 0.27% chance of matching (1/365), but with 253 opportunities for a match, those small probabilities compound surprisingly quickly.</p>
+  <h2>The Mathematics Behind the Surprise</h2>
+  <p>Let's calculate the probability that NO two people share a birthday, then subtract from 1. The first person can have any birthday—probability 365/365. The second person must avoid that one day, giving probability 364/365. The third person must avoid two days, giving 363/365.</p>
+  <div class="math-block">P(no match) = (365/365) × (364/365) × (363/365) × … × (343/365)</div>
+  <p>This product equals approximately 0.493, meaning there's a 50.7% chance of at least one shared birthday. By 50 people, the probability exceeds 97%. By 70 people, it's virtually certain at 99.9%.</p>
+  <h2>Why Our Intuition Fails</h2>
+  <p>Our brains evolved to think linearly, not combinatorially. We instinctively focus on ourselves—"what are the odds someone shares MY birthday?"—rather than considering all possible pairs. This egocentric framing vastly underestimates the true probability.</p>
+  <p>This same cognitive bias affects how we assess risk in medicine, finance, and everyday decisions. We underestimate coincidences, seeing meaningful patterns in what are actually predictable statistical outcomes.</p>
+  <h2>Cryptographic Implications</h2>
+  <p>The Birthday Paradox has serious implications for computer security. Hash functions produce fixed-length outputs from variable inputs, and security often depends on collision resistance—the difficulty of finding two inputs with the same hash.</p>
+  <p>Naively, you might think a 128-bit hash requires 2^128 attempts to find a collision. But the birthday paradox applies: you only need about 2^64 attempts—the square root. This insight has driven cryptographers to use longer hash outputs.</p>
+  <h2>Conclusion</h2>
+  <p>The Birthday Paradox teaches us that combinatorial growth is powerful and unintuitive. When pairs or combinations matter, probabilities accumulate faster than we expect. Recognizing this pattern helps us reason more accurately about coincidences, design more secure systems, and appreciate that our intuitions about probability often lead us astray.</p>
+</div>
+
+
+  <nav class="article-nav">
+    
+    <a href="six-degrees-separation.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Six Degrees of Separation: The Small World Phenomenon
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

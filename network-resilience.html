@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big O Notation: Measuring Algorithmic Efficiency — Applied Math Blog</title>
+<meta name="description" content="Article 20 of the Applied Math Blog by Sanjay Dagam. Big O Notation: Measuring Algorithmic Efficiency. Published May 18, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Computer Science / AI</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-cs">Computer Science / AI</span>
+    <h1 class="article-title">Big O Notation: Measuring Algorithmic Efficiency</h1>
+    <div class="article-meta">
+      <span>#20</span>
+      <span>May 18, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>You have two algorithms that both sort a list correctly. One takes 0.001 seconds on 1,000 items; the other takes 0.0001 seconds. Which is faster? It depends on how each scales as the list grows. At 1,000,000 items, one might take 17 minutes while the other finishes in a second. Big O notation describes this scaling behavior, capturing algorithmic efficiency in a way that transcends hardware differences.</p>
+  <h2>What Big O Measures</h2>
+  <p>Big O notation describes the worst-case relationship between input size n and the number of operations an algorithm requires, ignoring constant factors. We write f(n) = O(g(n)) if there exist constants c and n₀ such that f(n) ≤ c·g(n) for all n > n₀. The focus on growth rate captures what matters for large inputs: how does the algorithm behave as data scales?</p>
+  <h2>Common Complexity Classes</h2>
+  <div class="math-block">O(1)       Constant time    — array indexing, hash table lookup</div>
+  <div class="math-block">O(log n)   Logarithmic      — binary search, balanced tree ops</div>
+  <div class="math-block">O(n)       Linear           — scanning an array, counting elements</div>
+  <div class="math-block">O(n log n) Linearithmic     — merge sort, heap sort (optimal comparison sort)</div>
+  <div class="math-block">O(n²)      Quadratic        — nested loops, bubble sort</div>
+  <div class="math-block">O(2^n)     Exponential      — brute-force combinatorial problems</div>
+  <h2>Why Constants Are Ignored</h2>
+  <p>Big O drops constant factors: O(2n) = O(n) = O(500n). Constants depend on hardware, programming language, and implementation details that change over time. The growth rate is hardware-independent and permanent. A O(n²) algorithm remains quadratic on the fastest possible computer. For large n, the growth class dominates everything else.</p>
+  <h2>Practical Implications</h2>
+  <p>A database query running O(n) on 1,000 records might be fine; on 1,000,000,000 records, it's catastrophic. Replacing a O(n²) search with a O(n log n) sort-then-binary-search can transform minutes into milliseconds. Google's original PageRank required efficient graph algorithms to work at web-scale. Genome sequencing algorithms must handle billions of base pairs—only sub-quadratic approaches are feasible.</p>
+  <h2>Conclusion</h2>
+  <p>Big O notation provides a universal language for discussing computational efficiency. By focusing on growth rates rather than exact counts, it separates fundamental algorithmic properties from implementation details. Whether choosing between sorting algorithms, designing a database, or analyzing whether a problem is computationally feasible at all, Big O gives you the framework to reason clearly about how your solution scales.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="exponential-growth-decay.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Exponential Growth and Decay: The Mathematics of Rapid Change
+    </a>
+    <a href="law-of-large-numbers.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      The Law of Large Numbers: Why Casinos Always Win
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

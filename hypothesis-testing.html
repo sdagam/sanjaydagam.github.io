@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centrality Measures: Who Really Matters in a Network? — Applied Math Blog</title>
+<meta name="description" content="Article 17 of the Applied Math Blog by Sanjay Dagam. Centrality Measures: Who Really Matters in a Network?. Published April 27, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Network Science</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Centrality Measures: Who Really Matters in a Network?</h1>
+    <div class="article-meta">
+      <span>#17</span>
+      <span>April 27, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>In any network—social, biological, infrastructural—not all nodes are equal. Some people are more influential, some proteins more essential, some roads more critical. Centrality measures provide mathematical tools for ranking nodes by importance. Degree, betweenness, closeness, and eigenvector centrality each capture a distinct notion of influence, and they often disagree about who matters most.</p>
+  <h2>Degree and Betweenness Centrality</h2>
+  <p>Degree centrality: a node's importance equals its number of connections. Simple but misses global position. Betweenness centrality counts how often a node lies on the shortest path between other pairs:</p>
+  <div class="math-block">C_B(v) = Σ σ(s,t|v) / σ(s,t)</div>
+  <p>High betweenness nodes are brokers—they control information flow between communities. Remove them, and the network may fragment.</p>
+  <h2>Closeness Centrality</h2>
+  <p>Closeness centrality measures how quickly a node can reach all others—the reciprocal of average shortest path length:</p>
+  <div class="math-block">C_C(v) = (n−1) / Σ d(v,u)</div>
+  <p>Nodes with high closeness can spread information or resources efficiently across the network. In supply chains, facilities with high closeness minimize delivery times.</p>
+  <h2>Eigenvector Centrality and PageRank</h2>
+  <p>Eigenvector centrality captures the idea that connections to important nodes matter more. Your centrality score equals the sum of your neighbors' centrality scores—resolved by finding the leading eigenvector of the adjacency matrix. Google's PageRank is a variant: a web page's importance depends on how many important pages link to it. This eigenvector-based ranking made Google's search dramatically better than competitors.</p>
+  <h2>Which Measure to Use?</h2>
+  <p>The right centrality measure depends on what 'important' means for your problem. Identifying influential spreaders in epidemics? Betweenness and closeness. Finding connected hubs? Degree. Ranking web pages? Eigenvector variants. In practice, researchers often compute multiple measures and look for nodes that rank highly across all of them—these are the network's most robustly important players.</p>
+  <h2>Conclusion</h2>
+  <p>Centrality measures reveal the hidden architecture of influence in networks. A node can be locally popular but globally peripheral, or modestly connected but strategically positioned. By quantifying these distinctions, network scientists can identify key individuals for vaccination campaigns, critical infrastructure for protection, and influential nodes for targeted intervention in systems from the brain to the internet.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="monte-carlo-methods.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Monte Carlo Methods: Using Randomness to Solve Hard Problems
+    </a>
+    <a href="simple-harmonic-motion.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Simple Harmonic Motion: The Oscillation Underlying Everything
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>
