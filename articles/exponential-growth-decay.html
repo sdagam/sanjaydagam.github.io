@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exponential Growth and Decay: The Mathematics of Rapid Change — Applied Math Blog</title>
-<meta name="description" content="Article 19 of the Applied Math Blog by Sanjay Dagam. Exponential Growth and Decay: The Mathematics of Rapid Change. Published May 11, 2024.">
+<meta name="description" content="Article 19 of 156 in Sanjay Dagam's Applied Mathematics blog. Exponential Growth and Decay: The Mathematics of Rapid Change">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Calculus Applications</span>
+  <span class="crumb">Calculus Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,46 +147,62 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-calc">Calculus Applications</span>
     <h1 class="article-title">Exponential Growth and Decay: The Mathematics of Rapid Change</h1>
     <div class="article-meta">
-      <span>#19</span>
+      <span>#19 of 156</span>
       <span>May 11, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>A population of bacteria doubles every hour. A radioactive isotope loses half its atoms every 5,730 years. An investment grows at 7% annually. These situations share the same underlying mathematics: exponential growth and decay. This pattern, described by a single differential equation, appears wherever a quantity's rate of change is proportional to its current size.</p>
-  <h2>The Differential Equation</h2>
-  <p>The mathematical heart of exponential change:</p>
-  <div class="math-block">dN/dt = rN   →   N(t) = N₀ · e^(rt)</div>
-  <p>where N₀ is the initial quantity and r is the growth rate (positive for growth, negative for decay). This exponential function is the unique function equal to its own derivative—precisely what the differential equation requires.</p>
-  <h2>Doubling Time and Half-Life</h2>
-  <p>For growth: doubling time T₂ = ln(2)/r. For decay: half-life T_{1/2} = ln(2)/|r|. These are constant—a population with a 1-hour doubling time doubles every hour whether it's 100 or 100 million. The constancy is what makes exponential growth counterintuitive: early growth seems slow, but doubling means the next period adds as much as all previous periods combined.</p>
-  <h2>Compound Interest and Radioactive Decay</h2>
-  <p>Compound interest: V(t) = V₀ · e^(rt). The Rule of 72: divide 72 by the interest rate to approximate doubling time. At 7%, an investment doubles in roughly 10 years. Starting at $10,000 at age 25, that's $160,000 at 65 purely from compounding.</p>
-  <p>Radioactive decay: Carbon-14 has a half-life of 5,730 years. Measure the remaining C-14 fraction, apply the decay formula, and recover the age of organic materials up to ~50,000 years old.</p>
-  <h2>The Logistic Model</h2>
-  <p>Pure exponential growth can't continue indefinitely—resources run out, space fills up. The logistic equation adds a saturation term:</p>
-  <div class="math-block">dN/dt = rN(1 − N/K)</div>
-  <p>where K is the carrying capacity. Early growth is approximately exponential. As N approaches K, growth slows and the population stabilizes. This S-shaped logistic curve better describes real populations, epidemic spreads, and technology adoption.</p>
-  <h2>Conclusion</h2>
-  <p>Exponential growth and decay are the mathematical signature of processes driven by their own size. Whether doubling bacteria, decaying atoms, or compounding interest, the same equation governs the dynamics. Recognizing exponential behavior—and its inevitable eventual departure from reality—is one of the most practically important skills in quantitative reasoning.</p>
-</div>
+<p class="lead">A population of bacteria doubles every hour. A radioactive isotope loses half its atoms every 5,730 years. An investment grows at 7% annually. These situations seem different—one biological, one nuclear, one financial—but they share the same underlying mathematics: exponential growth and decay, where a quantity's rate of change is proportional to its current size.</p>
+<h2>The Differential Equation</h2>
+<p>The mathematical heart of exponential change is dN/dt = rN, where N is the quantity, t is time, and r is the growth rate (positive for growth, negative for decay). This says the rate of change is proportional to the current amount—the more you have, the faster it changes. The solution is N(t) = N₀ × e^(rt), where N₀ is the initial quantity and e ≈ 2.718 is Euler's number. This exponential function is uniquely equal to its own derivative, which is precisely what the proportionality requirement demands.</p>
+<div class="math-block">dN/dt = rN     →     N(t) = N₀ × e^(rt)</div>
+<h2>Doubling Time and Half-Life</h2>
+<p>Two derived quantities make exponential change intuitive. For growth: doubling time T₂ = ln(2)/r is the time for the quantity to double. For decay: half-life T_{1/2} = ln(2)/|r| is the time for the quantity to halve. These are constant—a population with a 1-hour doubling time doubles every hour whether it's 100 or 100 million. This constancy is what makes exponential growth so counterintuitive and so dangerous: early growth seems slow and manageable, but the same percentage increase on a larger base produces much larger absolute additions.</p>
+<div class="math-block">Doubling time: T₂ = ln(2)/r ≈ 0.693/r     Half-life: T_{½} = ln(2)/|r|</div>
+<h2>The Compound Interest Connection</h2>
+<p>Compound interest exemplifies exponential growth. At annual rate r with continuous compounding, an investment grows as V(t) = V₀ × e^(rt). The Rule of 72 approximates doubling time: divide 72 by the interest rate percentage. At 7% annual return, an investment doubles in roughly 72/7 ≈ 10 years. Starting with $10,000 at age 25: $20,000 at 35, $40,000 at 45, $80,000 at 55, $160,000 at 65—purely from compounding without adding a single dollar. The acceleration in the later years reflects the exponential function's constant percentage growth on an ever-larger base.</p>
+<h2>Radioactive Decay</h2>
+<p>Radioactive decay exemplifies exponential decay. Each atom has a fixed probability of decaying per unit time, independent of its age or surroundings—a quantum mechanical property with no classical analog. Carbon-14 has a half-life of 5,730 years, making it ideal for dating organic materials up to ~50,000 years old. Measure the remaining C-14 fraction, apply the decay formula, and recover the sample's age. This radiometric dating technique has revolutionized archaeology, geology, and paleontology, giving us reliable dates for ancient artifacts and geological formations that no other method can provide.</p>
+<h2>Exponential Growth's Limits</h2>
+<p>Pure exponential growth can't continue indefinitely—resources run out, space fills up, immunity builds. The logistic equation dN/dt = rN(1 − N/K), where K is the carrying capacity, modifies exponential growth with a saturation term. Early growth is approximately exponential. As N approaches K, growth slows and the population stabilizes at K. This S-shaped logistic curve better describes real populations, epidemic spreads, and technology adoption. Understanding when a process follows logistic rather than pure exponential dynamics is crucial for making accurate long-range predictions.</p>
+<h2>Conclusion</h2>
+<p>Exponential growth and decay are the mathematical signature of processes driven by their own magnitude. Whether doubling bacteria, decaying atoms, or compounding interest, the same equation governs the dynamics: rate proportional to current amount. Recognizing exponential behavior—and distinguishing it from the logistic saturation that inevitably follows—is one of the most practically important skills in quantitative reasoning, relevant to everything from investment strategy to pandemic policy to understanding technological change.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="simple-harmonic-motion.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Simple Harmonic Motion: The Oscillation Underlying Everything
+      <span class="nav-title">Simple Harmonic Motion: The Oscillation Underlying Everything</span>
     </a>
     <a href="big-o-notation.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Big O Notation: Measuring Algorithmic Efficiency
+      <span class="nav-title">Big O Notation: Measuring Algorithmic Efficiency</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

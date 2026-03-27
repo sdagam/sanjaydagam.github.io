@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Doppler Effect: Why Sirens Change Pitch — Applied Math Blog</title>
-<meta name="description" content="Article 13 of the Applied Math Blog by Sanjay Dagam. The Doppler Effect: Why Sirens Change Pitch. Published March 30, 2024.">
+<meta name="description" content="Article 13 of 156 in Sanjay Dagam's Applied Mathematics blog. The Doppler Effect: Why Sirens Change Pitch">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Physics Applications</span>
+  <span class="crumb">Physics Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,43 +147,62 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">The Doppler Effect: Why Sirens Change Pitch</h1>
     <div class="article-meta">
-      <span>#13</span>
+      <span>#13 of 156</span>
       <span>March 30, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>An ambulance rushes toward you, siren wailing at a high pitch. It passes, and suddenly the pitch drops. Nothing about the siren changed—it emits the same frequency throughout. What changed is your relationship to the moving source. This phenomenon, the Doppler Effect, explains not just ambulance sirens but the expansion of the universe, speed radar guns, medical ultrasound, and weather forecasting.</p>
-  <h2>The Physics of Wave Compression</h2>
-  <p>When a source moves toward you, it partially catches up with the waves it emitted moments earlier. Each new wave crest is emitted from a position closer to the previous one, compressing the wavelength in front of the source. Compressed wavelength means higher frequency—higher pitch. Behind the moving source, the wavelength stretches, lowering the frequency.</p>
-  <h2>The Mathematics</h2>
-  <p>The observed frequency relates to the emitted frequency by:</p>
-  <div class="math-block">f_observed = f_source × (v + v_observer) / (v + v_source)</div>
-  <p>where v is the wave speed. As v_s approaches v—the speed of sound—the denominator approaches zero and observed frequency approaches infinity. This is the sonic boom regime.</p>
-  <h2>The Sonic Boom</h2>
-  <p>When a source moves faster than the wave speed, it outruns its own waves. All compressed wave fronts pile up into a single shock wave—a cone of intense pressure. The angle of the Mach cone satisfies sin(θ) = v/v_s. Aircraft breaking the sound barrier create this cone continuously—the sonic boom isn't a one-time event but a persistent shock wave.</p>
-  <h2>Radar, Ultrasound, and Cosmology</h2>
-  <p>Police radar guns emit radio waves at a known frequency and measure the frequency of the reflection from your car—the Doppler shift reveals your speed. Medical ultrasound uses the Doppler Effect to measure blood flow velocity. In 1929, Edwin Hubble observed that light from distant galaxies is redshifted—shifted to lower frequencies—revealing that the universe is expanding.</p>
-  <h2>Conclusion</h2>
-  <p>The Doppler Effect demonstrates how motion fundamentally changes how we perceive waves. A single mathematical relationship—connecting emitted and observed frequency through relative velocities—unifies phenomena from traffic enforcement to cosmology. Whether detecting a tornado's rotation or measuring a galaxy's recession, the same principle applies: motion compresses or stretches waves, and that shift carries information.</p>
-</div>
+<p class="lead">An ambulance rushes toward you, siren wailing at a high pitch. It passes, and the pitch drops. Nothing about the siren changed—it emits the same frequency throughout. What changed is your relationship to the moving source. This phenomenon, the Doppler Effect, explains not just sirens but the expansion of the universe, speed radar guns, medical ultrasound, and weather forecasting.</p>
+<h2>The Physics of Wave Compression</h2>
+<p>Sound travels as pressure waves through air at roughly 343 m/s. When a source is stationary, waves spread outward symmetrically. When the source moves toward you, it partially catches up with the waves it emitted moments earlier—each new wave crest is emitted from a position closer to the previous one, compressing the wavelength in front of the source. Compressed wavelength means higher frequency, and higher frequency means higher pitch. Behind the moving source, the opposite occurs: the source moves away from previously emitted crests, stretching the wavelength and lowering the frequency.</p>
+<h2>The Mathematics</h2>
+<p>The observed frequency f_observed relates to the emitted frequency f_source by the Doppler formula: f_observed = f_source × (v + v_observer) / (v + v_source), where v is the wave speed, v_observer is the observer's velocity (positive toward the source), and v_source is the source's velocity (positive away from the observer). For a stationary observer and source moving toward them at speed v_s: f_observed = f_source × v / (v − v_s). As v_s approaches v—the speed of sound—the denominator approaches zero and observed frequency approaches infinity, the sonic boom regime.</p>
+<div class="math-block">f_observed = f_source × (v + v_observer) / (v + v_source)</div>
+<h2>The Sonic Boom</h2>
+<p>When a source moves faster than the wave speed, it outruns its own waves. All the compressed wave fronts pile up into a single shock wave—a cone of intense pressure traveling with the supersonic object. Aircraft breaking the sound barrier create this cone continuously; the sonic boom isn't a one-time event but a persistent shock wave sweeping across the ground as the aircraft passes. The half-angle θ of the Mach cone satisfies sin(θ) = v/v_s, where v_s/v is the Mach number. At Mach 2, the cone has a half-angle of 30°.</p>
+<div class="math-block">sin(θ) = v/v_s = 1/Mach number</div>
+<h2>Radar, Ultrasound, and Weather</h2>
+<p>Police radar guns emit radio waves and measure the Doppler shift of the reflection from your car to reveal your speed—the same math works for electromagnetic waves. Weather Doppler radar measures precipitation velocity toward or away from the station, revealing wind patterns inside storms and enabling tornado detection. Medical ultrasound uses the Doppler Effect to measure blood flow velocity—stationary tissue reflects sound at the emitted frequency, while moving blood cells shift the frequency. Color Doppler imaging encodes velocity measurements as color, showing blood flow direction and speed in real time.</p>
+<h2>Cosmological Doppler: The Expanding Universe</h2>
+<p>In 1929, Edwin Hubble observed that light from distant galaxies is redshifted—shifted to lower frequencies, exactly like a receding ambulance. More distant galaxies showed greater redshift. Hubble concluded galaxies are moving away from us, and the farther they are, the faster they recede. This Hubble expansion was the first strong evidence that the universe is expanding from an initial state—what we now call the Big Bang. Measuring galactic redshifts remains the primary method for determining cosmic distances and the universe's expansion rate.</p>
+<h2>Conclusion</h2>
+<p>The Doppler Effect demonstrates how motion fundamentally changes wave perception. A single mathematical relationship—connecting emitted and observed frequency through relative velocities—unifies phenomena from traffic enforcement to cosmology. Whether detecting a tornado's rotation inside a thunderstorm or measuring the recession velocity of a galaxy billions of light-years away, the same principle applies: motion compresses or stretches waves, and that shift carries precise quantitative information about the source's motion.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="graph-coloring.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Graph Coloring: Scheduling, Maps, and the Four Color Theorem
+      <span class="nav-title">Graph Coloring: Scheduling, Maps, and the Four Color Theorem</span>
     </a>
     <a href="brachistochrone.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      The Brachistochrone: The Fastest Path Is Not the Straight One
+      <span class="nav-title">The Brachistochrone: The Fastest Path Is Not the Straight One</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

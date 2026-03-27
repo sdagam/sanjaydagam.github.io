@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bayes' Theorem: Updating Beliefs with Evidence — Applied Math Blog</title>
-<meta name="description" content="Article 6 of the Applied Math Blog by Sanjay Dagam. Bayes' Theorem: Updating Beliefs with Evidence. Published February 10, 2024.">
+<meta name="description" content="Article 6 of 156 in Sanjay Dagam's Applied Mathematics blog. Bayes' Theorem: Updating Beliefs with Evidence">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Statistics & Probability</span>
+  <span class="crumb">Statistics &amp; Probability</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,46 +147,62 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-stats">Statistics & Probability</span>
     <h1 class="article-title">Bayes' Theorem: Updating Beliefs with Evidence</h1>
     <div class="article-meta">
-      <span>#6</span>
+      <span>#6 of 156</span>
       <span>February 10, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>A medical test is 99% accurate, and you test positive for a rare disease affecting 1 in 10,000 people. What's the probability you actually have the disease? Most people—including many doctors—guess around 99%. The actual answer is less than 1%. Understanding why requires Bayes' Theorem, perhaps the most important formula in probability.</p>
-  <h2>The Formula</h2>
-  <p>Bayes' Theorem relates conditional probabilities:</p>
-  <div class="math-block">P(A|B) = P(B|A) × P(A) / P(B)</div>
-  <p>In words: the probability of hypothesis A given evidence B equals the probability of observing B if A is true, times the prior probability of A, divided by the total probability of observing B. P(A) is the prior, P(B|A) is the likelihood, and P(A|B) is the posterior.</p>
-  <h2>Solving the Medical Test Puzzle</h2>
-  <p>Let A = "having the disease" and B = "testing positive." Prior: P(A) = 0.0001. Sensitivity: P(B|A) = 0.99. False positive rate: P(B|not A) = 0.01.</p>
-  <div class="math-block">P(B) = 0.99 × 0.0001 + 0.01 × 0.9999 = 0.010098</div>
-  <div class="math-block">P(A|B) = 0.99 × 0.0001 / 0.010098 ≈ 0.0098 (less than 1%)</div>
-  <p>The rare prior probability overwhelms the test's accuracy. Among every 10,000 people tested, about 100 will be false positives but only 1 will be a true positive.</p>
-  <h2>Why This Matters</h2>
-  <p>The medical test example illustrates a crucial lesson: evidence must be interpreted in context. The same test result means very different things depending on the base rate. For a common condition, a 99% accurate test is highly informative. For a rare condition, it produces mostly false alarms.</p>
-  <h2>Applications Beyond Medicine</h2>
-  <p>Bayes' Theorem underlies spam filtering—words like "lottery" increase spam probability because they appear more often in spam than legitimate email. Courtroom evidence should be interpreted Bayesianly: DNA match probabilities must be combined with prior probability of guilt given other evidence. Search and rescue operations use Bayesian updating to prioritize search areas.</p>
-  <h2>Conclusion</h2>
-  <p>Bayes' Theorem corrects our intuition about conditional probability. It reminds us that context—the prior probability—matters enormously when interpreting evidence. In a world flooded with data, Bayesian reasoning helps us update beliefs appropriately, avoiding both under-reaction and overreaction to new information.</p>
-</div>
+<p class="lead">A patient tests positive for a rare disease. The test is 99% accurate. What's the probability they actually have the disease? Most people instinctively answer '99%.' The correct answer is often closer to 9%—or even lower. This counterintuitive result stems from Bayes' Theorem, the fundamental rule for updating beliefs when new evidence arrives.</p>
+<h2>The Theorem</h2>
+<p>Bayes' Theorem states: P(A|B) = P(B|A) × P(A) / P(B). In words: the probability of hypothesis A given evidence B equals the likelihood of observing B if A were true, times our prior probability of A, divided by the overall probability of observing B. The four components each carry meaning. P(A) is the prior—our initial belief before seeing evidence. P(B|A) is the likelihood—how probable the evidence is if A is true. P(B) is the marginal probability. P(A|B) is the posterior—our updated belief after seeing evidence.</p>
+<div class="math-block">P(A|B) = P(B|A) × P(A) / P(B)</div>
+<h2>The Medical Test Example</h2>
+<p>Suppose a disease affects 1 in 1,000 people (prior = 0.001). A test has 99% sensitivity (true positive rate) and 99% specificity (true negative rate). Given a positive test: P(disease|positive) = 0.99 × 0.001 / [(0.99 × 0.001) + (0.01 × 0.999)] = 0.00099 / 0.01098 ≈ 0.09, or about 9%. The disease is so rare that even with a highly accurate test, most positives are false. This explains why mass screening programs for rare conditions require careful analysis—the false positive burden may outweigh the true positive benefits.</p>
+<div class="math-block">P(disease|positive) = (0.99 × 0.001) / (0.99 × 0.001 + 0.01 × 0.999) ≈ 9%</div>
+<h2>Why Prior Probability Matters</h2>
+<p>This example illustrates a crucial principle: the prior probability dramatically affects the posterior. When the prior is very small (rare disease), even strong evidence can leave the posterior surprisingly low. In populations with higher baseline rates—symptomatic patients referred to specialists, for instance—the same test performs very differently because the prior is much higher. This is why diagnostic accuracy statistics quoted out of context can be deeply misleading: a test's performance depends on who is being tested.</p>
+<h2>Bayesian Reasoning in Practice</h2>
+<p>Bayesian reasoning extends far beyond medical tests. Spam filters use it to classify emails: given certain words appear, what's the probability the email is spam? Scientists use it to update theories as new experimental data arrives. In machine learning, Naive Bayes classifiers apply the theorem to categorize documents and images. Financial analysts update probability estimates for economic events as new data emerges. The key insight in all these applications is the same: new evidence should update our beliefs in proportion to both the strength of the evidence and our existing knowledge.</p>
+<h2>The Frequentist vs. Bayesian Debate</h2>
+<p>Bayesian probability is philosophically controversial. The frequentist school holds that probability represents long-run frequencies of events, making it inappropriate to assign probabilities to fixed parameters. The Bayesian school treats probability as a degree of belief, allowing priors and posteriors over any uncertain quantity. This divide has practical consequences: Bayesian methods require specifying priors (which critics call subjective), while frequentist methods avoid priors but struggle with questions like 'what is the probability this hypothesis is true?' Both approaches have genuine strengths and remain active areas of statistical practice.</p>
+<h2>Conclusion</h2>
+<p>Bayes' Theorem is the mathematics of rational belief updating. Its most powerful lesson is that evidence doesn't exist in a vacuum—its interpretation depends entirely on what we already know. A positive test means something very different in a healthy population versus a symptomatic patient. By quantifying how evidence should shift beliefs, Bayes' Theorem provides a rigorous foundation for learning from data and a corrective for the intuitive reasoning that leads us to dramatically overestimate the meaning of a single positive result.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="binary-search.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Binary Search: The Power of Halving
+      <span class="nav-title">Binary Search: The Power of Halving</span>
     </a>
     <a href="scale-free-networks.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Scale-Free Networks: Why the Rich Get Richer
+      <span class="nav-title">Scale-Free Networks: Why the Rich Get Richer</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

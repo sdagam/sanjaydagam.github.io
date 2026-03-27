@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Central Limit Theorem: Why the Bell Curve Is Everywhere — Applied Math Blog</title>
-<meta name="description" content="Article 11 of the Applied Math Blog by Sanjay Dagam. The Central Limit Theorem: Why the Bell Curve Is Everywhere. Published March 16, 2024.">
+<meta name="description" content="Article 11 of 156 in Sanjay Dagam's Applied Mathematics blog. The Central Limit Theorem: Why the Bell Curve Is Everywhere">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Statistics & Probability</span>
+  <span class="crumb">Statistics &amp; Probability</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,42 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-stats">Statistics & Probability</span>
     <h1 class="article-title">The Central Limit Theorem: Why the Bell Curve Is Everywhere</h1>
     <div class="article-meta">
-      <span>#11</span>
+      <span>#11 of 156</span>
       <span>March 16, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>Roll a single die, and you get a perfectly flat distribution—each outcome equally likely. Roll a hundred dice and average them, and the result is an almost perfect bell curve. This remarkable transformation—the Central Limit Theorem (CLT)—is one of the most powerful results in all of mathematics, explaining why normal distributions appear across biology, finance, manufacturing, and virtually every field that collects data.</p>
-  <h2>The Theorem Stated</h2>
-  <p>The CLT states: given a population with any distribution—uniform, skewed, bimodal, bizarre—if you draw independent random samples of size n and compute their means, those sample means approach a normal distribution as n grows large. The sample means cluster around the population mean μ, with standard deviation σ/√n. The shape of the original distribution doesn't matter. This universality is what makes the CLT extraordinary.</p>
-  <h2>Why It Works</h2>
-  <p>The CLT emerges from averaging's smoothing effect. Extreme values in one direction tend to be offset by extreme values in the other. Mathematically, the proof uses characteristic functions—a tool from Fourier analysis—showing that any distribution's characteristic function, when raised to the nth power and properly scaled, converges to the characteristic function of a normal distribution.</p>
-  <h2>The Sample Size Question</h2>
-  <p>How large must n be? For roughly symmetric distributions, n = 30 is often sufficient. For heavily skewed distributions, you may need n = 100 or more. For distributions with infinite variance—like the Cauchy distribution—the CLT doesn't apply at all. This nuance matters: financial returns have heavy tails that violate normal approximations, a factor that contributed to underestimating risk before the 2008 financial crisis.</p>
-  <h2>Real-World Applications</h2>
-  <p>The CLT underpins statistical inference. When we compute a confidence interval for a poll, we're using the CLT to justify the normal approximation for our sample mean. Polling companies survey a few thousand people and reliably estimate population opinions because sample means are normally distributed regardless of how opinions are distributed in the population.</p>
-  <p>Quality control in manufacturing relies on the CLT. Measure the diameter of 30 bolts, compute the mean, and that mean is approximately normally distributed—enabling reliable tolerance limits.</p>
-  <h2>Conclusion</h2>
-  <p>The Central Limit Theorem is mathematics at its most profound: a single theorem that explains patterns appearing across all of science. It tells us that no matter how complicated the underlying process, averaging creates order. The bell curve isn't just a convenient approximation—it's the inevitable destination of any averaging process.</p>
-</div>
+<p class="lead">Roll a single die, and you get a perfectly flat distribution. Roll a hundred dice and average them, and the result is an almost perfect bell curve—regardless of what the original distribution looked like. This remarkable transformation—the Central Limit Theorem—is one of the most powerful results in all of mathematics, explaining why normal distributions appear across biology, finance, manufacturing, and virtually every field that collects data.</p>
+<h2>The Theorem Stated</h2>
+<p>The Central Limit Theorem states: given a population with any distribution—uniform, skewed, bimodal, bizarre—if you draw independent random samples of size n and compute their means, the distribution of those sample means approaches a normal distribution as n grows large. Specifically, the sample means cluster around the population mean μ, with standard deviation σ/√n, where σ is the population's standard deviation. The shape of the original distribution doesn't matter. This universality is what makes the CLT extraordinary—it works for almost any distribution you can encounter in practice.</p>
+<h2>Why It Works</h2>
+<p>The CLT emerges from averaging's smoothing effect. Extreme values in one direction tend to be offset by extreme values in the other. As you average more observations, these fluctuations cancel out more reliably, concentrating the result near the true mean. Mathematically, the proof uses characteristic functions—a tool from Fourier analysis—showing that any distribution's characteristic function, when raised to the nth power and properly scaled, converges to the characteristic function of a normal distribution. The exponential function e^(-x²/2), which defines the normal curve, is the unique fixed point of this averaging process.</p>
+<div class="math-block">Sample mean distribution: X̄ ~ N(μ, σ²/n) for large n, regardless of original distribution</div>
+<h2>The Sample Size Question</h2>
+<p>How large must n be? The answer depends on the original distribution's shape. For roughly symmetric distributions, n = 30 is often sufficient for a good normal approximation. For heavily skewed distributions, you may need n = 100 or more. For distributions with infinite variance—like the Cauchy distribution—the CLT doesn't apply at all. This nuance matters in practice. Financial returns have heavy tails that violate normal approximations, a factor that contributed to underestimating tail risk before the 2008 financial crisis.</p>
+<h2>Real-World Applications</h2>
+<p>The CLT underpins statistical inference. When we compute a confidence interval for a poll or experiment, we're using the CLT to justify the normal approximation for our sample mean. Polling companies survey a few thousand people and reliably estimate population opinions because sample means are normally distributed, regardless of how opinions are actually distributed. Quality control in manufacturing uses the CLT: measure the diameter of 30 bolts, compute the mean, and that mean is approximately normally distributed—enabling reliable tolerance limit calculations even without knowing the exact distribution of individual bolt diameters.</p>
+<h2>Limitations and Extensions</h2>
+<p>The CLT requires independence. Correlated observations—like daily stock prices or temperatures—don't satisfy this requirement, and their averages converge more slowly or not at all. Extensions like the dependent CLT handle some correlations, but care is needed. The CLT also concerns means specifically. The log-normal distribution arises from the CLT applied to products rather than sums—if you multiply many independent random variables, their product's logarithm is approximately normal, so the product itself is log-normally distributed. This explains why many natural growth processes produce log-normal rather than normal distributions.</p>
+<h2>Conclusion</h2>
+<p>The Central Limit Theorem is mathematics at its most profound: a single result that explains patterns appearing across all of science. It tells us that no matter how complicated the underlying process, averaging creates order. The bell curve isn't just a convenient approximation—it's the inevitable destination of any averaging process involving independent observations, a mathematical attractor that shapes data from quantum measurements to economic statistics.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="hash-functions.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Hash Functions: The Magic Behind Instant Lookups
+      <span class="nav-title">Hash Functions: The Magic Behind Instant Lookups</span>
     </a>
     <a href="graph-coloring.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Graph Coloring: Scheduling, Maps, and the Four Color Theorem
+      <span class="nav-title">Graph Coloring: Scheduling, Maps, and the Four Color Theorem</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

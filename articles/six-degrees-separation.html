@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Six Degrees of Separation: The Small World Phenomenon — Applied Math Blog</title>
-<meta name="description" content="Article 2 of the Applied Math Blog by Sanjay Dagam. Six Degrees of Separation: The Small World Phenomenon. Published January 13, 2024.">
+<meta name="description" content="Article 2 of 156 in Sanjay Dagam's Applied Mathematics blog. Six Degrees of Separation: The Small World Phenomenon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Network Science</span>
+  <span class="crumb">Network Science</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,45 +147,60 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-network">Network Science</span>
     <h1 class="article-title">Six Degrees of Separation: The Small World Phenomenon</h1>
     <div class="article-meta">
-      <span>#2</span>
+      <span>#2 of 156</span>
       <span>January 13, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>In 1967, psychologist Stanley Milgram conducted a remarkable experiment. He asked random people in Nebraska to send a letter to a stranger in Boston—but they could only mail it to someone they knew personally, who would then forward it onward. The letters that reached their destination took, on average, just six steps. This "small world" phenomenon has since been confirmed across social networks, the internet, and even neural connections.</p>
-  <h2>The Paradox of Small Worlds</h2>
-  <p>Small-world networks exhibit two seemingly contradictory properties. First, high clustering: your friends likely know each other, forming tight-knit local communities. Second, short path lengths: despite this clustering, anyone can reach anyone else in surprisingly few steps.</p>
-  <p>The answer lies in what sociologist Mark Granovetter called "weak ties." While most of your connections are local, a few long-range connections act as bridges between communities.</p>
-  <h2>The Watts-Strogatz Model</h2>
-  <p>In 1998, mathematicians Duncan Watts and Steven Strogatz formalized this insight. They started with a ring lattice—people arranged in a circle, each connected to their nearest neighbors. Then they randomly rewired a small percentage of edges, creating long-range shortcuts.</p>
-  <p>The result was dramatic: path length dropped exponentially while clustering remained high. Rewiring just 1% of connections could reduce average path length by half or more. Mathematically, the average path length scales as log(N), where N is the number of nodes.</p>
-  <h2>Real-World Small Worlds</h2>
-  <p>Facebook's data scientists confirmed the small-world phenomenon at scale in 2016, finding the average path length between users was just 3.57. LinkedIn shows similar patterns, with most professionals connected through three or four mutual connections.</p>
-  <p>Small-world structure extends far beyond social networks. The neural network of the C. elegans worm exhibits small-world topology. The power grid demonstrates similar structure—which explains how local failures can cascade into widespread blackouts.</p>
-  <h2>Implications for Spreading Phenomena</h2>
-  <p>Small-world structure has profound implications for anything that spreads through networks. Diseases propagate faster because distant shortcuts allow infections to jump between communities. Rumors and misinformation spread similarly. But so do innovations—new ideas can rapidly reach distant parts of a network.</p>
-  <p>Epidemiologists model disease spread on realistic network structures. Marketers identify bridge nodes for viral campaigns. Social movements leverage weak ties to spread messages across demographic boundaries.</p>
-  <h2>Conclusion</h2>
-  <p>The small-world phenomenon reveals that global connectivity doesn't require everyone knowing everyone. A small number of strategic shortcuts through social and physical networks create surprisingly efficient pathways between any two points. This elegant mathematical insight helps explain why information travels fast, epidemics can go global, and that stranger you meet on vacation turns out to know your neighbor.</p>
-</div>
+<p class="lead">In 1967, sociologist Stanley Milgram asked volunteers in Nebraska to send a letter to a stockbroker in Boston—but only through people they knew personally. The letters that arrived took an average of just six steps. This experiment gave us 'six degrees of separation' and launched the scientific study of social networks. But why is the world so small, and what mathematics explains it?</p>
+<h2>The Milgram Experiment</h2>
+<p>Milgram sent 296 packages to volunteers in Omaha and Wichita, asking each to forward the package to a target person in Boston through direct acquaintances only. Each sender wrote their name on a roster before passing the package along. Only 64 packages completed the journey, taking between 2 and 10 steps, with a median of about 5 to 6 hops. Though the completion rate was low, the short path lengths astonished researchers. The finding suggested that despite the apparent vastness of human social networks, any two strangers are connected through a surprisingly short chain of mutual acquaintances.</p>
+<h2>The Mathematics of Small Worlds</h2>
+<p>The key is exponential growth in connections. If each person knows about 100 people, then after 1 step you can reach 100 people. After 2 steps: 100 × 100 = 10,000. After 3 steps: 1,000,000. After 4 steps: 100,000,000. After 5 steps: 10 billion—more than the world's population. Of course, networks have overlapping connections, so the real reach grows more slowly. But the principle holds: exponential expansion means even large populations become reachable in just a few steps. The logarithmic relationship between network size and average path length is the mathematical heart of the small world phenomenon.</p>
+<h2>Watts-Strogatz Model</h2>
+<p>In 1998, mathematicians Duncan Watts and Steven Strogatz formalized the small-world phenomenon. They showed that networks with two specific properties—high clustering (your friends tend to know each other) and short average path lengths (any two nodes are few hops apart)—appear across diverse domains. Real social networks, the power grid, the neural network of C. elegans, and the Hollywood actor network all exhibit this structure. The Watts-Strogatz model generates such networks by starting with a regular lattice and randomly rewiring a small fraction of connections, creating shortcuts that dramatically shrink average path length while preserving local clustering.</p>
+<h2>Scale-Free Networks and Hubs</h2>
+<p>A key insight is that not all nodes are equal. Some people—politicians, celebrities, highly connected professionals—serve as hubs with thousands of connections. These hubs act as shortcuts through the network, dramatically reducing path lengths. Physicist Albert-László Barabási found that many real networks follow a power-law degree distribution: most nodes have few connections, but a small number have enormous numbers. Networks with this 'scale-free' structure are especially efficient at information transmission because the hubs create direct pathways between otherwise distant parts of the network.</p>
+<h2>Modern Applications</h2>
+<p>The small world phenomenon has practical implications throughout technology and society. Viral content on social media spreads rapidly because of short path lengths—a post can reach millions within hours through chains of resharing. Disease epidemiologists use network models to understand how infections propagate and where to focus vaccination efforts. Computer scientists design distributed systems that exploit small-world properties for efficient routing. Recommendation engines on platforms like Netflix and Spotify leverage network connections to suggest content based on what friends-of-friends enjoy.</p>
+<h2>Conclusion</h2>
+<p>Six degrees of separation is more than a party trick—it's a fundamental property of how complex networks organize themselves. The mathematics reveals that seemingly vast social spaces are actually highly navigable, connected by surprisingly short chains of relationships. Understanding this structure has transformed fields from epidemiology to computer networking to sociology, showing that the world's smallness emerges naturally from simple network principles: local clustering combined with a small number of long-range connections.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="birthday-paradox.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      The Birthday Paradox: Why Probability Defies Intuition
+      <span class="nav-title">The Birthday Paradox: Why Probability Defies Intuition</span>
     </a>
     <a href="terminal-velocity.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Terminal Velocity: When Falling Objects Stop Accelerating
+      <span class="nav-title">Terminal Velocity: When Falling Objects Stop Accelerating</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gradient Descent: How Machines Learn by Rolling Downhill — Applied Math Blog</title>
-<meta name="description" content="Article 15 of the Applied Math Blog by Sanjay Dagam. Gradient Descent: How Machines Learn by Rolling Downhill. Published April 13, 2024.">
+<meta name="description" content="Article 15 of 156 in Sanjay Dagam's Applied Mathematics blog. Gradient Descent: How Machines Learn by Rolling Downhill">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,52 +136,72 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Computer Science / AI</span>
+  <span class="crumb">Computer Science/AI</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
   <header class="article-header">
-    <span class="cat-badge cat-cs">Computer Science / AI</span>
+    <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Gradient Descent: How Machines Learn by Rolling Downhill</h1>
     <div class="article-meta">
-      <span>#15</span>
+      <span>#15 of 156</span>
       <span>April 13, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>Imagine you're blindfolded on a hilly landscape and want to reach the lowest valley. You can't see the terrain, but you can feel the slope beneath your feet. A sensible strategy: always step in the direction the ground slopes downward most steeply. This simple idea—gradient descent—is the core optimization algorithm behind virtually all modern machine learning.</p>
-  <h2>The Loss Landscape</h2>
-  <p>Machine learning models have parameters that determine their predictions. A loss function measures prediction error. The loss function defines a high-dimensional landscape where each point corresponds to parameter values and the height represents the error. Training a model means finding the lowest point—the parameter values producing the least error.</p>
-  <h2>The Gradient and Update Rule</h2>
-  <p>The gradient of a function at a point is the vector of partial derivatives pointing in the direction of steepest increase. The gradient descent update rule is:</p>
-  <div class="math-block">θ_new = θ_old − α × ∇(Loss)</div>
-  <p>where α is the learning rate—a small positive number controlling step size. Each step nudges parameters in the direction that reduces loss most quickly.</p>
-  <h2>Learning Rate Matters</h2>
-  <p>The learning rate α is the algorithm's most critical hyperparameter. Too large, and steps overshoot the minimum—the algorithm bounces around or diverges. Too small, and training takes impractically long. Adaptive methods like Adam and RMSprop adjust the learning rate automatically for each parameter based on gradient history, dramatically improving convergence.</p>
-  <h2>Stochastic and Mini-Batch Descent</h2>
-  <p>Computing the exact gradient requires evaluating the loss across all training examples—expensive for large datasets. Stochastic gradient descent estimates the gradient using a single randomly chosen example. Mini-batch gradient descent uses a small random subset (typically 32–512 examples). The noise in these estimates actually helps: it prevents getting trapped in sharp local minima, often finding flatter minima that generalize better.</p>
-  <h2>Conclusion</h2>
-  <p>Gradient descent is elegant in concept—roll downhill—yet powerful enough to train models with billions of parameters. Its variants underpin the entire deep learning revolution. Every time a language model answers your question, a photo app recognizes your face, or a recommendation system suggests a video, gradient descent found the parameter values that made it work.</p>
-</div>
+<p class="lead">Imagine you're blindfolded on a hilly landscape and want to reach the lowest valley. You can't see the terrain, but you can feel the slope beneath your feet. The sensible strategy: always step in the direction the ground slopes downward most steeply. This simple idea—gradient descent—is the core optimization algorithm behind virtually all modern machine learning, including the neural networks powering language models, image recognition, and recommendation systems.</p>
+<h2>The Loss Landscape</h2>
+<p>Machine learning models have parameters—millions of numbers in deep neural networks—that determine their predictions. A loss function measures prediction error: how far the model's outputs are from correct answers. The loss function defines a high-dimensional landscape where each point corresponds to a set of parameter values and the height represents error at those parameters. Training a model means finding the lowest point in this landscape—the parameter values producing minimum error. Gradient descent navigates this landscape algorithmically, moving parameters step by step toward lower error.</p>
+<h2>The Gradient</h2>
+<p>The gradient of a function at a point is the vector of partial derivatives—one for each parameter—pointing in the direction of steepest increase. Moving in the negative gradient direction means moving toward steepest decrease. The gradient descent update rule is: θ_new = θ_old − α × ∇Loss, where α is the learning rate—a small positive number controlling step size. Each step nudges parameters slightly in the direction that reduces loss most quickly. The learning rate determines whether we take small cautious steps or large aggressive ones.</p>
+<div class="math-block">θ_new = θ_old − α × ∇Loss(θ)</div>
+<h2>Learning Rate Matters</h2>
+<p>The learning rate α is the algorithm's most critical hyperparameter. Too large, and steps overshoot the minimum—the algorithm bounces around or diverges entirely. Too small, and training takes impractically long, requiring millions of steps to converge. Adaptive learning rate methods like Adam and RMSprop adjust the learning rate automatically for each parameter based on gradient history, dramatically improving convergence. Modern deep learning nearly always uses these adaptive variants: Adam is the default choice for training neural networks across most applications.</p>
+<h2>Stochastic and Mini-Batch Descent</h2>
+<p>Computing the exact gradient requires evaluating the loss across all training examples—computationally expensive for large datasets. Stochastic gradient descent (SGD) estimates the gradient using a single randomly chosen example per step. Mini-batch gradient descent uses a small random subset (typically 32–512 examples). These noisy gradient estimates introduce randomness that actually helps: the noise prevents getting trapped in sharp local minima, often finding flatter minima that generalize better to new data. Modern neural network training uses mini-batch SGD almost exclusively.</p>
+<h2>Local Minima and Saddle Points</h2>
+<p>A persistent worry is that gradient descent gets trapped in local minima—valleys that aren't globally lowest. Surprisingly, for large neural networks, local minima are rarely a serious problem. Most apparent local minima in high-dimensional loss landscapes are actually saddle points—minima in some directions but maxima in others. With millions of dimensions, finding a downhill direction is almost always possible. The real challenge is navigating flat plateaus and narrow ravines efficiently, which adaptive methods address by accumulating gradient information across many steps.</p>
+<h2>Conclusion</h2>
+<p>Gradient descent is elegant in concept—roll downhill—yet powerful enough to train models with billions of parameters. Its variants underpin the entire deep learning revolution. Every time a language model answers your question, a photo app recognizes your face, or a recommendation system suggests a video, gradient descent found the parameter values that made it work—one small downhill step at a time through a vast high-dimensional landscape of possibilities.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="brachistochrone.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      The Brachistochrone: The Fastest Path Is Not the Straight One
+      <span class="nav-title">The Brachistochrone: The Fastest Path Is Not the Straight One</span>
     </a>
     <a href="monte-carlo-methods.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Monte Carlo Methods: Using Randomness to Solve Hard Problems
+      <span class="nav-title">Monte Carlo Methods: Using Randomness to Solve Hard Problems</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

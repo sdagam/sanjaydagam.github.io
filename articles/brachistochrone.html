@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Brachistochrone: The Fastest Path Is Not the Straight One — Applied Math Blog</title>
-<meta name="description" content="Article 14 of the Applied Math Blog by Sanjay Dagam. The Brachistochrone: The Fastest Path Is Not the Straight One. Published April 6, 2024.">
+<meta name="description" content="Article 14 of 156 in Sanjay Dagam's Applied Mathematics blog. The Brachistochrone: The Fastest Path Is Not the Straight One">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Calculus Applications</span>
+  <span class="crumb">Calculus Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,43 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-calc">Calculus Applications</span>
     <h1 class="article-title">The Brachistochrone: The Fastest Path Is Not the Straight One</h1>
     <div class="article-meta">
-      <span>#14</span>
+      <span>#14 of 156</span>
       <span>April 6, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>In 1696, Johann Bernoulli posed a challenge: find the curve along which a bead slides from one point to a lower point in the shortest time, under gravity alone. The answer—a cycloid, the curve traced by a point on a rolling circle—surprised everyone. The shortest-time path is not the straight line, not the arc of a circle, but a curve that dips below the straight line before curving back up.</p>
-  <h2>Why Not the Straight Line?</h2>
-  <p>Intuition suggests the shortest path should be fastest. But time depends on both distance and speed. A steeper initial descent accelerates the bead more quickly, trading a longer path for much higher speed. The optimal curve descends steeply at first to gain speed rapidly, then curves more gently to cover horizontal distance efficiently.</p>
-  <h2>The Cycloid Solution</h2>
-  <p>A cycloid is the curve traced by a point on the rim of a circle rolling along a flat surface. Parametrically:</p>
-  <div class="math-block">x = r(θ − sin θ),   y = r(1 − cos θ)</div>
-  <p>The brachistochrone is an inverted cycloid. Bernoulli, Newton, Leibniz, l'Hôpital, and Jakob Bernoulli all solved the problem within a year of the challenge. Newton solved it overnight and submitted anonymously; Bernoulli reportedly recognized the solution, saying "I recognize the lion by his claw."</p>
-  <h2>Calculus of Variations</h2>
-  <p>The brachistochrone was the founding problem of the calculus of variations—the branch of mathematics that finds functions minimizing or maximizing integrals. Standard calculus finds optimal points; calculus of variations finds optimal functions. This framework now appears throughout physics, economics, and engineering wherever optimal paths or processes are needed.</p>
-  <h2>Modern Applications</h2>
-  <p>Calculus of variations—born from the brachistochrone—now solves problems across science. Fermat's principle (light travels the path of least time) is a variational principle. The principle of least action, which underlies classical mechanics, quantum mechanics, and general relativity, is a variational statement. Engineers use variational methods to design optimal aircraft shapes and plan robot trajectories.</p>
-  <h2>Conclusion</h2>
-  <p>The brachistochrone problem teaches that optimal solutions often defy intuition. The fastest path isn't the most direct—it's the one that best exploits the physics of the situation. More profoundly, the problem sparked an entire branch of mathematics that became foundational to physics. Sometimes a single well-posed question unlocks decades of mathematical development.</p>
-</div>
+<p class="lead">In 1696, Johann Bernoulli challenged Europe's mathematicians: find the curve along which a bead slides from one point to a lower point in the shortest time, under gravity alone with no friction. The answer—a cycloid, the curve traced by a point on a rolling circle—surprised everyone. The fastest path is not the straight line, not the arc of a circle, but a curve that dips below the straight line before curving back up.</p>
+<h2>Why Not the Straight Line?</h2>
+<p>Intuition suggests the shortest path should be fastest. But time depends on both distance and speed. A steeper initial descent accelerates the bead more quickly, trading a longer path for much higher speed throughout the journey. The optimal curve balances these factors: descend steeply at first to gain speed rapidly, then curve more gently to cover horizontal distance efficiently. The straight line is too shallow initially—the bead accelerates slowly and never reaches high speed. The purely vertical-then-horizontal path wastes time going straight down before making any horizontal progress.</p>
+<h2>The Cycloid Solution</h2>
+<p>A cycloid is the curve traced by a point on the rim of a circle rolling along a flat surface. Parametrically: x = r(θ − sin θ), y = r(1 − cos θ), where θ is the rolling angle and r is the circle's radius. The brachistochrone is an inverted cycloid—turned upside down so the curve dips below the starting point. Bernoulli, Newton, Leibniz, l'Hôpital, and Jakob Bernoulli all solved the problem within a year of the challenge. Newton solved it overnight and submitted anonymously; Bernoulli reportedly recognized the solution as Newton's, saying 'I recognize the lion by his claw.'</p>
+<div class="math-block">Cycloid: x = r(θ − sinθ)     y = r(1 − cosθ)</div>
+<h2>Calculus of Variations</h2>
+<p>The brachistochrone was the founding problem of the calculus of variations—the branch of mathematics that finds functions minimizing or maximizing integrals. Standard calculus finds optimal points; calculus of variations finds optimal functions. The travel time along a curve y(x) is an integral involving the curve's slope and height. Minimizing this integral using the Euler-Lagrange equation—the variational analog of setting a derivative to zero—yields the differential equation whose solution is the cycloid. This framework now appears throughout physics, economics, and engineering wherever optimal paths or processes are needed.</p>
+<h2>The Tautochrone Property</h2>
+<p>The cycloid has a remarkable bonus property: it's also the tautochrone (Greek for 'same time'). A bead placed anywhere on an inverted cycloid reaches the bottom in exactly the same time, regardless of its starting position. This property fascinated 17th-century clockmakers. Christiaan Huygens designed a pendulum clock where the bob swung between cycloidal guides, making the period truly independent of amplitude—something a circular pendulum only approximates for small swings. The tautochrone property makes the cycloid uniquely suited for precision timekeeping.</p>
+<h2>Modern Applications</h2>
+<p>Calculus of variations—born from the brachistochrone—now solves problems across science. Fermat's principle that light travels the path of least time is a variational principle. The principle of least action, underlying all of classical mechanics, quantum mechanics, and general relativity, is a variational statement: systems evolve along paths that minimize the action integral. Engineers use variational methods to design optimal aircraft shapes, minimize structural weight, and plan robot trajectories. Economists find optimal consumption paths over time using the same Euler-Lagrange framework.</p>
+<h2>Conclusion</h2>
+<p>The brachistochrone problem teaches that optimal solutions often defy intuition. The fastest path isn't the most direct—it's the one that best exploits the physics of the situation. More profoundly, the problem sparked an entire branch of mathematics that became foundational to modern physics. The principle of least action, which governs everything from planetary orbits to quantum particle behavior, traces its mathematical lineage directly to Bernoulli's 1696 challenge about a sliding bead.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="doppler-effect.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      The Doppler Effect: Why Sirens Change Pitch
+      <span class="nav-title">The Doppler Effect: Why Sirens Change Pitch</span>
     </a>
     <a href="gradient-descent.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Gradient Descent: How Machines Learn by Rolling Downhill
+      <span class="nav-title">Gradient Descent: How Machines Learn by Rolling Downhill</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

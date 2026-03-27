@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resonance: How Soldiers Can Collapse Bridges — Applied Math Blog</title>
-<meta name="description" content="Article 8 of the Applied Math Blog by Sanjay Dagam. Resonance: How Soldiers Can Collapse Bridges. Published February 24, 2024.">
+<meta name="description" content="Article 8 of 156 in Sanjay Dagam's Applied Mathematics blog. Resonance: How Soldiers Can Collapse Bridges">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Physics Applications</span>
+  <span class="crumb">Physics Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,46 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Resonance: How Soldiers Can Collapse Bridges</h1>
     <div class="article-meta">
-      <span>#8</span>
+      <span>#8 of 156</span>
       <span>February 24, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>In 1831, a suspension bridge near Manchester collapsed when 74 soldiers marched across in step. This "small world" phenomenon—the Broughton Suspension Bridge disaster—led to a standing order still observed today: soldiers break step when crossing bridges. The culprit was resonance—a phenomenon where small periodic forces can build to catastrophic amplitudes.</p>
-  <h2>Natural Frequency</h2>
-  <p>Every physical object has natural frequencies at which it prefers to vibrate, determined by its mass and stiffness. For a simple mass on a spring:</p>
-  <div class="math-block">f = (1/2π)√(k/m)</div>
-  <p>Stiffer systems vibrate faster; heavier systems vibrate slower. This same principle applies to bridges, wine glasses, buildings, and molecules.</p>
-  <h2>The Mathematics of Driven Oscillators</h2>
-  <p>A damped oscillator driven by a periodic force follows:</p>
-  <div class="math-block">m(d²x/dt²) + b(dx/dt) + kx = F₀cos(ωt)</div>
-  <p>When driving frequency ω equals natural frequency ω₀ = √(k/m), the amplitude maximizes. With low damping, this resonant peak becomes extremely sharp—small forces produce enormous responses.</p>
-  <h2>Catastrophic Resonance</h2>
-  <p>The most famous resonance disaster was the Tacoma Narrows Bridge collapse in 1940. Moderate winds set up vortices that drove the bridge at its torsional resonance frequency. Over hours, oscillations grew until the bridge tore itself apart.</p>
-  <p>The Millennium Bridge in London wobbled dangerously on opening day in 2000. Pedestrians unconsciously synchronized their steps to the bridge's sway, creating a feedback loop that amplified lateral oscillations.</p>
-  <h2>Beneficial Resonance</h2>
-  <p>Resonance isn't always destructive. MRI machines exploit nuclear magnetic resonance—hydrogen atoms in your body resonate at frequencies determined by local magnetic fields, revealing tissue structure. Radio receivers use resonant circuits to select specific frequencies. Musical instruments depend on resonance to amplify string vibrations. Quartz watches keep time through mechanical resonance at 32,768 Hz.</p>
-  <h2>Conclusion</h2>
-  <p>Resonance demonstrates how frequency matching can amplify tiny inputs into massive outputs. The mathematics—solving the driven oscillator equation—applies from atomic to architectural scales, explaining both disasters and technologies. Soldiers still break step on bridges, respecting the destructive potential of synchronized forces matching a structure's natural rhythm.</p>
-</div>
+<p class="lead">In 1831, a regiment of British soldiers marching in step across the Broughton Suspension Bridge caused it to collapse. In 1940, the Tacoma Narrows Bridge oscillated wildly in moderate winds and dramatically fell apart. Both disasters share a common cause: resonance, the phenomenon where a system driven at its natural frequency builds oscillations to destructive amplitude.</p>
+<h2>Natural Frequency</h2>
+<p>Every physical system that can oscillate has a natural frequency—the rate at which it oscillates when disturbed and left alone. For a simple pendulum: f = (1/2π) × sqrt(g/L), where g is gravitational acceleration and L is the pendulum's length. A 1-meter pendulum has a natural frequency of about 0.5 Hz. For a mass on a spring: f = (1/2π) × sqrt(k/m), where k is the spring constant and m is mass. Every bridge, building, wine glass, and tuning fork has its own natural frequency determined by its physical properties—its geometry, material stiffness, and mass distribution.</p>
+<div class="math-block">f₀ = (1/2π) × √(k/m)     Natural frequency of a spring-mass system</div>
+<h2>The Mathematics of Resonance</h2>
+<p>When an oscillating system is driven by an external force at frequency ω, the response amplitude depends critically on how close ω is to the natural frequency ω₀. For a simple harmonic oscillator with light damping, the amplitude A(ω) is maximized when ω = ω₀. With no damping, the amplitude at resonance becomes theoretically infinite—energy pumped in at exactly the right frequency has nowhere to go and accumulates without bound. Real systems have damping (friction, air resistance), which limits amplitude but still allows resonant buildup to destructive levels before dissipation can carry energy away.</p>
+<h2>The Tacoma Narrows Bridge</h2>
+<p>The Tacoma Narrows Bridge failure is often cited as a resonance disaster, but the physics is more subtle. The bridge didn't fail from simple forced resonance. Instead, it suffered aeroelastic flutter—a feedback interaction between the bridge's motion and aerodynamic forces that reduced effective damping to zero, allowing oscillations to grow. As the bridge twisted, the changed airflow angle altered the forces in a way that amplified rather than damped the motion. This self-exciting oscillation is qualitatively similar to resonance but driven by the interaction of fluid dynamics and structural mechanics.</p>
+<h2>Constructive Uses</h2>
+<p>Resonance is not only destructive—it's essential in countless technologies. Musical instruments exploit resonance: a guitar string's resonant frequencies determine the notes it produces, and the guitar body resonates to amplify sound. MRI machines use nuclear magnetic resonance—hydrogen nuclei in the body resonate at specific radio frequencies in strong magnetic fields, enabling detailed tissue imaging without radiation. Lasers amplify light through stimulated emission at specific resonant frequencies. Radio and television tuners select specific frequencies by adjusting circuits to resonate at the desired broadcast frequency.</p>
+<h2>Avoiding Destructive Resonance</h2>
+<p>Modern engineering carefully avoids resonance in structural design. Bridges are designed so wind-induced forcing frequencies don't match the bridge's natural frequencies. Damping mechanisms—like the 730-ton steel pendulum inside Taipei 101 skyscraper—absorb energy and prevent resonant buildup during earthquakes and high winds. Car suspensions are tuned to avoid resonance with road bump frequencies. The military lesson from Broughton Bridge is still taught: soldiers break step when crossing bridges to avoid inadvertently exciting the structure's natural frequency.</p>
+<h2>Conclusion</h2>
+<p>Resonance demonstrates that the right frequency matters as much as the magnitude of a force. A gentle push at exactly the right moment—at the system's natural frequency—can build to catastrophic amplitude, while a much larger force at the wrong frequency does little. This principle applies from the microscopic (atomic absorption of light at specific frequencies) to the macroscopic (bridge oscillations, earthquake damage to buildings). Engineering's hard-won lesson from disasters is to never design a system without considering what happens when it is driven near its natural frequency.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="scale-free-networks.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Scale-Free Networks: Why the Rich Get Richer
+      <span class="nav-title">Scale-Free Networks: Why the Rich Get Richer</span>
     </a>
     <a href="related-rates.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Related Rates: How Fast Is That Shadow Growing?
+      <span class="nav-title">Related Rates: How Fast Is That Shadow Growing?</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

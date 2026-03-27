@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monte Carlo Methods: Using Randomness to Solve Hard Problems — Applied Math Blog</title>
-<meta name="description" content="Article 16 of the Applied Math Blog by Sanjay Dagam. Monte Carlo Methods: Using Randomness to Solve Hard Problems. Published April 20, 2024.">
+<meta name="description" content="Article 16 of 156 in Sanjay Dagam's Applied Mathematics blog. Monte Carlo Methods: Using Randomness to Solve Hard Problems">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Statistics & Probability</span>
+  <span class="crumb">Statistics &amp; Probability</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,41 +147,62 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-stats">Statistics & Probability</span>
     <h1 class="article-title">Monte Carlo Methods: Using Randomness to Solve Hard Problems</h1>
     <div class="article-meta">
-      <span>#16</span>
+      <span>#16 of 156</span>
       <span>April 20, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>How do you calculate π without geometry? Estimate a complex integral without solving it analytically? Model the spread of radiation through matter? The answer to all three is Monte Carlo methods—algorithms that use random sampling to approximate solutions to problems that are too complex for direct calculation. Named after the famous Monaco casino by physicist Stanislaw Ulam, these methods have become indispensable across science, finance, and engineering.</p>
-  <h2>Estimating π with Darts</h2>
-  <p>The classic demonstration: draw a circle inscribed in a square. Throw darts randomly at the square. The fraction landing inside the circle equals the ratio of their areas: πr²/(2r)² = π/4. Throw 10,000 darts, count those inside the circle, multiply by 4, and you have an estimate of π. This is Monte Carlo integration: estimating an integral (area) by random sampling rather than calculation.</p>
-  <h2>High-Dimensional Integration</h2>
-  <p>Monte Carlo methods dominate when dimensionality is high. Traditional numerical integration uses a grid: in d dimensions, n points per dimension requires n^d evaluations—exponential in d. Monte Carlo integration still needs only n² evaluations regardless of dimension, making it the only practical approach for high-dimensional integrals. Financial derivatives pricing relies heavily on this property.</p>
-  <h2>Markov Chain Monte Carlo</h2>
-  <p>For complex probability distributions where direct sampling is hard, Markov Chain Monte Carlo (MCMC) generates samples by running a carefully designed random walk. The Metropolis-Hastings algorithm proposes a random step and accepts or rejects it based on the probability ratio of the new and current positions. MCMC revolutionized Bayesian statistics, making it practical to fit complex models with many parameters.</p>
-  <h2>Simulation Applications</h2>
-  <p>Monte Carlo simulation models systems with inherent randomness. Nuclear physicists simulate neutron transport through materials. Financial analysts estimate portfolio risk by simulating thousands of possible market scenarios. Climate scientists run ensemble simulations to estimate forecast uncertainty. In each case, running thousands of random scenarios reveals the distribution of possible outcomes more reliably than analytical approximations.</p>
-  <h2>Conclusion</h2>
-  <p>Monte Carlo methods embody a counterintuitive truth: sometimes the most efficient path to a precise answer is through deliberate randomness. By exploiting the law of large numbers, these methods solve problems that defy exact analysis. From estimating π with darts to pricing financial derivatives to simulating nuclear reactions, randomness—applied systematically—becomes a precise computational tool.</p>
-</div>
+<p class="lead">How do you calculate π without geometry? Estimate a complex integral without solving it analytically? Model the spread of radiation through matter? The answer to all three is Monte Carlo methods—algorithms that use random sampling to approximate solutions to problems too complex for direct calculation. Named after the Monaco casino by physicist Stanislaw Ulam, these methods have become indispensable across science, finance, and engineering.</p>
+<h2>Estimating Pi with Darts</h2>
+<p>The classic demonstration: draw a circle inscribed in a square. Throw darts randomly at the square. The fraction landing inside the circle equals the ratio of their areas: πr² / (2r)² = π/4. Throw 1,000 darts, count how many land in the circle, multiply by 4, and you have an estimate of π. With 10,000 darts, accuracy improves. With a million, you get π to several decimal places. This is Monte Carlo integration: estimate an integral (area) by random sampling rather than calculation. The estimate converges to the true value as the number of samples grows.</p>
+<div class="math-block">π ≈ 4 × (darts inside circle) / (total darts)</div>
+<h2>The Law of Large Numbers at Work</h2>
+<p>Monte Carlo methods succeed because of the Law of Large Numbers: the average of many independent random samples converges to the expected value. For π estimation, each dart is an independent Bernoulli trial with probability π/4 of landing inside the circle. Average enough trials, and the estimate converges to π/4. The convergence rate follows a square root law: to halve the error, you need four times as many samples. This 1/√n convergence is slower than numerical integration methods for smooth functions but shines when those methods are intractable.</p>
+<div class="math-block">Error ∝ 1/√n     (halving error requires 4× more samples)</div>
+<h2>High-Dimensional Integration</h2>
+<p>Monte Carlo methods dominate when dimensionality is high. Traditional numerical integration uses a grid: in d dimensions with n points per dimension, you need n^d evaluations—exponential in d. For d = 10 and n = 100, that's 10^20 evaluations. Monte Carlo integration still needs only ~n² evaluations regardless of dimension, making it the only practical approach for high-dimensional integrals. Financial derivatives pricing, which involves modeling many correlated assets over time, relies heavily on this dimension-independence. Option pricing models like Black-Scholes use Monte Carlo extensively.</p>
+<h2>Markov Chain Monte Carlo</h2>
+<p>For complex probability distributions where direct sampling is hard, Markov Chain Monte Carlo (MCMC) methods generate samples by running a carefully designed random walk. The Metropolis-Hastings algorithm proposes a random step and accepts or rejects it based on the probability ratio of the new and current positions. Over many steps, the chain's distribution converges to the target distribution regardless of where it started. MCMC revolutionized Bayesian statistics, making it practical to fit complex models with many parameters where analytical solutions are impossible.</p>
+<h2>Simulation Applications</h2>
+<p>Monte Carlo simulation models systems with inherent randomness. Nuclear physicists simulate neutron transport through materials by randomly sampling collision events—the method was originally developed at Los Alamos for this purpose during the Manhattan Project. Financial analysts estimate portfolio risk by simulating thousands of possible market scenarios. Engineers test structural designs against randomly sampled loads and material variations. Climate scientists run ensemble simulations with slightly different initial conditions to estimate forecast uncertainty. In each case, running thousands of random scenarios reveals the full distribution of possible outcomes.</p>
+<h2>Conclusion</h2>
+<p>Monte Carlo methods embody a counterintuitive truth: sometimes the most efficient path to a precise answer is through deliberate randomness. By exploiting the law of large numbers and the power of random sampling, these methods solve problems that defy exact analysis. From estimating π with darts to pricing financial derivatives to simulating nuclear reactions, randomness—applied systematically—becomes a precise computational tool capable of tackling problems that deterministic methods cannot approach.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="gradient-descent.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Gradient Descent: How Machines Learn by Rolling Downhill
+      <span class="nav-title">Gradient Descent: How Machines Learn by Rolling Downhill</span>
     </a>
     <a href="centrality-measures.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Centrality Measures: Who Really Matters in a Network?
+      <span class="nav-title">Centrality Measures: Who Really Matters in a Network?</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

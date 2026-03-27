@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Graph Coloring: Scheduling, Maps, and the Four Color Theorem — Applied Math Blog</title>
-<meta name="description" content="Article 12 of the Applied Math Blog by Sanjay Dagam. Graph Coloring: Scheduling, Maps, and the Four Color Theorem. Published March 23, 2024.">
+<meta name="description" content="Article 12 of 156 in Sanjay Dagam's Applied Mathematics blog. Graph Coloring: Scheduling, Maps, and the Four Color Theorem">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Network Science</span>
+  <span class="crumb">Network Science</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,42 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-network">Network Science</span>
     <h1 class="article-title">Graph Coloring: Scheduling, Maps, and the Four Color Theorem</h1>
     <div class="article-meta">
-      <span>#12</span>
+      <span>#12 of 156</span>
       <span>March 23, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>How many colors does it take to color a map so that no two neighboring countries share the same color? This question—posed in 1852 by Francis Guthrie—launched over a century of mathematical struggle. The answer, finally proven in 1976, is four. Along the way, graph coloring became one of the most practically useful concepts in discrete mathematics, solving everything from exam scheduling to register allocation in compilers.</p>
-  <h2>Graphs and Coloring</h2>
-  <p>A graph consists of vertices connected by edges. Graph coloring assigns colors to vertices such that no two adjacent vertices share the same color. The chromatic number χ(G) is the minimum number of colors needed. Maps translate naturally to graphs: each region becomes a vertex, and two vertices connect if the corresponding regions share a border.</p>
-  <h2>The Four Color Theorem</h2>
-  <p>The Four Color Theorem states that any planar graph can be colored with at most four colors. The eventual proof by Appel and Haken in 1976 was controversial: they reduced the problem to 1,936 special cases, then used a computer to verify each one. It was the first major theorem proved with substantial computer assistance, sparking debates about what constitutes a mathematical proof.</p>
-  <h2>Chromatic Polynomials</h2>
-  <p>For a graph G, the chromatic polynomial P(G, k) counts the number of valid colorings using exactly k colors. These polynomials reveal structural information about graphs. Setting k equal to specific values gives zero when the graph isn't k-colorable—the polynomial encodes the chromatic number as its smallest positive integer root.</p>
-  <h2>Scheduling Applications</h2>
-  <p>Graph coloring solves scheduling problems elegantly. For university exam scheduling: create a graph where courses are vertices and add an edge between courses sharing students. Coloring this graph assigns time slots—each color represents a slot—ensuring no student has two simultaneous exams. The chromatic number gives the minimum number of slots needed.</p>
-  <p>Similar logic applies to frequency assignment in wireless networks, register allocation in compilers, and sports tournament scheduling.</p>
-  <h2>Conclusion</h2>
-  <p>Graph coloring connects abstract mathematics to concrete optimization. The Four Color Theorem's century-long resistance illustrates how hard combinatorial problems can be, while practical applications show the concept's power. Every time your university avoids scheduling conflicts, or your phone finds a clear frequency, graph coloring is working behind the scenes.</p>
-</div>
+<p class="lead">How many colors does it take to color a map so that no two neighboring countries share the same color? This deceptively simple question—posed in 1852 by Francis Guthrie while coloring a map of England—launched over a century of mathematical struggle. The answer, finally proven in 1976, is four. Along the way, graph coloring became one of the most practically useful concepts in discrete mathematics.</p>
+<h2>Graphs and Coloring</h2>
+<p>A graph consists of vertices (nodes) connected by edges. Graph coloring assigns colors to vertices such that no two adjacent vertices share the same color. The chromatic number χ(G) is the minimum number of colors needed. Maps translate naturally to graphs: each region becomes a vertex, and two vertices connect if the corresponding regions share a border. Coloring the graph with no adjacent same-color vertices corresponds exactly to coloring the map so no neighboring regions share a color. The mathematical abstraction preserves the essential structure while enabling rigorous analysis.</p>
+<h2>The Four Color Theorem</h2>
+<p>The Four Color Theorem states that any planar graph—one drawable without edge crossings—can be colored with at most four colors. Proving four colors are sometimes necessary is easy (certain maps require four). Proving four always suffice took 124 years. The proof by Kenneth Appel and Wolfgang Haken in 1976 was controversial: they reduced the problem to 1,936 special cases, then used a computer to verify each one. It was the first major theorem proved with substantial computer assistance, sparking debates about what constitutes a mathematical proof and whether computer verification counts as understanding.</p>
+<h2>Chromatic Polynomials</h2>
+<p>For a graph G, the chromatic polynomial P(G, k) counts the number of valid colorings using at most k colors. For a path of n vertices: P = k(k-1)^(n-1). For a cycle of n vertices: P = (k-1)^n + (-1)^n(k-1). These polynomials reveal structural information: setting k equal to specific integer values gives zero exactly when the graph isn't k-colorable, encoding the chromatic number as the polynomial's smallest positive integer root. The chromatic polynomial connects graph coloring to algebraic methods that enable deeper theoretical analysis.</p>
+<div class="math-block">Cycle of n vertices: P(G, k) = (k−1)ⁿ + (−1)ⁿ(k−1)</div>
+<h2>Scheduling Applications</h2>
+<p>Graph coloring solves scheduling problems elegantly. University exam scheduling: students taking multiple courses can't have simultaneous exams. Create a graph where courses are vertices and add an edge between courses sharing enrolled students. A valid k-coloring assigns exams to k time slots with no student conflicts. The chromatic number gives the minimum slots needed. The same logic applies to frequency assignment in wireless networks (transmitters within range can't share frequencies), register allocation in compilers (variables used simultaneously need separate registers), and sports tournament scheduling.</p>
+<h2>Greedy Coloring and Algorithms</h2>
+<p>Finding the chromatic number exactly is NP-hard—no known polynomial-time algorithm exists for arbitrary graphs. But practical algorithms work well on structured instances. The greedy algorithm processes vertices in some order, assigning each the smallest color not used by its neighbors. Greedy uses at most Δ + 1 colors, where Δ is the maximum degree—a useful bound even if not optimal. Interval graphs (representing overlapping time intervals) can be optimally colored greedily in polynomial time, making them ideal models for scheduling applications where intervals represent time blocks.</p>
+<h2>Conclusion</h2>
+<p>Graph coloring connects abstract mathematics to concrete optimization. The Four Color Theorem's century-long resistance and controversial computer-assisted proof illustrate how deep combinatorial problems can be, while the practical applications show the concept's real-world power. Every time your university avoids exam conflicts, or your phone finds a clear radio frequency, graph coloring is working behind the scenes—turning a map-coloring puzzle into a systematic method for resolving competition for shared resources.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="central-limit-theorem.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      The Central Limit Theorem: Why the Bell Curve Is Everywhere
+      <span class="nav-title">The Central Limit Theorem: Why the Bell Curve Is Everywhere</span>
     </a>
     <a href="doppler-effect.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      The Doppler Effect: Why Sirens Change Pitch
+      <span class="nav-title">The Doppler Effect: Why Sirens Change Pitch</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

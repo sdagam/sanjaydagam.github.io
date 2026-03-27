@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terminal Velocity: When Falling Objects Stop Accelerating — Applied Math Blog</title>
-<meta name="description" content="Article 3 of the Applied Math Blog by Sanjay Dagam. Terminal Velocity: When Falling Objects Stop Accelerating. Published January 20, 2024.">
+<meta name="description" content="Article 3 of 156 in Sanjay Dagam's Applied Mathematics blog. Terminal Velocity: When Falling Objects Stop Accelerating">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Physics Applications</span>
+  <span class="crumb">Physics Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,46 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Terminal Velocity: When Falling Objects Stop Accelerating</h1>
     <div class="article-meta">
-      <span>#3</span>
+      <span>#3 of 156</span>
       <span>January 20, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>Drop a feather and a bowling ball in a vacuum, and they hit the ground together—Galileo's famous insight confirmed by Apollo astronauts on the Moon. But in air, the feather drifts down slowly while the ball plummets. The difference is air resistance, which creates a speed limit for falling objects called terminal velocity.</p>
-  <h2>The Forces at Play</h2>
-  <p>A falling object experiences two opposing forces. Gravity pulls downward with force F = mg, where m is mass and g is gravitational acceleration (9.8 m/s² on Earth). Air resistance pushes upward, opposing motion.</p>
-  <div class="math-block">F_drag = ½ρv²C_d A</div>
-  <p>where ρ is air density, v is velocity, C_d is the drag coefficient, and A is cross-sectional area. The critical insight is that drag grows with velocity squared—double your speed, and drag quadruples.</p>
-  <h2>Reaching Terminal Velocity</h2>
-  <p>When you first start falling, velocity is zero, so drag is zero. Gravity accelerates you downward at 9.8 m/s². As speed builds, drag grows, reducing net force and therefore acceleration. Eventually, drag equals gravity and acceleration stops.</p>
-  <div class="math-block">v_terminal = √(2mg / ρC_d A)</div>
-  <p>This formula reveals terminal velocity's dependencies: heavier objects fall faster, larger cross-sections fall slower, and streamlined shapes fall faster.</p>
-  <h2>Skydivers and Cats</h2>
-  <p>For a skydiver in spread-eagle position (mass 75 kg), terminal velocity is approximately 55 m/s or 120 mph. By tucking into a dive, skydivers can exceed 200 mph. Cats have a lower terminal velocity than humans—about 60 mph—due to their small mass relative to their area when they spread their limbs.</p>
-  <h2>Raindrops and Hailstones</h2>
-  <p>Terminal velocity explains why rain doesn't hurt despite falling from thousands of feet. A typical raindrop reaches terminal velocity of only about 9 m/s (20 mph). Hailstones, being denser and sometimes quite large, can have terminal velocities exceeding 100 mph—which is why they cause damage.</p>
-  <p>Interestingly, raindrops aren't teardrop-shaped. Surface tension makes small drops spherical, while larger drops flatten into pancake shapes due to air pressure on their undersides.</p>
-  <h2>Conclusion</h2>
-  <p>Terminal velocity demonstrates how competing forces reach equilibrium. The mathematics—balancing quadratic drag against linear gravity—appears throughout physics and engineering. From designing parachutes to understanding sedimentation in rivers, terminal velocity connects simple force balance to a remarkable range of real-world phenomena.</p>
-</div>
+<p class="lead">Drop a feather and a bowling ball from the same height in air, and they land at different times. Aristotle believed heavier objects fall faster by nature. Galileo proved otherwise. The truth involves a beautiful interplay between gravity, air resistance, and a fundamental concept in differential equations: terminal velocity—the speed at which a falling object stops accelerating.</p>
+<h2>The Forces at Play</h2>
+<p>When an object falls through air, two forces act on it: gravity pulls it down and air resistance (drag) pushes it up. Gravity is constant: F = mg, where m is mass and g is gravitational acceleration (9.8 m/s² on Earth). Drag is not constant—it increases with velocity. For most objects at everyday speeds, drag follows F_drag = bv, where b is a drag coefficient depending on shape, size, and air density, and v is velocity. The object accelerates as long as gravity exceeds drag, but as speed increases, drag grows until the two forces balance exactly.</p>
+<h2>The Differential Equation</h2>
+<p>Newton's second law gives us: m(dv/dt) = mg - bv. This is a first-order linear differential equation. The solution is v(t) = (mg/b)(1 - e^(-bt/m)). This describes velocity starting at 0 and approaching mg/b as t approaches infinity. That limiting value is terminal velocity: v_terminal = mg/b. The exponential decay means the object approaches terminal velocity asymptotically—never quite reaching it mathematically, but effectively achieving it within a few time constants.</p>
+<div class="math-block">v(t) = (mg/b)(1 − e^(−bt/m))     →     v_terminal = mg/b</div>
+<h2>Why Mass Matters</h2>
+<p>Terminal velocity equals mg/b, so heavier objects (larger m) have higher terminal velocities. A bowling ball is denser and heavier than a feather, so it reaches a much higher terminal velocity before drag balances gravity. In a vacuum—where b = 0—both objects accelerate indefinitely at the same rate g, which is why Galileo's vacuum experiment would show equal fall times. On the Moon, astronaut David Scott famously dropped a hammer and feather simultaneously in 1971—they landed together, demonstrating that gravity alone treats all masses equally.</p>
+<h2>Real-World Applications</h2>
+<p>Understanding terminal velocity is crucial in many fields. Skydivers reach about 55 m/s (195 km/h) in a spread-eagle position, or 90 m/s (320 km/h) headfirst—and they survive because parachutes dramatically increase the drag coefficient b, lowering terminal velocity to safe landing speeds around 5–6 m/s. Engineers design cars with aerodynamic shapes to minimize b, increasing fuel efficiency at highway speeds. Raindrops fall at terminal velocity—without air resistance, a raindrop falling from a cloud would hit the ground at hundreds of meters per second, turning rain into a lethal event.</p>
+<h2>Beyond Simple Models</h2>
+<p>Real drag is more complex than the linear bv approximation. At high speeds, drag scales as bv², giving terminal velocity proportional to sqrt(mg/b) instead of mg/b. Objects can also rotate, creating lift forces (the Magnus effect), explaining why curveballs curve and why a golf ball's dimples extend its range. The full Navier-Stokes equations governing fluid flow around objects are notoriously difficult to solve analytically, which is why aircraft designers rely heavily on computational fluid dynamics simulations.</p>
+<h2>Conclusion</h2>
+<p>Terminal velocity elegantly demonstrates how differential equations capture physical reality. The simple equation m(dv/dt) = mg - bv contains the entire story of falling: acceleration from rest, the growing resistance of air, and the asymptotic approach to a final speed where forces balance. It shows how mathematics translates physical intuition—the sense that falling can't accelerate forever—into precise, predictive equations. The feather and bowling ball aren't just a physics demonstration; they're an invitation to see differential equations governing everything that moves through a medium.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="six-degrees-separation.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Six Degrees of Separation: The Small World Phenomenon
+      <span class="nav-title">Six Degrees of Separation: The Small World Phenomenon</span>
     </a>
     <a href="honeycombs-hexagonal.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Optimization in Nature: Why Honeycombs Are Hexagonal
+      <span class="nav-title">Optimization in Nature: Why Honeycombs Are Hexagonal</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

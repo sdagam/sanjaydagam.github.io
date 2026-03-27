@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Inverse Square Law: Why Distance Matters So Much — Applied Math Blog</title>
-<meta name="description" content="Article 23 of the Applied Math Blog by Sanjay Dagam. The Inverse Square Law: Why Distance Matters So Much. Published June 8, 2024.">
+<meta name="description" content="Article 23 of 156 in Sanjay Dagam's Applied Mathematics blog. The Inverse Square Law: Why Distance Matters So Much">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Physics Applications</span>
+  <span class="crumb">Physics Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,43 +147,62 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">The Inverse Square Law: Why Distance Matters So Much</h1>
     <div class="article-meta">
-      <span>#23</span>
+      <span>#23 of 156</span>
       <span>June 8, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>Stand close to a campfire and it's warm. Move twice as far away, and it's not half as warm—it's four times less warm. This rapid weakening with distance, known as the inverse square law, governs gravity, light, sound, electric and magnetic forces, and radiation. It arises from a simple geometric fact about how effects spread through three-dimensional space.</p>
-  <h2>The Geometric Origin</h2>
-  <p>Imagine a source emitting something equally in all directions. The emitted quantity spreads over the surface of an expanding sphere with area 4πr². As r doubles, the surface area quadruples. Since the total emitted quantity is conserved, the intensity—amount per unit area—must decrease as 1/r². This geometric argument applies to any quantity that spreads isotropically. The inverse square law is a consequence of living in three spatial dimensions.</p>
-  <h2>Gravity and Electromagnetism</h2>
-  <p>Newton's law of gravitation:</p>
-  <div class="math-block">F = G·m₁m₂/r²</div>
-  <p>Coulomb's law for electric force mirrors this: F = k·q₁q₂/r². Light intensity from a point source decreases as 1/r². Sound intensity—proportional to pressure squared—also decreases as 1/r². Doubling the distance to a speaker drops sound intensity to one-quarter, reducing it by about 6 dB.</p>
-  <h2>Radiation Safety</h2>
-  <p>Radiation intensity follows the inverse square law, making distance the simplest radiation protection. Doubling distance reduces exposure to one-quarter. A radiologist standing 2 meters from a patient receives 1/4 the exposure of one standing 1 meter away. This principle guides the design of radiation shielding and the layout of X-ray rooms.</p>
-  <h2>Deviations from Inverse Square</h2>
-  <p>The inverse square law applies to point sources in unbounded space. A long straight power line creates a field decreasing as 1/r—a line source spreading in only two dimensions. Sound in a tube or light in a fiber optic cable barely decreases with distance. At very short ranges in nuclear physics, the strong nuclear force doesn't follow inverse square—it's essentially constant over atomic distances, then drops off exponentially.</p>
-  <h2>Conclusion</h2>
-  <p>The inverse square law is geometry made physics. The simple fact that space has three dimensions forces every isotropic emanation to weaken with the square of distance. This unifies gravity, electromagnetism, light, and radiation under a common mathematical framework. Recognizing inverse square behavior helps us understand why stars dim so rapidly with distance, why radio signals weaken quickly, and why simply stepping back from a radiation source provides powerful protection.</p>
-</div>
+<p class="lead">Stand close to a campfire and it's warm. Move twice as far away, and it's not half as warm—it's four times less warm. Move three times as far, and it's nine times less warm. This rapid weakening with distance, the inverse square law, governs gravity, light, sound, electric forces, and radiation. It's one of physics' most universal patterns, arising from a simple geometric fact about three-dimensional space.</p>
+<h2>The Geometric Origin</h2>
+<p>The inverse square law emerges from pure geometry. Imagine a source emitting something—light, gravity, heat—equally in all directions. The emitted quantity spreads over the surface of an expanding sphere. The surface area of a sphere with radius r is 4πr². As r doubles, the surface area quadruples. Since the total emitted quantity is conserved, the intensity—amount per unit area—must decrease as 1/r². The inverse square law isn't a mysterious fact about specific forces—it's a mathematical consequence of living in three spatial dimensions and of conservation.</p>
+<div class="math-block">Surface area = 4πr²     →     Intensity ∝ 1/r²</div>
+<h2>Gravity and Newton's Law</h2>
+<p>Newton's law of gravitation: F = G·m₁m₂/r². The gravitational force between two masses falls off as the square of their separation. This inverse square law explains why orbital periods and distances satisfy Kepler's third law (T² ∝ r³)—a relationship Newton derived analytically from the inverse square force using calculus he invented for the purpose. The inverse square form is not assumed but derived from the requirement that gravitational force must point along the line joining the masses and decrease isotropically with distance.</p>
+<div class="math-block">F_gravity = G·m₁m₂/r²     F_electric = k·q₁q₂/r²</div>
+<h2>Electromagnetic Applications</h2>
+<p>Coulomb's law for electric force mirrors Newton's exactly: F = k·q₁q₂/r², with the same 1/r² dependence. Light intensity follows inverse square: illuminance from a point source decreases as 1/r². Photographers use this to calculate exposure adjustments when repositioning lights—double the distance, open up two stops. Sound intensity (proportional to pressure squared) decreases as 1/r², meaning doubling the distance from a speaker reduces intensity to one-quarter—a drop of approximately 6 decibels regardless of the initial sound level.</p>
+<h2>Radiation Safety</h2>
+<p>Radiation intensity follows the inverse square law, making distance the simplest and most effective radiation protection. Workers near radioactive sources use the rule: doubling distance reduces exposure to one-quarter; tripling distance reduces it to one-ninth. A radiologist standing 2 meters from a patient receives 1/4 the exposure of one standing 1 meter away. This principle guides nuclear facility design, diagnostic radiology room layouts, and emergency response protocols for radiation accidents—distance is free, immediate, and mathematically guaranteed to reduce exposure.</p>
+<h2>Deviations from Inverse Square</h2>
+<p>The inverse square law applies to point sources in unbounded three-dimensional space. Real situations deviate importantly. A long straight wire creates an electric field that decreases as 1/r rather than 1/r²—it's a line source spreading in only two dimensions. Sound in a tube or light in a fiber optic cable doesn't spread at all, so intensity stays nearly constant with distance. At nuclear scales, the strong force doesn't follow inverse square—it's essentially constant over atomic distances, then drops off exponentially beyond about 1 femtometer.</p>
+<h2>Conclusion</h2>
+<p>The inverse square law is geometry made physics. The simple fact that space has three dimensions forces every isotropic emanation to weaken with the square of distance. This unifies gravity, electromagnetism, light, and radiation under a common mathematical framework arising from conservation and three-dimensionality alone. Recognizing inverse square behavior—in starlight, in radio signals, in radiation exposure—reveals that the vast distances of space and the tiny scales of subatomic physics both obey the same beautiful geometric truth.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="epidemic-spreading.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Epidemic Spreading: The Mathematics of Contagion
+      <span class="nav-title">Epidemic Spreading: The Mathematics of Contagion</span>
     </a>
     <a href="taylor-series.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Taylor Series: Approximating the Complex with the Simple
+      <span class="nav-title">Taylor Series: Approximating the Complex with the Simple</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

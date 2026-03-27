@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Optimization in Nature: Why Honeycombs Are Hexagonal — Applied Math Blog</title>
-<meta name="description" content="Article 4 of the Applied Math Blog by Sanjay Dagam. Optimization in Nature: Why Honeycombs Are Hexagonal. Published January 27, 2024.">
+<meta name="description" content="Article 4 of 156 in Sanjay Dagam's Applied Mathematics blog. Optimization in Nature: Why Honeycombs Are Hexagonal">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Calculus Applications</span>
+  <span class="crumb">Calculus Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,44 +147,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-calc">Calculus Applications</span>
     <h1 class="article-title">Optimization in Nature: Why Honeycombs Are Hexagonal</h1>
     <div class="article-meta">
-      <span>#4</span>
+      <span>#4 of 156</span>
       <span>January 27, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>Bees face a fundamental engineering challenge: store the maximum amount of honey using the minimum amount of wax. Their solution—a lattice of perfect hexagonal cells—turns out to be mathematically optimal. This isn't coincidence or intelligent design; it's calculus manifested in nature through millions of years of evolutionary pressure.</p>
-  <h2>The Isoperimetric Problem</h2>
-  <p>The honeycomb problem connects to one of mathematics' oldest questions: among all shapes with the same perimeter, which encloses the most area? The answer is a circle. But circles don't tile a plane without gaps. So the practical question becomes: among shapes that do tile perfectly, which is most efficient?</p>
-  <h2>Comparing Regular Polygons</h2>
-  <p>Only three regular polygons tile the plane: equilateral triangles, squares, and regular hexagons. For a fixed cell area A, we can compare perimeters:</p>
-  <div class="math-block">Triangle: P ≈ 4.56√A   Square: P = 4.00√A   Hexagon: P ≈ 3.72√A</div>
-  <p>Hexagons require about 7% less perimeter than squares and 18% less than triangles to enclose the same area. For bees, this means less wax consumed—a significant energy savings when building thousands of cells.</p>
-  <h2>The Honeycomb Conjecture</h2>
-  <p>For over two thousand years, mathematicians believed hexagonal tiling was optimal but couldn't prove it. The difficulty was ruling out irregular tilings—maybe some bizarre combination of different shapes could beat hexagons? In 1999, mathematician Thomas Hales finally proved the Honeycomb Conjecture: regular hexagonal tiling is the most efficient way to partition a plane into equal areas.</p>
-  <h2>Hexagons Throughout Nature</h2>
-  <p>Hexagonal patterns appear far beyond beehives. The basalt columns at Giant's Causeway form hexagons as lava cools and contracts. Turtle shells often display hexagonal patterns. Insect compound eyes use hexagonal facets. Bubble rafts naturally form hexagonal arrays.</p>
-  <p>In each case, systems minimizing surface energy or material usage converge on hexagonal geometry. Nature performs calculus through physical processes, finding optimal solutions without equations.</p>
-  <h2>Conclusion</h2>
-  <p>The honeycomb teaches us that optimization problems have real solutions in nature. Bees don't solve calculus equations, but evolution—testing countless variations over millions of years—finds the same optimal answers that mathematics predicts. When we derive optimal shapes through calculus, we're discovering principles that physical and biological systems have embodied all along.</p>
-</div>
+<p class="lead">Bees construct perfect hexagonal cells with remarkable precision, using the minimum amount of wax to enclose the maximum amount of honey. This is a problem of geometric optimization, and solving it rigorously took mathematicians over two thousand years. The answer reveals a deep connection between natural selection and mathematical extrema.</p>
+<h2>The Honeycomb Conjecture</h2>
+<p>Mathematicians have long suspected that regular hexagons are the most efficient way to tile a plane—dividing an area into equal-sized cells using the least total perimeter. This is the Honeycomb Conjecture, first formally stated in 36 BC by the Roman scholar Marcus Terentius Varro. Despite its intuitive appeal, it wasn't proven rigorously until 1999, when mathematician Thomas Hales published a complete proof. The proof that hexagons beat all other shapes—triangles, squares, pentagons, irregular polygons—required sophisticated techniques from calculus of variations.</p>
+<h2>Why Not Squares or Triangles?</h2>
+<p>Both squares and equilateral triangles tile the plane perfectly, so why don't bees use them? The answer lies in the perimeter-to-area ratio. For a regular polygon with n sides enclosing area A, the perimeter shrinks as n increases toward a circle. Among the three regular polygons that tile the plane perfectly, hexagons have the smallest perimeter for a given area. For equal areas: triangles need about 22% more wall length than hexagons, and squares need about 8% more. Over millions of cells in a large hive, this efficiency translates to significant material savings.</p>
+<div class="math-block">Perimeter efficiency (relative to hexagon): Triangle: +22%  |  Square: +8%  |  Hexagon: optimal</div>
+<h2>The Mathematics of the Proof</h2>
+<p>Hales' 1999 proof tackled an infinite-dimensional optimization problem. Unlike finite optimization where you can check all possibilities, here you must prove that among all possible shapes and arrangements—including irregular ones—regular hexagons minimize total wall length per unit area. The proof used techniques from geometric measure theory and required computer verification of thousands of special cases, similar in spirit to the earlier computer-assisted proof of the Four Color Theorem. It was a landmark result showing that computational verification can play a legitimate role in rigorous mathematics.</p>
+<h2>Nature's Optimization Algorithm</h2>
+<p>Bees don't consciously solve optimization problems. The hexagonal pattern emerges from a combination of surface tension physics and evolutionary pressure. When bees first build wax cells, they may start as cylinders; the wax softens with body heat and surface tension pulls the walls into the configuration that minimizes surface energy—which turns out to be the hexagonal pattern. Over millions of generations, bees that built more efficient cells used less energy and could store more honey, giving them survival advantages that reinforced the hexagonal geometry through natural selection.</p>
+<h2>Beyond Honeycombs</h2>
+<p>Hexagonal patterns appear throughout nature wherever packing efficiency matters: the compound eyes of insects, basalt columns formed by cooling lava (like the Giant's Causeway in Ireland), soap bubbles pressed together, and the carbon atoms in graphene. Each reflects the same underlying mathematics. In materials science, graphene's hexagonal structure gives it extraordinary strength-to-weight ratio and unusual electrical properties, making it one of the most studied materials for next-generation electronics and composite materials.</p>
+<h2>Conclusion</h2>
+<p>The hexagonal honeycomb is nature's solution to a sophisticated optimization problem that challenged mathematicians for millennia. The fact that bees 'solve' this problem through physics and evolution, while mathematicians required centuries to prove it rigorously, highlights a profound truth: natural selection often discovers optimal solutions long before we understand why they're optimal. Calculus of variations and optimization theory give us the tools to prove what bees already knew, revealing the deep mathematical order underlying natural structures.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="terminal-velocity.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Terminal Velocity: When Falling Objects Stop Accelerating
+      <span class="nav-title">Terminal Velocity: When Falling Objects Stop Accelerating</span>
     </a>
     <a href="binary-search.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Binary Search: The Power of Halving
+      <span class="nav-title">Binary Search: The Power of Halving</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>

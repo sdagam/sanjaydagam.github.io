@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Related Rates: How Fast Is That Shadow Growing? — Applied Math Blog</title>
-<meta name="description" content="Article 9 of the Applied Math Blog by Sanjay Dagam. Related Rates: How Fast Is That Shadow Growing?. Published March 2, 2024.">
+<meta name="description" content="Article 9 of 156 in Sanjay Dagam's Applied Mathematics blog. Related Rates: How Fast Is That Shadow Growing?">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
   --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3; --accent-bg:#eef2fd;
+  --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
@@ -27,12 +27,10 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
-
-/* Nav */
 .site-nav {
   position:sticky; top:0; z-index:100;
   background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -41,16 +39,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
 .site-nav a.home:hover { text-decoration:underline; }
 .site-nav .sep { color:var(--ink-4); }
-.site-nav .breadcrumb { color:var(--ink-3); }
-
-/* Progress */
+.site-nav .crumb { color:var(--ink-3); }
 .progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
 .progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
-
-/* Layout */
 .article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
-
-/* Header */
 .article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
 .cat-badge {
   display:inline-block; font-size:0.68rem; font-weight:600;
@@ -71,26 +63,20 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 }
 .article-meta {
   display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-family:var(--sans); font-size:0.8rem; color:var(--ink-4);
+  font-size:0.8rem; color:var(--ink-4);
 }
-.article-meta span + span::before { content:"·"; margin-right:0.6rem; color:var(--rule); }
-
-/* Body */
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
-.article-body > p:first-child {
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
   font-size:1.1rem; line-height:1.8; color:var(--ink);
   border-left:3px solid var(--accent); padding-left:1.1rem;
   margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
 }
-.article-body p { margin-bottom:1.25rem; }
 .article-body h2 {
   font-family:var(--serif); font-size:1.3rem; font-weight:400;
   color:var(--ink); margin:2.5rem 0 0.8rem;
   padding-top:1.5rem; border-top:1px solid var(--rule);
-  letter-spacing:-0.01em;
 }
-
-/* Math blocks */
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
@@ -99,8 +85,6 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
-
-/* Batch box */
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
   border-radius:8px; padding:1rem 1.25rem;
@@ -108,14 +92,12 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.batch-item .bi-label {
+.bi-label {
   display:block; font-size:0.68rem; font-weight:600;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink-4); margin-bottom:0.2rem;
 }
-.batch-item .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
-
-/* Nav */
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
   display:grid; grid-template-columns:1fr 1fr;
   gap:1rem; margin-top:2.5rem;
@@ -131,22 +113,17 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-
-/* Back */
 .back-home {
   display:inline-flex; align-items:center; gap:0.4rem;
   margin-top:1.5rem; font-size:0.82rem; font-weight:600;
   color:var(--accent); text-decoration:none;
 }
 .back-home:hover { text-decoration:underline; }
-
-/* Footer */
 .article-footer {
   margin-top:4rem; padding:1.5rem 0;
   border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4); font-family:var(--sans);
+  font-size:0.78rem; color:var(--ink-4);
 }
-
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -159,8 +136,10 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="breadcrumb">Calculus Applications</span>
+  <span class="crumb">Calculus Applications</span>
 </nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
 
 <main class="article-wrap">
 
@@ -168,47 +147,63 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
     <span class="cat-badge cat-calc">Calculus Applications</span>
     <h1 class="article-title">Related Rates: How Fast Is That Shadow Growing?</h1>
     <div class="article-meta">
-      <span>#9</span>
+      <span>#9 of 156</span>
       <span>March 2, 2024</span>
-      <span>Batch 1 · Jan–Jun 2024</span>
+      <span>Batch 1 &middot; Jan&ndash;Jun 2024</span>
     </div>
   </header>
 
   <div class="article-body">
-  <p>A 6-foot person walks away from a 15-foot streetlight at 4 feet per second. How fast is their shadow lengthening? This classic calculus problem illustrates related rates—using derivatives to connect changing quantities through geometric or physical relationships.</p>
-  <h2>Setting Up the Problem</h2>
-  <p>Let x represent the person's distance from the light and s represent the shadow length. The shadow tip is at distance (x + s) from the light. By similar triangles:</p>
-  <div class="math-block">15 / (x + s) = 6 / s   →   9s = 6x   →   s = (2/3)x</div>
-  <p>This relationship holds at every moment—the shadow length is always two-thirds of the person's distance from the light.</p>
-  <h2>Differentiating with Respect to Time</h2>
-  <p>Both x and s change with time. Differentiating s = (2/3)x with respect to time t:</p>
-  <div class="math-block">ds/dt = (2/3) × (dx/dt)</div>
-  <p>We know dx/dt = 4 feet per second. Therefore ds/dt = (2/3) × 4 = 8/3 ≈ 2.67 ft/s. Remarkably, this rate doesn't depend on where the person is.</p>
-  <h2>Another Classic: The Sliding Ladder</h2>
-  <p>A 10-foot ladder leans against a wall. The base slides away at 1 ft/s. How fast does the top slide down when the base is 6 feet from the wall? Let x be the base distance and y the height. The Pythagorean theorem gives x² + y² = 100.</p>
-  <div class="math-block">2x(dx/dt) + 2y(dy/dt) = 0   →   dy/dt = −0.75 ft/s</div>
-  <p>At x = 8, y = 6, the top slides at 1.33 ft/s. Near the floor (x = 9.9, y = 1.4), it plummets at over 7 ft/s.</p>
-  <h2>Real-World Applications</h2>
-  <p>Related rates solve practical engineering and physics problems. Air traffic controllers implicitly solve related rates problems when predicting whether flight paths will intersect. Astronomers use similar techniques to calculate how apparent positions of celestial objects change. Economists apply the concept when relating rates of change in interconnected markets.</p>
-  <h2>Conclusion</h2>
-  <p>Related rates exemplify calculus as the mathematics of change. By connecting changing quantities through geometric or physical relationships, we deduce rates that aren't directly observable from rates we can measure. The technique appears throughout physics, engineering, and any field involving dynamic systems.</p>
-</div>
+<p class="lead">A streetlight stands 20 feet tall. A person 6 feet tall walks away from it at 5 feet per second. How fast is the person's shadow growing? This is a related rates problem—one of calculus's most practical applications, combining geometric relationships with differentiation through the chain rule to answer questions about how fast things change in the real world.</p>
+<h2>The Method</h2>
+<p>Related rates problems follow a consistent procedure. First, draw a diagram and identify all variables. Second, write an equation relating the variables—often from geometry, the Pythagorean theorem, or similar triangles. Third, differentiate both sides with respect to time, using the chain rule for every variable that changes with time. Fourth, substitute known values and solve for the unknown rate. The key insight is that every changing quantity is implicitly a function of time, so every variable in your equation has a time derivative.</p>
+<h2>The Shadow Problem Solved</h2>
+<p>Let x be the distance from the person to the streetlight, and s be the length of the shadow. By similar triangles: 20/(x + s) = 6/s. Cross-multiplying: 20s = 6x + 6s, giving 14s = 6x, so s = (3/7)x. Now differentiate both sides with respect to time: ds/dt = (3/7)(dx/dt). With dx/dt = 5 ft/s: ds/dt = (3/7)(5) = 15/7 ≈ 2.14 ft/s. The shadow grows at about 2.14 feet per second—remarkably, at a constant rate regardless of how far the person has walked.</p>
+<div class="math-block">s = (3/7)x     →     ds/dt = (3/7)(dx/dt) = (3/7)(5) = 15/7 ≈ 2.14 ft/s</div>
+<h2>The Balloon Problem</h2>
+<p>A spherical balloon is inflated at 100 cubic centimeters per second. How fast is the radius growing when the radius is 5 cm? The relationship: V = (4/3)πr³. Differentiating with respect to time: dV/dt = 4πr² × dr/dt. With dV/dt = 100 and r = 5: 100 = 4π(25)(dr/dt), giving dr/dt = 100/(100π) = 1/π ≈ 0.318 cm/s. Notice that as the balloon grows, dr/dt decreases—the same volume added per second produces a smaller radius change when the balloon is larger, because the surface area 4πr² has increased.</p>
+<div class="math-block">dV/dt = 4πr² × (dr/dt)     →     dr/dt = 100/(100π) ≈ 0.318 cm/s</div>
+<h2>The Ladder Problem</h2>
+<p>A 10-foot ladder leans against a wall. The bottom slides away at 2 ft/s. How fast is the top sliding down when the bottom is 6 feet from the wall? By Pythagoras: x² + y² = 100. Differentiating: 2x(dx/dt) + 2y(dy/dt) = 0. When x = 6: y = sqrt(100 - 36) = 8. So: 2(6)(2) + 2(8)(dy/dt) = 0, giving dy/dt = -24/16 = -1.5 ft/s. The negative sign confirms the top slides downward. Notably, the top speeds up as the ladder becomes more horizontal—an effect clearly captured by the mathematics.</p>
+<div class="math-block">x² + y² = 100     →     dy/dt = −(x/y)(dx/dt) = −(6/8)(2) = −1.5 ft/s</div>
+<h2>Applications Beyond Textbooks</h2>
+<p>Related rates appear constantly in applied contexts. In medicine, clinicians use related rates reasoning to understand how drug concentration changes as it's simultaneously absorbed and metabolized. Engineers calculate how quickly a cone-shaped pile of sand grows as material is added at a known rate. In fluid dynamics, the continuity equation connecting fluid velocity to cross-sectional area is a related rates equation. Any situation where multiple changing quantities are geometrically or physically linked requires this kind of reasoning.</p>
+<h2>Conclusion</h2>
+<p>Related rates problems are calculus at its most applied—transforming geometric or physical relationships into statements about rates of change. The chain rule is the key that connects rates of different quantities, and the skill lies in correctly identifying and differentiating the underlying relationship between variables. From the shadow growing behind you on a sunny day to the changing depth of water in a draining tank, related rates are the mathematical language for describing how the world's interconnected quantities evolve together through time.</p>
 
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Batch 1</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2024</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Foundational</span></div>
+  </div>
 
   <nav class="article-nav">
     <a href="resonance.html" class="nav-prev">
       <span class="nav-label">← Previous</span>
-      Resonance: How Soldiers Can Collapse Bridges
+      <span class="nav-title">Resonance: How Soldiers Can Collapse Bridges</span>
     </a>
     <a href="hash-functions.html" class="nav-next">
       <span class="nav-label">Next →</span>
-      Hash Functions: The Magic Behind Instant Lookups
+      <span class="nav-title">Hash Functions: The Magic Behind Instant Lookups</span>
     </a>
   </nav>
 
-  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
 
 </main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
 
 </body>
 </html>
