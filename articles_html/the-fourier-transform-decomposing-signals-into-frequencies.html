@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fourier Transform: Decomposing Signals into Frequencies — Applied Math Blog</title>
+<meta name="description" content="Article 27 of 156 in Sanjay Dagam's Applied Mathematics blog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #faf9f6;
+  --surface:      #ffffff;
+  --ink:          #1a1a2e;
+  --ink-muted:    #6b6b80;
+  --ink-faint:    #a0a0b0;
+  --accent:       #2d5be3;
+  --accent-light: #eef2fd;
+  --rule:         #e8e8f0;
+  --serif:        "DM Serif Display", Georgia, serif;
+  --sans:         "Instrument Sans", system-ui, sans-serif;
+  --mono:         "JetBrains Mono", monospace;
+  --max:          680px;
+  --cat-stats-bg:   #fff8e1; --cat-stats-fg:   #7d6608;
+  --cat-network-bg: #fff3e0; --cat-network-fg: #784212;
+  --cat-physics-bg: #fde8e8; --cat-physics-fg: #922b21;
+  --cat-calc-bg:    #e3f0f8; --cat-calc-fg:    #1a5276;
+  --cat-cs-bg:      #f0ebf8; --cat-cs-fg:      #512e5f;
+  --cat-eng-bg:     #e8f8ee; --cat-eng-fg:     #1e8449;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,246,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 1.5rem;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-brand {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.topbar-back {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Article layout ── */
+.article-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ── Header ── */
+.article-header { margin-bottom: 2.5rem; }
+.article-meta-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 2rem;
+}
+.badge-cat {
+  background: var(--cat-eng-bg);
+  color: var(--cat-eng-fg);
+}
+.badge-batch {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.article-num {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  margin-left: auto;
+}
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.article-date {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-date::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem; height: 1px;
+  background: var(--ink-faint);
+  vertical-align: middle;
+}
+
+/* ── Rule ── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ── Body ── */
+.article-body h2 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+.article-body p {
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.article-body p.lead {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Math inline ── */
+.article-body p { font-feature-settings: "kern" 1; }
+
+/* ── Progress bar ── */
+.progress-bar {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
+  height: 2px;
+  background: var(--rule);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ── Batch info box ── */
+.batch-box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  text-align: center;
+}
+.batch-box-item span:first-child {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.batch-box-item span:last-child {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── Prev / Next navigation ── */
+.article-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.nav-arrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  text-decoration: none;
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nav-arrow:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(45,91,227,0.08);
+}
+.nav-next { text-align: right; }
+.nav-dir {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-title {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* ── Back to index button ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.back-btn:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 600px) {
+  .article-nav { grid-template-columns: 1fr; }
+  .batch-box { grid-template-columns: 1fr; }
+  .article-num { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<nav class="topbar">
+  <a href="../index.html" class="topbar-brand">Applied Math Blog</a>
+  <a href="../index.html" class="topbar-back">← All Articles</a>
+</nav>
+
+<main class="article-wrap">
+  <header class="article-header">
+    <div class="article-meta-row">
+      <span class="badge badge-cat">Engineering Applications</span>
+      <span class="badge badge-batch">Batch 2</span>
+      <span class="article-num">#27 / 156</span>
+    </div>
+    <h1 class="article-title">The Fourier Transform: Decomposing Signals into Frequencies</h1>
+    <div class="article-date">July 6, 2024</div>
+  </header>
+
+  <hr class="rule">
+
+  <article class="article-body">
+<p class="lead">Every sound you hear is a mixture of pure frequencies. Your voice combines hundreds of frequencies simultaneously; a musical chord blends several distinct pitches. The Fourier Transform is the mathematical tool that takes any signal—sound, light, electrical voltage, seismic vibration—and decomposes it into its constituent frequencies. Invented by Joseph Fourier in the early 19th century while studying heat flow, it has become one of the most widely applied mathematical tools in science and engineering, underlying everything from MP3 compression to MRI imaging to WiFi transmission.</p>
+<h2>From Time to Frequency</h2>
+<p>Signals naturally exist in the time domain—amplitude varying over time. But many problems become much simpler in the frequency domain—where we describe how much of each frequency is present. A pure tone at 440 Hz (concert A) is a single spike in the frequency domain. A complex chord is several spikes. White noise spreads energy across all frequencies equally. The Fourier Transform converts between these representations: F(omega) = integral of f(t) * e^(-i*omega*t) dt. The output F(omega) is a complex number for each frequency omega, encoding both the amplitude and phase of that frequency component in the original signal.</p>
+<h2>The Discrete Fourier Transform</h2>
+<p>Real-world signals are sampled at discrete time points, not continuous. The Discrete Fourier Transform (DFT) operates on N sampled values. Computing this naively requires O(N^2) operations—impractically slow for large N. The Fast Fourier Transform (FFT), discovered by Cooley and Tukey in 1965, exploits symmetry to reduce this to O(N log N). For N = 1,000,000, that's the difference between a trillion operations and twenty million. The FFT is one of the most important algorithms ever discovered, enabling real-time signal processing on consumer hardware.</p>
+<h2>Frequency Analysis in Practice</h2>
+<p>The Fourier Transform reveals structure invisible in the time domain. Audio engineers use spectrum analyzers to visualize frequency content. Noise cancellation works by identifying the frequency content of unwanted noise and generating an equal and opposite signal. Seismologists decompose earthquake recordings into frequency components to identify wave types and determine magnitude. Financial analysts apply Fourier analysis to price series to identify periodic cycles—seasonal patterns, business cycles—that are obscured in raw price data.</p>
+<h2>Image Processing</h2>
+<p>Images are two-dimensional signals, and the 2D Fourier Transform decomposes them into spatial frequency components. Low spatial frequencies correspond to gradual variations across an image. High spatial frequencies correspond to fine detail—sharp edges, texture, noise. JPEG compression discards high-frequency components that human vision is relatively insensitive to, achieving compression ratios of 10:1 or more with minimal perceived quality loss. Edge detection algorithms apply frequency-domain filters that amplify high-frequency components while suppressing low ones.</p>
+<h2>Communications and Signal Processing</h2>
+<p>Modern wireless communications depend entirely on the Fourier Transform. WiFi, 4G, and 5G networks use Orthogonal Frequency Division Multiplexing (OFDM), which divides the channel into many narrow subcarriers using the FFT. MRI machines use the Fourier Transform to reconstruct images from raw electromagnetic measurements taken in frequency space—the machine acquires data in the frequency domain and the FFT converts it into a spatial image of tissue.</p>
+<h2>Conclusion</h2>
+<p>The Fourier Transform reveals that signals have two complementary descriptions—time and frequency—and that switching between them unlocks insights and computations that are difficult or impossible in just one domain. From the music on your phone to the images in a hospital scanner, Fourier's mathematics is quietly at work.</p>
+
+  </article>
+
+  <div class="batch-box">
+    <div class="batch-box-item">
+      <span>Series</span>
+      <span>Batch 2</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Period</span>
+      <span>July – December 2024</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Level</span>
+      <span>Engineering Applications</span>
+    </div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="regression-to-the-mean-why-extremes-dont-last.html" class="nav-arrow nav-prev">
+  <span class="nav-dir">← Previous</span>
+  <span class="nav-title">Regression to the Mean: Why Extremes Don't Last</span>
+</a>
+    <a href="hypothesis-testing-how-science-decides-whats-true.html" class="nav-arrow nav-next">
+  <span class="nav-dir">Next →</span>
+  <span class="nav-title">Hypothesis Testing: How Science Decides What's True</span>
+</a>
+  </nav>
+
+  <a href="../index.html" class="back-btn">← Back to all articles</a>
+</main>
+
+<footer>
+  Applied Mathematics Blog · Sanjay Dagam · Articles 1–156
+</footer>
+
+<script>
+const prog = document.getElementById("prog");
+window.addEventListener("scroll", () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  prog.style.width = Math.min(scrolled * 100, 100) + "%";
+});
+</script>
+
+</body>
+</html>

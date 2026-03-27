@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Central Limit Theorem: Why the Bell Curve Is Everywhere — Applied Math Blog</title>
+<meta name="description" content="Article 11 of 156 in Sanjay Dagam's Applied Mathematics blog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #faf9f6;
+  --surface:      #ffffff;
+  --ink:          #1a1a2e;
+  --ink-muted:    #6b6b80;
+  --ink-faint:    #a0a0b0;
+  --accent:       #2d5be3;
+  --accent-light: #eef2fd;
+  --rule:         #e8e8f0;
+  --serif:        "DM Serif Display", Georgia, serif;
+  --sans:         "Instrument Sans", system-ui, sans-serif;
+  --mono:         "JetBrains Mono", monospace;
+  --max:          680px;
+  --cat-stats-bg:   #fff8e1; --cat-stats-fg:   #7d6608;
+  --cat-network-bg: #fff3e0; --cat-network-fg: #784212;
+  --cat-physics-bg: #fde8e8; --cat-physics-fg: #922b21;
+  --cat-calc-bg:    #e3f0f8; --cat-calc-fg:    #1a5276;
+  --cat-cs-bg:      #f0ebf8; --cat-cs-fg:      #512e5f;
+  --cat-eng-bg:     #e8f8ee; --cat-eng-fg:     #1e8449;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,246,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 1.5rem;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-brand {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.topbar-back {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Article layout ── */
+.article-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ── Header ── */
+.article-header { margin-bottom: 2.5rem; }
+.article-meta-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 2rem;
+}
+.badge-cat {
+  background: var(--cat-stats-bg);
+  color: var(--cat-stats-fg);
+}
+.badge-batch {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.article-num {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  margin-left: auto;
+}
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.article-date {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-date::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem; height: 1px;
+  background: var(--ink-faint);
+  vertical-align: middle;
+}
+
+/* ── Rule ── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ── Body ── */
+.article-body h2 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+.article-body p {
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.article-body p.lead {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Math inline ── */
+.article-body p { font-feature-settings: "kern" 1; }
+
+/* ── Progress bar ── */
+.progress-bar {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
+  height: 2px;
+  background: var(--rule);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ── Batch info box ── */
+.batch-box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  text-align: center;
+}
+.batch-box-item span:first-child {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.batch-box-item span:last-child {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── Prev / Next navigation ── */
+.article-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.nav-arrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  text-decoration: none;
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nav-arrow:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(45,91,227,0.08);
+}
+.nav-next { text-align: right; }
+.nav-dir {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-title {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* ── Back to index button ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.back-btn:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 600px) {
+  .article-nav { grid-template-columns: 1fr; }
+  .batch-box { grid-template-columns: 1fr; }
+  .article-num { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<nav class="topbar">
+  <a href="../index.html" class="topbar-brand">Applied Math Blog</a>
+  <a href="../index.html" class="topbar-back">← All Articles</a>
+</nav>
+
+<main class="article-wrap">
+  <header class="article-header">
+    <div class="article-meta-row">
+      <span class="badge badge-cat">Statistics & Probability</span>
+      <span class="badge badge-batch">Batch 1</span>
+      <span class="article-num">#11 / 156</span>
+    </div>
+    <h1 class="article-title">The Central Limit Theorem: Why the Bell Curve Is Everywhere</h1>
+    <div class="article-date">March 16, 2024</div>
+  </header>
+
+  <hr class="rule">
+
+  <article class="article-body">
+<p class="lead">Roll a single die, and you get a perfectly flat distribution—each outcome equally likely. Roll two dice and average them, and the distribution peaks at 3.5. Roll a hundred dice and average them, and the result is an almost perfect bell curve. This remarkable transformation—the Central Limit Theorem (CLT)—is one of the most powerful results in all of mathematics, explaining why normal distributions appear across biology, finance, manufacturing, and virtually every field that collects data.</p>
+<h2>The Theorem Stated</h2>
+<p>The Central Limit Theorem states: given a population with any distribution—uniform, skewed, bimodal, bizarre—if you draw independent random samples of size n and compute their means, the distribution of those sample means approaches a normal distribution as n grows large. Specifically, the sample means cluster around the population mean mu, with standard deviation sigma/sqrt(n), where sigma is the population's standard deviation. The shape of the original distribution doesn't matter. This universality is what makes the CLT extraordinary.</p>
+<h2>Why It Works</h2>
+<p>The CLT emerges from averaging's smoothing effect. Extreme values in one direction tend to be offset by extreme values in the other. As you average more observations, these fluctuations cancel out more reliably, concentrating the result near the true mean. Mathematically, the proof uses characteristic functions—a tool from Fourier analysis—showing that any distribution's characteristic function, when raised to the nth power and properly scaled, converges to the characteristic function of a normal distribution. The exponential function e^(-x^2/2), which defines the normal curve, is the unique fixed point of this averaging process.</p>
+<h2>The Sample Size Question</h2>
+<p>How large must n be? The answer depends on the original distribution's shape. For roughly symmetric distributions, n = 30 is often sufficient. For heavily skewed distributions, you may need n = 100 or more. For distributions with infinite variance—like the Cauchy distribution—the CLT doesn't apply at all. This nuance matters in practice. Financial returns have heavy tails that violate normal approximations, a factor that contributed to underestimating risk before the 2008 financial crisis.</p>
+<h2>Real-World Applications</h2>
+<p>The CLT underpins statistical inference. When we compute a confidence interval for a poll or experiment, we're using the CLT to justify the normal approximation for our sample mean. Polling companies survey a few thousand people and reliably estimate population opinions because sample means are normally distributed, regardless of how opinions are actually distributed in the population. Quality control in manufacturing relies on the CLT. Measure the diameter of 30 bolts, compute the mean, and that mean is approximately normally distributed—even if individual bolt diameters aren't.</p>
+<h2>Limitations and Extensions</h2>
+<p>The CLT requires independence. Correlated observations—like daily stock prices or temperatures—don't satisfy this requirement, and their averages converge more slowly or not at all. Extensions like the dependent CLT handle some correlations, but care is needed. The CLT also concerns means specifically. Sums, products, and other statistics obey different limiting theorems. The log-normal distribution, for instance, arises from the CLT applied to products rather than sums.</p>
+<h2>Conclusion</h2>
+<p>The Central Limit Theorem is mathematics at its most profound: a single theorem that explains patterns appearing across all of science. It tells us that no matter how complicated the underlying process, averaging creates order. The bell curve isn't just a convenient approximation—it's the inevitable destination of any averaging process, a mathematical attractor that shapes data across the universe.</p>
+
+  </article>
+
+  <div class="batch-box">
+    <div class="batch-box-item">
+      <span>Series</span>
+      <span>Batch 1</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Period</span>
+      <span>January – June 2024</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Level</span>
+      <span>Foundational Applied Math</span>
+    </div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="hash-functions-the-magic-behind-instant-lookups.html" class="nav-arrow nav-prev">
+  <span class="nav-dir">← Previous</span>
+  <span class="nav-title">Hash Functions: The Magic Behind Instant Lookups</span>
+</a>
+    <a href="graph-coloring-scheduling-maps-and-the-four-color-theorem.html" class="nav-arrow nav-next">
+  <span class="nav-dir">Next →</span>
+  <span class="nav-title">Graph Coloring: Scheduling, Maps, and the Four Color Theorem</span>
+</a>
+  </nav>
+
+  <a href="../index.html" class="back-btn">← Back to all articles</a>
+</main>
+
+<footer>
+  Applied Mathematics Blog · Sanjay Dagam · Articles 1–156
+</footer>
+
+<script>
+const prog = document.getElementById("prog");
+window.addEventListener("scroll", () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  prog.style.width = Math.min(scrolled * 100, 100) + "%";
+});
+</script>
+
+</body>
+</html>

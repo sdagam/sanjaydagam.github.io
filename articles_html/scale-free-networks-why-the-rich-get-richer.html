@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale-Free Networks: Why the Rich Get Richer — Applied Math Blog</title>
+<meta name="description" content="Article 7 of 156 in Sanjay Dagam's Applied Mathematics blog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #faf9f6;
+  --surface:      #ffffff;
+  --ink:          #1a1a2e;
+  --ink-muted:    #6b6b80;
+  --ink-faint:    #a0a0b0;
+  --accent:       #2d5be3;
+  --accent-light: #eef2fd;
+  --rule:         #e8e8f0;
+  --serif:        "DM Serif Display", Georgia, serif;
+  --sans:         "Instrument Sans", system-ui, sans-serif;
+  --mono:         "JetBrains Mono", monospace;
+  --max:          680px;
+  --cat-stats-bg:   #fff8e1; --cat-stats-fg:   #7d6608;
+  --cat-network-bg: #fff3e0; --cat-network-fg: #784212;
+  --cat-physics-bg: #fde8e8; --cat-physics-fg: #922b21;
+  --cat-calc-bg:    #e3f0f8; --cat-calc-fg:    #1a5276;
+  --cat-cs-bg:      #f0ebf8; --cat-cs-fg:      #512e5f;
+  --cat-eng-bg:     #e8f8ee; --cat-eng-fg:     #1e8449;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,246,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 1.5rem;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-brand {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.topbar-back {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Article layout ── */
+.article-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ── Header ── */
+.article-header { margin-bottom: 2.5rem; }
+.article-meta-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 2rem;
+}
+.badge-cat {
+  background: var(--cat-network-bg);
+  color: var(--cat-network-fg);
+}
+.badge-batch {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.article-num {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  margin-left: auto;
+}
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.article-date {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-date::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem; height: 1px;
+  background: var(--ink-faint);
+  vertical-align: middle;
+}
+
+/* ── Rule ── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ── Body ── */
+.article-body h2 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+.article-body p {
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.article-body p.lead {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Math inline ── */
+.article-body p { font-feature-settings: "kern" 1; }
+
+/* ── Progress bar ── */
+.progress-bar {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
+  height: 2px;
+  background: var(--rule);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ── Batch info box ── */
+.batch-box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  text-align: center;
+}
+.batch-box-item span:first-child {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.batch-box-item span:last-child {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── Prev / Next navigation ── */
+.article-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.nav-arrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  text-decoration: none;
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nav-arrow:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(45,91,227,0.08);
+}
+.nav-next { text-align: right; }
+.nav-dir {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-title {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* ── Back to index button ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.back-btn:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 600px) {
+  .article-nav { grid-template-columns: 1fr; }
+  .batch-box { grid-template-columns: 1fr; }
+  .article-num { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<nav class="topbar">
+  <a href="../index.html" class="topbar-brand">Applied Math Blog</a>
+  <a href="../index.html" class="topbar-back">← All Articles</a>
+</nav>
+
+<main class="article-wrap">
+  <header class="article-header">
+    <div class="article-meta-row">
+      <span class="badge badge-cat">Network Science</span>
+      <span class="badge badge-batch">Batch 1</span>
+      <span class="article-num">#7 / 156</span>
+    </div>
+    <h1 class="article-title">Scale-Free Networks: Why the Rich Get Richer</h1>
+    <div class="article-date">February 17, 2024</div>
+  </header>
+
+  <hr class="rule">
+
+  <article class="article-body">
+<p class="lead">The internet has billions of websites, yet a handful—Google, YouTube, Wikipedia—receive the vast majority of traffic. Twitter has hundreds of millions of users, yet a tiny fraction command most followers. Cities follow a similar pattern: a few megacities hold enormous populations while thousands of small towns hold relatively few. This extreme inequality, known as the power law distribution, is the signature of scale-free networks—a class of networks where a few 'hubs' dominate, and the rich get richer.</p>
+<h2>Power Laws and Heavy Tails</h2>
+<p>In ordinary networks—like the Erdos-Renyi random graphs we discussed earlier—degree (number of connections) follows a Poisson distribution: most nodes have close to the average degree, and extreme values are exponentially rare. Scale-free networks follow a power law: P(k) ~ k^(-gamma), where k is the degree and gamma is typically between 2 and 3. This distribution has a 'heavy tail'—highly connected nodes are rare, but not nearly as rare as in Poisson networks. The internet, the World Wide Web, citation networks, metabolic networks, and many social networks all exhibit power-law degree distributions.</p>
+<h2>Preferential Attachment</h2>
+<p>Why do power laws emerge? Barabási and Albert proposed a simple mechanism in 1999: preferential attachment. When new nodes join a network, they prefer to connect to nodes that already have many connections. New websites link to popular sites. New Twitter users follow popular accounts. New researchers cite heavily-cited papers. Mathematically, if a new node connects to an existing node with probability proportional to that node's degree, the resulting network develops a power-law degree distribution. This 'rich get richer' dynamic—or the Matthew Effect—generates the hub structure we observe in real networks.</p>
+<h2>Robustness and Vulnerability</h2>
+<p>Scale-free networks have a fascinating duality in robustness. Against random failures (a random server crashes, a random person gets sick), they are extraordinarily resilient—the probability of randomly hitting one of the few hubs is tiny, so most failures affect peripheral nodes with little impact on overall connectivity. But against targeted attacks, they are surprisingly fragile. Remove the top few hubs and the network rapidly fragments into disconnected components. This explains both why the internet continues functioning despite countless daily server failures, and why epidemiologists worry about super-spreaders in disease outbreaks.</p>
+<h2>The Matthew Effect</h2>
+<p>The sociologist Robert Merton coined the term 'Matthew Effect' (from the Gospel of Matthew: 'to him who has, more will be given') to describe cumulative advantage in science—famous scientists receive more credit for discoveries than unknown ones. This social phenomenon is mathematically identical to preferential attachment. In economics, Pareto's 80-20 rule (80% of wealth held by 20% of people) reflects power-law wealth distributions. In content platforms, algorithmic recommendation reinforces preferential attachment: popular content gets recommended more, becoming more popular.</p>
+<h2>Limits and Criticisms</h2>
+<p>Not all networks are truly scale-free. Several analyses have found that power-law fits to real network data are often poor, and that many claimed scale-free networks have degree distributions better described by log-normal or exponential distributions. Additionally, preferential attachment is not the only mechanism generating power laws; there are several competing explanations, including copying mechanisms, hierarchical models, and optimization processes. The field has matured from the initial excitement about universal scale-free behavior toward more nuanced analysis of specific network types.</p>
+<h2>Conclusion</h2>
+<p>Scale-free networks reveal how simple rules—connect preferentially to what's already popular—generate the extreme inequality we observe in social, technological, and biological systems. The power-law signature of a few dominant hubs is not arbitrary but emerges inevitably from preferential attachment dynamics. Understanding this structure has practical implications for everything from designing resilient communication networks to strategizing viral marketing campaigns to understanding how pandemics spread through populations with super-spreader individuals.</p>
+
+  </article>
+
+  <div class="batch-box">
+    <div class="batch-box-item">
+      <span>Series</span>
+      <span>Batch 1</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Period</span>
+      <span>January – June 2024</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Level</span>
+      <span>Foundational Applied Math</span>
+    </div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="bayes-theorem-updating-beliefs-with-evidence.html" class="nav-arrow nav-prev">
+  <span class="nav-dir">← Previous</span>
+  <span class="nav-title">Bayes' Theorem: Updating Beliefs with Evidence</span>
+</a>
+    <a href="resonance-how-soldiers-can-collapse-bridges.html" class="nav-arrow nav-next">
+  <span class="nav-dir">Next →</span>
+  <span class="nav-title">Resonance: How Soldiers Can Collapse Bridges</span>
+</a>
+  </nav>
+
+  <a href="../index.html" class="back-btn">← Back to all articles</a>
+</main>
+
+<footer>
+  Applied Mathematics Blog · Sanjay Dagam · Articles 1–156
+</footer>
+
+<script>
+const prog = document.getElementById("prog");
+window.addEventListener("scroll", () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  prog.style.width = Math.min(scrolled * 100, 100) + "%";
+});
+</script>
+
+</body>
+</html>

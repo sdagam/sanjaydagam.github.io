@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survival Analysis: Modeling Time-to-Event Data — Applied Math Blog</title>
+<meta name="description" content="Article 43 of 156 in Sanjay Dagam's Applied Mathematics blog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #faf9f6;
+  --surface:      #ffffff;
+  --ink:          #1a1a2e;
+  --ink-muted:    #6b6b80;
+  --ink-faint:    #a0a0b0;
+  --accent:       #2d5be3;
+  --accent-light: #eef2fd;
+  --rule:         #e8e8f0;
+  --serif:        "DM Serif Display", Georgia, serif;
+  --sans:         "Instrument Sans", system-ui, sans-serif;
+  --mono:         "JetBrains Mono", monospace;
+  --max:          680px;
+  --cat-stats-bg:   #fff8e1; --cat-stats-fg:   #7d6608;
+  --cat-network-bg: #fff3e0; --cat-network-fg: #784212;
+  --cat-physics-bg: #fde8e8; --cat-physics-fg: #922b21;
+  --cat-calc-bg:    #e3f0f8; --cat-calc-fg:    #1a5276;
+  --cat-cs-bg:      #f0ebf8; --cat-cs-fg:      #512e5f;
+  --cat-eng-bg:     #e8f8ee; --cat-eng-fg:     #1e8449;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,246,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 1.5rem;
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-brand {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.topbar-back {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.topbar-back:hover { text-decoration: underline; }
+
+/* ── Article layout ── */
+.article-wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ── Header ── */
+.article-header { margin-bottom: 2.5rem; }
+.article-meta-row {
+  display: flex; align-items: center; gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 2rem;
+}
+.badge-cat {
+  background: var(--cat-stats-bg);
+  color: var(--cat-stats-fg);
+}
+.badge-batch {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.article-num {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  margin-left: auto;
+}
+.article-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.article-date {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.article-date::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem; height: 1px;
+  background: var(--ink-faint);
+  vertical-align: middle;
+}
+
+/* ── Rule ── */
+.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+/* ── Body ── */
+.article-body h2 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+.article-body p {
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.article-body p.lead {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Math inline ── */
+.article-body p { font-feature-settings: "kern" 1; }
+
+/* ── Progress bar ── */
+.progress-bar {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
+  height: 2px;
+  background: var(--rule);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ── Batch info box ── */
+.batch-box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  text-align: center;
+}
+.batch-box-item span:first-child {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.batch-box-item span:last-child {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── Prev / Next navigation ── */
+.article-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.nav-arrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  text-decoration: none;
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.nav-arrow:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(45,91,227,0.08);
+}
+.nav-next { text-align: right; }
+.nav-dir {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-title {
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+/* ── Back to index button ── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.back-btn:hover { text-decoration: underline; }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 600px) {
+  .article-nav { grid-template-columns: 1fr; }
+  .batch-box { grid-template-columns: 1fr; }
+  .article-num { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<nav class="topbar">
+  <a href="../index.html" class="topbar-brand">Applied Math Blog</a>
+  <a href="../index.html" class="topbar-back">← All Articles</a>
+</nav>
+
+<main class="article-wrap">
+  <header class="article-header">
+    <div class="article-meta-row">
+      <span class="badge badge-cat">Statistics & Probability</span>
+      <span class="badge badge-batch">Batch 2</span>
+      <span class="article-num">#43 / 156</span>
+    </div>
+    <h1 class="article-title">Survival Analysis: Modeling Time-to-Event Data</h1>
+    <div class="article-date">October 26, 2024</div>
+  </header>
+
+  <hr class="rule">
+
+  <article class="article-body">
+<p class="lead">How long do cancer patients survive after diagnosis? When will a mechanical component fail? How quickly do customers cancel their subscriptions? These questions involve time-to-event data—observations of how long until something happens. Ordinary statistical methods fail here because of a special challenge: censoring. Many subjects haven't experienced the event by the end of the study. Survival analysis is the statistical framework designed specifically for this problem.</p>
+<h2>The Survival Function</h2>
+<p>The survival function S(t) gives the probability of surviving beyond time t: S(t) = P(T > t). At t = 0, S(0) = 1. As t increases, S(t) decreases monotonically toward 0. The hazard function h(t) gives the instantaneous rate of the event for those who have survived to time t: h(t) = -dS/dt / S(t). A rising hazard means risk increases with time (aging), a decreasing hazard means early mortality risk is highest.</p>
+<h2>The Kaplan-Meier Estimator</h2>
+<p>The Kaplan-Meier estimator is the standard non-parametric method for estimating the survival function from data. At each event time t_i where d_i deaths occur among n_i individuals at risk: S(t_i) = S(t_{i-1}) * (1 - d_i/n_i). Censored observations contribute to the at-risk count up to their censoring time but don't count as events. The log-rank test compares Kaplan-Meier curves between groups, providing a p-value for the difference while properly accounting for censoring.</p>
+<h2>The Cox Proportional Hazards Model</h2>
+<p>The Cox model relates survival to covariates: h(t|X) = h_0(t) * exp(beta_1*X_1 + beta_2*X_2 + ...). The baseline hazard h_0(t) can have any shape. The hazard ratio exp(beta_j) gives the multiplicative change in risk for a one-unit increase in X_j. The proportional hazards assumption—that hazard ratios are constant over time—must be checked for each covariate.</p>
+<h2>Parametric Models</h2>
+<p>When the hazard function has a known shape, parametric models provide more efficient estimation. The exponential distribution (constant hazard) suits equipment with no wear-out. The Weibull distribution handles increasing or decreasing hazard. The Gompertz model, with exponentially increasing hazard, describes human mortality remarkably well. Parametric models allow extrapolation beyond the observation period.</p>
+<h2>Business Applications</h2>
+<p>Survival analysis has moved far beyond its medical origins. Customer lifetime value modeling uses survival analysis to estimate how long customers remain active. Churn prediction identifies customers at high risk of cancellation. Credit risk modeling estimates time-to-default for loan portfolios. In manufacturing, reliability engineering uses survival analysis to estimate warranty costs and schedule maintenance.</p>
+<h2>Conclusion</h2>
+<p>Survival analysis solves a problem that standard statistics cannot: making inference from incomplete time-to-event data where censoring is the rule rather than the exception. The Kaplan-Meier curve provides an honest visual summary; the Cox model identifies risk factors while respecting the data structure. From clinical trials to customer analytics, survival analysis turns the challenge of incomplete observation into principled statistical inference.</p>
+
+  </article>
+
+  <div class="batch-box">
+    <div class="batch-box-item">
+      <span>Series</span>
+      <span>Batch 2</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Period</span>
+      <span>July – December 2024</span>
+    </div>
+    <div class="batch-box-item">
+      <span>Level</span>
+      <span>Engineering Applications</span>
+    </div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="signal-filtering-separating-noise-from-data.html" class="nav-arrow nav-prev">
+  <span class="nav-dir">← Previous</span>
+  <span class="nav-title">Signal Filtering: Separating Noise from Data</span>
+</a>
+    <a href="lagrange-multipliers-optimization-under-constraints.html" class="nav-arrow nav-next">
+  <span class="nav-dir">Next →</span>
+  <span class="nav-title">Lagrange Multipliers: Optimization Under Constraints</span>
+</a>
+  </nav>
+
+  <a href="../index.html" class="back-btn">← Back to all articles</a>
+</main>
+
+<footer>
+  Applied Mathematics Blog · Sanjay Dagam · Articles 1–156
+</footer>
+
+<script>
+const prog = document.getElementById("prog");
+window.addEventListener("scroll", () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  prog.style.width = Math.min(scrolled * 100, 100) + "%";
+});
+</script>
+
+</body>
+</html>
