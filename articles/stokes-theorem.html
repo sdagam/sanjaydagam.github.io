@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stokes' Theorem: Unifying the Theorems of Vector Calculus — Applied Math Blog</title>
+<meta name="description" content="Article 76 of 156 in Sanjay Dagam's Applied Mathematics blog. Stokes' Theorem: Unifying the Theorems of Vector Calculus">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Calculus Applications</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">Stokes' Theorem: Unifying the Theorems of Vector Calculus</h1>
+    <div class="article-meta">
+      <span>#76 of 156</span>
+      <span>June 14, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">Green's theorem connects line integrals to double integrals in the plane. The Divergence theorem connects surface integrals to triple integrals in space. Stokes' theorem connects line integrals around curves to surface integrals over surfaces bounded by those curves. These three theorems, taught separately in multivariable calculus, are actually the same mathematical statement at different dimensions—a profound unification realized by the theory of differential forms. Together, they transform calculus from a collection of formulas into a coherent theory about the relationship between integration and geometry.</p>
+<h2>The Classical Statement</h2>
+<p>Stokes' theorem states: for a smooth surface S bounded by a simple closed curve C, and a smooth vector field F: ∮_C F · dr = ∬_S (∇ × F) · dS. The left side integrates F along the boundary curve C; the right side integrates the curl of F over the surface S. The surface's orientation must be consistent with the curve's orientation via the right-hand rule: if you walk along C with the surface on your left, the outward normal points upward from your head. The theorem holds for any surface bounded by the same curve—you can deform the surface without changing the integral.</p>
+<div class="math-block">Stokes' theorem: ∮_C F·dr = ∬_S (∇×F)·dS
+C = boundary of surface S, orientation by right-hand rule</div>
+<h2>Verification with an Example</h2>
+<p>Compute ∮_C F·dr for F = (−y, x, 0) around the unit circle C in the z = 0 plane. Direct computation: parameterize C as (cos t, sin t, 0), dr = (−sin t, cos t, 0) dt. F·dr = (−sin t)(−sin t) + (cos t)(cos t) = 1. ∮_C F·dr = ∫₀²π 1 dt = 2π. Using Stokes: ∇×F = (0, 0, ∂x/∂x − ∂(−y)/∂y) = (0, 0, 2). Over the unit disk S: ∬_S (∇×F)·dS = ∬_S 2 dA = 2 × π(1)² = 2π. Both methods agree, confirming the theorem.</p>
+<div class="math-block">Verification: ∮_C (−y,x,0)·dr = 2π = ∬_{disk} 2 dA = 2π  ✓</div>
+<h2>Conservative Fields Revisited</h2>
+<p>Stokes' theorem gives a clean characterization of conservative vector fields. If ∇×F = 0 everywhere (irrotational field), then for any surface S: ∬_S (∇×F)·dS = 0, and therefore ∮_C F·dr = 0 for any closed curve C. This means the line integral depends only on endpoints, not path—the definition of a conservative field with a potential function. The converse requires care: ∇×F = 0 implies conservative only on simply-connected domains. On domains with holes (like the region excluding the z-axis), curl-free fields can fail to be conservative—a subtlety with topological roots.</p>
+<h2>Maxwell's Equations and Stokes</h2>
+<p>Stokes' theorem is the natural setting for Faraday's law of electromagnetic induction: ∮_C E·dr = −d/dt ∬_S B·dS. The left side is the electromotive force (EMF) around a circuit C; the right side is the rate of change of magnetic flux through the surface bounded by C. Applying Stokes' theorem to the left side gives the differential form: ∇×E = −∂B/∂t—one of Maxwell's equations. The generator in an electric power plant exploits exactly this: rotating a coil in a magnetic field changes the flux, inducing an EMF. Every electric motor and generator operates by Faraday's law expressed through Stokes' theorem.</p>
+<h2>Differential Forms and Generalization</h2>
+<p>The general Stokes' theorem in differential geometry: ∫_M dω = ∫_{∂M} ω, where M is an oriented manifold with boundary ∂M, and dω is the exterior derivative of the differential form ω. This single equation encompasses: the Fundamental Theorem of Calculus (1D), Green's theorem (2D), classical Stokes' theorem (surface in 3D), and the Divergence theorem (volume in 3D). The exterior derivative d generalizes all of gradient, curl, and divergence; the boundary operator ∂ generalizes curve, surface, and volume boundaries. This unification reveals that all boundary-interior relations in calculus share a single algebraic identity: ∂∂ = 0 (the boundary of a boundary is empty).</p>
+<h2>Conclusion</h2>
+<p>Stokes' theorem is vector calculus at its most elegant—converting difficult integrals to easier ones while revealing deep structure about rotation and boundary relationships. Its applications to electromagnetic induction, conservative fields, and fluid vorticity make it indispensable in physics. More profoundly, it is a window into differential geometry, where the entire machinery of vector calculus is unified in a single theorem about differential forms and manifolds. Understanding Stokes' theorem means understanding not just a computational technique but a fundamental principle about how geometry and calculus interact.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="chi-square-test.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">The Chi-Square Test: Checking Fit Between Data and Models</span>
+    </a>
+    <a href="diffusion.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">Diffusion: Why Things Spread from High to Low Concentration</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>

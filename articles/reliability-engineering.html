@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reliability Engineering: Predicting When Things Fail — Applied Math Blog</title>
+<meta name="description" content="Article 74 of 156 in Sanjay Dagam's Applied Mathematics blog. Reliability Engineering: Predicting When Things Fail">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Engineering Applications</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-eng">Engineering Applications</span>
+    <h1 class="article-title">Reliability Engineering: Predicting When Things Fail</h1>
+    <div class="article-meta">
+      <span>#74 of 156</span>
+      <span>May 31, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">A commercial aircraft has tens of thousands of components, each capable of failure. Yet the overall failure rate of modern commercial aviation is extraordinarily low—less than one fatal accident per ten million flights. Achieving this reliability isn't luck or over-engineering; it is the systematic application of reliability engineering: the mathematical discipline of predicting, measuring, and improving the probability that systems perform their required function for a specified time under stated conditions. The same mathematics that keeps aircraft flying also governs medical devices, nuclear plants, and semiconductor chips.</p>
+<h2>Failure Rate and the Bathtub Curve</h2>
+<p>The hazard rate h(t) measures the instantaneous probability of failure given survival to time t. For most engineering components, h(t) follows the bathtub curve: high initial failure rate during infant mortality (manufacturing defects, installation errors), a low constant failure rate during useful life (random failures), and increasing failure rate during wearout (fatigue, corrosion, degradation). The exponential distribution—constant hazard h(t) = λ—models the useful life phase; the Weibull distribution generalizes to increasing (β > 1) or decreasing (β < 1) hazard, fitting all three phases with different parameter values.</p>
+<div class="math-block">Exponential: h(t) = λ,  R(t) = e^{−λt}
+Weibull: h(t) = (β/η)(t/η)^{β−1},  R(t) = e^{−(t/η)^β}</div>
+<h2>System Reliability: Series and Parallel</h2>
+<p>Complex systems are analyzed by combining component reliabilities using probability theory. Series systems fail if any component fails: R_system = Π Rᵢ. Parallel (redundant) systems fail only if all components fail: R_system = 1 − Π(1 − Rᵢ). Adding redundancy dramatically improves reliability: if each component has R = 0.99, a series system of 100 components has R ≈ 0.37, while doubling up (each component has a redundant backup) gives R ≈ 0.86. Fault tree analysis (FTA) builds Boolean logic trees of failure combinations; reliability block diagrams map system topology to probability calculations.</p>
+<div class="math-block">Series: R_sys = Π Rᵢ
+Parallel: R_sys = 1 − Π(1−Rᵢ)
+Example: 2 components R=0.9 in parallel → R_sys = 1−(0.1)² = 0.99</div>
+<h2>Failure Mode Analysis</h2>
+<p>Failure Mode and Effects Analysis (FMEA) systematically identifies all ways each component can fail, the effect on the system, and the risk priority. The Risk Priority Number (RPN) = Severity × Occurrence × Detection combines three dimensions into a prioritization score. Components with high RPN receive design changes or additional testing. FMEA is mandated in medical device design (ISO 13485), automotive engineering (IATF 16949), and aviation (DO-178C). The goal is not eliminating all failures—impossible and uneconomical—but ensuring critical failure modes have multiple independent barriers preventing them from causing system failure.</p>
+<h2>Accelerated Life Testing</h2>
+<p>Qualifying long-life products (20-year lifetimes for aerospace components) requires accelerated life testing: exposing components to elevated stress (temperature, voltage, vibration) to trigger failures faster, then extrapolating to operating conditions. The Arrhenius model relates thermal acceleration: L(T) = A e^{E_a/k_BT}, where E_a is activation energy and T is temperature. Running tests at 125°C instead of 55°C accelerates failure by a factor of 100–1000. Statistical models (typically Weibull or lognormal) fit to accelerated test failure times, then transform back to operating conditions using the acceleration model. Extrapolation assumptions must be validated carefully.</p>
+<h2>Software Reliability</h2>
+<p>Hardware reliability has a well-developed mathematical framework; software reliability is harder. Software doesn't wear out—it fails due to latent bugs triggered by specific input combinations. Software reliability models (NHPP models) treat bug discovery as a nonhomogeneous Poisson process: discovery rate decreases as bugs are found and fixed. The Nelson model and Musa-Okumoto model predict total bug count and time to achieve target reliability. Formal verification—mathematically proving software meets its specification—provides the highest reliability assurance for critical systems (aircraft flight control software, cryptographic protocols) but remains expensive and applicable only to limited code sizes.</p>
+<h2>Conclusion</h2>
+<p>Reliability engineering translates physics of failure into quantitative probability statements, enabling systematic design for dependability rather than hoping for the best. From the Weibull distribution capturing component lifetimes to fault trees analyzing system failure logic to accelerated testing extrapolating from weeks to decades, the mathematical tools of reliability engineering underlie the extraordinary dependability of modern technology. The discipline's central insight—that reliability is designed and quantified, not assumed—is what makes billion-mile space missions, decades-long implanted medical devices, and trillion-transistor chips feasible.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="compression-algorithms.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">Compression Algorithms: Storing More with Less</span>
+    </a>
+    <a href="chi-square-test.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">The Chi-Square Test: Checking Fit Between Data and Models</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>

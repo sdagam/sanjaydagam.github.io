@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Interference: How Waves Add and Cancel — Applied Math Blog</title>
+<meta name="description" content="Article 57 of 156 in Sanjay Dagam's Applied Mathematics blog. Wave Interference: How Waves Add and Cancel">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Physics Applications</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-physics">Physics Applications</span>
+    <h1 class="article-title">Wave Interference: How Waves Add and Cancel</h1>
+    <div class="article-meta">
+      <span>#57 of 156</span>
+      <span>February 1, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">Noise-canceling headphones silence jet engines. Thin films on camera lenses reduce reflections. Radio antennas use arrays to focus signals directionally. Lasers produce extraordinarily coherent light beams. All of these technologies exploit wave interference—the phenomenon where two waves combine to produce a result that is larger, smaller, or zero depending on their relative phase. Interference is one of physics' most practically powerful phenomena, and its mathematics reveals the wave nature of light, sound, electrons, and quantum particles.</p>
+<h2>The Superposition Principle</h2>
+<p>Waves obey the superposition principle: when two waves occupy the same region, the resulting displacement is simply their sum at each point and time. Two sinusoidal waves with the same frequency and amplitude: y₁ = A sin(kx − ωt) and y₂ = A sin(kx − ωt + φ). Their sum: y₁ + y₂ = 2A cos(φ/2) sin(kx − ωt + φ/2). The amplitude of the combined wave is 2A cos(φ/2), which depends entirely on the phase difference φ. This elegant result encapsulates all of interference: the phase difference determines whether waves reinforce or cancel.</p>
+<div class="math-block">y₁ + y₂ = 2A cos(φ/2) · sin(kx − ωt + φ/2)
+Constructive: φ = 0, 2π, 4π…  →  amplitude 2A
+Destructive: φ = π, 3π, 5π…  →  amplitude 0</div>
+<h2>Young's Double-Slit Experiment</h2>
+<p>Thomas Young's 1801 experiment established light's wave nature by sending light through two narrow slits and observing alternating bright and dark bands on a screen. Bright fringes occur where the path difference from the two slits is an integer multiple of the wavelength: d sin(θ) = mλ. Dark fringes occur where the path difference is a half-integer multiple: d sin(θ) = (m + ½)λ. The fringe spacing Δy = λL/d (where L is the screen distance and d is the slit separation) provides a precise measure of wavelength. This experiment, replicated with electrons, atoms, and even large molecules, is the definitive demonstration of quantum wave-particle duality.</p>
+<div class="math-block">Bright fringes: d·sin(θ) = mλ
+Fringe spacing: Δy = λL/d</div>
+<h2>Thin Film Interference</h2>
+<p>The iridescent colors of soap bubbles and oil slicks arise from thin film interference. Light reflecting from the front and back surfaces of a thin film travels different path lengths, creating a phase difference. An additional phase shift of π occurs when reflecting from a medium of higher refractive index (like air-to-glass). For a film of thickness t and refractive index n, constructive interference in reflection occurs when 2nt = (m + ½)λ (accounting for the phase shift). Different wavelengths (colors) satisfy this condition at different thicknesses, producing the brilliant color variations as film thickness varies across a soap bubble.</p>
+<h2>Noise Cancellation</h2>
+<p>Active noise-canceling headphones implement destructive interference electronically. A microphone measures ambient noise; a digital signal processor computes the inverse waveform (phase-shifted by π); a speaker plays this anti-noise. The two waves—ambient noise and anti-noise—interfere destructively at the listener's ear, attenuating the noise by 20–30 dB. The system must respond faster than the time it takes sound to travel from the microphone to the ear—typically requiring processing delays under 1 millisecond. Imperfect cancellation leaves residuals, which is why noise cancellation works better on steady low-frequency noise (jet engines, HVAC) than on variable high-frequency sounds.</p>
+<h2>Quantum Interference</h2>
+<p>Wave interference isn't limited to classical waves. In quantum mechanics, particles have wave functions that interfere. The double-slit experiment with single electrons produces an interference pattern even when electrons are sent one at a time—each electron interferes with its own wave function. Quantum computers exploit interference deliberately: quantum algorithms amplify amplitudes of correct answers and cancel amplitudes of wrong ones through carefully designed sequences of quantum gates. Shor's factoring algorithm and Grover's search algorithm both rely fundamentally on quantum interference to achieve speedups over classical algorithms.</p>
+<h2>Conclusion</h2>
+<p>Wave interference is the mathematical consequence of superposition—the simple rule that waves add. From this single principle emerges the rich phenomenology of diffraction patterns, iridescent colors, noise cancellation, and quantum computing. The phase difference between combining waves is the master variable: zero produces amplification, π produces cancellation, and intermediate values produce everything between. Understanding interference means understanding how the world—from optics to acoustics to quantum mechanics—is fundamentally wave-like at its heart.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="implicit-differentiation.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">Implicit Differentiation: Finding Slopes Without Solving for y</span>
+    </a>
+    <a href="decision-trees.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">Decision Trees and Random Forests: Learning from Data</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>

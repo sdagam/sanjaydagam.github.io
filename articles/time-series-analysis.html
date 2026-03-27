@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Series Analysis: Patterns in Sequential Data — Applied Math Blog</title>
+<meta name="description" content="Article 65 of 156 in Sanjay Dagam's Applied Mathematics blog. Time Series Analysis: Patterns in Sequential Data">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Statistics &amp; Probability</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics & Probability</span>
+    <h1 class="article-title">Time Series Analysis: Patterns in Sequential Data</h1>
+    <div class="article-meta">
+      <span>#65 of 156</span>
+      <span>March 29, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">Stock prices, daily temperatures, quarterly sales, heart rhythms, and seismic vibrations are all time series—sequences of measurements ordered in time. Unlike independent data, time series observations are correlated: today's temperature predicts tomorrow's, this quarter's sales reflect last quarter's momentum. Time series analysis extracts patterns (trends, seasonality, cycles) and builds models exploiting temporal correlation for forecasting, anomaly detection, and causal inference. It is essential for finance, economics, meteorology, engineering, and any field where processes unfold over time.</p>
+<h2>Components of a Time Series</h2>
+<p>Most time series decompose into additive or multiplicative components: Trend (long-run direction), Seasonality (regular periodic patterns—daily, weekly, annual), Cycles (irregular oscillations over longer periods), and Residuals (random noise). Classical decomposition or STL (Seasonal-Trend decomposition using Loess) separates these components, enabling each to be analyzed independently. Identifying and removing seasonality (seasonal adjustment) is essential in economics—retail sales always spike in December, and removing this makes underlying trends visible. The decomposition also guides model selection: different components require different modeling approaches.</p>
+<div class="math-block">Additive decomposition: y_t = Trend_t + Season_t + Cycle_t + Residual_t</div>
+<h2>ARIMA Models</h2>
+<p>The ARIMA(p, d, q) model family is the workhorse of univariate time series forecasting. AR (autoregressive) terms regress the current value on p past values. MA (moving average) terms include q past forecast errors. Differencing (d times) removes non-stationarity (trends). The Box-Jenkins methodology identifies p and q from autocorrelation (ACF) and partial autocorrelation (PACF) plots, estimates parameters by MLE, and validates residuals for white noise. ARIMA models handle a wide variety of stationary and trend-stationary series with interpretable parameters linking each observation to its history.</p>
+<div class="math-block">ARIMA(p,d,q): (1−Σφᵢ Bⁱ)(1−B)ᵈ y_t = (1+Σθⱼ Bʲ) ε_t
+B: backshift operator, φ: AR params, θ: MA params</div>
+<h2>Stationarity and Unit Roots</h2>
+<p>ARIMA models require stationarity—constant mean, variance, and autocorrelation structure over time. Many economic series have unit roots: a shock permanently shifts the level, and the series is non-stationary (integrated). The Augmented Dickey-Fuller test checks for unit roots. Differencing (subtracting consecutive observations) often induces stationarity: stock prices are non-stationary, but daily returns (first differences) are approximately stationary. Cointegration—when two non-stationary series share a common trend—enables modeling long-run relationships between variables like exchange rates and interest rates.</p>
+<h2>Seasonal Models and State Space</h2>
+<p>Seasonal ARIMA (SARIMA) extends ARIMA with seasonal AR and MA terms at the seasonal lag. Exponential smoothing models (Holt-Winters) apply weighted averages of past observations, with recent observations weighted more heavily—intuitive and effective for short-term forecasting. Both approaches have state-space (structural) representations as dynamic linear models, enabling Kalman filter estimation and unified treatment of level, trend, and seasonality. Facebook's Prophet model, designed for business time series, decomposes trend (piecewise linear/logistic), seasonality (Fourier series), and holidays in a Bayesian framework robust to missing data and outliers.</p>
+<h2>Neural Networks for Time Series</h2>
+<p>LSTM (Long Short-Term Memory) networks maintain memory across long sequences through gating mechanisms that control information flow, capturing long-range dependencies that ARIMA misses. Transformer architectures with attention mechanisms have recently surpassed LSTMs on many benchmarks. N-BEATS and N-HiTS are purpose-built neural forecasting architectures achieving state-of-the-art results on standard benchmarks. However, for short series with limited data, classical methods often outperform neural approaches—the M4 and M5 forecasting competitions showed that hybrid methods combining statistical and neural approaches perform best across diverse series types.</p>
+<h2>Conclusion</h2>
+<p>Time series analysis bridges probability theory and practical forecasting, providing tools to extract signal from sequential data corrupted by noise and complicated by trends and seasonality. The progression from ARIMA's interpretable structure to neural networks' flexible nonlinearity reflects the field's evolution alongside data availability and computing power. Across finance, supply chain, meteorology, and engineering, the ability to model temporal dependencies and forecast future values from historical patterns is one of the most practically valuable skills in applied statistics.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="finite-element-analysis.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">Finite Element Analysis: Simulating the Physical World</span>
+    </a>
+    <a href="vector-fields-curl.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">Vector Fields and Curl: Measuring Rotation in Space</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>

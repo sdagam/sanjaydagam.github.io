@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Divergence Theorem: Flux Through Closed Surfaces — Applied Math Blog</title>
+<meta name="description" content="Article 71 of 156 in Sanjay Dagam's Applied Mathematics blog. The Divergence Theorem: Flux Through Closed Surfaces">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Calculus Applications</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">The Divergence Theorem: Flux Through Closed Surfaces</h1>
+    <div class="article-meta">
+      <span>#71 of 156</span>
+      <span>May 10, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">To find how much fluid flows out of a region per second, you could integrate the flow rate through every infinitesimal patch on the boundary—a surface integral over the entire enclosing surface. Or you could integrate the divergence—the local rate of outflow—throughout the interior volume. The Divergence Theorem, also known as Gauss's theorem, says these two calculations give exactly the same answer. This fundamental equivalence between surface measurements and volume properties transforms hard surface integrals into easier volume integrals and illuminates the deep structure of vector calculus.</p>
+<h2>The Theorem</h2>
+<p>For a vector field F with continuous partial derivatives in a region V bounded by a closed surface S with outward unit normal n̂: ∭_V (∇·F) dV = ∯_S F · dS. The left side integrates the divergence (local source/sink density) throughout the volume; the right side integrates the flux (outward flow per unit area) over the bounding surface. The theorem says total divergence inside equals total outward flux through the surface—what flows out of the region is exactly what is generated inside it.</p>
+<div class="math-block">Divergence theorem: ∭_V ∇·F dV = ∯_S F·n̂ dS</div>
+<h2>Physical Interpretation</h2>
+<p>In fluid mechanics, if F is fluid velocity and ρ∇·F > 0 at a point, fluid is being created there (a source); ρ∇·F < 0 means fluid is consumed (a sink). The divergence theorem says the total source strength inside a volume exactly equals the net rate of fluid flowing outward through the boundary. In electrostatics, Gauss's law—one of Maxwell's equations—is the divergence theorem applied to the electric field: the flux of E through any closed surface equals the total enclosed charge divided by ε₀. This gives the simplest derivation of Coulomb's law for spherically symmetric charge distributions.</p>
+<h2>Computing Flux with the Theorem</h2>
+<p>The theorem converts between surface and volume integrals, allowing us to choose whichever is simpler. To compute flux of F = (x³, y³, z³) through the unit sphere: computing the surface integral directly requires parameterizing the sphere and is messy. Instead, compute ∇·F = 3x² + 3y² + 3z² = 3r². The volume integral over the unit ball: ∭ 3r² dV = 3∫₀¹ r² · 4πr² dr = 3 · 4π · [r⁵/5]₀¹ = 12π/5. The divergence theorem turned a difficult surface integral into a simple radial integration.</p>
+<div class="math-block">Example: ∯_{sphere} F·dS = ∭_{ball} ∇·F dV = ∭ 3r² dV = 12π/5</div>
+<h2>Applications in Physics</h2>
+<p>The divergence theorem is ubiquitous in physics. Gauss's law for gravity: the flux of gravitational field through any closed surface equals −4πG times the enclosed mass. This gives the gravitational field outside any spherically symmetric mass distribution as if all mass were concentrated at the center—proving Newton's shell theorem. In heat transfer, the divergence theorem connects volumetric heat generation to heat flux through surfaces—the foundation of heat conduction equations. In continuum mechanics, Newton's laws for a fluid element lead through the divergence theorem to the Navier-Stokes equations governing fluid motion.</p>
+<h2>Connection to Stokes and Green</h2>
+<p>The divergence theorem is one of three fundamental theorems connecting integrals over domains to integrals over their boundaries: Green's theorem (1D to 2D), Stokes' theorem (line to surface), and the Divergence theorem (surface to volume). All three are instances of the generalized Stokes' theorem in differential geometry: ∫_M dω = ∫_{∂M} ω, where ω is a differential form, M is a manifold, and ∂M is its boundary. This unification reveals that differentiation and integration are dual operations at every dimension, with boundary operators playing the role of differentiation on differential forms.</p>
+<h2>Conclusion</h2>
+<p>The Divergence theorem is one of mathematics' most practically powerful results, transforming calculations between surfaces and volumes with theoretical elegance. Its statement is simple; its consequences pervade physics and engineering. Every application of Gauss's law in electromagnetism, every derivation of conservation laws in fluid mechanics, every use of Green's functions in PDE theory—all rest on this theorem. Understanding it means understanding the profound duality between what happens on a boundary and what happens inside, a theme that resonates throughout mathematics from calculus to topology.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="bayesian-networks.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">Bayesian Networks: Modeling Probabilistic Dependencies</span>
+    </a>
+    <a href="potential-energy-landscapes.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">Potential Energy Landscapes: From Chemistry to Protein Folding</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>

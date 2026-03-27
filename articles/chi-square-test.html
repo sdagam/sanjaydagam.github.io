@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Chi-Square Test: Checking Fit Between Data and Models — Applied Math Blog</title>
+<meta name="description" content="Article 75 of 156 in Sanjay Dagam's Applied Mathematics blog. The Chi-Square Test: Checking Fit Between Data and Models">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
+  --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
+  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.article-title {
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta {
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  font-size:0.8rem; color:var(--ink-4);
+}
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem;
+  margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label {
+  display:block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-4); margin-bottom:0.2rem;
+}
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1rem; margin-top:2.5rem;
+  padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
+  color:var(--accent); text-decoration:none;
+}
+.back-home:hover { text-decoration:underline; }
+.article-footer {
+  margin-top:4rem; padding:1.5rem 0;
+  border-top:1px solid var(--rule); text-align:center;
+  font-size:0.78rem; color:var(--ink-4);
+}
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Statistics &amp; Probability</span>
+</nav>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics & Probability</span>
+    <h1 class="article-title">The Chi-Square Test: Checking Fit Between Data and Models</h1>
+    <div class="article-meta">
+      <span>#75 of 156</span>
+      <span>June 7, 2025</span>
+      <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+<p class="lead">You roll a die 600 times and get: 1→97, 2→105, 3→95, 4→110, 5→98, 6→95. If the die is fair, you'd expect 100 of each. Are the deviations suspicious, or just normal random variation? A genetics experiment crosses pea plants and observes 315 round yellow, 101 round green, 108 wrinkled yellow, 32 wrinkled green. Does this match Mendel's predicted 9:3:3:1 ratio? Both questions ask the same thing: does observed data fit a theoretical model? The chi-square test provides the answer, and it is one of the most widely used statistical tests across all empirical sciences.</p>
+<h2>The Chi-Square Statistic</h2>
+<p>For k categories with observed counts Oᵢ and expected counts Eᵢ (from the model), the chi-square statistic is: χ² = Σᵢ (Oᵢ − Eᵢ)² / Eᵢ. Each term measures how far the observed count deviates from expected, normalized by the expected count—so categories with small expected counts don't dominate. Under the null hypothesis that the data follows the proposed model, χ² follows approximately a chi-square distribution with k−1−p degrees of freedom (where p is the number of estimated parameters). Large χ² means the data is unlikely under the model; a p-value below 0.05 leads to rejecting the model.</p>
+<div class="math-block">χ² = Σᵢ (Oᵢ − Eᵢ)² / Eᵢ     under H₀: follows χ²(k−1−p) distribution
+Large χ² → data unlikely under H₀ → reject the model fit</div>
+<h2>The Die Example</h2>
+<p>For the die: expected = 100 each. χ² = (97−100)²/100 + (105−100)²/100 + … = 9/100 + 25/100 + 25/100 + 100/100 + 4/100 + 25/100 = 1.88. With 5 degrees of freedom (k−1 = 5), the p-value is approximately 0.87—there is no evidence the die is unfair. The deviations are well within what random chance produces. For Mendel's peas: expected counts from 9:3:3:1 are 312.75, 104.25, 104.25, 34.75 for 556 total plants. χ² = (315−312.75)²/312.75 + … ≈ 0.47, p ≈ 0.93—a suspiciously good fit that has led some historians to wonder whether Mendel's data was too clean.</p>
+<h2>Test of Independence</h2>
+<p>The chi-square test extends to testing whether two categorical variables are independent. Arrange data in a contingency table with r rows and c columns. Expected count for cell (i,j) is E_{ij} = (row total × column total) / grand total. The statistic χ² = Σ (O_{ij} − E_{ij})² / E_{ij} follows a chi-square distribution with (r−1)(c−1) degrees of freedom under independence. This test is ubiquitous: does smoking status depend on gender? Is treatment response independent of age group? Does disease prevalence differ by region? Any 2×2 or larger contingency table calls for this test.</p>
+<div class="math-block">Independence test: E_{ij} = (Rᵢ × Cⱼ) / N
+df = (r−1)(c−1)</div>
+<h2>Assumptions and Alternatives</h2>
+<p>The chi-square approximation requires expected counts to be sufficiently large—the common rule of thumb is Eᵢ ≥ 5 for all cells. When this fails with small samples, Fisher's exact test computes the exact p-value by enumerating all contingency tables with the same marginals. Yates' continuity correction slightly adjusts χ² for 2×2 tables to improve the approximation. For ordered categorical variables, the Cochran-Armitage trend test is more powerful than chi-square. For multinomial goodness-of-fit, the G-test (likelihood ratio chi-square) uses Σ Oᵢ ln(Oᵢ/Eᵢ) instead of the Pearson statistic—equivalent asymptotically but sometimes preferred for theoretical reasons.</p>
+<h2>Power and Effect Size</h2>
+<p>A chi-square test with small expected counts or few observations may have low power—failing to detect real departures from the model. Effect size for chi-square is measured by Cramér's V: V = √(χ²/(N · min(r−1, c−1))), ranging from 0 (no association) to 1 (perfect association). V < 0.1 is negligible, 0.1–0.3 is small, 0.3–0.5 is medium, > 0.5 is large. Reporting effect size alongside the p-value is essential: a statistically significant chi-square from a large sample may reflect a trivially small association of no practical importance.</p>
+<h2>Conclusion</h2>
+<p>The chi-square test is a workhorse of empirical science—simple enough to explain in an introductory statistics course, powerful enough to test fundamental scientific theories. Its applications span goodness-of-fit testing, independence testing, and model validation across genetics, medicine, social science, and engineering. The key to correct use is understanding what the test measures: not the truth or falsity of a model, but whether the data is consistent with it. A non-significant chi-square means the data doesn't rule out the model—not that the model is proven correct.</p>
+
+  </div>
+
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+  </div>
+
+  <nav class="article-nav">
+    <a href="reliability-engineering.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      <span class="nav-title">Reliability Engineering: Predicting When Things Fail</span>
+    </a>
+    <a href="stokes-theorem.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      <span class="nav-title">Stokes' Theorem: Unifying the Theorems of Vector Calculus</span>
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+
+</main>
+
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var d=document.documentElement;
+  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+});
+</script>
+
+</body>
+</html>
