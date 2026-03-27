@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Algebra Textbook | Sanjay Dagam</title>
+<meta name="description" content="Linear Algebra: A Visual and Application-Driven Approach for High School Students, by Sanjay Dagam.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+
+/* ── Hero ── */
+.tb-hero {
+  background: linear-gradient(140deg, #0e0e1c 0%, #1a1a3a 55%, #0d1f35 100%);
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.tb-hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 60%, rgba(45,91,227,.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 25%, rgba(120,50,200,.10) 0%, transparent 55%);
+  pointer-events: none;
+}
+.tb-hero-inner { position: relative; max-width: 760px; margin: 0 auto; }
+.tb-label {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: .72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: #a5b4fc; margin-bottom: 1.1rem;
+}
+.tb-hero h1 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  color: #fff; letter-spacing: -.02em;
+  line-height: 1.15; margin-bottom: .7rem;
+}
+.tb-hero h1 em { font-style: italic; color: #a5b4fc; }
+.tb-hero .subtitle {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.05rem; color: rgba(255,255,255,.62);
+  margin-bottom: .5rem;
+}
+.tb-hero .author {
+  font-family: "DM Sans", sans-serif;
+  font-size: .88rem; color: rgba(255,255,255,.38);
+  margin-bottom: 2.5rem; letter-spacing: .03em;
+}
+.tb-meta-row {
+  display: flex; justify-content: center;
+  gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+.tb-meta-item .num {
+  display: block; font-family: "Instrument Serif", serif;
+  font-size: 1.9rem; color: #fff; line-height: 1;
+}
+.tb-meta-item .lbl {
+  display: block; font-family: "DM Sans", sans-serif;
+  font-size: .7rem; color: rgba(255,255,255,.38);
+  letter-spacing: .08em; text-transform: uppercase; margin-top: .25rem;
+}
+.tb-btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.tb-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .75rem 1.6rem; border-radius: 8px;
+  font-family: "DM Sans", sans-serif; font-size: .88rem; font-weight: 600;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: opacity .15s, transform .15s;
+}
+.tb-btn:hover { opacity: .88; transform: translateY(-1px); }
+.tb-btn-primary { background: #2d5be3; color: #fff; }
+.tb-btn-secondary {
+  background: rgba(255,255,255,.1); color: #fff;
+  border: 1.5px solid rgba(255,255,255,.2);
+}
+.tb-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ── Feature strip ── */
+.tb-about {
+  background: #faf9f6;
+  border-bottom: 1px solid #e8e8f0;
+  padding: 3rem 2rem;
+}
+.tb-about-inner {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem;
+}
+.tb-feature { display: flex; flex-direction: column; gap: .5rem; }
+.tb-feature-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: #e3f0f8;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: .25rem;
+}
+.tb-feature-icon svg { width: 20px; height: 20px; color: #1a5276; }
+.tb-feature h3 {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.05rem; font-weight: 400; color: #0f0f14;
+}
+.tb-feature p {
+  font-family: "DM Sans", sans-serif;
+  font-size: .85rem; color: #72728a; line-height: 1.6;
+}
+
+/* ── Chapters ── */
+.tb-chapters {
+  max-width: 900px; margin: 0 auto;
+  padding: 3rem 2rem 2rem;
+}
+.tb-chapters h2 {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.5rem; font-weight: 400;
+  color: #0f0f14; margin-bottom: 1.5rem;
+}
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.chapter-card {
+  background: #fff; border: 1.5px solid #e8e8f0;
+  border-radius: 10px; padding: 1.1rem 1.25rem;
+  display: flex; gap: .9rem; align-items: flex-start;
+  transition: border-color .15s, box-shadow .15s;
+}
+.chapter-card:hover {
+  border-color: #2d5be3;
+  box-shadow: 0 2px 12px rgba(45,91,227,.08);
+}
+.chapter-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .72rem; color: #a0a0b8;
+  background: #f5f5f8; border-radius: 6px;
+  padding: .2rem .5rem; flex-shrink: 0; margin-top: .1rem;
+}
+.chapter-info h3 {
+  font-family: "DM Sans", sans-serif;
+  font-size: .9rem; font-weight: 600;
+  color: #0f0f14; margin-bottom: .2rem; line-height: 1.3;
+}
+.chapter-info p {
+  font-family: "DM Sans", sans-serif;
+  font-size: .78rem; color: #72728a; line-height: 1.5;
+}
+
+/* ── Appendices ── */
+.tb-appendix {
+  max-width: 900px; margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+.tb-appendix h2 {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.5rem; font-weight: 400;
+  color: #0f0f14; margin-bottom: 1rem;
+}
+.appendix-row { display: flex; gap: .75rem; flex-wrap: wrap; }
+.appendix-tag {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .4rem .9rem; border-radius: 2rem;
+  border: 1.5px solid #e8e8f0;
+  font-family: "DM Sans", sans-serif;
+  font-size: .8rem; font-weight: 500; color: #3a3a4a; background: #fff;
+}
+.appendix-tag span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .7rem; color: #a0a0b8;
+}
+
+/* ── PDF Viewer ── */
+.tb-viewer-section {
+  max-width: 960px; margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+.tb-viewer-section h2 {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.5rem; font-weight: 400;
+  color: #0f0f14; margin-bottom: 1rem;
+}
+.tb-viewer-wrap {
+  border: 1.5px solid #e8e8f0; border-radius: 12px;
+  overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.06);
+  background: #f5f5f5;
+}
+.tb-viewer-toolbar {
+  background: #fff; border-bottom: 1px solid #e8e8f0;
+  padding: .65rem 1rem;
+  display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+}
+.tv-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: .8rem; font-weight: 600; color: #3a3a4a; flex: 1;
+}
+.tv-link {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: .78rem; font-weight: 600;
+  color: #2d5be3; text-decoration: none;
+}
+.tv-link:hover { text-decoration: underline; }
+.tv-link svg { width: 13px; height: 13px; }
+.tb-viewer-wrap iframe {
+  display: block; width: 100%; height: 820px; border: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .tb-about-inner { grid-template-columns: 1fr; }
+  .tb-viewer-wrap iframe { height: 520px; }
+  .tb-meta-row { gap: 1.5rem; }
+}
+@media (max-width: 500px) {
+  .chapter-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">SD</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="blog.html">Applied Math Blog</a></li>
+      <li><a href="textbook.html" class="active">Linear Algebra Textbook</a></li>
+      <li><a href="mental-health.html">Mental Health Initiative</a></li>
+      <li><a href="apps.html">iOS Apps</a></li>
+      <li><a href="activities.html">Activities</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="tb-hero">
+  <div class="tb-hero-inner">
+    <div class="tb-label">Free Textbook</div>
+    <h1>Linear <em>Algebra</em></h1>
+    <p class="subtitle">A Visual and Application-Driven Approach for High School Students</p>
+    <p class="author">Sanjay Dagam &nbsp;·&nbsp; 2026</p>
+
+    <div class="tb-meta-row">
+      <div class="tb-meta-item">
+        <span class="num">7</span>
+        <span class="lbl">Chapters</span>
+      </div>
+      <div class="tb-meta-item">
+        <span class="num">173</span>
+        <span class="lbl">Textbook Pages</span>
+      </div>
+      <div class="tb-meta-item">
+        <span class="num">210</span>
+        <span class="lbl">Solution Pages</span>
+      </div>
+      <div class="tb-meta-item">
+        <span class="num">Free</span>
+        <span class="lbl">Always</span>
+      </div>
+    </div>
+
+    <div class="tb-btn-row">
+      <a href="assets/linear-algebra.pdf" download class="tb-btn tb-btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Download PDF
+      </a>
+      <a href="#viewer" class="tb-btn tb-btn-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Read Online
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Feature strip -->
+<section class="tb-about">
+  <div class="tb-about-inner">
+    <div class="tb-feature">
+      <div class="tb-feature-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
+      </div>
+      <h3>Visual &amp; Intuitive</h3>
+      <p>Every concept is grounded in geometric intuition before formalism. Color-coded definition boxes, worked examples, and real-world connections throughout.</p>
+    </div>
+    <div class="tb-feature">
+      <div class="tb-feature-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+      </div>
+      <h3>Application-Driven</h3>
+      <p>Google's PageRank, Pixar animations, Netflix recommendations, quantum mechanics — linear algebra connects directly to the technologies shaping the modern world.</p>
+    </div>
+    <div class="tb-feature">
+      <div class="tb-feature-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+      </div>
+      <h3>Built for High Schoolers</h3>
+      <p>Designed for students who have completed AP Calculus. Three-tiered practice problems — Basic, Intermediate, and Challenge — with full solutions included.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Chapters -->
+<section class="tb-chapters">
+  <h2>What's Inside</h2>
+  <div class="chapter-grid">
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 1</span>
+      <div class="chapter-info">
+        <h3>Introduction to Vectors</h3>
+        <p>Vector notation, operations, dot product, cross product, and real-world applications.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 2</span>
+      <div class="chapter-info">
+        <h3>Systems of Linear Equations</h3>
+        <p>Gaussian elimination, row echelon form, and applications in networks and circuits.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 3</span>
+      <div class="chapter-info">
+        <h3>Matrices</h3>
+        <p>Matrix operations, transpose, inverse, and applications from image processing to cryptography.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 4</span>
+      <div class="chapter-info">
+        <h3>Determinants</h3>
+        <p>Computing determinants, Cramer's rule, geometric interpretation, and connection to eigenvalues.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 5</span>
+      <div class="chapter-info">
+        <h3>Vector Spaces</h3>
+        <p>Subspaces, span, linear independence, basis, and dimension.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 6</span>
+      <div class="chapter-info">
+        <h3>Linear Transformations</h3>
+        <p>Geometric transformations, kernel, image, and the matrix representation of linear maps.</p>
+      </div>
+    </div>
+    <div class="chapter-card">
+      <span class="chapter-num">Ch 7</span>
+      <div class="chapter-info">
+        <h3>Eigenvalues &amp; Eigenvectors</h3>
+        <p>Characteristic polynomial, diagonalization, and applications in data science and physics.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Appendices -->
+<section class="tb-appendix">
+  <h2>Appendices &amp; Supplements</h2>
+  <div class="appendix-row">
+    <div class="appendix-tag"><span>A</span> Mathematical Notation</div>
+    <div class="appendix-tag"><span>B</span> Proof Techniques</div>
+    <div class="appendix-tag"><span>C</span> Prerequisite Review</div>
+    <div class="appendix-tag"><span>D</span> Computational Tools (Python / NumPy)</div>
+    <div class="appendix-tag"><span>+</span> Selected Solutions (210 pages)</div>
+  </div>
+</section>
+
+<!-- Embedded PDF viewer -->
+<section class="tb-viewer-section" id="viewer">
+  <h2>Read Online</h2>
+  <div class="tb-viewer-wrap">
+    <div class="tb-viewer-toolbar">
+      <span class="tv-label">Linear Algebra — Sanjay Dagam</span>
+      <a href="assets/linear-algebra.pdf" download class="tv-link">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Download PDF
+      </a>
+    </div>
+    <iframe
+      src="assets/linear-algebra.pdf"
+      title="Linear Algebra Textbook by Sanjay Dagam"
+      loading="lazy">
+      <p>Your browser doesn't support embedded PDFs.
+        <a href="assets/linear-algebra.pdf">Download the PDF</a> to read it.
+      </p>
+    </iframe>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2026 Sanjay Dagam. Built with curiosity.</p>
+    <div class="footer-links">
+      <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:sdagam@example.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href="#viewer"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('viewer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+const toggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (toggle && navLinks) {
+  toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+</script>
+
+</body>
+</html>
