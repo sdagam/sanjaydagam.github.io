@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Math Blog | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blog-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-accent);
+            color: var(--color-white);
+            border-color: var(--color-accent);
+        }
+        
+        .blog-card[data-category] {
+            display: block;
+        }
+        
+        .blog-card.hidden {
+            display: none;
+        }
+        
+        .year-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .year-heading {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-xs);
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .post-count {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">SD</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="research.html">Research</a></li>
+                <li><a href="blog.html" class="active">Applied Math Blog</a></li>
+                <li><a href="mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="apps.html">iOS Apps</a></li>
+                <li><a href="activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Applied Math Blog</h1>
+        <p>Making advanced mathematics accessible through real-world applications in AI, computer graphics, engineering, and beyond.</p>
+    </header>
+
+    <section class="content-section">
+        <div class="content-container">
+            
+            <!-- Category Filters -->
+            <div class="blog-filters">
+                <button class="filter-btn active" data-filter="all">All Posts</button>
+                <button class="filter-btn" data-filter="linear-algebra">Linear Algebra</button>
+                <button class="filter-btn" data-filter="calculus">Calculus</button>
+                <button class="filter-btn" data-filter="statistics">Statistics</button>
+                <button class="filter-btn" data-filter="network-science">Network Science</button>
+                <button class="filter-btn" data-filter="physics">Physics</button>
+                <button class="filter-btn" data-filter="computer-science">Computer Science</button>
+                <button class="filter-btn" data-filter="engineering">Engineering</button>
+            </div>
+            
+            <p class="post-count"><span id="visible-count">8</span> posts</p>
+
+            <!-- 2025 Posts -->
+            <div class="year-section" data-year="2025">
+                <h2 class="year-heading">2025</h2>
+                <div class="blog-grid">
+                    
+                    <!-- JANUARY 2025 -->
+                    <a href="posts/svd-netflix-recommendations.html" class="blog-card" data-category="linear-algebra" data-date="2025-01-20">
+                        <p class="blog-meta">Linear Algebra · January 20, 2025</p>
+                        <h3>How Netflix Recommends Your Next Show: The SVD Behind Recommendation Systems</h3>
+                        <p class="blog-excerpt">Exploring how singular value decomposition powers the algorithms that predict what you'll want to watch next.</p>
+                    </a>
+
+                    <a href="posts/neural-networks-linear-transformations.html" class="blog-card" data-category="linear-algebra" data-date="2025-01-15">
+                        <p class="blog-meta">Linear Algebra · January 15, 2025</p>
+                        <h3>The Geometry of Machine Learning: Understanding Neural Networks Through Linear Transformations</h3>
+                        <p class="blog-excerpt">Breaking down how matrix operations form the backbone of deep learning and what happens geometrically when data passes through a neural network.</p>
+                    </a>
+
+                    <a href="posts/eigenfaces-facial-recognition.html" class="blog-card" data-category="linear-algebra" data-date="2025-01-10">
+                        <p class="blog-meta">Linear Algebra · January 10, 2025</p>
+                        <h3>Eigenfaces: How Linear Algebra Recognizes Your Face</h3>
+                        <p class="blog-excerpt">A deep dive into Principal Component Analysis and how eigenvalues and eigenvectors enable facial recognition technology.</p>
+                    </a>
+
+                    <a href="posts/transformation-matrices-video-games.html" class="blog-card" data-category="linear-algebra" data-date="2025-01-05">
+                        <p class="blog-meta">Linear Algebra · January 5, 2025</p>
+                        <h3>Rotating Worlds: The Transformation Matrices Behind Video Games</h3>
+                        <p class="blog-excerpt">Understanding how 4x4 matrices enable rotation, scaling, and translation in 3D graphics engines.</p>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- 2024 Posts -->
+            <div class="year-section" data-year="2024">
+                <h2 class="year-heading">2024</h2>
+                <div class="blog-grid">
+
+                    <!-- DECEMBER 2024 -->
+                    <a href="posts/adjacency-matrix-social-networks.html" class="blog-card" data-category="network-science" data-date="2024-12-20">
+                        <p class="blog-meta">Network Science · December 20, 2024</p>
+                        <h3>The Adjacency Matrix: Representing Social Networks Mathematically</h3>
+                        <p class="blog-excerpt">How matrices capture the structure of networks and what eigenvalues tell us about community structure.</p>
+                    </a>
+
+                    <a href="posts/pagerank-google.html" class="blog-card" data-category="linear-algebra" data-date="2024-12-10">
+                        <p class="blog-meta">Linear Algebra · December 10, 2024</p>
+                        <h3>PageRank: The Linear Algebra That Built Google</h3>
+                        <p class="blog-excerpt">Exploring the eigenvector-based algorithm that revolutionized web search.</p>
+                    </a>
+
+                    <!-- NOVEMBER 2024 -->
+                    <a href="posts/quantum-states-vector-spaces.html" class="blog-card" data-category="physics" data-date="2024-11-15">
+                        <p class="blog-meta">Physics · November 15, 2024</p>
+                        <h3>Quantum States and Vector Spaces: An Introduction</h3>
+                        <p class="blog-excerpt">How linear algebra provides the mathematical framework for quantum mechanics.</p>
+                    </a>
+
+                    <a href="posts/solving-systems-engineering.html" class="blog-card" data-category="engineering" data-date="2024-11-01">
+                        <p class="blog-meta">Engineering · November 1, 2024</p>
+                        <h3>Solving Systems: From Bridge Stress to Economic Models</h3>
+                        <p class="blog-excerpt">Real-world applications of solving linear systems in structural engineering and economics.</p>
+                    </a>
+
+                    <!-- 
+                    =====================================================
+                    ADD MORE POSTS HERE
+                    =====================================================
+                    
+                    Copy this template for each new post:
+                    
+                    <a href="posts/YOUR-POST-FILENAME.html" class="blog-card" data-category="CATEGORY" data-date="YYYY-MM-DD">
+                        <p class="blog-meta">CATEGORY · MONTH DAY, YEAR</p>
+                        <h3>POST TITLE</h3>
+                        <p class="blog-excerpt">Brief description of the post...</p>
+                    </a>
+                    
+                    Categories (use lowercase with hyphens for data-category):
+                    - linear-algebra
+                    - calculus
+                    - statistics
+                    - network-science
+                    - physics
+                    - computer-science
+                    - engineering
+                    
+                    =====================================================
+                    -->
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="content-section" style="background: var(--color-bg-alt);">
+        <div class="content-container" style="text-align: center;">
+            <h2 style="margin-bottom: var(--spacing-sm);">About This Blog</h2>
+            <p style="max-width: 600px; margin: 0 auto var(--spacing-lg); color: var(--color-text-muted);">
+                I believe that mathematics becomes truly exciting when you see how it powers the technology around us. 
+                This blog aims to bridge the gap between abstract mathematical concepts and their concrete applications, 
+                written for high school students with an AP Calculus background who want to explore what comes next.
+            </p>
+            <div class="hero-interests" style="justify-content: center;">
+                <span class="interest-tag">Linear Algebra</span>
+                <span class="interest-tag">Matrix Theory</span>
+                <span class="interest-tag">Applications</span>
+                <span class="interest-tag">Visualization</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="content-container">
+            <h2 style="text-align: center; margin-bottom: var(--spacing-lg);">Featured Resource</h2>
+            <div class="project-card">
+                <div class="project-content" style="text-align: center;">
+                    <span class="project-tag">Textbook</span>
+                    <h3>Linear Algebra: From Foundations to Applications</h3>
+                    <p style="max-width: 600px; margin: 0 auto var(--spacing-md);">
+                        A comprehensive 9-chapter textbook designed for high school students with AP Calculus 
+                        background. Each chapter includes worked examples, exercises with solutions, and 
+                        real-world applications connecting abstract concepts to AI, computer graphics, 
+                        and engineering.
+                    </p>
+                    <a href="#" class="btn btn-primary">Download Textbook (PDF)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:sanjay@example.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Blog filtering functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const blogCards = document.querySelectorAll('.blog-card[data-category]');
+        const visibleCount = document.getElementById('visible-count');
+        
+        function updateCount() {
+            const visible = document.querySelectorAll('.blog-card[data-category]:not(.hidden)').length;
+            visibleCount.textContent = visible;
+        }
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                
+                // Filter cards
+                blogCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                // Update count
+                updateCount();
+                
+                // Hide empty year sections
+                document.querySelectorAll('.year-section').forEach(section => {
+                    const visibleCards = section.querySelectorAll('.blog-card:not(.hidden)').length;
+                    section.style.display = visibleCards === 0 ? 'none' : 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

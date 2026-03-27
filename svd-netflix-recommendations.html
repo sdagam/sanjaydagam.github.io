@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST TITLE | Applied Math Blog | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Blog post specific styles */
+        .post-header {
+            padding: calc(80px + var(--spacing-xl)) var(--spacing-md) var(--spacing-lg);
+            background: var(--color-bg-alt);
+        }
+        
+        .post-header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .post-meta {
+            font-size: 0.9rem;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .post-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .post-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+        
+        .post-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+        
+        .post-content h2 {
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+        
+        .post-content h3 {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text);
+        }
+        
+        .post-content p {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+        
+        .post-content ul, .post-content ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-lg);
+            color: var(--color-text);
+        }
+        
+        .post-content li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .post-content code {
+            background: var(--color-bg-alt);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        
+        .post-content pre {
+            background: #1a1a1a;
+            color: #f0f0f0;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .post-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        
+        .post-content blockquote {
+            border-left: 3px solid var(--color-accent);
+            padding-left: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            font-style: italic;
+            color: var(--color-text-muted);
+        }
+        
+        .post-content img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            margin: var(--spacing-md) 0;
+        }
+        
+        .post-content .math {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+        
+        .post-nav {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-lg) var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .post-nav a {
+            color: var(--color-accent);
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        
+        .post-nav a:hover {
+            color: var(--color-accent-light);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">SD</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../research.html">Research</a></li>
+                <li><a href="../blog.html" class="active">Applied Math Blog</a></li>
+                <li><a href="../mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="../apps.html">iOS Apps</a></li>
+                <li><a href="../activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="post-header">
+        <div class="post-header-content">
+            <p class="post-meta">CATEGORY · DATE</p>
+            <h1 class="post-title">POST TITLE</h1>
+            <p class="post-subtitle">POST SUBTITLE OR BRIEF DESCRIPTION</p>
+        </div>
+    </header>
+
+    <article class="post-content">
+        <!-- 
+        =====================================================
+        BLOG POST TEMPLATE
+        =====================================================
+        
+        Instructions:
+        1. Save this file with a descriptive name like: 
+           "svd-netflix-recommendations.html"
+        
+        2. Replace the following placeholders:
+           - POST TITLE (in <title> and <h1>)
+           - CATEGORY (e.g., "Linear Algebra", "Calculus", "Statistics")
+           - DATE (e.g., "January 15, 2025")
+           - POST SUBTITLE
+        
+        3. Write your content below using these HTML elements:
+        
+        HEADINGS:
+        <h2>Major Section</h2>
+        <h3>Subsection</h3>
+        
+        PARAGRAPHS:
+        <p>Your text here.</p>
+        
+        LISTS:
+        <ul>
+            <li>Bullet point</li>
+        </ul>
+        
+        <ol>
+            <li>Numbered item</li>
+        </ol>
+        
+        CODE:
+        <code>inline code</code>
+        
+        <pre><code>
+        block of code
+        </code></pre>
+        
+        MATH (simple):
+        <span class="math">f(x) = mx + b</span>
+        
+        QUOTES:
+        <blockquote>Important quote here.</blockquote>
+        
+        IMAGES:
+        <img src="../images/filename.png" alt="Description">
+        
+        =====================================================
+        DELETE THESE INSTRUCTIONS WHEN YOU WRITE YOUR POST
+        =====================================================
+        -->
+        
+        <h2>Introduction</h2>
+        <p>Start your blog post here. Introduce the topic and why it matters.</p>
+        
+        <h2>The Math Behind It</h2>
+        <p>Explain the mathematical concepts. Use examples and build intuition.</p>
+        
+        <h3>Key Concept 1</h3>
+        <p>Break down complex ideas into digestible pieces.</p>
+        
+        <h3>Key Concept 2</h3>
+        <p>Continue building understanding step by step.</p>
+        
+        <h2>Real-World Application</h2>
+        <p>Show how this math is used in technology, science, or everyday life.</p>
+        
+        <h2>Conclusion</h2>
+        <p>Summarize key takeaways and connect to broader themes.</p>
+        
+    </article>
+
+    <nav class="post-nav">
+        <a href="../blog.html">← Back to Blog</a>
+        <a href="NEXT-POST.html">Next Post →</a>
+    </nav>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:sanjay@example.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+</body>
+</html>
