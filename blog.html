@@ -255,9 +255,9 @@
       <button class="pill px" data-filter="Computer Science/AI">CS / AI</button>
       <button class="pill pe" data-filter="Engineering Applications">Engineering</button>
       <span class="dot"></span>
-      <span class="filter-lbl">Batch:</span>
-      <button class="pill" data-batch="1">Batch 1</button>
-      <button class="pill" data-batch="2">Batch 2</button>
+      <span class="filter-lbl">Group:</span>
+      <button class="pill" data-batch="1">Group 1</button>
+      <button class="pill" data-batch="2">Group 2</button>
     </div>
   </div>
 </div>
@@ -387,8 +387,8 @@ const ARTICLES = [
 ];
 
 const BATCHES = {
-  1: {label:"Batch 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
-  2: {label:"Batch 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
+  1: {label:"Group 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
+  2: {label:"Group 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
 };
 
 const BADGE = {
@@ -440,7 +440,7 @@ function render(){
   list.forEach(a=>{(byBatch[a.batch]=byBatch[a.batch]||[]).push(a);});
 
   root.innerHTML=Object.keys(byBatch).sort((a,b)=>a-b).map(b=>{
-    const info=BATCHES[b]||{label:`Batch ${b}`,period:"",desc:""};
+    const info=BATCHES[b]||{label:`Group ${b}`,period:"",desc:""};
     const arts=byBatch[b];
     return `<div class="batch-head">
       <h2>${info.label}</h2>
