@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taylor Series: Approximating the Complex with the Simple — Applied Math Blog</title>
+<meta name="description" content="Article 24 of the Applied Math Blog by Sanjay Dagam. Taylor Series: Approximating the Complex with the Simple. Published June 15, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Calculus Applications</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">Taylor Series: Approximating the Complex with the Simple</h1>
+    <div class="article-meta">
+      <span>#24</span>
+      <span>June 15, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>How does your calculator compute sin(0.3) or e^2.5? These functions aren't directly computable—they're defined by their mathematical properties. The answer involves Taylor series: representing any sufficiently smooth function as an infinite sum of polynomial terms. Polynomials are easy to compute—just multiplications and additions. Taylor series convert complex functions into polynomial approximations accurate to any desired precision.</p>
+  <h2>The Formula</h2>
+  <p>A Taylor series expands a function f(x) around a point a as:</p>
+  <div class="math-block">f(x) = f(a) + f'(a)(x−a) + f''(a)(x−a)²/2! + f'''(a)(x−a)³/3! + …</div>
+  <p>Each term involves the nth derivative of f evaluated at a, divided by n!. The zeroth-order approximation is just f(a). Adding the first derivative term gives a line. Adding the second gives a parabola. More terms yield increasingly accurate approximations.</p>
+  <h2>Famous Examples</h2>
+  <p>Around x = 0 (Maclaurin series):</p>
+  <div class="math-block">e^x = 1 + x + x²/2! + x³/3! + …   (converges everywhere)</div>
+  <div class="math-block">sin(x) = x − x³/3! + x⁵/5! − …   (odd terms, alternating)</div>
+  <div class="math-block">cos(x) = 1 − x²/2! + x⁴/4! − …   (even terms, alternating)</div>
+  <h2>Euler's Formula</h2>
+  <p>Taylor series reveal one of mathematics' most stunning identities. Substituting ix into the exponential series and separating real and imaginary parts:</p>
+  <div class="math-block">e^(ix) = cos(x) + i·sin(x)</div>
+  <p>Setting x = π: e^(iπ) + 1 = 0, combining e, i, π, 1, and 0 in a single equation. Taylor series make this connection transparent—they reveal that exponentials and trigonometric functions are the same function, evaluated at different arguments.</p>
+  <h2>Physics Applications</h2>
+  <p>Taylor series are indispensable in physics. For small angles, sin(θ) ≈ θ—the first Taylor term—simplifying pendulum analysis. Special relativity's energy expands to recover Newtonian kinetic energy as the leading correction:</p>
+  <div class="math-block">E ≈ mc² + ½mv² + higher order terms</div>
+  <p>Quantum mechanics uses perturbation theory—essentially a Taylor expansion in the strength of a small interaction—to solve problems that can't be solved exactly.</p>
+  <h2>Conclusion</h2>
+  <p>Taylor series reveal that smooth functions are, in a precise sense, made of polynomials. By expanding in derivatives, they expose a function's local structure and enable efficient computation. From calculator chips to quantum physics, Taylor series provide the bridge between abstract mathematical functions and concrete numerical computations—turning the complex into the polynomial, one derivative at a time.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="inverse-square-law.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      The Inverse Square Law: Why Distance Matters So Much
+    </a>
+    <a href="recursion.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Recursion: When Problems Solve Themselves
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

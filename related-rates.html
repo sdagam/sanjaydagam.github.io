@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Coloring: Scheduling, Maps, and the Four Color Theorem — Applied Math Blog</title>
+<meta name="description" content="Article 12 of the Applied Math Blog by Sanjay Dagam. Graph Coloring: Scheduling, Maps, and the Four Color Theorem. Published March 23, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Network Science</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Graph Coloring: Scheduling, Maps, and the Four Color Theorem</h1>
+    <div class="article-meta">
+      <span>#12</span>
+      <span>March 23, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>How many colors does it take to color a map so that no two neighboring countries share the same color? This question—posed in 1852 by Francis Guthrie—launched over a century of mathematical struggle. The answer, finally proven in 1976, is four. Along the way, graph coloring became one of the most practically useful concepts in discrete mathematics, solving everything from exam scheduling to register allocation in compilers.</p>
+  <h2>Graphs and Coloring</h2>
+  <p>A graph consists of vertices connected by edges. Graph coloring assigns colors to vertices such that no two adjacent vertices share the same color. The chromatic number χ(G) is the minimum number of colors needed. Maps translate naturally to graphs: each region becomes a vertex, and two vertices connect if the corresponding regions share a border.</p>
+  <h2>The Four Color Theorem</h2>
+  <p>The Four Color Theorem states that any planar graph can be colored with at most four colors. The eventual proof by Appel and Haken in 1976 was controversial: they reduced the problem to 1,936 special cases, then used a computer to verify each one. It was the first major theorem proved with substantial computer assistance, sparking debates about what constitutes a mathematical proof.</p>
+  <h2>Chromatic Polynomials</h2>
+  <p>For a graph G, the chromatic polynomial P(G, k) counts the number of valid colorings using exactly k colors. These polynomials reveal structural information about graphs. Setting k equal to specific values gives zero when the graph isn't k-colorable—the polynomial encodes the chromatic number as its smallest positive integer root.</p>
+  <h2>Scheduling Applications</h2>
+  <p>Graph coloring solves scheduling problems elegantly. For university exam scheduling: create a graph where courses are vertices and add an edge between courses sharing students. Coloring this graph assigns time slots—each color represents a slot—ensuring no student has two simultaneous exams. The chromatic number gives the minimum number of slots needed.</p>
+  <p>Similar logic applies to frequency assignment in wireless networks, register allocation in compilers, and sports tournament scheduling.</p>
+  <h2>Conclusion</h2>
+  <p>Graph coloring connects abstract mathematics to concrete optimization. The Four Color Theorem's century-long resistance illustrates how hard combinatorial problems can be, while practical applications show the concept's power. Every time your university avoids scheduling conflicts, or your phone finds a clear frequency, graph coloring is working behind the scenes.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="central-limit-theorem.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      The Central Limit Theorem: Why the Bell Curve Is Everywhere
+    </a>
+    <a href="doppler-effect.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      The Doppler Effect: Why Sirens Change Pitch
+    </a>
+  </nav>
+
+  <a href="../blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>
