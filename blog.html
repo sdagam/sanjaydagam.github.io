@@ -258,6 +258,7 @@
       <span class="filter-lbl">Group:</span>
       <button class="pill" data-batch="1">Group 1</button>
       <button class="pill" data-batch="2">Group 2</button>
+      <button class="pill" data-batch="3">Group 3</button>
     </div>
   </div>
 </div>
@@ -384,11 +385,38 @@ const ARTICLES = [
   {num:50, title:"Bipartite Networks: Modeling Two-Mode Systems",                     cat:"Network Science",            date:"December 14, 2024",    batch:2, file:"bipartite-networks.html"},
   {num:51, title:"Conservation Laws: Why Symmetry Implies Invariance",               cat:"Physics Applications",       date:"December 21, 2024",    batch:2, file:"conservation-laws.html"},
   {num:52, title:"Numerical Methods: When Exact Solutions Don't Exist",              cat:"Engineering Applications",   date:"December 28, 2024",    batch:2, file:"numerical-methods.html"},
+  {num:53, title:"Dynamic Programming: Solving Complex Problems by Breaking Them Down", cat:"Computer Science/AI",     date:"January 4, 2025",      batch:3, file:"dynamic-programming.html"},
+  {num:54, title:"Structural Optimization: How Bridges Find Their Shape",              cat:"Engineering Applications",   date:"January 11, 2025",     batch:3, file:"structural-optimization.html"},
+  {num:55, title:"A/B Testing: The Mathematics of Making Better Decisions",            cat:"Statistics & Probability",   date:"January 18, 2025",     batch:3, file:"ab-testing.html"},
+  {num:56, title:"Implicit Differentiation: Finding Slopes Without Solving for y",     cat:"Calculus Applications",      date:"January 25, 2025",     batch:3, file:"implicit-differentiation.html"},
+  {num:57, title:"Wave Interference: How Waves Add and Cancel",                        cat:"Physics Applications",       date:"February 1, 2025",     batch:3, file:"wave-interference.html"},
+  {num:58, title:"Decision Trees and Random Forests: Learning from Data",              cat:"Computer Science/AI",        date:"February 8, 2025",     batch:3, file:"decision-trees.html"},
+  {num:59, title:"Error Correction Codes: How Data Survives Transmission",             cat:"Engineering Applications",   date:"February 15, 2025",    batch:3, file:"error-correction.html"},
+  {num:60, title:"Maximum Likelihood Estimation: Fitting Models to Data",              cat:"Statistics & Probability",   date:"February 22, 2025",    batch:3, file:"maximum-likelihood.html"},
+  {num:61, title:"Green's Theorem: Connecting Line Integrals and Area",                cat:"Calculus Applications",      date:"March 1, 2025",        batch:3, file:"greens-theorem.html"},
+  {num:62, title:"Quantum Probability: Superposition and Measurement",                 cat:"Physics Applications",       date:"March 8, 2025",        batch:3, file:"quantum-probability.html"},
+  {num:63, title:"Graph Algorithms: BFS, DFS, and Shortest Paths",                    cat:"Computer Science/AI",        date:"March 15, 2025",       batch:3, file:"graph-algorithms.html"},
+  {num:64, title:"Finite Element Analysis: Simulating the Physical World",             cat:"Engineering Applications",   date:"March 22, 2025",       batch:3, file:"finite-element-analysis.html"},
+  {num:65, title:"Time Series Analysis: Patterns in Sequential Data",                  cat:"Statistics & Probability",   date:"March 29, 2025",       batch:3, file:"time-series-analysis.html"},
+  {num:66, title:"Vector Fields and Curl: Measuring Rotation in Space",                cat:"Calculus Applications",      date:"April 5, 2025",        batch:3, file:"vector-fields-curl.html"},
+  {num:67, title:"Statistical Mechanics: From Atoms to Temperature",                   cat:"Physics Applications",       date:"April 12, 2025",       batch:3, file:"statistical-mechanics.html"},
+  {num:68, title:"Neural Networks: Layers, Weights, and Activation Functions",         cat:"Computer Science/AI",        date:"April 19, 2025",       batch:3, file:"neural-networks.html"},
+  {num:69, title:"Queueing Theory: The Math of Waiting in Line",                       cat:"Engineering Applications",   date:"April 26, 2025",       batch:3, file:"queueing-theory.html"},
+  {num:70, title:"Bayesian Networks: Modeling Probabilistic Dependencies",             cat:"Statistics & Probability",   date:"May 3, 2025",          batch:3, file:"bayesian-networks.html"},
+  {num:71, title:"The Divergence Theorem: Flux Through Closed Surfaces",               cat:"Calculus Applications",      date:"May 10, 2025",         batch:3, file:"divergence-theorem.html"},
+  {num:72, title:"Potential Energy Landscapes: From Chemistry to Protein Folding",     cat:"Physics Applications",       date:"May 17, 2025",         batch:3, file:"potential-energy-landscapes.html"},
+  {num:73, title:"Compression Algorithms: Storing More with Less",                     cat:"Computer Science/AI",        date:"May 24, 2025",         batch:3, file:"compression-algorithms.html"},
+  {num:74, title:"Reliability Engineering: Predicting When Things Fail",               cat:"Engineering Applications",   date:"May 31, 2025",         batch:3, file:"reliability-engineering.html"},
+  {num:75, title:"The Chi-Square Test: Checking Fit Between Data and Models",          cat:"Statistics & Probability",   date:"June 7, 2025",         batch:3, file:"chi-square-test.html"},
+  {num:76, title:"Stokes' Theorem: Unifying the Theorems of Vector Calculus",          cat:"Calculus Applications",      date:"June 14, 2025",        batch:3, file:"stokes-theorem.html"},
+  {num:77, title:"Diffusion: Why Things Spread from High to Low Concentration",        cat:"Physics Applications",       date:"June 21, 2025",        batch:3, file:"diffusion.html"},
+  {num:78, title:"Cryptography: The Mathematics of Secrets",                           cat:"Computer Science/AI",        date:"June 28, 2025",        batch:3, file:"cryptography.html"},
 ];
 
 const BATCHES = {
   1: {label:"Group 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
   2: {label:"Group 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
+  3: {label:"Group 3", period:"January – June 2025",   desc:"CS/AI & Engineering Depth"},
 };
 
 const BADGE = {
