@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Search: The Power of Halving — Applied Math Blog</title>
+<meta name="description" content="Article 5 of the Applied Math Blog by Sanjay Dagam. Binary Search: The Power of Halving. Published February 3, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Computer Science / AI</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-cs">Computer Science / AI</span>
+    <h1 class="article-title">Binary Search: The Power of Halving</h1>
+    <div class="article-meta">
+      <span>#5</span>
+      <span>February 3, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>Imagine searching for a word in a 1,000-page dictionary. You wouldn't start at page one and check every page sequentially. Instead, you'd open to the middle, determine if your word comes before or after, and repeat with the relevant half. This intuitive strategy—binary search—transforms impossibly slow searches into nearly instant lookups.</p>
+  <h2>The Algorithm</h2>
+  <p>Binary search works on sorted data. Given a sorted list and a target value, the algorithm: (1) compares the target to the middle element, (2) if equal, done, (3) if the target is smaller, search the left half, (4) if larger, search the right half, (5) repeat until found or the search space is empty. Each comparison eliminates exactly half the remaining possibilities.</p>
+  <h2>Logarithmic Time Complexity</h2>
+  <p>After one comparison, n/2 elements remain. After two, n/4. After k comparisons, n/2^k elements remain. The search ends when we're down to one element:</p>
+  <div class="math-block">n/2^k = 1  →  k = log₂(n)</div>
+  <p>For a billion elements, linear search might need a billion comparisons. Binary search needs at most log₂(10⁹) ≈ 30 comparisons. That's the difference between waiting hours and getting an answer instantly.</p>
+  <h2>Implementation Subtleties</h2>
+  <p>Despite its conceptual simplicity, binary search is notoriously tricky to implement correctly. Common bugs include off-by-one errors in boundary conditions, integer overflow when computing the midpoint ((low + high) / 2 can overflow; use low + (high - low) / 2 instead), and infinite loops when the search space doesn't shrink properly.</p>
+  <h2>Applications Everywhere</h2>
+  <p>Binary search extends far beyond finding elements in arrays. Database indexes use tree structures that apply binary search principles at each level. Version control systems use binary search to find which commit introduced a bug (git bisect). Numerical methods use bisection to find roots of equations. Machine learning uses binary search for hyperparameter tuning.</p>
+  <p>The unifying principle: whenever you can define "too high" or "too low" for a sorted or monotonic space, binary search applies.</p>
+  <h2>Conclusion</h2>
+  <p>Binary search exemplifies how mathematical thinking transforms naive approaches into elegant solutions. The principle—systematically halving the search space—appears throughout algorithm design. Whether you're searching a dictionary, debugging code, or training a machine learning model, the power of halving makes the intractable tractable.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="honeycombs-hexagonal.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Optimization in Nature: Why Honeycombs Are Hexagonal
+    </a>
+    <a href="bayes-theorem.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Bayes' Theorem: Updating Beliefs with Evidence
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

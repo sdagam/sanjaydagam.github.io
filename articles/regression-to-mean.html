@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regression to the Mean: Why Extremes Don't Last — Applied Math Blog</title>
+<meta name="description" content="Article 26 of the Applied Math Blog by Sanjay Dagam. Regression to the Mean: Why Extremes Don't Last. Published June 29, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Statistics & Probability</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics & Probability</span>
+    <h1 class="article-title">Regression to the Mean: Why Extremes Don't Last</h1>
+    <div class="article-meta">
+      <span>#26</span>
+      <span>June 29, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>In 1886, Francis Galton measured the heights of parents and their adult children. He noticed: unusually tall parents tended to have children shorter than themselves, and unusually short parents tended to have children taller. Children's heights regressed toward the average. Galton called this 'regression to mediocrity'—now known as regression to the mean—one of the most misunderstood phenomena in statistics.</p>
+  <h2>Why It Happens</h2>
+  <p>Any measured outcome combines true underlying ability with random variation. An exceptional score reflects both genuine extremeness and favorable random variation. When measured again, the random component is new and independent while the true component remains roughly the same. The person who scored 95 out of 100 likely has high ability (say, 80) plus lucky random factors (say, +15). Next time, ability is still 80 but luck averages to 0.</p>
+  <h2>The Danger of False Causation</h2>
+  <p>Regression to the mean produces apparent treatment effects where none exist. Students who perform poorly on a test receive tutoring and improve. Did tutoring help? Maybe—but some improvement would happen anyway through regression to the mean. Without a control group, you can't separate regression effects from genuine improvement. This confound affects medical studies, business interventions, and educational research constantly.</p>
+  <h2>Sports and the Sophomore Slump</h2>
+  <p>A rookie baseball player with an extraordinary first season often has a worse second season—the 'sophomore slump.' Exceptional first seasons reflect both genuine talent and statistical luck. The player's true ability didn't change; the luck component reverted toward normal. The Sports Illustrated cover jinx—athletes featured on the cover often perform worse afterward—is partly regression to the mean: they were featured precisely because of recent exceptional performance.</p>
+  <h2>Correct Interpretation</h2>
+  <p>Recognizing regression to the mean requires asking: was this group selected based on extreme performance? If yes, expect regression. The cure for misinterpretation is randomized controlled trials: randomly assign people to treatment and control groups. Both groups regress to the mean equally, so any remaining difference represents the genuine treatment effect.</p>
+  <h2>Conclusion</h2>
+  <p>Regression to the mean is not a force pushing outcomes toward average—it's a mathematical consequence of measurement variation combined with selection of extremes. Galton's observation about heights launched statistics as a discipline. Understanding this phenomenon prevents false conclusions about interventions and explains why exceptional outcomes, selected precisely because they're exceptional, tend not to last.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="recursion.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Recursion: When Problems Solve Themselves
+    </a>
+    <a href="fourier-transform.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      The Fourier Transform: Decomposing Signals into Frequencies
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

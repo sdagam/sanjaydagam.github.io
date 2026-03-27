@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale-Free Networks: Why the Rich Get Richer — Applied Math Blog</title>
+<meta name="description" content="Article 7 of the Applied Math Blog by Sanjay Dagam. Scale-Free Networks: Why the Rich Get Richer. Published February 17, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Network Science</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Scale-Free Networks: Why the Rich Get Richer</h1>
+    <div class="article-meta">
+      <span>#7</span>
+      <span>February 17, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>The internet has a peculiar structure. A few websites—Google, Facebook, Wikipedia—have billions of links pointing to them, while the vast majority of sites have almost none. This extreme inequality isn't random or designed; it emerges naturally from a simple growth mechanism that produces "scale-free" networks.</p>
+  <h2>The Power Law Distribution</h2>
+  <p>In scale-free networks, the probability of a node having k connections follows a power law:</p>
+  <div class="math-block">P(k) ∝ k^(−γ),   where γ typically ranges from 2 to 3</div>
+  <p>This distribution has no characteristic scale—hence "scale-free." Power law distributions have heavy tails—extreme values are far more common than bell curves predict. In a network of millions of nodes, you might find some with millions of connections.</p>
+  <h2>Preferential Attachment</h2>
+  <p>In 1999, physicists Barabási and Albert discovered the mechanism generating scale-free networks. When networks grow, new nodes don't connect randomly—they preferentially attach to already well-connected nodes. The probability of connecting to node i is proportional to its current degree k_i.</p>
+  <p>This "rich get richer" dynamic creates positive feedback. Early nodes accumulate connections, making them more visible, attracting more connections. Over time, this amplifies small initial advantages into enormous inequalities.</p>
+  <h2>Robustness and Vulnerability</h2>
+  <p>Scale-free networks exhibit a fascinating paradox: they're remarkably robust to random failures but extremely vulnerable to targeted attacks. Remove nodes at random, and the network barely notices. But remove the hubs—the highly connected nodes—and the network fragments rapidly. Taking out just a few percent of the top nodes can shatter connectivity completely.</p>
+  <h2>Real-World Implications</h2>
+  <p>Understanding scale-free structure guides intervention strategies. To stop disease spread on a scale-free contact network, vaccinating random individuals is inefficient—most have few contacts. Targeting hubs (the super-spreaders) is far more effective. Internet resilience depends on protecting critical hub routers. Ecosystem stability depends on preserving keystone species.</p>
+  <h2>Conclusion</h2>
+  <p>Scale-free networks reveal that extreme inequality isn't just a social phenomenon—it's a mathematical inevitability when growth involves preferential attachment. From the web to biology to society, this insight helps us understand why hubs dominate, how to exploit or protect network structure, and why "the rich get richer" is often less a moral failing than a network property.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="bayes-theorem.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Bayes' Theorem: Updating Beliefs with Evidence
+    </a>
+    <a href="resonance.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Resonance: How Soldiers Can Collapse Bridges
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

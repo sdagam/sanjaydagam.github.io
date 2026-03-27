@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Harmonic Motion: The Oscillation Underlying Everything — Applied Math Blog</title>
+<meta name="description" content="Article 18 of the Applied Math Blog by Sanjay Dagam. Simple Harmonic Motion: The Oscillation Underlying Everything. Published May 4, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Physics Applications</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-physics">Physics Applications</span>
+    <h1 class="article-title">Simple Harmonic Motion: The Oscillation Underlying Everything</h1>
+    <div class="article-meta">
+      <span>#18</span>
+      <span>May 4, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>Pull a pendulum slightly to one side and release it. Stretch a spring and let go. Pluck a guitar string. Each system oscillates in a characteristic, repeating pattern—simple harmonic motion (SHM). This pattern, described by a single differential equation, appears with remarkable frequency in physics: in atoms vibrating in crystals, in electrical circuits, in tidal patterns, and in the quantum mechanical description of light.</p>
+  <h2>The Restoring Force and Solution</h2>
+  <p>SHM arises whenever a system experiences a restoring force proportional to displacement: F = −kx. Newton's second law gives:</p>
+  <div class="math-block">d²x/dt² = −ω²x,   where ω = √(k/m)</div>
+  <p>The general solution is x(t) = A·cos(ωt + φ), where A is amplitude and φ is phase. The period T = 2π/ω = 2π√(m/k). Crucially, period is independent of amplitude for true SHM.</p>
+  <h2>Energy in SHM</h2>
+  <p>In simple harmonic motion, energy continuously converts between kinetic and potential forms. At maximum displacement, all energy is potential: PE = ½kA². At equilibrium, all energy is kinetic: KE = ½mv_max². Total mechanical energy E = ½kA² remains constant throughout—conserved as it flows between forms.</p>
+  <h2>The Pendulum Approximation</h2>
+  <p>A simple pendulum is not exactly a harmonic oscillator. The restoring force is mg·sin(θ), not mg·θ. But for small angles, sin(θ) ≈ θ, giving ω = √(g/L). This small-angle approximation works well for angles up to about 15 degrees. For larger angles, the period increases and the motion becomes anharmonic. This linearization near equilibrium is one of physics' most powerful tools.</p>
+  <h2>Universal Oscillations</h2>
+  <p>SHM appears wherever potential energy has a minimum—which is nearly everywhere in nature. Near any stable equilibrium, potential energy looks like a parabola, and parabolic potential means harmonic oscillation. Atoms in solids vibrate harmonically; these quantized vibrations (phonons) explain heat capacity. Even the quantum harmonic oscillator has energy levels E_n = (n + ½)ℏω—the harmonic oscillator is physics' most solved and most reused model.</p>
+  <h2>Conclusion</h2>
+  <p>Simple harmonic motion is nature's default oscillation mode. Whenever a system is displaced from stable equilibrium, it tends to oscillate harmonically—at least initially. The mathematics—a second-order differential equation with sinusoidal solutions—recurs from mechanics to quantum field theory. Mastering SHM means acquiring a template applicable across virtually all of physics.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="centrality-measures.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Centrality Measures: Who Really Matters in a Network?
+    </a>
+    <a href="exponential-growth-decay.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Exponential Growth and Decay: The Mathematics of Rapid Change
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

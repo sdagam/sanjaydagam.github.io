@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Descent: How Machines Learn by Rolling Downhill — Applied Math Blog</title>
+<meta name="description" content="Article 15 of the Applied Math Blog by Sanjay Dagam. Gradient Descent: How Machines Learn by Rolling Downhill. Published April 13, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Computer Science / AI</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-cs">Computer Science / AI</span>
+    <h1 class="article-title">Gradient Descent: How Machines Learn by Rolling Downhill</h1>
+    <div class="article-meta">
+      <span>#15</span>
+      <span>April 13, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>Imagine you're blindfolded on a hilly landscape and want to reach the lowest valley. You can't see the terrain, but you can feel the slope beneath your feet. A sensible strategy: always step in the direction the ground slopes downward most steeply. This simple idea—gradient descent—is the core optimization algorithm behind virtually all modern machine learning.</p>
+  <h2>The Loss Landscape</h2>
+  <p>Machine learning models have parameters that determine their predictions. A loss function measures prediction error. The loss function defines a high-dimensional landscape where each point corresponds to parameter values and the height represents the error. Training a model means finding the lowest point—the parameter values producing the least error.</p>
+  <h2>The Gradient and Update Rule</h2>
+  <p>The gradient of a function at a point is the vector of partial derivatives pointing in the direction of steepest increase. The gradient descent update rule is:</p>
+  <div class="math-block">θ_new = θ_old − α × ∇(Loss)</div>
+  <p>where α is the learning rate—a small positive number controlling step size. Each step nudges parameters in the direction that reduces loss most quickly.</p>
+  <h2>Learning Rate Matters</h2>
+  <p>The learning rate α is the algorithm's most critical hyperparameter. Too large, and steps overshoot the minimum—the algorithm bounces around or diverges. Too small, and training takes impractically long. Adaptive methods like Adam and RMSprop adjust the learning rate automatically for each parameter based on gradient history, dramatically improving convergence.</p>
+  <h2>Stochastic and Mini-Batch Descent</h2>
+  <p>Computing the exact gradient requires evaluating the loss across all training examples—expensive for large datasets. Stochastic gradient descent estimates the gradient using a single randomly chosen example. Mini-batch gradient descent uses a small random subset (typically 32–512 examples). The noise in these estimates actually helps: it prevents getting trapped in sharp local minima, often finding flatter minima that generalize better.</p>
+  <h2>Conclusion</h2>
+  <p>Gradient descent is elegant in concept—roll downhill—yet powerful enough to train models with billions of parameters. Its variants underpin the entire deep learning revolution. Every time a language model answers your question, a photo app recognizes your face, or a recommendation system suggests a video, gradient descent found the parameter values that made it work.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="brachistochrone.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      The Brachistochrone: The Fastest Path Is Not the Straight One
+    </a>
+    <a href="monte-carlo-methods.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Monte Carlo Methods: Using Randomness to Solve Hard Problems
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

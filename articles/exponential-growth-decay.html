@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exponential Growth and Decay: The Mathematics of Rapid Change — Applied Math Blog</title>
+<meta name="description" content="Article 19 of the Applied Math Blog by Sanjay Dagam. Exponential Growth and Decay: The Mathematics of Rapid Change. Published May 11, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Calculus Applications</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">Exponential Growth and Decay: The Mathematics of Rapid Change</h1>
+    <div class="article-meta">
+      <span>#19</span>
+      <span>May 11, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>A population of bacteria doubles every hour. A radioactive isotope loses half its atoms every 5,730 years. An investment grows at 7% annually. These situations share the same underlying mathematics: exponential growth and decay. This pattern, described by a single differential equation, appears wherever a quantity's rate of change is proportional to its current size.</p>
+  <h2>The Differential Equation</h2>
+  <p>The mathematical heart of exponential change:</p>
+  <div class="math-block">dN/dt = rN   →   N(t) = N₀ · e^(rt)</div>
+  <p>where N₀ is the initial quantity and r is the growth rate (positive for growth, negative for decay). This exponential function is the unique function equal to its own derivative—precisely what the differential equation requires.</p>
+  <h2>Doubling Time and Half-Life</h2>
+  <p>For growth: doubling time T₂ = ln(2)/r. For decay: half-life T_{1/2} = ln(2)/|r|. These are constant—a population with a 1-hour doubling time doubles every hour whether it's 100 or 100 million. The constancy is what makes exponential growth counterintuitive: early growth seems slow, but doubling means the next period adds as much as all previous periods combined.</p>
+  <h2>Compound Interest and Radioactive Decay</h2>
+  <p>Compound interest: V(t) = V₀ · e^(rt). The Rule of 72: divide 72 by the interest rate to approximate doubling time. At 7%, an investment doubles in roughly 10 years. Starting at $10,000 at age 25, that's $160,000 at 65 purely from compounding.</p>
+  <p>Radioactive decay: Carbon-14 has a half-life of 5,730 years. Measure the remaining C-14 fraction, apply the decay formula, and recover the age of organic materials up to ~50,000 years old.</p>
+  <h2>The Logistic Model</h2>
+  <p>Pure exponential growth can't continue indefinitely—resources run out, space fills up. The logistic equation adds a saturation term:</p>
+  <div class="math-block">dN/dt = rN(1 − N/K)</div>
+  <p>where K is the carrying capacity. Early growth is approximately exponential. As N approaches K, growth slows and the population stabilizes. This S-shaped logistic curve better describes real populations, epidemic spreads, and technology adoption.</p>
+  <h2>Conclusion</h2>
+  <p>Exponential growth and decay are the mathematical signature of processes driven by their own size. Whether doubling bacteria, decaying atoms, or compounding interest, the same equation governs the dynamics. Recognizing exponential behavior—and its inevitable eventual departure from reality—is one of the most practically important skills in quantitative reasoning.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="simple-harmonic-motion.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Simple Harmonic Motion: The Oscillation Underlying Everything
+    </a>
+    <a href="big-o-notation.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Big O Notation: Measuring Algorithmic Efficiency
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

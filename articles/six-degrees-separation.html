@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Degrees of Separation: The Small World Phenomenon — Applied Math Blog</title>
+<meta name="description" content="Article 2 of the Applied Math Blog by Sanjay Dagam. Six Degrees of Separation: The Small World Phenomenon. Published January 13, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Network Science</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Six Degrees of Separation: The Small World Phenomenon</h1>
+    <div class="article-meta">
+      <span>#2</span>
+      <span>January 13, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>In 1967, psychologist Stanley Milgram conducted a remarkable experiment. He asked random people in Nebraska to send a letter to a stranger in Boston—but they could only mail it to someone they knew personally, who would then forward it onward. The letters that reached their destination took, on average, just six steps. This "small world" phenomenon has since been confirmed across social networks, the internet, and even neural connections.</p>
+  <h2>The Paradox of Small Worlds</h2>
+  <p>Small-world networks exhibit two seemingly contradictory properties. First, high clustering: your friends likely know each other, forming tight-knit local communities. Second, short path lengths: despite this clustering, anyone can reach anyone else in surprisingly few steps.</p>
+  <p>The answer lies in what sociologist Mark Granovetter called "weak ties." While most of your connections are local, a few long-range connections act as bridges between communities.</p>
+  <h2>The Watts-Strogatz Model</h2>
+  <p>In 1998, mathematicians Duncan Watts and Steven Strogatz formalized this insight. They started with a ring lattice—people arranged in a circle, each connected to their nearest neighbors. Then they randomly rewired a small percentage of edges, creating long-range shortcuts.</p>
+  <p>The result was dramatic: path length dropped exponentially while clustering remained high. Rewiring just 1% of connections could reduce average path length by half or more. Mathematically, the average path length scales as log(N), where N is the number of nodes.</p>
+  <h2>Real-World Small Worlds</h2>
+  <p>Facebook's data scientists confirmed the small-world phenomenon at scale in 2016, finding the average path length between users was just 3.57. LinkedIn shows similar patterns, with most professionals connected through three or four mutual connections.</p>
+  <p>Small-world structure extends far beyond social networks. The neural network of the C. elegans worm exhibits small-world topology. The power grid demonstrates similar structure—which explains how local failures can cascade into widespread blackouts.</p>
+  <h2>Implications for Spreading Phenomena</h2>
+  <p>Small-world structure has profound implications for anything that spreads through networks. Diseases propagate faster because distant shortcuts allow infections to jump between communities. Rumors and misinformation spread similarly. But so do innovations—new ideas can rapidly reach distant parts of a network.</p>
+  <p>Epidemiologists model disease spread on realistic network structures. Marketers identify bridge nodes for viral campaigns. Social movements leverage weak ties to spread messages across demographic boundaries.</p>
+  <h2>Conclusion</h2>
+  <p>The small-world phenomenon reveals that global connectivity doesn't require everyone knowing everyone. A small number of strategic shortcuts through social and physical networks create surprisingly efficient pathways between any two points. This elegant mathematical insight helps explain why information travels fast, epidemics can go global, and that stranger you meet on vacation turns out to know your neighbor.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="birthday-paradox.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      The Birthday Paradox: Why Probability Defies Intuition
+    </a>
+    <a href="terminal-velocity.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Terminal Velocity: When Falling Objects Stop Accelerating
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

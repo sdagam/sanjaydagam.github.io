@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epidemic Spreading: The Mathematics of Contagion — Applied Math Blog</title>
+<meta name="description" content="Article 22 of the Applied Math Blog by Sanjay Dagam. Epidemic Spreading: The Mathematics of Contagion. Published June 1, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Network Science</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Epidemic Spreading: The Mathematics of Contagion</h1>
+    <div class="article-meta">
+      <span>#22</span>
+      <span>June 1, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>In December 2019, a handful of people in Wuhan had a novel respiratory illness. Within months, it had spread to every country on Earth. Understanding how diseases spread—and how to stop them—requires mathematical models that capture both the biology of infection and the structure of human contact networks. The SIR model and its variants provide this framework.</p>
+  <h2>The SIR Model</h2>
+  <p>The simplest epidemic model divides the population into Susceptible (S), Infected (I), and Recovered (R). The dynamics:</p>
+  <div class="math-block">dS/dt = −βSI/N</div>
+  <div class="math-block">dI/dt = βSI/N − γI</div>
+  <div class="math-block">dR/dt = γI</div>
+  <p>where β is transmission rate, γ is recovery rate, and N is total population. This system captures the epidemic dynamic: an initial exponential rise, a peak, and a decline as susceptibles are depleted.</p>
+  <h2>The Basic Reproduction Number</h2>
+  <p>The most important quantity in epidemiology:</p>
+  <div class="math-block">R₀ = β/γ</div>
+  <p>R₀ is the average number of secondary infections one infected person causes in a fully susceptible population. If R₀ > 1, the epidemic grows. If R₀ < 1, the disease dies out. COVID-19 had R₀ around 2–3; measles around 12–18, requiring ~95% vaccination for herd immunity.</p>
+  <h2>Herd Immunity Threshold</h2>
+  <p>Herd immunity occurs when enough of the population is immune that the disease can't sustain itself. The threshold is 1 − 1/R₀. For COVID-19 (R₀ = 3), about 67%. For measles (R₀ = 15), about 93%. Achieving this through vaccination protects those who can't be vaccinated—the immunocompromised, infants, those with vaccine allergies.</p>
+  <h2>Network Structure Matters</h2>
+  <p>The SIR model assumes random mixing. Real contact networks have structure: clustering, hubs, communities. Scale-free networks have no epidemic threshold—even very weakly transmissible diseases can spread through highly connected hubs. Targeting hubs for vaccination is far more efficient than random vaccination.</p>
+  <p>Mathematical models evaluate interventions quantitatively. Reducing β through masks, increasing γ through treatment, and increasing immunity through vaccination all reduce the effective reproduction number R_eff = R₀ × S/N.</p>
+  <h2>Conclusion</h2>
+  <p>Epidemic models transform qualitative understanding of disease spread into quantitative predictions guiding public health decisions. The mathematics—differential equations, network theory, and probability—helps us understand thresholds, evaluate interventions, and anticipate future trajectories. COVID-19 brought these models to public attention, demonstrating both their power and their limitations when human behavior and viral evolution interact with mathematical predictions.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="law-of-large-numbers.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      The Law of Large Numbers: Why Casinos Always Win
+    </a>
+    <a href="inverse-square-law.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      The Inverse Square Law: Why Distance Matters So Much
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>

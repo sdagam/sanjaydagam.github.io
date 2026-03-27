@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monte Carlo Methods: Using Randomness to Solve Hard Problems — Applied Math Blog</title>
+<meta name="description" content="Article 16 of the Applied Math Blog by Sanjay Dagam. Monte Carlo Methods: Using Randomness to Solve Hard Problems. Published April 20, 2024.">
+<link rel="stylesheet" href="../assets/article.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="breadcrumb">Statistics & Probability</span>
+</nav>
+
+<main class="article-wrap">
+
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics & Probability</span>
+    <h1 class="article-title">Monte Carlo Methods: Using Randomness to Solve Hard Problems</h1>
+    <div class="article-meta">
+      <span>#16</span>
+      <span>April 20, 2024</span>
+      <span>Batch 1 · Jan–Jun 2024</span>
+    </div>
+  </header>
+
+  <div class="article-body">
+  <p>How do you calculate π without geometry? Estimate a complex integral without solving it analytically? Model the spread of radiation through matter? The answer to all three is Monte Carlo methods—algorithms that use random sampling to approximate solutions to problems that are too complex for direct calculation. Named after the famous Monaco casino by physicist Stanislaw Ulam, these methods have become indispensable across science, finance, and engineering.</p>
+  <h2>Estimating π with Darts</h2>
+  <p>The classic demonstration: draw a circle inscribed in a square. Throw darts randomly at the square. The fraction landing inside the circle equals the ratio of their areas: πr²/(2r)² = π/4. Throw 10,000 darts, count those inside the circle, multiply by 4, and you have an estimate of π. This is Monte Carlo integration: estimating an integral (area) by random sampling rather than calculation.</p>
+  <h2>High-Dimensional Integration</h2>
+  <p>Monte Carlo methods dominate when dimensionality is high. Traditional numerical integration uses a grid: in d dimensions, n points per dimension requires n^d evaluations—exponential in d. Monte Carlo integration still needs only n² evaluations regardless of dimension, making it the only practical approach for high-dimensional integrals. Financial derivatives pricing relies heavily on this property.</p>
+  <h2>Markov Chain Monte Carlo</h2>
+  <p>For complex probability distributions where direct sampling is hard, Markov Chain Monte Carlo (MCMC) generates samples by running a carefully designed random walk. The Metropolis-Hastings algorithm proposes a random step and accepts or rejects it based on the probability ratio of the new and current positions. MCMC revolutionized Bayesian statistics, making it practical to fit complex models with many parameters.</p>
+  <h2>Simulation Applications</h2>
+  <p>Monte Carlo simulation models systems with inherent randomness. Nuclear physicists simulate neutron transport through materials. Financial analysts estimate portfolio risk by simulating thousands of possible market scenarios. Climate scientists run ensemble simulations to estimate forecast uncertainty. In each case, running thousands of random scenarios reveals the distribution of possible outcomes more reliably than analytical approximations.</p>
+  <h2>Conclusion</h2>
+  <p>Monte Carlo methods embody a counterintuitive truth: sometimes the most efficient path to a precise answer is through deliberate randomness. By exploiting the law of large numbers, these methods solve problems that defy exact analysis. From estimating π with darts to pricing financial derivatives to simulating nuclear reactions, randomness—applied systematically—becomes a precise computational tool.</p>
+</div>
+
+
+  <nav class="article-nav">
+    <a href="gradient-descent.html" class="nav-prev">
+      <span class="nav-label">← Previous</span>
+      Gradient Descent: How Machines Learn by Rolling Downhill
+    </a>
+    <a href="centrality-measures.html" class="nav-next">
+      <span class="nav-label">Next →</span>
+      Centrality Measures: Who Really Matters in a Network?
+    </a>
+  </nav>
+
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">← Back to all articles</a>
+
+</main>
+
+</body>
+</html>
