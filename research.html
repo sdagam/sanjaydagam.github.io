@@ -8,15 +8,260 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── PAGE HEADER ── */
+        .research-hero {
+            padding: 4rem 2rem 3rem;
+            background: var(--color-bg-alt, #f8f7f4);
+            border-bottom: 1px solid var(--color-border, #e5e1db);
+        }
+        .research-hero-inner {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .research-hero-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent, #5b7fa6);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        .research-hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+        .research-hero p {
+            font-size: 1.05rem;
+            color: var(--color-text-muted, #666);
+            line-height: 1.75;
+            max-width: 620px;
+        }
+        .research-meta {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--color-text-muted, #666);
+        }
+        .research-meta span strong {
+            color: var(--color-text, #1a1a1a);
+        }
+
+        /* ── CARDS GRID ── */
+        .cards-section {
+            padding: 4rem 2rem;
+        }
+        .cards-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+            gap: 2rem;
+        }
+        @media (max-width: 560px) {
+            .cards-inner { grid-template-columns: 1fr; }
+        }
+
+        /* ── INDIVIDUAL CARD ── */
+        .rcard {
+            background: #fff;
+            border: 1px solid var(--color-border, #e5e1db);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .rcard:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .rcard-top {
+            padding: 1.75rem 1.75rem 0;
+        }
+        .rcard-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .rcard-tag {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            background: var(--color-bg-alt, #f0ede8);
+            color: var(--color-accent, #5b7fa6);
+            border: 1px solid var(--color-border, #e5e1db);
+        }
+        .rcard-number {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.72rem;
+            color: var(--color-text-muted, #999);
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .rcard h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.35;
+            margin-bottom: 0.5rem;
+            color: var(--color-text, #1a1a1a);
+        }
+        .rcard-supervisor {
+            font-size: 0.8rem;
+            color: var(--color-text-muted, #888);
+            margin-bottom: 1.25rem;
+        }
+        .rcard-supervisor strong { color: var(--color-text, #444); }
+
+        /* ── CARD BODY ── */
+        .rcard-body {
+            padding: 0 1.75rem 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .rcard-plain {
+            font-size: 0.95rem;
+            color: var(--color-text, #333);
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--color-border, #e5e1db);
+        }
+        .rcard-plain-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-accent, #5b7fa6);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        /* Toggle technical details */
+        .rcard-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-accent, #5b7fa6);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+            transition: opacity 0.2s;
+        }
+        .rcard-toggle:hover { opacity: 0.75; }
+        .rcard-toggle-icon {
+            display: inline-block;
+            transition: transform 0.25s;
+            font-style: normal;
+        }
+
+        .rcard-technical {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .rcard-technical.visible { display: flex; }
+
+        .rcard-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-muted, #999);
+            margin-bottom: 0.35rem;
+            display: block;
+        }
+        .rcard-section-body {
+            font-size: 0.875rem;
+            color: var(--color-text-muted, #555);
+            line-height: 1.7;
+        }
+        .rcard-section-body ul {
+            padding-left: 1.1rem;
+            margin-top: 0.3rem;
+        }
+        .rcard-section-body ul li { margin-bottom: 0.25rem; }
+
+        /* ── CARD FOOTER ── */
+        .rcard-footer {
+            padding: 1rem 1.75rem;
+            border-top: 1px solid var(--color-border, #e5e1db);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: var(--color-bg-alt, #fafaf9);
+        }
+        .rcard-date {
+            font-size: 0.78rem;
+            color: var(--color-text-muted, #999);
+        }
+        .rcard-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.65rem;
+            border-radius: 100px;
+        }
+        .status-active {
+            background: #d8f3dc;
+            color: #2d6a4f;
+        }
+        .status-complete {
+            background: #e8e8e8;
+            color: #555;
+        }
+
+        /* ── INTERESTS SECTION ── */
+        .interests-section {
+            padding: 4rem 2rem;
+            background: var(--color-bg-alt, #f8f7f4);
+            border-top: 1px solid var(--color-border, #e5e1db);
+        }
+        .interests-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .interests-inner h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">SD</a>
+            <a href="index.html" class="nav-logo" style="display:none;"></a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="research.html" class="active">Research</a></li>
+                <li><a href="nonprofit.html">Nonprofit</a></li>
                 <li><a href="blog.html">Applied Math Blog</a></li>
+                <li><a href="textbook.html">Textbook</a></li>
                 <li><a href="mental-health.html">Mental Health Initiative</a></li>
                 <li><a href="apps.html">iOS Apps</a></li>
                 <li><a href="activities.html">Activities</a></li>
@@ -29,98 +274,601 @@
         </div>
     </nav>
 
-    <header class="page-header">
-        <h1>Research</h1>
-        <p>Exploring complex systems through network science, epidemiology, and computational modeling.</p>
+    <!-- HERO -->
+    <header class="research-hero">
+        <div class="research-hero-inner">
+            <span class="research-hero-label">Primary Researcher · March 2023 – Present</span>
+            <h1>Research Projects</h1>
+            <p>
+                I work across network science, epidemiology, public health, environmental science,
+                and agricultural modeling — applying rigorous mathematics to problems that affect
+                real communities. Projects are listed in chronological order.
+            </p>
+            <div class="research-meta">
+                <span><strong>8</strong> active &amp; completed projects</span>
+                <span><strong>6</strong> faculty supervisors</span>
+                <span><strong>10–20 hrs/week</strong> dedicated to research</span>
+            </div>
+        </div>
     </header>
 
-    <section class="content-section">
-        <div class="content-container">
-            <div class="projects-grid">
-                <article class="project-card">
-                    <div class="project-content">
-                        <span class="project-tag">Network Science · Epidemiology</span>
-                        <h3>Safe Zones: The Paradigm Effect in Epidemic Intervention</h3>
-                        <p>
-                            Investigating a novel phenomenon in epidemic dynamics on complex networks: the "paradigm effect" 
-                            where betweenness centrality-based edge removal outperforms random removal during active epidemics 
-                            but underperforms at equilibrium states. This research explores the counterintuitive Bridge 
-                            Preservation Paradox—a phase transition where random removal strategies become more effective 
-                            at high intervention intensities on scale-free networks.
-                        </p>
-                        <p>
-                            Using synthetic network topologies including Barabási-Albert and Erdős-Rényi models, combined 
-                            with SIS/SIR epidemic simulations, this work challenges conventional assumptions about optimal 
-                            intervention strategies in disease spread.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link">ISEF 2025 Project →</a>
-                            <a href="#" class="project-link">View Paper →</a>
-                        </div>
-                    </div>
-                </article>
+    <!-- CARDS -->
+    <section class="cards-section">
+        <div class="cards-inner">
 
-                <article class="project-card">
-                    <div class="project-content">
-                        <span class="project-tag">Atmospheric Science</span>
-                        <h3>Wisconsin Ozone Dynamics and Lake Breeze Effects</h3>
-                        <p>
-                            Investigating temporal and spatial gradients in ozone concentrations across Wisconsin, 
-                            with particular focus on the unique meteorological effects created by Lake Michigan. 
-                            This research examines how lake breeze circulation patterns influence air quality 
-                            and pollutant transport in the region.
-                        </p>
-                        <p>
-                            Analysis includes comprehensive climatology studies of precipitation patterns in Milwaukee, 
-                            revealing concentration into heavier events and implications for regional climate trends.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link">Research Summary →</a>
+            <!-- CARD 1 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Network Science</span>
+                        <span class="rcard-tag">Epidemiology</span>
+                    </div>
+                    <span class="rcard-number">Project 01</span>
+                    <h3>A Study in Creation of Safe Zones Using Link Removal in Epidemiology</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Prof. Laura Schaposnik, University of Illinois Chicago
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Imagine trying to stop a disease from spreading by cutting off connections between
+                        people — like closing certain roads to prevent traffic. This project asks: which
+                        connections should you cut, and when? We discovered a surprising paradox: the
+                        "smartest" targeting strategy actually backfires at high intervention levels,
+                        making random removal the better choice. We call this the Bridge Preservation Paradox.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                This study investigates a novel phenomenon in epidemic dynamics on complex
+                                networks — the "paradigm effect" — where betweenness centrality-based edge
+                                removal outperforms random removal during active epidemics but underperforms
+                                at equilibrium. We characterize a phase transition in intervention efficacy
+                                as a function of removal intensity on scale-free networks.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                SIS and SIR epidemic simulations on Barabási-Albert and Erdős-Rényi synthetic
+                                network topologies. Edge removal strategies evaluated: betweenness centrality,
+                                random, degree-based, and hybrid. Monte Carlo averaging over 500+ network
+                                realizations per parameter set.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Betweenness-based removal is superior at low intervention intensities</li>
+                                    <li>A phase transition exists beyond which random removal dominates</li>
+                                    <li>Scale-free networks are uniquely susceptible to the Bridge Preservation Paradox</li>
+                                    <li>Network topology — not just epidemic parameters — determines optimal strategy</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Public health agencies cannot rely on a single "best" contact-tracing strategy.
+                                Intervention intensity must be calibrated to network structure — over-targeting
+                                high-centrality contacts can paradoxically accelerate spread during active outbreaks.
+                            </p>
                         </div>
                     </div>
-                </article>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">March 2023 – December 2025</span>
+                    <span class="rcard-status status-complete">Completed</span>
+                </div>
+            </article>
 
-                <article class="project-card">
-                    <div class="project-content">
-                        <span class="project-tag">Public Health · Statistics</span>
-                        <h3>LGBTQ+ Youth Mental Health Disparities in Wisconsin</h3>
-                        <p>
-                            Applying sophisticated causal inference methodologies to analyze mental health disparities 
-                            among LGBTQ+ youth across Wisconsin counties. This research employs mediation analysis 
-                            and propensity score techniques to identify contributing factors and potential interventions.
-                        </p>
-                        <p>
-                            The goal is to generate evidence-based insights that can inform policy and support 
-                            programs targeting vulnerable youth populations.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link">Statistical Analysis →</a>
+            <!-- CARD 2 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Network Science</span>
+                        <span class="rcard-tag">Computational Math</span>
+                    </div>
+                    <span class="rcard-number">Project 02</span>
+                    <h3>Network Structure Determines the Mechanism of Targeted Epidemic Containment</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Prof. Laura Schaposnik, University of Illinois Chicago
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Building on the safe zones project, this work asks a deeper question: can we
+                        mathematically <em>prove</em> why certain containment strategies work — not just
+                        observe it in simulations? We develop formal analytical proofs and validate them
+                        computationally across both idealized mathematical networks and real-world contact
+                        networks drawn from human interaction data.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                We present analytical proofs establishing that the dominant mechanism of
+                                targeted epidemic containment is determined by the underlying network's
+                                degree distribution and clustering coefficient. Results are validated
+                                computationally on both synthetic (Barabási-Albert, Watts-Strogatz) and
+                                empirical real-world contact networks.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Spectral graph theory, mean-field epidemic approximations, and rigorous
+                                mathematical proof construction. Computational validation using Python
+                                (NetworkX, NumPy) on real-world network datasets including hospital contact
+                                networks and social interaction graphs.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Analytical proofs confirm simulation-derived results from Project 01</li>
+                                    <li>Real-world networks exhibit containment behavior consistent with synthetic models</li>
+                                    <li>Degree heterogeneity is the primary structural determinant of strategy efficacy</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Provides a mathematical framework health agencies can use to select containment
+                                strategies based on measurable network properties — moving from trial-and-error
+                                to principled, provably optimal intervention design.
+                            </p>
                         </div>
                     </div>
-                </article>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">January 2025 – Present</span>
+                    <span class="rcard-status status-active">Active</span>
+                </div>
+            </article>
 
-                <article class="project-card">
-                    <div class="project-content">
-                        <span class="project-tag">Network Science</span>
-                        <h3>Synthetic vs. Real-World Network Validation</h3>
-                        <p>
-                            Comparative analysis of epidemic spreading dynamics on synthetic network models versus 
-                            real-world contact networks. This work explores the validity of using simplified models 
-                            like Barabási-Albert and Erdős-Rényi networks as proxies for actual human interaction 
-                            patterns in epidemiological modeling.
-                        </p>
-                        <div class="project-links">
-                            <a href="#" class="project-link">Methodology →</a>
+            <!-- CARD 3 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Education Equity</span>
+                        <span class="rcard-tag">Statistics</span>
+                    </div>
+                    <span class="rcard-number">Project 03</span>
+                    <h3>Examination of Racial Disparity in Math Performance Among Wisconsin Students</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Self-directed</strong>
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Standardized test scores in Wisconsin show a persistent and troubling gap in math
+                        performance along racial lines. This project digs into the data to understand
+                        <em>why</em> that gap exists — separating the effects of school funding, teacher
+                        quality, and socioeconomic status to identify which levers actually move outcomes
+                        for students of color.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                Using Wisconsin DPI assessment data disaggregated by race and district,
+                                this study applies regression-based decomposition and causal inference
+                                methods to quantify the contributions of school-level, district-level,
+                                and socioeconomic factors to observed racial math achievement gaps.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Oaxaca-Blinder decomposition, multilevel regression modeling, and
+                                propensity score matching applied to Wisconsin DPI public datasets.
+                                Analysis conducted in R with robustness checks across multiple
+                                model specifications.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Significant unexplained gap remains after controlling for SES and funding</li>
+                                    <li>District-level resource allocation is a statistically significant predictor</li>
+                                    <li>Gaps widen in districts with higher student-to-counselor ratios</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Findings can directly inform targeted resource allocation decisions by
+                                Wisconsin school districts and the Department of Public Instruction,
+                                identifying specific intervention points most likely to reduce disparities.
+                            </p>
                         </div>
                     </div>
-                </article>
-            </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">July 2025 – November 2025</span>
+                    <span class="rcard-status status-complete">Completed</span>
+                </div>
+            </article>
+
+            <!-- CARD 4 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Public Health</span>
+                        <span class="rcard-tag">Causal Inference</span>
+                    </div>
+                    <span class="rcard-number">Project 04</span>
+                    <h3>Impact of Rurality and Political Voting on LGBTQ Suicide Risk in Wisconsin</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Self-directed</strong>
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        LGBTQ youth in rural areas face dramatically higher mental health risks than their
+                        urban peers — but is it rurality itself, or the political environment that often
+                        comes with it? This project uses county-level Wisconsin data to untangle these
+                        two factors, asking whether a community's political climate independently predicts
+                        suicide risk among LGBTQ youth, beyond geography alone.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                This study applies mediation analysis and propensity score techniques to
+                                Wisconsin county-level health and voting data to isolate the independent
+                                effects of rurality and political environment on LGBTQ youth suicide risk,
+                                controlling for access to mental health services, income, and demographics.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Mediation analysis (Baron-Kenny framework), inverse probability weighting,
+                                and negative binomial regression on Wisconsin BRFSS and county health
+                                rankings data. Political environment operationalized using county-level
+                                presidential voting margins.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Political environment mediates a significant portion of the rurality effect</li>
+                                    <li>Counties with restrictive political climates show elevated risk independent of rurality</li>
+                                    <li>Access to affirming mental health services is the strongest protective factor identified</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Highlights the importance of placing affirming mental health resources in
+                                politically conservative rural counties — not just urban centers — to
+                                protect the most vulnerable LGBTQ youth populations in Wisconsin.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">July 2025 – September 2025</span>
+                    <span class="rcard-status status-complete">Completed</span>
+                </div>
+            </article>
+
+            <!-- CARD 5 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Climatology</span>
+                        <span class="rcard-tag">Predictive Modeling</span>
+                    </div>
+                    <span class="rcard-number">Project 05</span>
+                    <h3>Predictive Model of Wisconsin Precipitation (Inland and Lakeshore)</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Paul Buchmann, Wisconsin DNR State Climatology Office
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Wisconsin's weather near Lake Michigan behaves very differently from its interior —
+                        lake-effect snowfall, onshore fog, and altered storm tracks make the lakeshore
+                        a unique climate zone. This project builds a predictive model that accounts for
+                        these differences, helping the state better forecast precipitation for flood
+                        management, agriculture, and emergency planning.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                We develop and validate a spatially stratified precipitation model for
+                                Wisconsin that separately parameterizes inland and lakeshore climate zones,
+                                capturing lake breeze circulation effects and orographic influences using
+                                historical NOAA station data and ERA5 reanalysis products.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Time-series decomposition, ARIMA and gradient-boosted regression tree
+                                models, spatial interpolation (kriging), and cross-validation against
+                                held-out NOAA weather station records. ERA5 reanalysis data used for
+                                atmospheric covariates.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Lakeshore and inland zones require distinct model architectures</li>
+                                    <li>Lake breeze indices improve predictive accuracy by ~12% in lakeshore counties</li>
+                                    <li>Precipitation is concentrating into fewer, heavier events over time</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                More accurate precipitation forecasting directly supports Wisconsin DNR's
+                                flood planning, agricultural water management, and infrastructure resilience
+                                efforts across both lakeshore and inland communities.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">December 2025 – Present</span>
+                    <span class="rcard-status status-active">Active</span>
+                </div>
+            </article>
+
+            <!-- CARD 6 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Air Quality</span>
+                        <span class="rcard-tag">Environmental Science</span>
+                    </div>
+                    <span class="rcard-number">Project 06</span>
+                    <h3>Study of Ozone Exceedance Days in Wisconsin Due to Canadian Wildfires</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Ben Wolf, Director of Air Quality, Wisconsin DNR
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        When Canadian wildfires send smoke drifting south into Wisconsin, ground-level
+                        ozone spikes — sometimes exceeding federal safety limits. This project quantifies
+                        how much of Wisconsin's air quality violations are caused by wildfire smoke versus
+                        local emissions, and models how this is changing as wildfires grow more frequent
+                        and severe with climate change.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                Using EPA AQS monitoring data and NOAA HYSPLIT back-trajectory analysis,
+                                we isolate and quantify the contribution of Canadian wildfire smoke transport
+                                to ozone exceedance days across Wisconsin monitoring stations, and construct
+                                a predictive attribution model linking fire weather indices to downstream
+                                air quality violations.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                HYSPLIT atmospheric back-trajectory modeling, EPA AQS ozone time-series
+                                analysis, wildfire perimeter data from NIFC, and regression-based
+                                attribution modeling. Smoke contributions isolated using receptor
+                                modeling techniques.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Canadian wildfire smoke is a statistically significant driver of Wisconsin ozone exceedance days</li>
+                                    <li>Exceedance events cluster in summer months with northwesterly flow patterns</li>
+                                    <li>Wildfire contribution is increasing year-over-year consistent with rising fire activity</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Supports Wisconsin DNR's case for "exceptional event" EPA designations,
+                                which can exclude wildfire-influenced days from compliance calculations —
+                                protecting Wisconsin from unfair air quality penalties for out-of-state emissions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">January 2026 – March 2026 (ongoing)</span>
+                    <span class="rcard-status status-active">Active</span>
+                </div>
+            </article>
+
+            <!-- CARD 7 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Machine Learning</span>
+                        <span class="rcard-tag">Remote Sensing</span>
+                    </div>
+                    <span class="rcard-number">Project 07</span>
+                    <h3>Ground-Level NO₂ Predictions Using Satellite Imagery-Driven Convolutional Neural Networks</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Prof. Tracey Holloway, University of Wisconsin–Madison
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Air quality monitors are expensive and sparse — most communities have no direct
+                        measurement of nitrogen dioxide (NO₂), a pollutant linked to asthma and heart
+                        disease. Satellites can observe the whole country, but measure the atmosphere
+                        from above, not at ground level. This project trains a neural network to bridge
+                        that gap: predicting ground-level NO₂ everywhere from satellite data alone.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                We develop a convolutional neural network (CNN) trained on Sentinel-5P
+                                TROPOMI satellite NO₂ column retrievals, land use / land cover data,
+                                and meteorological covariates to predict surface-level NO₂ concentrations
+                                at 1 km resolution across the continental U.S., validated against EPA
+                                ground monitor observations.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Convolutional neural network architecture (PyTorch), Sentinel-5P TROPOMI
+                                satellite data, NLCD land use classification, MERRA-2 meteorological
+                                reanalysis, and EPA AQS ground-truth validation. Spatial cross-validation
+                                applied to prevent data leakage.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>CNN outperforms traditional linear downscaling in urban areas</li>
+                                    <li>Land use context significantly improves satellite-to-ground translation</li>
+                                    <li>Model captures intraurban NO₂ gradients missed by sparse ground monitors</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Enables high-resolution air quality mapping in communities without monitors —
+                                particularly low-income urban neighborhoods disproportionately exposed to
+                                traffic pollution — supporting environmental justice research and policy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">January 2026 – Present</span>
+                    <span class="rcard-status status-active">Active</span>
+                </div>
+            </article>
+
+            <!-- CARD 8 -->
+            <article class="rcard">
+                <div class="rcard-top">
+                    <div class="rcard-tags">
+                        <span class="rcard-tag">Agricultural Science</span>
+                        <span class="rcard-tag">Simulation Modeling</span>
+                    </div>
+                    <span class="rcard-number">Project 08</span>
+                    <h3>UW–Madison Dairy Herd Structure Simulation and Cash Flow Tool</h3>
+                    <p class="rcard-supervisor">
+                        <strong>Supervisor:</strong> Prof. Victor Cabrera, UW–Madison
+                    </p>
+                </div>
+                <div class="rcard-body">
+                    <span class="rcard-plain-label">Plain-English Summary</span>
+                    <p class="rcard-plain">
+                        Wisconsin dairy farmers make complex decisions every day — which cows to keep,
+                        which to sell, how to manage herd turnover — and the financial consequences can
+                        make or break a farm. This project builds a simulation tool that models herd
+                        dynamics and projects cash flow over time, giving farmers a practical way to
+                        stress-test decisions before making them in the real world.
+                    </p>
+                    <button class="rcard-toggle" onclick="toggleTech(this)">
+                        <i class="rcard-toggle-icon">▶</i> Technical Details
+                    </button>
+                    <div class="rcard-technical">
+                        <div>
+                            <span class="rcard-section-label">Abstract</span>
+                            <p class="rcard-section-body">
+                                We develop a stochastic agent-based simulation of dairy herd dynamics
+                                incorporating lactation curves, culling decisions, reproduction rates,
+                                and milk price volatility. The model outputs projected cash flow distributions
+                                under user-specified management scenarios, designed for integration into
+                                UW–Madison's dairy decision-support platform.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Methods</span>
+                            <p class="rcard-section-body">
+                                Agent-based stochastic simulation (Python), Wood lactation curve
+                                parameterization, Monte Carlo cash flow projection, and sensitivity
+                                analysis across milk price, culling rate, and reproduction efficiency
+                                parameters. Validated against historical herd data from UW–Madison farms.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Key Findings</span>
+                            <p class="rcard-section-body">
+                                <ul>
+                                    <li>Culling rate is the dominant driver of cash flow variance in mid-size herds</li>
+                                    <li>Milk price volatility compounds herd-structure risk non-linearly</li>
+                                    <li>Simulation identifies optimal replacement timing windows under various price scenarios</li>
+                                </ul>
+                            </p>
+                        </div>
+                        <div>
+                            <span class="rcard-section-label">Real-World Implications</span>
+                            <p class="rcard-section-body">
+                                Provides Wisconsin dairy farmers with an accessible decision-support tool
+                                to model the financial impact of herd management choices — supporting
+                                farm viability and long-term agricultural sustainability across the state.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rcard-footer">
+                    <span class="rcard-date">January 2026 – Present</span>
+                    <span class="rcard-status status-active">Active</span>
+                </div>
+            </article>
+
         </div>
     </section>
 
-    <section class="content-section" style="background: var(--color-bg-alt);">
-        <div class="content-container">
-            <h2 style="text-align: center; margin-bottom: var(--spacing-lg);">Research Interests</h2>
+    <!-- RESEARCH INTERESTS -->
+    <section class="interests-section">
+        <div class="interests-inner">
+            <h2>Research Interests</h2>
             <div class="activities-grid">
                 <div class="activity-card">
                     <div class="activity-icon">🌐</div>
@@ -140,7 +888,17 @@
                 <div class="activity-card">
                     <div class="activity-icon">🌤️</div>
                     <h3>Atmospheric Science</h3>
-                    <p>Regional climate patterns, air quality, and meteorological phenomena.</p>
+                    <p>Regional climate patterns, air quality, and meteorological phenomena affecting Wisconsin communities.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🤖</div>
+                    <h3>Machine Learning</h3>
+                    <p>Neural networks, CNNs, and predictive modeling applied to environmental and public health data.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon">🌾</div>
+                    <h3>Agricultural Modeling</h3>
+                    <p>Simulation and decision-support tools for sustainable farm management and food systems.</p>
                 </div>
             </div>
         </div>
@@ -157,4 +915,22 @@
         </div>
     </footer>
 
-    <script d
+    <script>
+        function toggleTech(btn) {
+            const technical = btn.nextElementSibling;
+            const isOpen = technical.classList.contains('visible');
+            technical.classList.toggle('visible');
+            const icon = btn.querySelector('.rcard-toggle-icon');
+            icon.textContent = isOpen ? '▶' : '▼';
+        }
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
