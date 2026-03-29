@@ -6,254 +6,480 @@
     <title>Linear Algebra Textbook — Sanjay Dagam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .textbook-hero {
-            background: linear-gradient(135deg, #0f0f14 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
-            padding: 5rem 2rem 4rem;
-            text-align: center;
+        :root {
+            --ink: #0c0c12;
+            --ink-2: #2a2a3a;
+            --ink-3: #5a5a7a;
+            --ink-4: #9898b8;
+            --cream: #faf9f6;
+            --white: #ffffff;
+            --rule: #e4e4f0;
+            --blue: #2d5be3;
+            --blue-dim: rgba(45,91,227,0.08);
+            --blue-glow: rgba(45,91,227,0.18);
+            --green: #1a7a4a;
+            --green-dim: rgba(26,122,74,0.1);
+            --serif: "Instrument Serif", Georgia, serif;
+            --sans: "DM Sans", system-ui, sans-serif;
+            --mono: "JetBrains Mono", monospace;
         }
+
+        /* ── Hero ── */
+        .tb-hero {
+            position: relative;
+            background: #f4f6fb;
+            padding: 6rem 2rem 5rem;
+            overflow: hidden;
+        }
+
+        /* Left navy stripe */
+        .tb-hero::before {
+            content: "";
+            position: absolute;
+            top: 0; bottom: 0; left: 0;
+            width: 6px;
+            background: linear-gradient(180deg, #1a3a7a, #4a7adf);
+        }
+
+        /* Subtle grid overlay */
+        .tb-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(26,58,122,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26,58,122,0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .tb-hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 1.5rem;
+        }
+
         .tb-eyebrow {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--sans);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.13em;
             text-transform: uppercase;
-            color: #7c9fff;
-            margin-bottom: 1rem;
+            color: #c8a84a;
+            background: #1a3a7a;
+            padding: 0.32rem 0.9rem;
+            border-radius: 4px;
+            margin-bottom: 1.4rem;
         }
-        .textbook-hero h1 {
-            font-family: "Instrument Serif", Georgia, serif;
-            font-size: clamp(2rem, 5vw, 3.2rem);
+        .tb-eyebrow::before {
+            content: "✦";
+            font-size: 0.6rem;
+        }
+
+        .tb-hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.8rem, 7vw, 5rem);
             font-weight: 400;
-            line-height: 1.2;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.02em;
+            line-height: 1.0;
+            letter-spacing: -0.035em;
+            color: #0a1830;
+            margin-bottom: 0.5rem;
         }
+
+        .tb-hero-rule {
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(90deg, #c8a84a, #e8c870);
+            margin: 1rem 0;
+            border-radius: 2px;
+        }
+
         .tb-subtitle {
-            font-family: "Instrument Serif", Georgia, serif;
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-family: var(--serif);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             font-style: italic;
-            color: #a0b4e8;
-            margin-bottom: 1rem;
+            color: #4a5a7a;
+            margin-bottom: 0.5rem;
+            line-height: 1.55;
         }
+
         .tb-author {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.9rem;
-            color: #6b7db3;
-            margin-bottom: 2.5rem;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #8898b8;
+            letter-spacing: 0.04em;
+            margin-bottom: 2rem;
         }
-        .tb-meta {
+
+        .tb-pills {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+            margin-bottom: 2.2rem;
         }
         .tb-pill {
-            background: rgba(124,159,255,0.12);
-            border: 1px solid rgba(124,159,255,0.25);
-            color: #a0b4e8;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.75rem;
+            font-family: var(--sans);
+            font-size: 0.71rem;
             font-weight: 500;
-            padding: 0.3rem 0.85rem;
+            padding: 0.28rem 0.8rem;
             border-radius: 2rem;
+            letter-spacing: 0.01em;
         }
-        .tb-actions {
+        .tb-pill-gold {
+            background: rgba(200,168,74,0.15);
+            color: #7a5818;
+            border: 1px solid rgba(200,168,74,0.3);
+        }
+        .tb-pill-navy {
+            background: rgba(26,58,122,0.08);
+            color: #1a3a7a;
+            border: 1px solid rgba(26,58,122,0.16);
+        }
+
+        .tb-cta {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
+            gap: 0.85rem;
             flex-wrap: wrap;
         }
         .tb-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.7rem 1.5rem;
-            border-radius: 6px;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.875rem;
+            gap: 0.45rem;
+            padding: 0.75rem 1.6rem;
+            border-radius: 7px;
+            font-family: var(--sans);
+            font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
-            transition: opacity 0.15s, transform 0.15s;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
         }
-        .tb-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-        .tb-btn-primary { background: #2d5be3; color: #fff; }
-        .tb-btn-secondary {
-            background: rgba(255,255,255,0.08);
-            color: #c8d4f0;
-            border: 1px solid rgba(255,255,255,0.15);
+        .tb-btn-blue {
+            background: #1a3a7a;
+            color: #fff;
+        }
+        .tb-btn-blue:hover {
+            background: #22489a;
+            box-shadow: 0 4px 16px rgba(26,58,122,0.3);
+            transform: translateY(-1px);
+        }
+        .tb-btn-green {
+            background: var(--green);
+            color: #fff;
+        }
+        .tb-btn-green:hover {
+            background: #1e9058;
+            box-shadow: 0 4px 16px rgba(26,122,74,0.28);
+            transform: translateY(-1px);
+        }
+        .tb-btn-ghost {
+            background: transparent;
+            color: #1a3a7a;
+            border: 1px solid #b8c4da;
+        }
+        .tb-btn-ghost:hover {
+            background: rgba(26,58,122,0.06);
+            border-color: #8898b8;
+            transform: translateY(-1px);
         }
 
-        /* Stats strip */
-        .tb-overview {
-            background: #faf9f6;
-            border-bottom: 1px solid #e8e8f0;
-            padding: 2.5rem 2rem;
+        /* ── Stats strip ── */
+        .tb-stats {
+            background: var(--white);
+            border-bottom: 1px solid var(--rule);
+            border-top: 1px solid var(--rule);
         }
-        .tb-overview-inner {
+        .tb-stats-inner {
             max-width: 900px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            divide-y: none;
+        }
+        .tb-stat {
+            padding: 2rem 1.5rem;
             text-align: center;
+            border-right: 1px solid var(--rule);
+            position: relative;
+        }
+        .tb-stat:last-child { border-right: none; }
+        .tb-stat-num {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.35rem;
+            letter-spacing: -0.02em;
         }
         .tb-stat-label {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.68rem;
+            font-family: var(--sans);
+            font-size: 0.65rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #a0a0b8;
-            margin-bottom: 0.3rem;
-        }
-        .tb-stat-value {
-            font-family: "Instrument Serif", Georgia, serif;
-            font-size: 1.4rem;
-            color: #0f0f14;
+            letter-spacing: 0.1em;
+            color: var(--ink-4);
         }
 
-        /* Chapters */
-        .tb-body {
+        /* ── Intro section ── */
+        .tb-intro {
             max-width: 900px;
             margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-        .tb-section-title {
-            font-family: "Instrument Serif", Georgia, serif;
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: #0f0f14;
-            margin-bottom: 1.25rem;
-        }
-        .tb-chapter-list {
+            padding: 4rem 2rem 0;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
         }
-        .tb-chapter-card {
-            background: #fff;
-            border: 1px solid #e8e8f0;
-            border-radius: 8px;
-            padding: 1.1rem 1.25rem;
+        .tb-intro-heading {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+        .tb-intro-text {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: var(--ink-3);
+        }
+        .tb-intro-text + .tb-intro-text { margin-top: 0.85rem; }
+        .tb-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .tb-feature {
             display: flex;
             align-items: flex-start;
             gap: 0.9rem;
-            transition: border-color 0.15s, box-shadow 0.15s;
+            padding: 1rem 1.1rem;
+            background: var(--cream);
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            border-left: 3px solid #c8a84a;
         }
-        .tb-chapter-card:hover {
-            border-color: #2d5be3;
-            box-shadow: 0 2px 12px rgba(45,91,227,0.08);
-        }
-        .tb-ch-num {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #2d5be3;
-            background: #eef2ff;
-            padding: 0.2rem 0.55rem;
-            border-radius: 4px;
-            white-space: nowrap;
-            margin-top: 0.15rem;
+        .tb-feature-icon {
+            font-size: 1rem;
+            margin-top: 0.1rem;
             flex-shrink: 0;
         }
-        .tb-ch-title {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #0f0f14;
-            line-height: 1.35;
+        .tb-feature-title {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.15rem;
         }
-        .tb-ch-sub {
+        .tb-feature-desc {
+            font-family: var(--sans);
             font-size: 0.78rem;
-            color: #a0a0b8;
-            margin-top: 0.2rem;
-        }
-        .tb-appendix-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 1rem;
-        }
-        .tb-app-pill {
-            background: #f0f0f8;
-            border: 1px solid #e0e0ee;
-            color: #3a3a5a;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.8rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 2rem;
+            color: var(--ink-3);
+            line-height: 1.5;
         }
 
-        /* PDF viewer */
-        .tb-viewer-wrap {
-            background: #1a1a2e;
-            padding: 2rem;
+        /* ── Chapter grid ── */
+        .tb-chapters-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
         }
-        .tb-viewer-inner { max-width: 960px; margin: 0 auto; }
-        .tb-viewer-header {
+        .tb-section-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--rule);
         }
-        .tb-viewer-label {
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #7c9fff;
-            text-transform: uppercase;
+        .tb-section-title {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+        .tb-section-count {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--ink-4);
+            background: var(--cream);
+            border: 1px solid var(--rule);
+            padding: 0.15rem 0.55rem;
+            border-radius: 4px;
+        }
+
+        .tb-chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .tb-ch {
+            background: var(--white);
+            padding: 1.5rem;
+            transition: background 0.15s;
+            position: relative;
+        }
+        .tb-ch:hover { background: #f8f8fd; }
+        .tb-ch-number {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: var(--blue);
             letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
         }
-        .tb-viewer-frame {
+        .tb-ch-big {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: var(--rule);
+            line-height: 1;
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            letter-spacing: -0.04em;
+            pointer-events: none;
+            transition: color 0.15s;
+        }
+        .tb-ch:hover .tb-ch-big { color: #d0d8f0; }
+        .tb-ch-title {
+            font-family: var(--sans);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.3;
+            margin-bottom: 0.4rem;
+            padding-right: 2.5rem;
+        }
+        .tb-ch-topics {
+            font-family: var(--sans);
+            font-size: 0.74rem;
+            color: var(--ink-4);
+            line-height: 1.55;
+        }
+
+        /* ── Viewer section ── */
+        .tb-viewer-section {
+            background: #0a0a14;
+            margin-top: 2px;
+        }
+        .tb-viewer-tabs {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .tb-tab {
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(152,152,184,0.7);
+            padding: 0.75rem 1.25rem;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            letter-spacing: 0.02em;
+            user-select: none;
+        }
+        .tb-tab.active {
+            color: #fff;
+            border-bottom-color: #c8a84a;
+        }
+        .tb-tab:hover:not(.active) {
+            color: rgba(200,212,240,0.8);
+        }
+        .tb-viewer-body {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 2rem;
+        }
+        .tb-viewer-pane { display: none; }
+        .tb-viewer-pane.active { display: block; }
+        .tb-viewer-top {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0.85rem;
+        }
+        .tb-iframe {
             width: 100%;
-            height: 85vh;
-            min-height: 600px;
+            height: 82vh;
+            min-height: 580px;
             border: none;
             border-radius: 8px;
             display: block;
             background: #fff;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
         }
         .tb-fallback {
             display: none;
-            background: #fff;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 8px;
             padding: 3rem 2rem;
             text-align: center;
-            font-family: "DM Sans", sans-serif;
-            color: #3a3a5a;
         }
-        .tb-fallback p { margin-bottom: 1.5rem; }
-        .tb-footer-note {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 1.75rem 2rem;
-            font-family: "DM Sans", sans-serif;
-            font-size: 0.78rem;
-            color: #a0a0b8;
-            text-align: center;
-            border-top: 1px solid #e8e8f0;
-        }
-        .tb-footer-note code {
-            font-family: "JetBrains Mono", monospace;
-            background: #f0f0f8;
-            padding: 0.1rem 0.4rem;
-            border-radius: 3px;
-            font-size: 0.85em;
+        .tb-fallback p {
+            font-family: var(--sans);
+            color: rgba(160,180,232,0.7);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
         }
 
-        @media (max-width: 600px) {
-            .textbook-hero { padding: 4rem 1.25rem 3rem; }
-            .tb-body { padding: 2rem 1.25rem; }
-            .tb-viewer-wrap { padding: 1rem; }
-            .tb-viewer-frame { height: 72vh; }
+        /* ── Footer note ── */
+        .tb-footnote {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            color: var(--ink-4);
+            text-align: center;
+            border-top: 1px solid var(--rule);
+        }
+        .tb-footnote code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            background: var(--cream);
+            border: 1px solid var(--rule);
+            padding: 0.1rem 0.35rem;
+            border-radius: 3px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .tb-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .tb-stat:nth-child(2) { border-right: none; }
+            .tb-stat:nth-child(3) { border-top: 1px solid var(--rule); }
+            .tb-intro { grid-template-columns: 1fr; gap: 2.5rem; }
+            .tb-chapter-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .tb-hero { padding: 5rem 1.25rem 3.5rem; }
+            .tb-chapter-grid { grid-template-columns: 1fr; }
+            .tb-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .tb-viewer-body { padding: 1rem; }
+            .tb-iframe { height: 70vh; }
+            .tb-chapters-section, .tb-intro { padding-left: 1.25rem; padding-right: 1.25rem; }
         }
     </style>
 </head>
@@ -277,169 +503,199 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="textbook-hero">
-        <p class="tb-eyebrow">Open Textbook</p>
-        <h1>Linear Algebra</h1>
-        <p class="tb-subtitle">A Visual and Application-Driven Approach for High School Students</p>
-        <p class="tb-author">Sanjay Dagam &nbsp;&middot;&nbsp; 2026</p>
-        <div class="tb-meta">
-            <span class="tb-pill">425 pages</span>
-            <span class="tb-pill">7 Chapters</span>
-            <span class="tb-pill">4 Appendices</span>
-            <span class="tb-pill">Solutions Manual included</span>
-            <span class="tb-pill">High School / Early College</span>
-            <span class="tb-pill">Prerequisite: AP Calculus</span>
-        </div>
-        <div class="tb-actions">
-            <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-primary">&#8595; Download Textbook</a>
-            <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-primary" style="background:#1e8449;">&#8595; Download Solutions</a>
-            <a href="#viewer" class="tb-btn tb-btn-secondary">Read Online &#8595;</a>
+    <!-- ── Hero ── -->
+    <section class="tb-hero">
+        <div class="tb-hero-inner">
+            <span class="tb-eyebrow">Open Textbook &nbsp;·&nbsp; Free to Read</span>
+            <h1>Linear Algebra</h1>
+            <div class="tb-hero-rule"></div>
+            <p class="tb-subtitle">A Visual and Application-Driven Approach for High School Students</p>
+            <p class="tb-author">Sanjay Dagam &nbsp;&middot;&nbsp; 2026</p>
+            <div class="tb-pills">
+                <span class="tb-pill tb-pill-gold">215 pages</span>
+                <span class="tb-pill tb-pill-gold">9 Chapters</span>
+                <span class="tb-pill tb-pill-navy">Solutions Manual included</span>
+                <span class="tb-pill tb-pill-navy">Prerequisite: AP Calculus</span>
+                <span class="tb-pill tb-pill-navy">High School / Early College</span>
+            </div>
+            <div class="tb-cta">
+                <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-blue">&#8595; Download Textbook</a>
+                <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-green">&#8595; Download Solutions</a>
+                <a href="#viewer" class="tb-btn tb-btn-ghost">Read Online &#8595;</a>
+            </div>
         </div>
     </section>
 
-    <!-- Stats strip -->
-    <div class="tb-overview">
-        <div class="tb-overview-inner">
-            <div>
-                <div class="tb-stat-label">Main Text</div>
-                <div class="tb-stat-value">157 pages</div>
+    <!-- ── Stats strip ── -->
+    <div class="tb-stats">
+        <div class="tb-stats-inner">
+            <div class="tb-stat">
+                <div class="tb-stat-num">215</div>
+                <div class="tb-stat-label">Pages · Main Text</div>
             </div>
-            <div>
-                <div class="tb-stat-label">Problem Solutions</div>
-                <div class="tb-stat-value">210 pages</div>
+            <div class="tb-stat">
+                <div class="tb-stat-num">213</div>
+                <div class="tb-stat-label">Pages · Solutions</div>
             </div>
-            <div>
-                <div class="tb-stat-label">Supplemental</div>
-                <div class="tb-stat-value">41 pages</div>
+            <div class="tb-stat">
+                <div class="tb-stat-num">9</div>
+                <div class="tb-stat-label">Chapters</div>
             </div>
-            <div>
-                <div class="tb-stat-label">Difficulty Levels</div>
-                <div class="tb-stat-value">3 per chapter</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chapter list -->
-    <div class="tb-body">
-        <h2 class="tb-section-title">Contents</h2>
-        <div class="tb-chapter-list">
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 1</span>
-                <div>
-                    <div class="tb-ch-title">Introduction to Vectors</div>
-                    <div class="tb-ch-sub">Notation, operations, dot &amp; cross products, applications</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 2</span>
-                <div>
-                    <div class="tb-ch-title">Systems of Linear Equations</div>
-                    <div class="tb-ch-sub">Gaussian elimination, row echelon form, applications</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 3</span>
-                <div>
-                    <div class="tb-ch-title">Matrices</div>
-                    <div class="tb-ch-sub">Operations, transpose, inverse, Markov chains, cryptography</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 4</span>
-                <div>
-                    <div class="tb-ch-title">Determinants</div>
-                    <div class="tb-ch-sub">Cofactor expansion, Cramer's rule, volume, eigenvalue preview</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 5</span>
-                <div>
-                    <div class="tb-ch-title">Vector Spaces</div>
-                    <div class="tb-ch-sub">Subspaces, basis, dimension, linear independence</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 6</span>
-                <div>
-                    <div class="tb-ch-title">Eigenvalues &amp; Eigenvectors</div>
-                    <div class="tb-ch-sub">Characteristic polynomial, diagonalization, PageRank</div>
-                </div>
-            </div>
-            <div class="tb-chapter-card">
-                <span class="tb-ch-num">Ch 7</span>
-                <div>
-                    <div class="tb-ch-title">Linear Transformations</div>
-                    <div class="tb-ch-sub">Kernel, range, matrix representations, applications</div>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="tb-section-title">Appendices</h2>
-        <div class="tb-appendix-list">
-            <span class="tb-app-pill">A &middot; Notation Reference</span>
-            <span class="tb-app-pill">B &middot; Proof Techniques</span>
-            <span class="tb-app-pill">C &middot; Formula Sheets</span>
-            <span class="tb-app-pill">D &middot; Python / NumPy &amp; MATLAB Guide</span>
-        </div>
-    </div>
-
-    <!-- PDF Viewer -->
-    <div class="tb-viewer-wrap" id="viewer">
-        <div class="tb-viewer-inner">
-            <div class="tb-viewer-header">
-                <span class="tb-viewer-label">Read Online</span>
-                <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download
-                   class="tb-btn tb-btn-primary"
-                   style="font-size:0.78rem; padding:0.5rem 1rem;">
-                    &#8595; Download PDF
-                </a>
-            </div>
-            <iframe
-                id="pdfFrame"
-                class="tb-viewer-frame"
-                src="/sanjaydagam.github.io/assets/linear-algebra.pdf"
-                title="Linear Algebra Textbook by Sanjay Dagam">
-            </iframe>
-            <div class="tb-fallback" id="pdfFallback">
-                <p>Your browser doesn't support inline PDF viewing.</p>
-                <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-primary">
-                    &#8595; Download the PDF instead
-                </a>
+            <div class="tb-stat">
+                <div class="tb-stat-num">3×</div>
+                <div class="tb-stat-label">Difficulty levels</div>
             </div>
         </div>
     </div>
 
-    <!-- Solutions Manual Viewer -->
-    <div class="tb-viewer-wrap" id="solutions" style="margin-top:2px;">
-        <div class="tb-viewer-inner">
-            <div class="tb-viewer-header">
-                <span class="tb-viewer-label" style="color:#5cb87a;">Solutions Manual</span>
-                <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download
-                   class="tb-btn tb-btn-primary"
-                   style="font-size:0.78rem; padding:0.5rem 1rem; background:#1e8449;">
-                    &#8595; Download Solutions
-                </a>
+    <!-- ── Intro ── -->
+    <div class="tb-intro">
+        <div>
+            <h2 class="tb-intro-heading">Built for students who want to understand, not just compute.</h2>
+            <p class="tb-intro-text">This textbook takes a visual, application-driven approach to linear algebra—designed specifically for high school students who've completed AP Calculus and are ready to explore one of the most powerful branches of mathematics.</p>
+            <p class="tb-intro-text">Every chapter connects abstract ideas to real-world applications: from Google's PageRank algorithm to Pixar's animation pipeline, from quantum mechanics to machine learning.</p>
+        </div>
+        <div class="tb-features">
+            <div class="tb-feature">
+                <span class="tb-feature-icon">📘</span>
+                <div>
+                    <div class="tb-feature-title">Definition & theorem boxes</div>
+                    <div class="tb-feature-desc">Key results highlighted with color-coded callouts for quick reference and review.</div>
+                </div>
             </div>
-            <iframe
-                id="solutionsFrame"
-                class="tb-viewer-frame"
-                src="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf"
-                title="Linear Algebra Solutions Manual by Sanjay Dagam">
-            </iframe>
-            <div class="tb-fallback" id="solutionsFallback">
-                <p>Your browser doesn't support inline PDF viewing.</p>
-                <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-primary">
-                    &#8595; Download Solutions instead
-                </a>
+            <div class="tb-feature">
+                <span class="tb-feature-icon">✏️</span>
+                <div>
+                    <div class="tb-feature-title">Three difficulty levels</div>
+                    <div class="tb-feature-desc">Basic, Intermediate, and Challenge problems in every chapter with full solutions.</div>
+                </div>
+            </div>
+            <div class="tb-feature">
+                <span class="tb-feature-icon">🌐</span>
+                <div>
+                    <div class="tb-feature-title">Real-world applications</div>
+                    <div class="tb-feature-desc">Each chapter closes with a section connecting theory to engineering, CS, and science.</div>
+                </div>
+            </div>
+            <div class="tb-feature">
+                <span class="tb-feature-icon">🔬</span>
+                <div>
+                    <div class="tb-feature-title">Proofs included</div>
+                    <div class="tb-feature-desc">Mathematical reasoning presented clearly — not skipped — to build genuine understanding.</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <p class="tb-footer-note">
+    <!-- ── Chapter list ── -->
+    <div class="tb-chapters-section">
+        <div class="tb-section-header">
+            <h2 class="tb-section-title">Contents</h2>
+            <span class="tb-section-count">9 chapters</span>
+        </div>
+        <div class="tb-chapter-grid">
+            <div class="tb-ch">
+                <div class="tb-ch-big">1</div>
+                <div class="tb-ch-number">Chapter 01</div>
+                <div class="tb-ch-title">Introduction to Vectors</div>
+                <div class="tb-ch-topics">Notation, operations, dot &amp; cross products, applications</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">2</div>
+                <div class="tb-ch-number">Chapter 02</div>
+                <div class="tb-ch-title">Systems of Linear Equations</div>
+                <div class="tb-ch-topics">Gaussian elimination, row echelon form, applications</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">3</div>
+                <div class="tb-ch-number">Chapter 03</div>
+                <div class="tb-ch-title">Matrices</div>
+                <div class="tb-ch-topics">Operations, transpose, inverse, Markov chains, cryptography</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">4</div>
+                <div class="tb-ch-number">Chapter 04</div>
+                <div class="tb-ch-title">Determinants</div>
+                <div class="tb-ch-topics">Cofactor expansion, Cramer's rule, volume, eigenvalue preview</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">5</div>
+                <div class="tb-ch-number">Chapter 05</div>
+                <div class="tb-ch-title">Vector Spaces</div>
+                <div class="tb-ch-topics">Subspaces, basis, dimension, linear independence</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">6</div>
+                <div class="tb-ch-number">Chapter 06</div>
+                <div class="tb-ch-title">Eigenvalues &amp; Eigenvectors</div>
+                <div class="tb-ch-topics">Characteristic polynomial, diagonalization, PageRank</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">7</div>
+                <div class="tb-ch-number">Chapter 07</div>
+                <div class="tb-ch-title">Linear Transformations</div>
+                <div class="tb-ch-topics">Kernel, range, matrix representations, applications</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">8</div>
+                <div class="tb-ch-number">Chapter 08</div>
+                <div class="tb-ch-title">Inner Product Spaces</div>
+                <div class="tb-ch-topics">Inner products, norm, Cauchy-Schwarz inequality, orthogonality</div>
+            </div>
+            <div class="tb-ch">
+                <div class="tb-ch-big">9</div>
+                <div class="tb-ch-number">Chapter 09</div>
+                <div class="tb-ch-title">Applications &amp; Advanced Topics</div>
+                <div class="tb-ch-topics">Markov chains, PageRank, linear programming</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Tabbed PDF Viewer ── -->
+    <div class="tb-viewer-section" id="viewer">
+        <div class="tb-viewer-tabs">
+            <div class="tb-tab active" data-pane="textbook">Textbook</div>
+            <div class="tb-tab" data-pane="solutions">Solutions Manual</div>
+        </div>
+        <div class="tb-viewer-body">
+
+            <!-- Textbook pane -->
+            <div class="tb-viewer-pane active" id="pane-textbook">
+                <div class="tb-viewer-top">
+                    <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-blue" style="font-size:0.78rem; padding:0.5rem 1.1rem;">&#8595; Download Textbook</a>
+                </div>
+                <iframe id="pdfFrame" class="tb-iframe"
+                    src="/sanjaydagam.github.io/assets/linear-algebra.pdf"
+                    title="Linear Algebra Textbook by Sanjay Dagam">
+                </iframe>
+                <div class="tb-fallback" id="pdfFallback">
+                    <p>Your browser doesn't support inline PDF viewing.</p>
+                    <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-blue">&#8595; Download Textbook PDF</a>
+                </div>
+            </div>
+
+            <!-- Solutions pane -->
+            <div class="tb-viewer-pane" id="pane-solutions">
+                <div class="tb-viewer-top">
+                    <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-green" style="font-size:0.78rem; padding:0.5rem 1.1rem;">&#8595; Download Solutions</a>
+                </div>
+                <iframe id="solutionsFrame" class="tb-iframe"
+                    src="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf"
+                    title="Linear Algebra Solutions Manual by Sanjay Dagam">
+                </iframe>
+                <div class="tb-fallback" id="solutionsFallback">
+                    <p>Your browser doesn't support inline PDF viewing.</p>
+                    <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-green">&#8595; Download Solutions PDF</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <p class="tb-footnote">
         &copy; 2026 Sanjay Dagam. All rights reserved.
         &nbsp;&middot;&nbsp;
-        To update this textbook, replace <code>assets/linear-algebra.pdf</code> in the repository.
+        To update, replace <code>assets/linear-algebra.pdf</code> or <code>assets/linear-algebra-solutions.pdf</code> in the repository.
     </p>
 
     <footer class="footer">
@@ -448,13 +704,26 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:sanjay@example.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#473426292d263e07223f262a372b226924282a">Email</a>
             </div>
         </div>
     </footer>
 
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-        // Fallback if PDF iframe fails (some mobile browsers block it)
+        // Tab switching
+        const tabs = document.querySelectorAll('.tb-tab');
+        const panes = document.querySelectorAll('.tb-viewer-pane');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('pane-' + tab.dataset.pane).classList.add('active');
+            });
+        });
+
+        // PDF fallback
         document.getElementById('pdfFrame').addEventListener('error', function() {
             this.style.display = 'none';
             document.getElementById('pdfFallback').style.display = 'block';
