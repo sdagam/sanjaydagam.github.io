@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sanjay Dagam is a high school student passionate about network science, applied mathematics, mental health advocacy, and iOS development. Explore his research, blog, textbook, and apps.">
-    <meta name="keywords" content="Sanjay Dagam, network science, applied mathematics, linear algebra, mental health, iOS developer, high school researcher, Wisconsin">
+    <meta name="keywords" content="Sanjay Dagam, network science, applied mathematics, linear algebra, mental health, iOS developer, high school researcher, Wisconsin, Wisconsin Students for Students, nonprofit, math education, STEM equity">
     <meta name="author" content="Sanjay Dagam">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sdagam.github.io/sanjaydagam.github.io/">
@@ -40,6 +40,7 @@
                 <li><a href="mental-health.html">Mental Health Initiative</a></li>
                 <li><a href="apps.html">iOS Apps</a></li>
                 <li><a href="activities.html">Activities</a></li>
+                <li><a href="nonprofit.html">Nonprofit</a></li>
             </ul>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
@@ -115,6 +116,131 @@
                     <span style="font-size:0.8rem; color:var(--color-accent); font-weight:600;">📱 Try Interactive Demo →</span>
                 </div>
             </a>
+        </div>
+    </section>
+
+    <!-- ── NONPROFIT SUMMARY ── -->
+    <style>
+        .nonprofit-section {
+            padding: 5rem 2rem;
+            background: #f0ede8;
+        }
+        .nonprofit-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .nonprofit-eyebrow {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #2d6a4f;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        .nonprofit-heading {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        .nonprofit-desc {
+            font-size: 1.05rem;
+            color: #666;
+            line-height: 1.75;
+            max-width: 620px;
+            margin-bottom: 2.5rem;
+        }
+        .nonprofit-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        @media (max-width: 600px) {
+            .nonprofit-stats { grid-template-columns: 1fr; }
+        }
+        .np-stat {
+            background: #1a3329;
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .np-stat-num {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.2rem;
+            color: #fff;
+            line-height: 1;
+        }
+        .np-stat-label {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .nonprofit-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .np-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.65rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .np-btn-primary {
+            background: #e76f51;
+            color: #fff;
+            border: 2px solid #e76f51;
+        }
+        .np-btn-primary:hover { background: #c1562e; border-color: #c1562e; }
+        .np-btn-secondary {
+            background: transparent;
+            color: #2d6a4f;
+            border: 2px solid #2d6a4f;
+        }
+        .np-btn-secondary:hover { background: #d8f3dc; }
+    </style>
+
+    <section class="nonprofit-section">
+        <div class="nonprofit-inner">
+            <span class="nonprofit-eyebrow">501(c)(3) Nonprofit · Southeastern Wisconsin</span>
+            <h2 class="nonprofit-heading">Wisconsin Students for Students</h2>
+            <p class="nonprofit-desc">
+                I co-founded a student-run nonprofit providing free math enrichment to middle school
+                girls and low-income students — tackling the STEM gap at the root. We've logged
+                over 2,500 volunteer hours teaching AMC 8 and MathCounts curricula across
+                southeastern Wisconsin.
+            </p>
+            <div class="nonprofit-stats">
+                <div class="np-stat">
+                    <div class="np-stat-num">2,500+</div>
+                    <div class="np-stat-label">Volunteer Hours</div>
+                </div>
+                <div class="np-stat">
+                    <div class="np-stat-num">300+</div>
+                    <div class="np-stat-label">Classes Taught</div>
+                </div>
+                <div class="np-stat">
+                    <div class="np-stat-num">200+</div>
+                    <div class="np-stat-label">Students Reached</div>
+                </div>
+            </div>
+            <div class="nonprofit-links">
+                <a href="nonprofit.html" class="np-btn np-btn-secondary">Learn More →</a>
+                <a href="https://wistudents4students.org/donate/" target="_blank" rel="noopener" class="np-btn np-btn-primary">Donate</a>
+                <a href="https://wistudents4students.org/volunteer/" target="_blank" rel="noopener" class="np-btn np-btn-secondary">Volunteer</a>
+            </div>
         </div>
     </section>
 

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wisconsin Students for Students · Sanjay Dagam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --surface-2: #f0ede8;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --accent: #2d6a4f;
+      --accent-light: #d8f3dc;
+      --accent-warm: #e76f51;
+      --accent-warm-light: #fde8e0;
+      --border: #e5e1db;
+      --stat-bg: #1a3329;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(248,247,244,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--text-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      background: var(--stat-bg);
+      overflow: hidden;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #2d6a4f44, transparent),
+                  radial-gradient(ellipse 60% 80% at 80% 100%, #e76f5122, transparent);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #74c69d;
+      background: rgba(116,198,157,0.12);
+      border: 1px solid rgba(116,198,157,0.3);
+      border-radius: 100px;
+      padding: 0.3rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400; line-height: 1.1;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 em { font-style: italic; color: #74c69d; }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .hero-desc {
+      max-width: 640px; margin: 0 auto 2.5rem;
+      font-size: 1.1rem; color: rgba(255,255,255,0.8);
+      line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 100px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent-warm); color: #fff;
+      border: 2px solid var(--accent-warm);
+    }
+    .btn-primary:hover { background: #c1562e; border-color: #c1562e; transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent; color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover { border-color: #fff; }
+
+    /* ── STATS BAND ── */
+    .stats-band {
+      background: var(--accent);
+      padding: 3rem 2rem;
+    }
+    .stats-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem; text-align: center;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3rem; line-height: 1;
+      color: #fff;
+    }
+    .stat-label {
+      font-size: 0.85rem; color: rgba(255,255,255,0.75);
+      margin-top: 0.4rem; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SECTIONS ── */
+    .section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400; line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+    .section-body {
+      font-size: 1.05rem; color: var(--text-muted); line-height: 1.75;
+      max-width: 680px;
+    }
+
+    /* ── MISSION + VISION SPLIT ── */
+    .mv-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 640px) { .mv-grid { grid-template-columns: 1fr; } }
+    .mv-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .mv-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .mv-card h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem; margin-bottom: 0.75rem;
+    }
+    .mv-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── WHY IT MATTERS ── */
+    .why-section { background: var(--surface-2); }
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .why-card {
+      background: var(--surface);
+      border-radius: 14px; padding: 1.75rem;
+      border: 1px solid var(--border);
+    }
+    .why-card .big {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem; color: var(--accent-warm);
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .why-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── CURRICULUM ── */
+    .curriculum-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem; margin-top: 2.5rem;
+    }
+    .curriculum-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .curriculum-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent);
+    }
+    .curriculum-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .curriculum-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── PARTNERS ── */
+    .partners-section { background: var(--surface); }
+    .partners-list {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin-top: 2.5rem; align-items: center;
+    }
+    .partner-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem; font-weight: 500; color: var(--text);
+      text-decoration: none; transition: all 0.2s;
+    }
+    .partner-pill:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+    /* ── PERSONAL NOTE ── */
+    .note-section { background: var(--stat-bg); }
+    .note-box {
+      max-width: 700px; margin: 0 auto;
+      text-align: center; padding: 1rem;
+    }
+    .note-box .quote-mark {
+      font-family: 'Instrument Serif', serif;
+      font-size: 5rem; line-height: 0.5;
+      color: var(--accent); opacity: 0.4;
+      display: block; margin-bottom: 1rem;
+    }
+    .note-box blockquote {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-style: italic; color: #fff; line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+    .note-box cite {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      font-style: normal; letter-spacing: 0.05em;
+    }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--accent-warm);
+      padding: 4rem 2rem; text-align: center;
+    }
+    .cta-band h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: #fff; margin-bottom: 0.75rem;
+    }
+    .cta-band p { color: rgba(255,255,255,0.85); margin-bottom: 2rem; font-size: 1.05rem; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-white {
+      background: #fff; color: var(--accent-warm);
+      border: 2px solid #fff; font-weight: 700;
+    }
+    .btn-white:hover { background: transparent; color: #fff; }
+    .btn-outline-white {
+      background: transparent; color: #fff;
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+    .btn-outline-white:hover { border-color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * { animation: fadeUp 0.6s ease both; }
+    .hero .hero-eyebrow { animation-delay: 0.1s; }
+    .hero h1               { animation-delay: 0.2s; }
+    .hero .hero-sub        { animation-delay: 0.25s; }
+    .hero .hero-desc       { animation-delay: 0.3s; }
+    .hero .hero-ctas       { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Sanjay Dagam</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="nonprofit.html" class="active">Nonprofit</a></li>
+    <li><a href="textbook.html">Textbook</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">501(c)(3) Nonprofit · Southeastern Wisconsin</div>
+  <h1>Wisconsin Students<br><em>for Students</em></h1>
+  <p class="hero-sub">Educate, Elevate, Empower</p>
+  <p class="hero-desc">
+    A student-run nonprofit dedicated to closing the math and STEM gap for girls and
+    low-income students — one free class at a time.
+  </p>
+  <div class="hero-ctas">
+    <a href="https://wistudents4students.org/donate/" target="_blank" class="btn btn-primary">Donate Now</a>
+    <a href="https://wistudents4students.org/volunteer/" target="_blank" class="btn btn-outline">Volunteer →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">2,500+</div>
+      <div class="stat-label">Volunteer Hours</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">300+</div>
+      <div class="stat-label">Math Classes Taught</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Students Reached</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">19%</div>
+      <div class="stat-label">vs 50% — Math Proficiency Gap</div>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION + VISION -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">A mission rooted in equity</h2>
+    <p class="section-body">
+      Education is the great equalizer — but quality education remains out of reach for too many.
+      We focus specifically on the students most underserved by the system: girls, who begin
+      losing math confidence as early as 3rd grade, and students from low-income families
+      who are half as likely to enter STEM careers.
+    </p>
+
+    <div class="mv-grid">
+      <div class="mv-card">
+        <div class="mv-card-icon" style="background:#d8f3dc;">🎯</div>
+        <h3>Our Mission</h3>
+        <p>
+          Wisconsin Students for Students shines a light on educational inequalities facing
+          girls and low-income students, and uplifts them through free math enrichment classes,
+          volunteer outreach, and increased community awareness.
+        </p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-card-icon" style="background:#fde8e0;">🔭</div>
+        <h3>Our Vision</h3>
+        <p>
+          We're dismantling the myth that boys are better than girls at math. We want a world
+          where a student's zip code or gender never limits their access to a great STEM education.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section class="section why-section">
+  <div class="section-inner">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Why this work matters</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="big">3rd</div>
+        <p>By 3rd grade, girls start losing confidence in mathematics — years before high school.</p>
+      </div>
+      <div class="why-card">
+        <div class="big">4×</div>
+        <p>Four times as many men major in engineering and computer science as women.</p>
+      </div>
+      <div class="why-card">
+        <div class="big">19%</div>
+        <p>Math proficiency among low-income students, compared to 50% among high-income peers.</p>
+      </div>
+      <div class="why-card">
+        <div class="big">2×</div>
+        <p>High-income students are twice as likely to enter a STEM field as low-income students.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">What We Teach</div>
+    <h2 class="section-title">AMC 8 & MathCounts curriculum</h2>
+    <p class="section-body">
+      We offer free math enrichment to middle school students, covering the same topics found
+      in top math competitions. Our curriculum builds the problem-solving skills that open
+      doors to STEM majors and careers.
+    </p>
+    <div class="curriculum-grid">
+      <div class="curriculum-card">
+        <h4>Pre-Algebra</h4>
+        <p>Order of operations, logarithms, exponents, fractions, square roots, ratios, inequalities</p>
+      </div>
+      <div class="curriculum-card">
+        <h4>Algebra</h4>
+        <p>Single &amp; multi-variable equations, graphing, quadratics, functions, complex numbers</p>
+      </div>
+      <div class="curriculum-card">
+        <h4>Geometry</h4>
+        <p>Triangles, quadrilaterals, circles, power of a point, 3D shapes, analytic geometry, trigonometry</p>
+      </div>
+      <div class="curriculum-card">
+        <h4>Counting &amp; Probability</h4>
+        <p>Combinations, Pascal's triangle, hockey stick identity, binomial theorem, geometric probability</p>
+      </div>
+      <div class="curriculum-card">
+        <h4>Number Theory</h4>
+        <p>Primes, divisors, base numbers, unit digits, modular arithmetic, linear congruences</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="section partners-section">
+  <div class="section-inner">
+    <div class="section-label">Our Partners</div>
+    <h2 class="section-title">Organizations we work with</h2>
+    <p class="section-body">
+      We collaborate with established nonprofits and foundations to extend our reach and
+      serve more students across southeastern Wisconsin and beyond.
+    </p>
+    <div class="partners-list">
+      <a href="https://www.mtef.com/" target="_blank" class="partner-pill">MTEF</a>
+      <a href="https://www.bgca.org/" target="_blank" class="partner-pill">Boys &amp; Girls Club of America</a>
+      <a href="https://www.kinshipmke.org/" target="_blank" class="partner-pill">Kinship Community Food Center</a>
+      <a href="https://waukesha.blessingsinabackpack.org/" target="_blank" class="partner-pill">Blessings in a Backpack</a>
+      <a href="https://www.mathcounts.org/" target="_blank" class="partner-pill">MathCounts Foundation</a>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAL NOTE -->
+<section class="section note-section">
+  <div class="note-box">
+    <span class="quote-mark">"</span>
+    <blockquote>
+      Math opened doors for me — and I want to make sure those same doors
+      are open for every student, regardless of their background or gender.
+    </blockquote>
+    <cite>— Sanjay Dagam, Founder · Wisconsin Students for Students</cite>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Join the movement</h2>
+  <p>Whether you donate, volunteer, or simply spread the word — every action helps close the gap.</p>
+  <div class="cta-btns">
+    <a href="https://wistudents4students.org/donate/" target="_blank" class="btn btn-white">Donate</a>
+    <a href="https://wistudents4students.org/volunteer/" target="_blank" class="btn btn-outline-white">Volunteer</a>
+    <a href="https://wistudents4students.org/" target="_blank" class="btn btn-outline-white">Visit Full Site →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <a href="index.html">Sanjay Dagam</a> &nbsp;·&nbsp;
+    <a href="https://wistudents4students.org/" target="_blank">Wisconsin Students for Students</a> &nbsp;·&nbsp;
+    <a href="mailto:info@wistudentsforstudents.com">info@wistudentsforstudents.com</a>
+  </p>
+</footer>
+
+</body>
+</html>
