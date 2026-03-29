@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empower App — Interactive Demo | Sanjay Dagam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.demo-page {
+  background: #f0f2f8;
+  min-height: 100vh;
+  padding: 3rem 1.5rem 5rem;
+}
+.demo-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.demo-eyebrow {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #7c70c8;
+  margin-bottom: 0.6rem;
+}
+.demo-header h1 {
+  font-family: "Instrument Serif", serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  color: #0a0a1a;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.demo-header p {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  color: #5a5a7a;
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.65;
+}
+.demo-header a img { height: 44px; }
+
+.demo-layout {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ── Sidebar ── */
+.screen-nav {
+  flex-shrink: 0;
+  width: 175px;
+  position: sticky;
+  top: 80px;
+}
+.nav-group-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b8b8d8;
+  padding: 0 0.5rem;
+  margin: 1rem 0 0.3rem;
+}
+.nav-group-label:first-child { margin-top: 0; }
+.screen-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #4a4a6a;
+  padding: 0.38rem 0.6rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.12s;
+  margin-bottom: 1px;
+}
+.screen-btn:hover { background: rgba(124,112,200,0.1); color: #5a4ab8; }
+.screen-btn.active { background: #7c70c8; color: #fff; font-weight: 600; }
+
+/* ── iPhone frame ── */
+.phone-wrap { flex-shrink: 0; }
+.phone-frame {
+  width: 285px;
+  height: 600px;
+  background: #1c1c1e;
+  border-radius: 50px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px #3a3a3c,
+    0 0 0 2px #1c1c1e,
+    0 30px 80px rgba(0,0,0,0.4),
+    inset 0 0 0 1px #48484a;
+  position: relative;
+}
+/* Dynamic island */
+.phone-frame::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 28px;
+  background: #1c1c1e;
+  border-radius: 20px;
+  z-index: 10;
+}
+/* Right side button */
+.phone-frame::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 130px;
+  width: 3px;
+  height: 55px;
+  background: #3a3a3c;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 75px 0 #3a3a3c;
+}
+.vol-btns {
+  position: absolute;
+  left: -3px;
+  top: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.vol-btn {
+  width: 3px;
+  height: 36px;
+  background: #3a3a3c;
+  border-radius: 2px 0 0 2px;
+}
+
+/* ── Screen ── */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  cursor: pointer;
+}
+
+/* ── Slides ── */
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.slide.active { display: block; }
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Tap hint */
+.tap-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.phone-screen:hover .slide.active .tap-hint { opacity: 1; }
+
+/* ── Controls ── */
+.phone-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 0 4px;
+}
+.ctrl-btn {
+  background: rgba(124,112,200,0.12);
+  border: none;
+  border-radius: 20px;
+  padding: 7px 18px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c70c8;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ctrl-btn:hover { background: rgba(124,112,200,0.22); }
+.ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+.slide-counter {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  color: #9898b8;
+  font-weight: 500;
+}
+
+/* ── Feature chips ── */
+.feature-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+  justify-content: center;
+}
+.feature-chip {
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #5a4ab8;
+  background: rgba(124,112,200,0.1);
+  border: 1px solid rgba(124,112,200,0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .demo-layout { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .screen-nav { position: static; width: 100%; display: flex; flex-wrap: wrap; gap: 4px; }
+  .nav-group-label { display: none; }
+  .screen-btn { width: auto; font-size: 0.72rem; padding: 0.3rem 0.6rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">SD</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="blog.html">Applied Math Blog</a></li>
+      <li><a href="textbook.html">Textbook</a></li>
+      <li><a href="mental-health.html">Mental Health Initiative</a></li>
+      <li><a href="apps.html" class="active">iOS Apps</a></li>
+      <li><a href="activities.html">Activities</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="demo-page">
+
+  <div class="demo-header">
+    <div class="demo-eyebrow">Interactive Demo</div>
+    <h1>Empower Mental Health</h1>
+    <p>A safe, private space for teens to track habits, journal thoughts, and find calm. Tap the phone to advance through screens, use the sidebar to jump to any section, or press ← → arrow keys.</p>
+    <a href="https://apps.apple.com/us/app/empower-mental-health/id6755795318" target="_blank" rel="noopener">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+    </a>
+  </div>
+
+  <div class="demo-layout">
+
+    <!-- Sidebar navigation -->
+    <nav class="screen-nav">
+      <div class="nav-group-label">Onboarding</div>
+      <button class="screen-btn active" data-idx="0">Empower Splash</button>
+      <button class="screen-btn" data-idx="1">Build Healthy Habits</button>
+      <button class="screen-btn" data-idx="2">Express &amp; Reflect</button>
+      <button class="screen-btn" data-idx="3">Find Your Calm</button>
+      <button class="screen-btn" data-idx="4">Stay on Track</button>
+      <button class="screen-btn" data-idx="5">You're All Set</button>
+
+      <div class="nav-group-label">Main App</div>
+      <button class="screen-btn" data-idx="6">Home</button>
+      <button class="screen-btn" data-idx="7">Home (scrolled)</button>
+      <button class="screen-btn" data-idx="8">Habits</button>
+      <button class="screen-btn" data-idx="9">Habits (more)</button>
+      <button class="screen-btn" data-idx="10">Mood</button>
+      <button class="screen-btn" data-idx="11">Journal</button>
+      <button class="screen-btn" data-idx="12">Wellness — Breathing</button>
+      <button class="screen-btn" data-idx="13">Box Breathing</button>
+      <button class="screen-btn" data-idx="14">Wellness — Exercises</button>
+      <button class="screen-btn" data-idx="15">Affirmations</button>
+      <button class="screen-btn" data-idx="16">Learn</button>
+    </nav>
+
+    <!-- iPhone -->
+    <div class="phone-wrap">
+      <div class="phone-frame">
+        <div class="vol-btns">
+          <div class="vol-btn"></div>
+          <div class="vol-btn"></div>
+        </div>
+        <div class="phone-screen" id="phone-screen" onclick="next()">
+
+          <div class="slide active" data-idx="0">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1324.PNG" alt="Empower Splash">
+            <div class="tap-hint">Tap to continue →</div>
+          </div>
+          <div class="slide" data-idx="1">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1325.PNG" alt="Build Healthy Habits">
+            <div class="tap-hint">Tap to continue →</div>
+          </div>
+          <div class="slide" data-idx="2">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1326.PNG" alt="Express and Reflect">
+            <div class="tap-hint">Tap to continue →</div>
+          </div>
+          <div class="slide" data-idx="3">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1327.PNG" alt="Find Your Calm">
+            <div class="tap-hint">Tap to continue →</div>
+          </div>
+          <div class="slide" data-idx="4">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1328.PNG" alt="Stay on Track">
+            <div class="tap-hint">Tap to continue →</div>
+          </div>
+          <div class="slide" data-idx="5">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1329.PNG" alt="You're All Set">
+            <div class="tap-hint">Tap to enter the app →</div>
+          </div>
+          <div class="slide" data-idx="6">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1312.PNG" alt="Home">
+            <div class="tap-hint">Tap to scroll →</div>
+          </div>
+          <div class="slide" data-idx="7">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1313.PNG" alt="Home Scrolled">
+            <div class="tap-hint">Tap to see Habits →</div>
+          </div>
+          <div class="slide" data-idx="8">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1314.PNG" alt="Habits">
+            <div class="tap-hint">Tap to scroll →</div>
+          </div>
+          <div class="slide" data-idx="9">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1315.PNG" alt="Habits More">
+            <div class="tap-hint">Tap to see Mood →</div>
+          </div>
+          <div class="slide" data-idx="10">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1316.PNG" alt="Mood">
+            <div class="tap-hint">Tap to see Journal →</div>
+          </div>
+          <div class="slide" data-idx="11">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1317.PNG" alt="Journal">
+            <div class="tap-hint">Tap to see Wellness →</div>
+          </div>
+          <div class="slide" data-idx="12">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1318.PNG" alt="Wellness Breathing">
+            <div class="tap-hint">Tap to start breathing →</div>
+          </div>
+          <div class="slide" data-idx="13">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1319.PNG" alt="Box Breathing">
+            <div class="tap-hint">Tap to see Exercises →</div>
+          </div>
+          <div class="slide" data-idx="14">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1320.PNG" alt="Guided Exercises">
+            <div class="tap-hint">Tap to see Affirmations →</div>
+          </div>
+          <div class="slide" data-idx="15">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1321.PNG" alt="Affirmations">
+            <div class="tap-hint">Tap to see Learn →</div>
+          </div>
+          <div class="slide" data-idx="16">
+            <img src="/sanjaydagam.github.io/assets/empower/IMG_1322.PNG" alt="Learn">
+            <div class="tap-hint">Tap to restart →</div>
+          </div>
+
+        </div><!-- phone-screen -->
+      </div><!-- phone-frame -->
+
+      <div class="phone-controls">
+        <button class="ctrl-btn" id="btn-prev" onclick="prev()" disabled>← Prev</button>
+        <span class="slide-counter" id="counter">1 / 17</span>
+        <button class="ctrl-btn" id="btn-next" onclick="next()">Next →</button>
+      </div>
+
+      <div class="feature-chips">
+        <span class="feature-chip">🏠 Home</span>
+        <span class="feature-chip">💜 Habits</span>
+        <span class="feature-chip">😊 Mood &amp; Journal</span>
+        <span class="feature-chip">🍃 Wellness</span>
+        <span class="feature-chip">🎓 Learn</span>
+      </div>
+    </div><!-- phone-wrap -->
+
+  </div><!-- demo-layout -->
+</div><!-- demo-page -->
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+    <div class="footer-links">
+      <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const TOTAL = 17;
+let current = 0;
+
+function updateUI() {
+  document.querySelectorAll('.slide').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.idx) === current);
+  });
+  document.querySelectorAll('.screen-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.idx) === current);
+  });
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + TOTAL;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === TOTAL - 1;
+}
+
+function goTo(idx) {
+  current = Math.max(0, Math.min(TOTAL - 1, idx));
+  updateUI();
+}
+function next() {
+  current < TOTAL - 1 ? goTo(current + 1) : goTo(0);
+}
+function prev() { goTo(current - 1); }
+
+document.querySelectorAll('.screen-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    goTo(parseInt(btn.dataset.idx));
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prev();
+});
+
+updateUI();
+</script>
+</body>
+</html>
