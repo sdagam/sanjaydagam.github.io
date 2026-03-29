@@ -19,6 +19,14 @@
   --cat-eng:        #1e8449; --cat-eng-bg:     #e8f8ee;
 }
 
+/* ── Category stripes ── */
+.s-stats   { background: var(--cat-stats); }
+.s-network { background: var(--cat-network); }
+.s-physics { background: var(--cat-physics); }
+.s-calc    { background: var(--cat-calc); }
+.s-cs      { background: var(--cat-cs); }
+.s-eng     { background: var(--cat-eng); }
+
 /* ── Hero ── */
 .blog-hero {
   background: #f4f6fb;
@@ -138,11 +146,12 @@
 .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .9rem; }
 .f-card {
   background: #fff; border: 1.5px solid #eaeaf0; border-radius: 10px;
-  padding: 1.15rem; text-decoration: none;
-  display: flex; flex-direction: column; gap: .45rem;
+  text-decoration: none; overflow: hidden;
+  display: flex; flex-direction: row;
   transition: border-color .15s, box-shadow .15s, transform .14s;
 }
 .f-card:hover { border-color: #c8a84a; box-shadow: 0 4px 18px rgba(200,168,74,.15); transform: translateY(-2px); }
+.f-card-inner { padding: 1.15rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; min-width: 0; }
 .f-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
 .f-card .f-date { font-family: "DM Sans", sans-serif; font-size: .73rem; color: #b0b0c8; margin-top: auto; }
 
@@ -178,11 +187,13 @@
 
 .a-card {
   background: #fff; border: 1.5px solid #eaeaf0; border-radius: 10px;
-  padding: 1.1rem 1.2rem; text-decoration: none;
-  display: flex; flex-direction: column; gap: .4rem;
+  text-decoration: none; overflow: hidden;
+  display: flex; flex-direction: row;
   transition: border-color .14s, box-shadow .14s, transform .12s;
 }
 .a-card:hover { border-color: #b8c8e8; box-shadow: 0 4px 16px rgba(26,58,122,.1); transform: translateY(-1px); }
+.a-card-stripe { width: 6px; flex-shrink: 0; }
+.a-card-inner { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; min-width: 0; }
 .a-card .top { display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
 .a-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
 .a-card .adate { font-family: "DM Sans", sans-serif; font-size: .72rem; color: #b8b8cc; margin-top: auto; padding-top: .2rem; }
@@ -220,10 +231,11 @@
 <!-- Navbar — matches existing site exactly -->
 <nav class="navbar">
   <div class="nav-container">
-    <a href="index.html" class="nav-logo">SD</a>
+    <a href="index.html" class="nav-logo" style="display:none;"></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="research.html">Research</a></li>
+      <li><a href="nonprofit.html">Nonprofit</a></li>
       <li><a href="blog.html" class="active">Applied Math Blog</a></li>
       <li><a href="textbook.html">Textbook</a></li>
       <li><a href="mental-health.html">Mental Health Initiative</a></li>
@@ -287,24 +299,36 @@
     <div class="sec-label">★ Featured Articles</div>
     <div class="featured-grid">
       <a href="/sanjaydagam.github.io/articles/birthday-paradox.html" class="f-card">
-        <span class="badge bs">Statistics</span>
-        <h3>The Birthday Paradox: Why Probability Defies Intuition</h3>
-        <span class="f-date">January 6, 2024</span>
+        <div class="a-card-stripe s-stats"></div>
+        <div class="f-card-inner">
+          <span class="badge bs">Statistics</span>
+          <h3>The Birthday Paradox: Why Probability Defies Intuition</h3>
+          <span class="f-date">January 6, 2024</span>
+        </div>
       </a>
       <a href="/sanjaydagam.github.io/articles/gradient-descent.html" class="f-card">
-        <span class="badge bx">CS / AI</span>
-        <h3>Gradient Descent: How Machines Learn by Rolling Downhill</h3>
-        <span class="f-date">April 13, 2024</span>
+        <div class="a-card-stripe s-cs"></div>
+        <div class="f-card-inner">
+          <span class="badge bx">CS / AI</span>
+          <h3>Gradient Descent: How Machines Learn by Rolling Downhill</h3>
+          <span class="f-date">April 13, 2024</span>
+        </div>
       </a>
       <a href="/sanjaydagam.github.io/articles/chaos-theory.html" class="f-card">
-        <span class="badge bp">Physics</span>
-        <h3>Chaos Theory: The Butterfly Effect and Sensitive Dependence</h3>
-        <span class="f-date">October 12, 2024</span>
+        <div class="a-card-stripe s-physics"></div>
+        <div class="f-card-inner">
+          <span class="badge bp">Physics</span>
+          <h3>Chaos Theory: The Butterfly Effect and Sensitive Dependence</h3>
+          <span class="f-date">October 12, 2024</span>
+        </div>
       </a>
       <a href="/sanjaydagam.github.io/articles/epidemic-spreading.html" class="f-card">
-        <span class="badge bn">Network Science</span>
-        <h3>Epidemic Spreading: The Mathematics of Contagion</h3>
-        <span class="f-date">June 1, 2024</span>
+        <div class="a-card-stripe s-network"></div>
+        <div class="f-card-inner">
+          <span class="badge bn">Network Science</span>
+          <h3>Epidemic Spreading: The Mathematics of Contagion</h3>
+          <span class="f-date">June 1, 2024</span>
+        </div>
       </a>
     </div>
   </div>
@@ -344,12 +368,12 @@
     <div class="footer-links">
       <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
       <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:sdagam@example.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#7605121711171b36130e171b061a135815191b">Email</a>
     </div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const ARTICLES = [
   {num:1,  title:"The Birthday Paradox: Why Probability Defies Intuition",              cat:"Statistics & Probability",  date:"January 6, 2024",      batch:1, file:"birthday-paradox.html"},
   {num:2,  title:"Six Degrees of Separation: The Small World Phenomenon",               cat:"Network Science",            date:"January 13, 2024",     batch:1, file:"six-degrees-separation.html"},
@@ -448,6 +472,15 @@ const SHORT = {
   "Computer Science/AI":"CS / AI","Engineering Applications":"Engineering",
 };
 
+const STRIPE = {
+  "Statistics & Probability": "s-stats",
+  "Network Science":          "s-network",
+  "Physics Applications":     "s-physics",
+  "Calculus Applications":    "s-calc",
+  "Computer Science/AI":      "s-cs",
+  "Engineering Applications": "s-eng",
+};
+
 function slug(t){
   return t.toLowerCase().replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").substring(0,60);
 }
@@ -496,12 +529,15 @@ function render(){
     <div class="articles-grid">
       ${arts.map(a=>`
         <a href="/sanjaydagam.github.io/articles/${a.file}" class="a-card">
-          <div class="top">
-            <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
-            <span class="a-num">#${a.num}</span>
+          <div class="a-card-stripe ${STRIPE[a.cat]||""}"></div>
+          <div class="a-card-inner">
+            <div class="top">
+              <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
+              <span class="a-num">#${a.num}</span>
+            </div>
+            <h3>${a.title}</h3>
+            <span class="adate">${a.date}</span>
           </div>
-          <h3>${a.title}</h3>
-          <span class="adate">${a.date}</span>
         </a>`).join("")}
     </div>`;
   }).join("");
@@ -527,11 +563,12 @@ document.querySelectorAll(".pill[data-batch]").forEach(btn=>{
 });
 
 // Search
-document.getElementById("search-input").addEventListener("input",e=>{
-  filterQ=e.target.value.trim();
+document.getElementById("search-input").addEventListener("input", e => {
+  filterQ = e.target.value.trim();
   render();
 });
 
+// Initial render
 render();
 </script>
 </body>
