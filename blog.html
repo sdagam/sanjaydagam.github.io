@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Applied Math Blog | Sanjay Dagam</title>
-<meta name="description" content="52 articles exploring applied mathematics across statistics, network science, physics, calculus, CS/AI, and engineering.">
+<meta name="description" content="78 articles exploring applied mathematics across statistics, network science, physics, calculus, CS/AI, and engineering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -21,32 +21,51 @@
 
 /* ── Hero ── */
 .blog-hero {
-  background: linear-gradient(140deg, #0e0e1c 0%, #1a1a3a 55%, #0d1f35 100%);
+  background: #f0fafa;
   padding: 5rem 2rem 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
+/* Dot grid top-right corner */
 .blog-hero::before {
   content: "";
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 25% 60%, rgba(45,91,227,.14) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 25%, rgba(120,50,200,.09) 0%, transparent 55%);
+  position: absolute;
+  top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 160px 160px 0;
+  border-color: transparent rgba(0,170,170,0.1) transparent transparent;
+}
+/* Teal glow orb bottom-left */
+.blog-hero::after {
+  content: "";
+  position: absolute;
+  bottom: -60px; left: -40px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,170,170,0.12) 0%, transparent 70%);
   pointer-events: none;
 }
-.blog-hero-inner { position: relative; max-width: 740px; margin: 0 auto; }
+.blog-hero-inner { position: relative; z-index: 1; max-width: 740px; margin: 0 auto; }
 .blog-hero h1 {
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(2.2rem, 5.5vw, 3.4rem);
-  color: #fff;
+  color: #041e1e;
   letter-spacing: -.02em;
   line-height: 1.15;
   margin-bottom: .9rem;
 }
-.blog-hero h1 em { font-style: italic; color: #a5b4fc; }
+.blog-hero h1 em { font-style: italic; color: #008899; }
+/* Teal rule under heading */
+.blog-hero-rule {
+  width: 48px; height: 3px;
+  background: linear-gradient(90deg, #00aaaa, #0077cc);
+  border-radius: 3px;
+  margin: 0 auto .9rem;
+}
 .blog-hero .sub {
-  color: rgba(255,255,255,.58);
+  color: #2a6060;
   font-family: "DM Sans", sans-serif;
   font-size: 1rem;
   line-height: 1.65;
@@ -57,12 +76,12 @@
 .blog-stat .num {
   display: block;
   font-family: "Instrument Serif", serif;
-  font-size: 2rem; color: #fff; line-height: 1;
+  font-size: 2rem; color: #041e1e; line-height: 1;
 }
 .blog-stat .lbl {
   display: block;
   font-family: "DM Sans", sans-serif;
-  font-size: .72rem; color: rgba(255,255,255,.4);
+  font-size: .72rem; color: #4a8888;
   letter-spacing: .08em; text-transform: uppercase; margin-top: .25rem;
 }
 
@@ -88,7 +107,7 @@
   font-family: "DM Sans", sans-serif; font-size: .88rem; color: #0f0f14;
   background: #fafafa; outline: none; transition: border-color .15s;
 }
-#search-input:focus { border-color: #2d5be3; background: #fff; }
+#search-input:focus { border-color: #00aaaa; background: #fff; }
 #search-input::placeholder { color: #b8b8cc; }
 .results-count { font-family: "DM Sans", sans-serif; font-size: .78rem; color: #b0b0c8; white-space: nowrap; min-width: 76px; text-align: right; }
 .filter-row { display: flex; gap: .38rem; flex-wrap: wrap; align-items: center; }
@@ -100,8 +119,8 @@
   cursor: pointer; background: #fff; color: #3a3a4a;
   transition: all .14s; white-space: nowrap;
 }
-.pill:hover { border-color: #2d5be3; color: #2d5be3; }
-.pill.active { border-color: transparent !important; color: #fff !important; background: #2d5be3 !important; }
+.pill:hover { border-color: #00aaaa; color: #005a5a; }
+.pill.active { border-color: transparent !important; color: #fff !important; background: #0099aa !important; }
 .pill.active.ps { background: var(--cat-stats)   !important; }
 .pill.active.pn { background: var(--cat-network) !important; }
 .pill.active.pp { background: var(--cat-physics) !important; }
@@ -125,7 +144,7 @@
   display: flex; flex-direction: column; gap: .45rem;
   transition: border-color .15s, box-shadow .15s, transform .14s;
 }
-.f-card:hover { border-color: #2d5be3; box-shadow: 0 4px 18px rgba(45,91,227,.1); transform: translateY(-2px); }
+.f-card:hover { border-color: #00aaaa; box-shadow: 0 4px 18px rgba(0,170,170,.12); transform: translateY(-2px); }
 .f-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
 .f-card .f-date { font-family: "DM Sans", sans-serif; font-size: .73rem; color: #b0b0c8; margin-top: auto; }
 
@@ -165,7 +184,7 @@
   display: flex; flex-direction: column; gap: .4rem;
   transition: border-color .14s, box-shadow .14s, transform .12s;
 }
-.a-card:hover { border-color: #c5d2f8; box-shadow: 0 4px 16px rgba(45,91,227,.08); transform: translateY(-1px); }
+.a-card:hover { border-color: #80dddd; box-shadow: 0 4px 16px rgba(0,170,170,.1); transform: translateY(-1px); }
 .a-card .top { display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
 .a-card h3 { font-family: "Instrument Serif", serif; font-size: .97rem; line-height: 1.35; color: #0f0f14; font-weight: 400; }
 .a-card .adate { font-family: "DM Sans", sans-serif; font-size: .72rem; color: #b8b8cc; margin-top: auto; padding-top: .2rem; }
@@ -178,12 +197,12 @@
 .no-results p { font-family: "DM Sans", sans-serif; color: #b0b0c8; font-size: .9rem; }
 
 /* ── About ── */
-.blog-about { background: #0e0e1c; padding: 3.5rem 2rem; text-align: center; }
+.blog-about { background: #f0fafa; border-top: 1px solid #c8eeee; padding: 3.5rem 2rem; text-align: center; }
 .about-inner { max-width: 620px; margin: 0 auto; }
-.blog-about h2 { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: #fff; font-weight: 400; margin-bottom: .9rem; }
-.blog-about p { font-family: "DM Sans", sans-serif; font-size: .92rem; color: rgba(255,255,255,.5); line-height: 1.72; margin-bottom: 1.4rem; }
+.blog-about h2 { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: #041e1e; font-weight: 400; margin-bottom: .9rem; }
+.blog-about p { font-family: "DM Sans", sans-serif; font-size: .92rem; color: #2a6060; line-height: 1.72; margin-bottom: 1.4rem; }
 .topic-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; }
-.topic-chip { font-family: "DM Sans", sans-serif; font-size: .73rem; padding: .28rem .75rem; border: 1px solid rgba(255,255,255,.14); border-radius: 2rem; color: rgba(255,255,255,.5); }
+.topic-chip { font-family: "DM Sans", sans-serif; font-size: .73rem; padding: .28rem .75rem; border: 1px solid rgba(0,170,170,0.25); border-radius: 2rem; color: #005a5a; background: rgba(0,170,170,0.07); }
 
 /* ── Responsive ── */
 @media (max-width: 680px) {
@@ -222,12 +241,12 @@
 <header class="blog-hero">
   <div class="blog-hero-inner">
     <h1>Applied <em>Mathematics</em><br>in the Real World</h1>
+    <div class="blog-hero-rule"></div>
     <p class="sub">A weekly blog exploring how mathematics shapes science, technology, and everyday life — from birthday paradoxes to chaos theory, Fourier transforms to conservation laws.</p>
     <div class="blog-stats">
-      <div class="blog-stat"><span class="num">52</span><span class="lbl">Articles Published</span></div>
-      <div class="blog-stat"><span class="num">156</span><span class="lbl">Planned Total</span></div>
-      <div class="blog-stat"><span class="num">9</span><span class="lbl">Topic Areas</span></div>
-      <div class="blog-stat"><span class="num">3</span><span class="lbl">Years of Content</span></div>
+      <div class="blog-stat"><span class="num">78</span><span class="lbl">Articles Published</span></div>
+      <div class="blog-stat"><span class="num">6</span><span class="lbl">Topic Areas</span></div>
+      <div class="blog-stat"><span class="num">3</span><span class="lbl">Groups</span></div>
     </div>
   </div>
 </header>
@@ -243,7 +262,7 @@
         </svg>
         <input type="text" id="search-input" placeholder="Search articles, topics, concepts…" autocomplete="off">
       </div>
-      <span class="results-count" id="results-count">52 articles</span>
+      <span class="results-count" id="results-count">78 articles</span>
     </div>
     <div class="filter-row">
       <span class="filter-lbl">Topic:</span>
@@ -304,7 +323,6 @@
   <div class="about-inner">
     <h2>About This Blog</h2>
     <p>Mathematics becomes truly exciting when you see how it powers the world around us. Each article connects a core concept to a real application — written for students with an AP Calculus background who want to explore what comes next.</p>
-    <p>The series follows a deliberate progression: foundations in 2024 → engineering depth in late 2024 → linear algebra in 2025 → differential equations and real analysis in 2026–2027.</p>
     <div class="topic-chips">
       <span class="topic-chip">Statistics & Probability</span>
       <span class="topic-chip">Network Science</span>
@@ -326,12 +344,12 @@
     <div class="footer-links">
       <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
       <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:sdagam@example.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#cebdaaafa9afa38eabb6afa3bea2abe0ada1a3">Email</a>
     </div>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const ARTICLES = [
   {num:1,  title:"The Birthday Paradox: Why Probability Defies Intuition",              cat:"Statistics & Probability",  date:"January 6, 2024",      batch:1, file:"birthday-paradox.html"},
   {num:2,  title:"Six Degrees of Separation: The Small World Phenomenon",               cat:"Network Science",            date:"January 13, 2024",     batch:1, file:"six-degrees-separation.html"},
@@ -509,12 +527,4 @@ document.querySelectorAll(".pill[data-batch]").forEach(btn=>{
 });
 
 // Search
-document.getElementById("search-input").addEventListener("input",e=>{
-  filterQ=e.target.value.trim();
-  render();
-});
-
-render();
-</script>
-</body>
-</html>
+documen
