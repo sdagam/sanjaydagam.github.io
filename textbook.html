@@ -287,11 +287,13 @@
             <span class="tb-pill">425 pages</span>
             <span class="tb-pill">7 Chapters</span>
             <span class="tb-pill">4 Appendices</span>
+            <span class="tb-pill">Solutions Manual included</span>
             <span class="tb-pill">High School / Early College</span>
             <span class="tb-pill">Prerequisite: AP Calculus</span>
         </div>
         <div class="tb-actions">
-            <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-primary">&#8595; Download PDF</a>
+            <a href="/sanjaydagam.github.io/assets/linear-algebra.pdf" download class="tb-btn tb-btn-primary">&#8595; Download Textbook</a>
+            <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-primary" style="background:#1e8449;">&#8595; Download Solutions</a>
             <a href="#viewer" class="tb-btn tb-btn-secondary">Read Online &#8595;</a>
         </div>
     </section>
@@ -408,6 +410,32 @@
         </div>
     </div>
 
+    <!-- Solutions Manual Viewer -->
+    <div class="tb-viewer-wrap" id="solutions" style="margin-top:2px;">
+        <div class="tb-viewer-inner">
+            <div class="tb-viewer-header">
+                <span class="tb-viewer-label" style="color:#5cb87a;">Solutions Manual</span>
+                <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download
+                   class="tb-btn tb-btn-primary"
+                   style="font-size:0.78rem; padding:0.5rem 1rem; background:#1e8449;">
+                    &#8595; Download Solutions
+                </a>
+            </div>
+            <iframe
+                id="solutionsFrame"
+                class="tb-viewer-frame"
+                src="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf"
+                title="Linear Algebra Solutions Manual by Sanjay Dagam">
+            </iframe>
+            <div class="tb-fallback" id="solutionsFallback">
+                <p>Your browser doesn't support inline PDF viewing.</p>
+                <a href="/sanjaydagam.github.io/assets/linear-algebra-solutions.pdf" download class="tb-btn tb-btn-primary">
+                    &#8595; Download Solutions instead
+                </a>
+            </div>
+        </div>
+    </div>
+
     <p class="tb-footer-note">
         &copy; 2026 Sanjay Dagam. All rights reserved.
         &nbsp;&middot;&nbsp;
@@ -430,6 +458,10 @@
         document.getElementById('pdfFrame').addEventListener('error', function() {
             this.style.display = 'none';
             document.getElementById('pdfFallback').style.display = 'block';
+        });
+        document.getElementById('solutionsFrame').addEventListener('error', function() {
+            this.style.display = 'none';
+            document.getElementById('solutionsFallback').style.display = 'block';
         });
 
         // Mobile nav toggle
