@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ground-Level NO₂ Predictions via CNN | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --ml:      #B84A1A;
+            --ml-lt:   #FDF0EA;
+            --ml-mid:  #D4713A;
+            --ink:     #0f1a2e;
+            --slate:   #2c3e55;
+            --muted:   #5a6a7e;
+            --border:  #e5e1db;
+            --bg-alt:  #f8f7f4;
+            --bg-card: #ffffff;
+        }
+
+        /* ── HERO ── */
+        .proj-hero {
+            background: var(--slate);
+            position: relative; overflow: hidden;
+            padding: 5.5rem 2rem 4rem;
+        }
+        .proj-hero-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.13;
+        }
+        .proj-hero-bg svg { width: 100%; height: 100%; }
+        .proj-hero-inner {
+            max-width: 900px; margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .proj-back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; font-weight: 600;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            margin-bottom: 2rem; letter-spacing: 0.04em;
+            text-transform: uppercase; transition: color 0.2s;
+        }
+        .proj-back:hover { color: rgba(255,255,255,0.85); }
+        .proj-meta-row {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 1.5rem; align-items: center;
+        }
+        .proj-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .proj-tag {
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+        }
+        .tag-ml  { background: rgba(184,74,26,0.35);  color: #F0A070; }
+        .tag-env { background: rgba(46,125,79,0.35);  color: #6BBF8A; }
+        .proj-hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.9rem, 4.5vw, 3rem);
+            font-weight: 600; line-height: 1.15;
+            color: #fff; margin-bottom: 1.25rem;
+        }
+        .proj-hero h1 em { font-style: italic; color: #F0A070; }
+        .proj-hero-sub {
+            font-size: 1.05rem; color: rgba(255,255,255,0.65);
+            line-height: 1.75; max-width: 700px; margin-bottom: 2rem;
+        }
+        .proj-status-row {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .proj-status-label {
+            font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35); display: block; margin-bottom: 0.2rem;
+        }
+        .proj-status-value {
+            font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 500;
+        }
+        .status-pill {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+            background: #d8f3dc; color: #2d6a4f;
+        }
+
+        /* ── OPPORTUNITY BAND ── */
+        .opp-band { background: var(--ink); padding: 2.5rem 2rem; }
+        .opp-inner {
+            max-width: 900px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+        .opp-item { text-align: center; padding: 0 1.25rem; border-right: 1px solid rgba(255,255,255,0.08); }
+        .opp-item:last-child { border-right: none; }
+        .opp-num { font-family: 'Instrument Serif', serif; font-size: 2rem; color: #fff; line-height: 1; display: block; }
+        .opp-num em { font-style: normal; color: #F0A070; }
+        .opp-lbl { font-size: 0.67rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-top: 0.35rem; }
+
+        /* ── BODY ── */
+        .proj-body {
+            max-width: 900px; margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: 1fr 290px;
+            gap: 4rem; align-items: start;
+        }
+        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+        .proj-section { margin-bottom: 3rem; }
+        .proj-section:last-child { margin-bottom: 0; }
+        .proj-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--ml); margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .proj-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .proj-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem; font-weight: 400;
+            color: var(--ink); margin-bottom: 0.85rem; line-height: 1.3;
+        }
+        .proj-section p { font-size: 0.97rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .proj-section p:last-child { margin-bottom: 0; }
+
+        /* plain english */
+        .plain-box {
+            background: var(--ml-lt);
+            border-left: 4px solid var(--ml);
+            border-radius: 0 10px 10px 0;
+            padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+        }
+        .plain-box-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--ml); margin-bottom: 0.5rem; display: block;
+        }
+        .plain-box p { font-size: 0.97rem; color: #4a1a0a; line-height: 1.75; margin: 0; }
+
+        /* gap box — the research gap */
+        .gap-box {
+            background: var(--ink); border-radius: 10px;
+            padding: 1.5rem 1.75rem; margin: 1rem 0;
+        }
+        .gap-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; color: #F0A070;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            display: block; margin-bottom: 1rem;
+        }
+        .gap-items { display: flex; flex-direction: column; gap: 0.85rem; }
+        .gap-item { display: flex; gap: 0.85rem; align-items: flex-start; }
+        .gap-bullet {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(240,160,112,0.2); border: 1.5px solid #F0A070;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; color: #F0A070; font-weight: 700; margin-top: 0.1rem;
+        }
+        .gap-item p { font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.65; margin: 0; }
+
+        /* findings list */
+        .findings-list {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .findings-list li {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+        }
+        .findings-list li::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--ml); flex-shrink: 0; margin-top: 0.55rem;
+        }
+
+        /* prior work table */
+        .prior-table {
+            width: 100%; border-collapse: collapse; font-size: 0.855rem; margin-top: 1rem;
+        }
+        .prior-table th {
+            background: var(--ink); color: rgba(255,255,255,0.65);
+            font-size: 0.68rem; text-transform: uppercase;
+            letter-spacing: 0.08em; font-weight: 600;
+            padding: 0.55rem 0.85rem; text-align: left;
+        }
+        .prior-table td {
+            padding: 0.6rem 0.85rem;
+            border-bottom: 1px solid var(--border); color: var(--muted);
+        }
+        .prior-table tr:last-child td { border-bottom: none; }
+        .prior-table tr:nth-child(even) td { background: var(--bg-alt); }
+        .prior-table .highlight { color: var(--ml); font-weight: 600; }
+        .prior-table .best td { background: var(--ml-lt); color: var(--ink); font-weight: 600; }
+
+        /* approach grid */
+        .approach-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1rem; margin: 1rem 0;
+        }
+        @media (max-width: 500px) { .approach-grid { grid-template-columns: 1fr; } }
+        .approach-card {
+            border-radius: 10px; border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .approach-head {
+            padding: 0.6rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.07em;
+        }
+        .approach-head-cao  { background: var(--ml-lt); color: var(--ml); }
+        .approach-head-new  { background: #E6F1FB; color: #185FA5; }
+        .approach-body { padding: 1rem; background: #fff; }
+        .approach-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 0.4rem 0; border-bottom: 1px solid var(--border);
+            font-size: 0.855rem; gap: 0.5rem;
+        }
+        .approach-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .approach-key { color: var(--muted); flex-shrink: 0; }
+        .approach-val { font-weight: 500; color: var(--ink); text-align: right; }
+        .val-new { color: #185FA5; font-weight: 600; }
+
+        /* phase cards */
+        .phases { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+        .phase-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem 1.25rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .phase-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; font-weight: 600; color: var(--ml);
+            background: var(--ml-lt); border-radius: 6px;
+            padding: 0.2rem 0.5rem; flex-shrink: 0; margin-top: 0.05rem;
+        }
+        .phase-title {
+            font-size: 0.88rem; font-weight: 600; color: var(--ink);
+            display: block; margin-bottom: 0.25rem;
+        }
+        .phase-desc { font-size: 0.845rem; color: var(--muted); line-height: 1.65; margin: 0; }
+
+        /* literature chip */
+        .lit-list { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.75rem; }
+        .lit-item {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.75rem 1rem;
+        }
+        .lit-title { font-size: 0.855rem; font-weight: 600; color: var(--ink); display: block; margin-bottom: 0.2rem; }
+        .lit-meta { font-size: 0.78rem; color: var(--muted); }
+
+        /* ── SIDEBAR ── */
+        .sidebar-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem;
+        }
+        .sidebar-card-head { background: var(--ink); padding: 0.85rem 1.25rem; }
+        .sidebar-card-head h3 {
+            font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6); margin: 0;
+        }
+        .sidebar-card-body { padding: 1rem 1.25rem; }
+        .sidebar-row {
+            display: flex; flex-direction: column;
+            padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+        }
+        .sidebar-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-row:first-child { padding-top: 0; }
+        .sidebar-key {
+            font-size: 0.68rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b8; margin-bottom: 0.2rem;
+        }
+        .sidebar-val { font-size: 0.875rem; color: var(--ink); line-height: 1.5; }
+
+        /* prev/next */
+        .proj-nav-bar { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 1.25rem 2rem; }
+        .proj-nav-inner {
+            max-width: 900px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .proj-nav-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.82rem; font-weight: 600; color: var(--muted);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .proj-nav-link:hover { color: var(--ml); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo" style="display:none;"></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../research.html" class="active">Research</a></li>
+                <li><a href="../nonprofit.html">Nonprofit</a></li>
+                <li><a href="../blog.html">Applied Math Blog</a></li>
+                <li><a href="../textbook.html">Textbook</a></li>
+                <li><a href="../mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="../apps.html">iOS Apps</a></li>
+                <li><a href="../activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="proj-hero">
+        <div class="proj-hero-bg">
+            <svg viewBox="-120 -80 920 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <!-- CNN layer diagram motif -->
+                <rect x="60" y="80" width="30" height="200" rx="4" fill="#B84A1A" opacity="0.6"/>
+                <rect x="100" y="100" width="30" height="160" rx="4" fill="#B84A1A" opacity="0.5"/>
+                <rect x="140" y="115" width="30" height="130" rx="4" fill="#B84A1A" opacity="0.45"/>
+                <rect x="180" y="125" width="30" height="110" rx="4" fill="#B84A1A" opacity="0.4"/>
+                <rect x="220" y="140" width="30" height="80" rx="4" fill="#D4713A" opacity="0.5"/>
+                <rect x="260" y="150" width="16" height="60" rx="3" fill="#F0A070" opacity="0.6"/>
+                <rect x="284" y="158" width="8" height="44" rx="2" fill="#F0A070" opacity="0.5"/>
+                <!-- Satellite-style grid on right -->
+                <g opacity="0.4">
+                    <rect x="480" y="80" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="506" y="80" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="532" y="80" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="558" y="80" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="584" y="80" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="480" y="106" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="506" y="106" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="532" y="106" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="558" y="106" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="584" y="106" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="480" y="132" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="506" y="132" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="532" y="132" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="558" y="132" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="584" y="132" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="480" y="158" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="506" y="158" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="532" y="158" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="558" y="158" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="584" y="158" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="480" y="184" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="506" y="184" width="22" height="22" rx="2" fill="#D4713A"/>
+                    <rect x="532" y="184" width="22" height="22" rx="2" fill="#B84A1A"/>
+                    <rect x="558" y="184" width="22" height="22" rx="2" fill="#F0A070"/>
+                    <rect x="584" y="184" width="22" height="22" rx="2" fill="#B84A1A"/>
+                </g>
+                <!-- Arrow from grid to CNN -->
+                <line x1="480" y1="145" x2="310" y2="175" stroke="#F0A070" stroke-width="1.5" opacity="0.4"/>
+                <!-- Network nodes bottom -->
+                <circle cx="200" cy="360" r="8" fill="#B84A1A" opacity="0.4"/>
+                <circle cx="260" cy="340" r="6" fill="#D4713A" opacity="0.4"/>
+                <circle cx="320" cy="370" r="7" fill="#B84A1A" opacity="0.4"/>
+                <circle cx="380" cy="350" r="9" fill="#F0A070" opacity="0.35"/>
+                <circle cx="440" cy="365" r="6" fill="#B84A1A" opacity="0.4"/>
+                <line x1="200" y1="360" x2="260" y2="340" stroke="#F0A070" stroke-width="0.8" opacity="0.3"/>
+                <line x1="260" y1="340" x2="320" y2="370" stroke="#F0A070" stroke-width="0.8" opacity="0.3"/>
+                <line x1="320" y1="370" x2="380" y2="350" stroke="#F0A070" stroke-width="0.8" opacity="0.3"/>
+                <line x1="380" y1="350" x2="440" y2="365" stroke="#F0A070" stroke-width="0.8" opacity="0.3"/>
+            </svg>
+        </div>
+        <div class="proj-hero-inner">
+            <a href="../research.html" class="proj-back">← Research Projects</a>
+            <div class="proj-meta-row">
+                <span class="proj-num">Project 05</span>
+                <span class="proj-tag tag-ml">Machine Learning</span>
+                <span class="proj-tag tag-ml">Remote Sensing</span>
+                <span class="proj-tag tag-env">Air Quality</span>
+            </div>
+            <h1>Ground-Level NO₂ Predictions Using<br>Satellite Imagery-Driven <em>Convolutional Neural Networks</em></h1>
+            <p class="proj-hero-sub">
+                Training a CNN on both TROPOMI and TEMPO satellite data to predict surface NO₂
+                concentrations across Wisconsin — filling the gap left by sparse ground monitors
+                and testing whether TEMPO's hourly imagery can improve spatial generalization.
+            </p>
+            <div class="proj-status-row">
+                <div>
+                    <span class="proj-status-label">Supervisor</span>
+                    <span class="proj-status-value">Prof. Tracey Holloway, UW–Madison</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Timeline</span>
+                    <span class="proj-status-value">January 2026 – Present</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Status</span>
+                    <span class="status-pill">Ongoing</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- OPPORTUNITY BAND -->
+    <div class="opp-band">
+        <div class="opp-inner">
+            <div class="opp-item">
+                <span class="opp-num"><em>3</em></span>
+                <span class="opp-lbl">NO₂ monitors in WI (Milwaukee only)</span>
+            </div>
+            <div class="opp-item">
+                <span class="opp-num"><em>500</em></span>
+                <span class="opp-lbl">EPA monitors in CONUS (Cao baseline)</span>
+            </div>
+            <div class="opp-item">
+                <span class="opp-num"><em>0.892</em></span>
+                <span class="opp-lbl">Cao CNN R² (daily, TROPOMI only)</span>
+            </div>
+            <div class="opp-item">
+                <span class="opp-num"><em>0.593</em></span>
+                <span class="opp-lbl">Cao spatial CV R² (unseen sites)</span>
+            </div>
+            <div class="opp-item">
+                <span class="opp-num"><em>2.1km</em></span>
+                <span class="opp-lbl">TEMPO resolution (vs 3.5km TROPOMI)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="proj-body">
+        <main class="proj-main">
+
+            <!-- Plain English -->
+            <div class="proj-section">
+                <div class="plain-box">
+                    <span class="plain-box-label">Plain-English Summary</span>
+                    <p>
+                        Wisconsin has only three NO₂ air quality monitors, all located in Milwaukee.
+                        For everyone else in the state — from Green Bay to rural farm communities — there
+                        is no direct measurement of this harmful pollutant. Satellites can see the whole
+                        state, but satellite readings don't directly translate to ground-level concentrations.
+                    </p>
+                    <p style="margin-top:0.75rem;">
+                        This project is building a convolutional neural network — the same type of AI
+                        used in image recognition — to read satellite imagery and predict what the
+                        ground-level NO₂ would be at any location in Wisconsin. The key novelty: training
+                        the model on NASA's new TEMPO satellite, which captures hourly NO₂ data at higher
+                        resolution than any prior satellite, alongside the established TROPOMI instrument.
+                        No published model has been trained on TEMPO data yet.
+                    </p>
+                </div>
+            </div>
+
+            <!-- The Research Gap -->
+            <div class="proj-section">
+                <div class="proj-section-label">The Research Gap</div>
+                <h2>Three open problems this project addresses</h2>
+                <div class="gap-box">
+                    <span class="gap-label">Identified gaps in the literature</span>
+                    <div class="gap-items">
+                        <div class="gap-item">
+                            <div class="gap-bullet">1</div>
+                            <p><strong style="color:#fff;">No TEMPO-trained models exist.</strong> CNN and regression models have been trained on OMI and TROPOMI satellite data. TEMPO launched in April 2023 and provides hourly NO₂ at 2.1 km × 4.4 km resolution over North America — higher temporal and spatial resolution than any prior instrument. No published model has used it as a training input.</p>
+                        </div>
+                        <div class="gap-item">
+                            <div class="gap-bullet">2</div>
+                            <p><strong style="color:#fff;">Spatial generalization is the field's central unsolved problem.</strong> Cao (2023) achieved R² = 0.892 with standard cross-validation but only R² = 0.593 when predicting at sites never seen during training. Kim et al. (2024) similarly found their best model generalized only to R² = 0.65–0.89 regionally. TEMPO's hourly data may enable the model to learn more robust spatial features.</p>
+                        </div>
+                        <div class="gap-item">
+                            <div class="gap-bullet">3</div>
+                            <p><strong style="color:#fff;">Wisconsin is severely underserved.</strong> The entire state of Wisconsin — 65,000 square miles with agricultural, urban, and industrial zones — is monitored by only three NO₂ sensors, all concentrated in Milwaukee. Environmental equity concerns require better spatial coverage, especially in communities of color and low-income areas that may be disproportionately exposed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scientific Background -->
+            <div class="proj-section">
+                <div class="proj-section-label">Scientific Background</div>
+                <h2>Why predicting surface NO₂ from satellites is hard</h2>
+                <p>
+                    NO₂ is a harmful air pollutant produced primarily by fossil fuel combustion. It causes
+                    cardiovascular and respiratory illness, contributes to childhood asthma, and reacts in the
+                    atmosphere to form tropospheric ozone and PM2.5. The EPA requires annual mean concentrations
+                    to stay below 53 ppb in inhabited areas.
+                </p>
+                <p>
+                    The problem is that satellites don't measure ground-level NO₂ — they measure the total
+                    column of NO₂ through the entire atmosphere, with greater sensitivity to NO₂ in the middle
+                    troposphere than at the surface. The relationship between column NO₂ (what satellites see)
+                    and surface NO₂ (what humans breathe) varies by location, land use, season, road proximity,
+                    and meteorological conditions. This gap is what machine learning models are designed to bridge.
+                </p>
+                <p>
+                    Because NO₂ has a short atmospheric lifetime of only a few hours, it remains concentrated
+                    near its source. This produces sharp spatial gradients — NO₂ can vary by a factor of 10
+                    across a few kilometers — that simple regression models cannot capture from coarse buffer
+                    distance averages. CNNs, which learn spatial patterns directly from 2D satellite imagery,
+                    are better suited to this problem.
+                </p>
+            </div>
+
+            <!-- Prior Work -->
+            <div class="proj-section">
+                <div class="proj-section-label">Prior Work</div>
+                <h2>Two key studies that frame this project</h2>
+                <p>
+                    Two papers directly motivated this research and define the methodological baseline.
+                    Both use TROPOMI data; neither uses TEMPO.
+                </p>
+                <table class="prior-table">
+                    <thead>
+                        <tr><th>Aspect</th><th>Kim et al. 2024 (JGR Atmospheres)</th><th>Cao 2023 (Frontiers Env. Sci.)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Method</td><td>Multivariate linear regression (MLR)</td><td>Convolutional neural network (CNN)</td></tr>
+                        <tr><td>Satellite input</td><td>TROPOMI (single value per site)</td><td>TROPOMI (2D pixel grids)</td></tr>
+                        <tr><td>Best annual R²</td><td>0.78 (anscMLR)</td><td class="highlight">0.952</td></tr>
+                        <tr><td>Best daily R²</td><td>Annual only</td><td class="highlight">0.892</td></tr>
+                        <tr><td>Spatial CV R²</td><td>0.65–0.89 (regional)</td><td class="highlight" style="color:#922B21;">0.593 (poor)</td></tr>
+                        <tr><td>Key strength</td><td>Interpretable, minimal compute</td><td>Spatial pattern learning</td></tr>
+                        <tr><td>Key limitation</td><td>Cannot capture spatial structure</td><td>Fails at unseen locations</td></tr>
+                        <tr><td>Supervisor connection</td><td>Prof. Holloway's lab (UW-Madison)</td><td>Fairview High School student</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:1rem;">
+                    Kim et al.'s regression approach is interpretable and requires minimal computation —
+                    but it cannot capture the spatial structure of satellite data. Cao's CNN achieves far
+                    higher accuracy but fails at the key real-world challenge of predicting in locations
+                    it hasn't seen during training. The research question here is whether TEMPO data can
+                    close that gap.
+                </p>
+            </div>
+
+            <!-- The Approach -->
+            <div class="proj-section">
+                <div class="proj-section-label">Proposed Approach</div>
+                <h2>Following Cao's CNN protocol, extended with TEMPO</h2>
+                <p>
+                    The core methodology follows Cao (2023): a convolutional neural network that receives
+                    stacked 2D satellite imagery grids around each EPA monitoring site and predicts
+                    surface NO₂ concentration. The key extension is training on both TROPOMI and TEMPO
+                    inputs, plus adapting the pipeline specifically for Wisconsin's monitoring context.
+                </p>
+                <div class="approach-grid">
+                    <div class="approach-card">
+                        <div class="approach-head approach-head-cao">Cao (2023) Baseline</div>
+                        <div class="approach-body">
+                            <div class="approach-row"><span class="approach-key">Satellite</span><span class="approach-val">TROPOMI only</span></div>
+                            <div class="approach-row"><span class="approach-key">Sites</span><span class="approach-val">500 CONUS monitors</span></div>
+                            <div class="approach-row"><span class="approach-key">Period</span><span class="approach-val">2018–2022</span></div>
+                            <div class="approach-row"><span class="approach-key">Resolution</span><span class="approach-val">3.5 km × 5.5 km</span></div>
+                            <div class="approach-row"><span class="approach-key">Temporal</span><span class="approach-val">Daily + annual</span></div>
+                            <div class="approach-row"><span class="approach-key">Grid size</span><span class="approach-val">4,000 m (5×6 pixels)</span></div>
+                        </div>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-head approach-head-new">This Project (Extension)</div>
+                        <div class="approach-body">
+                            <div class="approach-row"><span class="approach-key">Satellite</span><span class="approach-val val-new">TROPOMI + TEMPO</span></div>
+                            <div class="approach-row"><span class="approach-key">Sites</span><span class="approach-val">WI monitors + CONUS</span></div>
+                            <div class="approach-row"><span class="approach-key">Period</span><span class="approach-val val-new">2023–present (TEMPO era)</span></div>
+                            <div class="approach-row"><span class="approach-key">Resolution</span><span class="approach-val val-new">2.1 km × 4.4 km (TEMPO)</span></div>
+                            <div class="approach-row"><span class="approach-key">Temporal</span><span class="approach-val val-new">Hourly (TEMPO) + daily</span></div>
+                            <div class="approach-row"><span class="approach-key">WI focus</span><span class="approach-val val-new">Statewide coverage map</span></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top:1rem;">
+                    The central hypothesis is that TEMPO's hourly temporal resolution allows the model
+                    to observe how NO₂ changes throughout the day at thousands of locations — providing
+                    a richer signal about local emission sources, boundary layer dynamics, and photochemistry
+                    that TROPOMI's single daily overpass cannot capture. This richer training signal may
+                    help the model generalize to locations it hasn't seen, addressing the field's most
+                    persistent limitation.
+                </p>
+            </div>
+
+            <!-- Research Plan -->
+            <div class="proj-section">
+                <div class="proj-section-label">Research Plan</div>
+                <h2>Five phases from data to Wisconsin maps</h2>
+                <div class="phases">
+                    <div class="phase-card">
+                        <div class="phase-num">01</div>
+                        <div>
+                            <span class="phase-title">Problem Definition and Data Inventory</span>
+                            <p class="phase-desc">Define target variable (daily / monthly surface NO₂ in ppb), identify training inputs (TROPOMI, TEMPO, ERA5 meteorology, land use, road networks, population density), and establish spatial and temporal resolution. Inventory Wisconsin's 3 EPA monitors and assess CONUS monitor coverage for training data.</p>
+                        </div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-num">02</div>
+                        <div>
+                            <span class="phase-title">Data Acquisition and Pipeline</span>
+                            <p class="phase-desc">Extract TROPOMI and TEMPO NO₂ from Google Earth Engine (GEE) as 2D pixel grids. Download ERA5 meteorological reanalysis (temperature, wind, boundary layer height, pressure, radiation). Acquire land-use variables (NLCD impervious surface, MODIS vegetation, population density, road networks from OpenStreetMap). Align all sources spatially and temporally to EPA monitor locations.</p>
+                        </div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-num">03</div>
+                        <div>
+                            <span class="phase-title">Preprocessing and Feature Engineering</span>
+                            <p class="phase-desc">Handle satellite data gaps from cloud cover. Apply Anscombe transform to TROPOMI NO₂ (following Kim et al. 2024 best practice) and test appropriate transforms for TEMPO. Construct feature grids at multiple resolutions (500m–4,000m). Engineer temporal features: sine/cosine encodings of hour and month, lag variables, boundary layer ratio features.</p>
+                        </div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-num">04</div>
+                        <div>
+                            <span class="phase-title">Model Training and Evaluation</span>
+                            <p class="phase-desc">Train CNN architecture following Cao (2023) — Architecture 1 (stacked multi-channel tensor, four 2D convolution layers). Benchmark against MLR, FNN, and Random Forest baselines using identical variables. Evaluate with standard 10-fold CV, spatial hold-out CV (unseen sites), and temporal hold-out CV. Target metrics: R², RMSE, MAE, and spatial CV R² (the critical generalization test).</p>
+                        </div>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-num">05</div>
+                        <div>
+                            <span class="phase-title">Wisconsin NO₂ Mapping</span>
+                            <p class="phase-desc">Apply the trained model to generate statewide Wisconsin NO₂ concentration maps at 0.01° × 0.01° (≈1 km) resolution. Identify high-exposure zones not captured by existing monitors. Conduct SHAP analysis to interpret what spatial features the model learned. Compare lakeshore vs. inland patterns, urban vs. agricultural zones, and seasonal variation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Questions -->
+            <div class="proj-section">
+                <div class="proj-section-label">Research Questions</div>
+                <h2>What we're asking — and why it matters</h2>
+                <ul class="findings-list">
+                    <li>Does training on TEMPO hourly imagery improve spatial generalization compared to TROPOMI-only models — specifically, does spatial CV R² improve beyond Cao's 0.593 baseline?</li>
+                    <li>Can the CNN produce reliable NO₂ estimates for locations in Wisconsin that have no EPA monitor, using TEMPO and TROPOMI data jointly?</li>
+                    <li>What spatial features drive NO₂ predictions in Wisconsin's distinctive geography — lakeshore industrial corridors, agricultural zones, urban core, and rural areas?</li>
+                    <li>Do communities without monitoring coverage show systematically higher or lower predicted NO₂ than monitored areas — and what are the environmental equity implications?</li>
+                </ul>
+            </div>
+
+            <!-- Literature Foundation -->
+            <div class="proj-section">
+                <div class="proj-section-label">Literature Foundation</div>
+                <h2>Key papers informing this work</h2>
+                <div class="lit-list">
+                    <div class="lit-item">
+                        <span class="lit-title">Kim et al. (2024) — JGR Atmospheres</span>
+                        <span class="lit-meta">Comparison of regression methods for inferring near-surface NO₂ with satellite data. Supervisor Prof. Holloway's lab at UW-Madison. Best result: Anscombe-transformed MLR, R² = 0.78 across CONUS. Motivates the data transform approach and establishes the regression baseline this project improves upon.</span>
+                    </div>
+                    <div class="lit-item">
+                        <span class="lit-title">Cao (2023) — Frontiers in Environmental Science</span>
+                        <span class="lit-meta">National ground-level NO₂ predictions via satellite imagery-driven CNNs. Fairview High School student. R² = 0.892 daily, R² = 0.952 annual — state of the art. Critical limitation: spatial CV R² = 0.593. This project follows Cao's protocol and tests whether TEMPO input addresses the spatial generalization failure.</span>
+                    </div>
+                    <div class="lit-item">
+                        <span class="lit-title">Ghahremanloo et al. (2021) — JGR Atmospheres</span>
+                        <span class="lit-meta">Deep learning estimation of daily ground-level NO₂ using TROPOMI over Texas. CNN outperformed MLR (R = 0.91 vs 0.77). First major demonstration of CNN superiority for this problem; established the deep learning paradigm this project builds on.</span>
+                    </div>
+                    <div class="lit-item">
+                        <span class="lit-title">Zoogman et al. (2017) — JQSRT (TEMPO)</span>
+                        <span class="lit-meta">Tropospheric Emissions: Monitoring of Pollution (TEMPO). Launch: April 2023. Hourly NO₂ at 2.1 km × 4.4 km over North America. First geostationary air quality satellite. This instrument provides the novel training data that no prior NO₂ CNN model has used.</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Project Details</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Role</span>
+                        <span class="sidebar-val">Primary Researcher</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Supervisor</span>
+                        <span class="sidebar-val">Prof. Tracey Holloway<br>UW–Madison (Atmospheric &amp; Oceanic Science)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Timeline</span>
+                        <span class="sidebar-val">January 2026 – Present</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Status</span>
+                        <span class="sidebar-val">Ongoing — data acquisition phase</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Satellite Instruments</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">TROPOMI</span>
+                        <span class="sidebar-val">ESA Sentinel-5P<br>3.5 km × 5.5 km resolution<br>1 overpass/day (~1:30 PM)<br>Available since 2018</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">TEMPO</span>
+                        <span class="sidebar-val">NASA geostationary<br>2.1 km × 4.4 km resolution<br>Hourly during daylight<br>Launched April 2023</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Key difference</span>
+                        <span class="sidebar-val">TEMPO provides ~12 observations/day vs. TROPOMI's 1 — enabling diurnal NO₂ pattern learning</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Model Architecture</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Type</span>
+                        <span class="sidebar-val">Convolutional Neural Network (CNN)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Input</span>
+                        <span class="sidebar-val">Stacked 2D satellite pixel grids (10 km bounding box)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Architecture</span>
+                        <span class="sidebar-val">4 conv layers + fully-connected layers (following Cao 2023)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Framework</span>
+                        <span class="sidebar-val">PyTorch</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Data pipeline</span>
+                        <span class="sidebar-val">Google Earth Engine (GEE)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Input Variables</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Satellite NO₂</span>
+                        <span class="sidebar-val">TROPOMI column density, TEMPO column density</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Land cover</span>
+                        <span class="sidebar-val">Impervious surface, tree cover, NDVI, water, burned area (MODIS/NLCD)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Transportation</span>
+                        <span class="sidebar-val">Roads (5 tiers), railways (OpenStreetMap)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Meteorology</span>
+                        <span class="sidebar-val">Temperature, wind, boundary layer height, radiation, pressure (ERA5)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Demographics</span>
+                        <span class="sidebar-val">Population density, elevation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Target Benchmark</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Baseline daily R²</span>
+                        <span class="sidebar-val">0.892 (Cao, TROPOMI-only CNN)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Baseline spatial CV R²</span>
+                        <span class="sidebar-val">0.593 (Cao — the key gap)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Regression baseline</span>
+                        <span class="sidebar-val">0.78 (Kim et al., anscMLR)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Primary goal</span>
+                        <span class="sidebar-val">Improve spatial CV R² by adding TEMPO input</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- PREV / NEXT -->
+    <div class="proj-nav-bar">
+        <div class="proj-nav-inner">
+            <a href="research-04.html" class="proj-nav-link">← Project 04: Ozone Exceedance Days</a>
+            <a href="research-06.html" class="proj-nav-link">Project 06: Dairy Herd Simulation →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks  = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>

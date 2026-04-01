@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozone Exceedance Days & Canadian Wildfires | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --green:     #2E7D4F;
+            --green-lt:  #EAF3EE;
+            --amber:     #854F0B;
+            --amber-lt:  #FEF3E2;
+            --ink:       #0f1a2e;
+            --slate:     #2c3e55;
+            --muted:     #5a6a7e;
+            --border:    #e5e1db;
+            --bg-alt:    #f8f7f4;
+            --bg-card:   #ffffff;
+        }
+
+        /* ── HERO ── */
+        .proj-hero {
+            background: var(--slate);
+            position: relative; overflow: hidden;
+            padding: 5.5rem 2rem 4rem;
+        }
+        .proj-hero-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.13;
+        }
+        .proj-hero-bg svg { width: 100%; height: 100%; }
+        .proj-hero-inner {
+            max-width: 900px; margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .proj-back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; font-weight: 600;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            margin-bottom: 2rem; letter-spacing: 0.04em;
+            text-transform: uppercase; transition: color 0.2s;
+        }
+        .proj-back:hover { color: rgba(255,255,255,0.85); }
+        .proj-meta-row {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 1.5rem; align-items: center;
+        }
+        .proj-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .proj-tag {
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+        }
+        .tag-env  { background: rgba(46,125,79,0.35);  color: #6BBF8A; }
+        .tag-stat { background: rgba(133,79,11,0.35);  color: #FAC775; }
+        .proj-hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.9rem, 4.5vw, 3rem);
+            font-weight: 600; line-height: 1.15;
+            color: #fff; margin-bottom: 1.25rem;
+        }
+        .proj-hero h1 em { font-style: italic; color: #6BBF8A; }
+        .proj-hero-sub {
+            font-size: 1.05rem; color: rgba(255,255,255,0.65);
+            line-height: 1.75; max-width: 700px; margin-bottom: 2rem;
+        }
+        .proj-status-row {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .proj-status-label {
+            font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35); display: block; margin-bottom: 0.2rem;
+        }
+        .proj-status-value {
+            font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 500;
+        }
+        .status-pill {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+            background: #d8f3dc; color: #2d6a4f;
+        }
+
+        /* ── STATS BAND ── */
+        .stats-band { background: var(--ink); padding: 2.5rem 2rem; }
+        .stats-inner {
+            max-width: 900px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        }
+        .stat-item { text-align: center; padding: 0 1.25rem; border-right: 1px solid rgba(255,255,255,0.08); }
+        .stat-item:last-child { border-right: none; }
+        .stat-num { font-family: 'Instrument Serif', serif; font-size: 2.2rem; color: #fff; line-height: 1; display: block; }
+        .stat-num em { font-style: normal; color: #6BBF8A; }
+        .stat-lbl { font-size: 0.68rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-top: 0.35rem; }
+
+        /* ── BODY ── */
+        .proj-body {
+            max-width: 900px; margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: 1fr 290px;
+            gap: 4rem; align-items: start;
+        }
+        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+        .proj-section { margin-bottom: 3rem; }
+        .proj-section:last-child { margin-bottom: 0; }
+        .proj-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--green); margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .proj-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .proj-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem; font-weight: 400;
+            color: var(--ink); margin-bottom: 0.85rem; line-height: 1.3;
+        }
+        .proj-section p { font-size: 0.97rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .proj-section p:last-child { margin-bottom: 0; }
+
+        /* plain english */
+        .plain-box {
+            background: var(--green-lt);
+            border-left: 4px solid var(--green);
+            border-radius: 0 10px 10px 0;
+            padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+        }
+        .plain-box-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--green); margin-bottom: 0.5rem; display: block;
+        }
+        .plain-box p { font-size: 0.97rem; color: #1a3a2a; line-height: 1.75; margin: 0; }
+
+        /* comparison grid 2023 vs 2025 */
+        .compare-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 1rem; margin: 1rem 0;
+        }
+        @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+        .compare-card {
+            border-radius: 10px; overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .compare-head {
+            padding: 0.6rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .compare-head-2023 { background: #FEF3E2; color: #854F0B; }
+        .compare-head-2025 { background: var(--green-lt); color: var(--green); }
+        .compare-body { padding: 1rem; background: #fff; }
+        .compare-row {
+            display: flex; justify-content: space-between;
+            padding: 0.4rem 0; border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+        .compare-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .compare-key { color: var(--muted); }
+        .compare-val { font-weight: 600; color: var(--ink); }
+        .val-high { color: #922B21; }
+        .val-low  { color: var(--green); }
+
+        /* finding callout */
+        .finding-callout {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1rem 0;
+        }
+        .finding-callout strong {
+            display: block; font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--green); letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 0.4rem;
+        }
+        .finding-callout p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin: 0; }
+
+        /* model equation box */
+        .equation-box {
+            background: var(--ink); border-radius: 10px;
+            padding: 1.25rem 1.5rem; margin: 1rem 0;
+        }
+        .equation-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; color: rgba(255,255,255,0.4);
+            text-transform: uppercase; letter-spacing: 0.1em;
+            display: block; margin-bottom: 0.6rem;
+        }
+        .equation-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem; color: #6BBF8A; line-height: 1.6;
+        }
+        .equation-sub {
+            font-size: 0.8rem; color: rgba(255,255,255,0.5);
+            margin-top: 0.5rem; display: block; line-height: 1.6;
+        }
+
+        /* findings list */
+        .findings-list {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .findings-list li {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+        }
+        .findings-list li::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--green); flex-shrink: 0; margin-top: 0.55rem;
+        }
+
+        /* model comparison table */
+        .model-table {
+            width: 100%; border-collapse: collapse;
+            font-size: 0.855rem; margin-top: 1rem;
+        }
+        .model-table th {
+            background: var(--ink); color: rgba(255,255,255,0.65);
+            font-size: 0.68rem; text-transform: uppercase;
+            letter-spacing: 0.08em; font-weight: 600;
+            padding: 0.55rem 0.85rem; text-align: left;
+        }
+        .model-table td {
+            padding: 0.6rem 0.85rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+        .model-table tr:last-child td { border-bottom: none; }
+        .model-table tr:nth-child(even) td { background: var(--bg-alt); }
+        .model-table .best td { background: #EAF3EE; color: var(--ink); font-weight: 600; }
+        .model-table .highlight { color: var(--green); font-weight: 600; }
+
+        /* lakefront table */
+        .lakeshore-table {
+            width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1rem;
+        }
+        .lakeshore-table th {
+            background: var(--ink); color: rgba(255,255,255,0.65);
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.07em;
+            font-weight: 600; padding: 0.5rem 0.7rem; text-align: left;
+        }
+        .lakeshore-table td {
+            padding: 0.5rem 0.7rem;
+            border-bottom: 1px solid var(--border); color: var(--muted);
+        }
+        .lakeshore-table tr:last-child td { border-bottom: none; }
+        .lakeshore-table tr:nth-child(even) td { background: var(--bg-alt); }
+        .lakeshore-table .standout td { background: #EAF3EE; color: var(--ink); font-weight: 500; }
+        .site-name { color: var(--ink); font-weight: 500; }
+
+        /* app chips */
+        .app-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+        .app-chip {
+            font-size: 0.78rem; font-weight: 500;
+            padding: 0.3rem 0.85rem; border-radius: 100px;
+            background: var(--bg-alt); border: 1px solid var(--border); color: var(--muted);
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem;
+        }
+        .sidebar-card-head { background: var(--ink); padding: 0.85rem 1.25rem; }
+        .sidebar-card-head h3 {
+            font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6); margin: 0;
+        }
+        .sidebar-card-body { padding: 1rem 1.25rem; }
+        .sidebar-row {
+            display: flex; flex-direction: column;
+            padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+        }
+        .sidebar-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-row:first-child { padding-top: 0; }
+        .sidebar-key {
+            font-size: 0.68rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b8; margin-bottom: 0.2rem;
+        }
+        .sidebar-val { font-size: 0.875rem; color: var(--ink); line-height: 1.5; }
+
+        /* prev/next */
+        .proj-nav-bar { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 1.25rem 2rem; }
+        .proj-nav-inner {
+            max-width: 900px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .proj-nav-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.82rem; font-weight: 600; color: var(--muted);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .proj-nav-link:hover { color: var(--green); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo" style="display:none;"></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../research.html" class="active">Research</a></li>
+                <li><a href="../nonprofit.html">Nonprofit</a></li>
+                <li><a href="../blog.html">Applied Math Blog</a></li>
+                <li><a href="../textbook.html">Textbook</a></li>
+                <li><a href="../mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="../apps.html">iOS Apps</a></li>
+                <li><a href="../activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="proj-hero">
+        <div class="proj-hero-bg">
+            <svg viewBox="-120 -80 920 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <line x1="540" y1="85"  x2="500" y2="65"  stroke="#2E7D4F" stroke-width="1.3"/>
+                <line x1="540" y1="85"  x2="575" y2="110" stroke="#2E7D4F" stroke-width="1.5"/>
+                <line x1="540" y1="85"  x2="505" y2="115" stroke="#2E7D4F" stroke-width="1.1"/>
+                <line x1="500" y1="65"  x2="470" y2="90"  stroke="#2E7D4F" stroke-width="0.8"/>
+                <line x1="575" y1="110" x2="610" y2="135" stroke="#2E7D4F" stroke-width="0.9"/>
+                <line x1="505" y1="115" x2="475" y2="140" stroke="#2E7D4F" stroke-width="0.7"/>
+                <circle cx="540" cy="85"  r="12" fill="#2E7D4F"/>
+                <circle cx="500" cy="65"  r="7"  fill="#3B8B5E"/>
+                <circle cx="575" cy="110" r="8"  fill="#3B8B5E"/>
+                <circle cx="505" cy="115" r="6"  fill="#6BBF8A"/>
+                <circle cx="470" cy="90"  r="5"  fill="#6BBF8A"/>
+                <circle cx="610" cy="135" r="5"  fill="#6BBF8A"/>
+                <line x1="110" y1="80"  x2="155" y2="60"  stroke="#854F0B" stroke-width="1.2"/>
+                <line x1="110" y1="80"  x2="75"  y2="110" stroke="#854F0B" stroke-width="1.4"/>
+                <line x1="110" y1="80"  x2="145" y2="115" stroke="#854F0B" stroke-width="1.1"/>
+                <line x1="155" y1="60"  x2="185" y2="85"  stroke="#854F0B" stroke-width="0.9"/>
+                <circle cx="110" cy="80"  r="11" fill="#854F0B"/>
+                <circle cx="155" cy="60"  r="7"  fill="#BA7517"/>
+                <circle cx="75"  cy="110" r="8"  fill="#BA7517"/>
+                <circle cx="145" cy="115" r="6"  fill="#EF9F27"/>
+                <circle cx="185" cy="85"  r="5"  fill="#EF9F27"/>
+                <line x1="340" y1="195" x2="305" y2="170" stroke="#0F6E56" stroke-width="1.2"/>
+                <line x1="340" y1="195" x2="375" y2="170" stroke="#0F6E56" stroke-width="1.2"/>
+                <line x1="340" y1="195" x2="310" y2="225" stroke="#0F6E56" stroke-width="1.1"/>
+                <line x1="340" y1="195" x2="370" y2="225" stroke="#0F6E56" stroke-width="1.1"/>
+                <circle cx="340" cy="195" r="13" fill="#0F6E56"/>
+                <circle cx="305" cy="170" r="7"  fill="#1D9E75"/>
+                <circle cx="375" cy="170" r="7"  fill="#1D9E75"/>
+                <circle cx="310" cy="225" r="6"  fill="#5DCAA5"/>
+                <circle cx="370" cy="225" r="6"  fill="#5DCAA5"/>
+                <line x1="185" y1="85"  x2="305" y2="170" stroke="#888780" stroke-width="0.5"/>
+                <line x1="470" y1="90"  x2="375" y2="170" stroke="#888780" stroke-width="0.5"/>
+            </svg>
+        </div>
+        <div class="proj-hero-inner">
+            <a href="../research.html" class="proj-back">← Research Projects</a>
+            <div class="proj-meta-row">
+                <span class="proj-num">Project 04</span>
+                <span class="proj-tag tag-env">Air Quality</span>
+                <span class="proj-tag tag-env">Environmental Science</span>
+                <span class="proj-tag tag-stat">Statistical Modeling</span>
+            </div>
+            <h1>Study of Ozone Exceedance Days in Wisconsin<br>Due to <em>Canadian Wildfires</em></h1>
+            <p class="proj-hero-sub">
+                A 16-year analysis of 2,418 ozone-season days across 39 Wisconsin monitoring sites —
+                revealing that temperature and smoke interact synergistically to drive exceedances,
+                and that lakeshore communities face 3× higher risk than inland areas.
+            </p>
+            <div class="proj-status-row">
+                <div>
+                    <span class="proj-status-label">Supervisor</span>
+                    <span class="proj-status-value">Ben Wolf, Director of Air Quality, Wisconsin DNR</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Timeline</span>
+                    <span class="proj-status-value">January 2026 – March 2026 (ongoing)</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Status</span>
+                    <span class="status-pill">Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS BAND -->
+    <div class="stats-band">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <span class="stat-num"><em>2,418</em></span>
+                <span class="stat-lbl">Ozone-season days</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>283</em></span>
+                <span class="stat-lbl">Exceedance days</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>54k</em></span>
+                <span class="stat-lbl">Site-level records</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>0.885</em></span>
+                <span class="stat-lbl">AUC — logistic model</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>2.8×</em></span>
+                <span class="stat-lbl">Smoke exceedance odds</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>16°F</em></span>
+                <span class="stat-lbl">Smoke threshold shift</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="proj-body">
+        <main class="proj-main">
+
+            <!-- Plain English -->
+            <div class="proj-section">
+                <div class="plain-box">
+                    <span class="plain-box-label">Plain-English Summary</span>
+                    <p>
+                        When Canadian wildfires send smoke drifting into Wisconsin, ozone levels spike —
+                        sometimes crossing the federal safety limit. But 2023 had 39 exceedance days
+                        while 2025 had only 5, even though both years had massive wildfires. Why?
+                        This study found the answer: <em>it's not just the smoke — it's the heat</em>.
+                        Temperature is the dominant driver of ozone exceedances, and smoke amplifies it.
+                        On a smoky day, Wisconsin can hit dangerous ozone levels at 83°F — a temperature
+                        that would be perfectly safe on a clear day. The lakeshore is especially vulnerable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- The 2023 vs 2025 Puzzle -->
+            <div class="proj-section">
+                <div class="proj-section-label">The Central Puzzle</div>
+                <h2>Two massive wildfire years — vastly different outcomes</h2>
+                <p>
+                    Both 2023 and 2025 saw record-setting Canadian wildfires with comparable PM2.5 levels,
+                    yet their ozone impacts were dramatically different. A simple year-to-year comparison
+                    wasn't revealing, so the analysis was extended to 2010–2025 to identify the underlying drivers.
+                </p>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-head compare-head-2023">2023 — High Impact Year</div>
+                        <div class="compare-body">
+                            <div class="compare-row"><span class="compare-key">Ozone exceedance days</span><span class="compare-val val-high">33</span></div>
+                            <div class="compare-row"><span class="compare-key">Peak ozone</span><span class="compare-val val-high">112 ppb</span></div>
+                            <div class="compare-row"><span class="compare-key">Days PM2.5 &gt; 15</span><span class="compare-val">62 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Days T ≥ 85°F</span><span class="compare-val val-high">52 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Days T ≥ 90°F</span><span class="compare-val val-high">24 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Primary fire region</span><span class="compare-val">Quebec (4.5M ha)</span></div>
+                        </div>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-head compare-head-2025">2025 — Low Impact Year</div>
+                        <div class="compare-body">
+                            <div class="compare-row"><span class="compare-key">Ozone exceedance days</span><span class="compare-val val-low">5</span></div>
+                            <div class="compare-row"><span class="compare-key">Peak ozone</span><span class="compare-val val-low">79 ppb</span></div>
+                            <div class="compare-row"><span class="compare-key">Days PM2.5 &gt; 15</span><span class="compare-val">48 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Days T ≥ 85°F</span><span class="compare-val val-low">34 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Days T ≥ 90°F</span><span class="compare-val val-low">14 days</span></div>
+                            <div class="compare-row"><span class="compare-key">Primary fire region</span><span class="compare-val">Saskatchewan/Manitoba</span></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top:1rem;">
+                    2025 had similar PM2.5 levels to 2023 but 18 fewer hot days (≥85°F) and 10 fewer
+                    very hot days (≥90°F). The regression analysis confirms: PM2.5 alone cannot
+                    overcome the absence of heat. The 2025 result is exactly what the model predicts.
+                </p>
+            </div>
+
+            <!-- Data & Methods -->
+            <div class="proj-section">
+                <div class="proj-section-label">Data &amp; Methods</div>
+                <h2>A 16-year, multi-source dataset</h2>
+                <p>
+                    The study merged five independent data sources into a single 2,418-day dataset
+                    covering the Wisconsin ozone season (May–September) from 2010 to 2025,
+                    with zero missing values across all predictors.
+                </p>
+                <ul class="findings-list">
+                    <li>Daily max ozone: EPA AQS Parameter 44201, max across ~31 Wisconsin monitors per day</li>
+                    <li>Daily max PM2.5: EPA AQS, max across 25 Wisconsin monitors (151,367 total records)</li>
+                    <li>Daily max temperature: IEM ASOS, max across 5 Wisconsin stations (Sheboygan, Milwaukee, Green Bay, Madison, Appleton)</li>
+                    <li>Fire proximity: Canadian National Fire Database (2010–2024) and NASA FIRMS VIIRS (2025), fires ≥200 ha within 1,500 km</li>
+                    <li>Site-level validation: 54,197 site-days across 39 ozone monitors, each paired with nearest PM2.5 station (median distance: 9.6 km)</li>
+                </ul>
+                <p style="margin-top:1rem;">
+                    Analysis used Python 3.12 with NumPy, SciPy, and Pandas. Linear regression via
+                    Ordinary Least Squares; logistic regression via Newton-Raphson maximum likelihood
+                    estimation (convergence criterion: max|Δβ| &lt; 10⁻⁸).
+                </p>
+            </div>
+
+            <!-- Linear Regression -->
+            <div class="proj-section">
+                <div class="proj-section-label">Linear Regression Results</div>
+                <h2>How much does each factor add to ozone?</h2>
+                <p>
+                    The best-fit linear model uses temperature and PM2.5 together, explaining 35.7%
+                    of daily ozone variance across all 2,418 days.
+                </p>
+                <div class="equation-box">
+                    <span class="equation-label">Best linear model (R² = 0.357, p &lt; 0.001)</span>
+                    <span class="equation-text">Ozone (ppb) = −13.27 + 0.803 × Temp(°F) + 0.240 × PM2.5(µg/m³)</span>
+                    <span class="equation-sub">Each 1°F → +0.80 ppb &nbsp;|&nbsp; Each 1 µg/m³ PM2.5 → +0.24 ppb &nbsp;|&nbsp; Both p &lt; 0.001</span>
+                </div>
+                <table class="model-table" style="margin-top:1rem;">
+                    <thead>
+                        <tr><th>Model</th><th>R²</th><th>vs Temp Only</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Temperature only</td><td>0.327</td><td>baseline</td></tr>
+                        <tr><td>PM2.5 only</td><td>0.101</td><td>−0.226 (much weaker)</td></tr>
+                        <tr class="best"><td>Temperature + PM2.5</td><td class="highlight">0.357</td><td>+0.031</td></tr>
+                        <tr><td>Temp + PM2.5 + Fire Proximity</td><td>0.357</td><td>fire adds nothing</td></tr>
+                        <tr><td>Temp + PM2.5 + Interaction</td><td>0.371</td><td>+0.044 (best fit)</td></tr>
+                    </tbody>
+                </table>
+                <div class="finding-callout" style="margin-top:1rem;">
+                    <strong>Key insight — fire proximity doesn't matter</strong>
+                    <p>Fire proximity alone (just having fires within 1,500 km) explains only 2.1% of variance.
+                    It adds nothing once PM2.5 is in the model. What matters is whether smoke
+                    actually arrives and delivers particulates — not whether fires exist upwind.</p>
+                </div>
+                <p>
+                    The interaction term (Temp × PM2.5) is highly significant (p = 1.2 × 10⁻¹²),
+                    confirming that smoke has a larger effect on hot days than cool days. On a 90°F day,
+                    each µg/m³ of PM2.5 drives more ozone than on a 70°F day — a synergistic,
+                    not merely additive, relationship.
+                </p>
+            </div>
+
+            <!-- Logistic Regression -->
+            <div class="proj-section">
+                <div class="proj-section-label">Logistic Regression Results</div>
+                <h2>Predicting whether exceedance will occur</h2>
+                <p>
+                    The logistic model answers the more practical question: on a given day, how likely
+                    is an ozone exceedance? The model achieves AUC = 0.885 — excellent discrimination.
+                </p>
+                <div class="equation-box">
+                    <span class="equation-label">Logistic model (AUC = 0.885, n = 2,418)</span>
+                    <span class="equation-text">P(exc) = 1 / (1 + e^(23.50 − 0.247×Temp − 0.041×PM2.5))</span>
+                    <span class="equation-sub">
+                        Each 1°F → odds × 1.28 &nbsp;|&nbsp; Each 10°F → odds × 11.8× &nbsp;|&nbsp;
+                        Each 10 µg/m³ PM2.5 → odds × 1.5× &nbsp;|&nbsp; Smoke Likely (binary) → odds × 2.8×
+                    </span>
+                </div>
+                <div class="finding-callout" style="margin-top:1rem;">
+                    <strong>The 16°F smoke threshold shift</strong>
+                    <p>Smoke shifts the exceedance probability curve leftward by approximately 7°F.
+                    On a smoky day, conditions at 83°F carry the same exceedance risk as clean air
+                    at 90°F. On clean-air days, the EPA threshold (70 ppb) isn't crossed until
+                    temperatures reach approximately 104°F.</p>
+                </div>
+                <p>
+                    Temperature alone achieves AUC = 0.872 — already excellent. Adding PM2.5
+                    improves it to 0.885. The Smoke Likely binary variable (fire within 1,500 km
+                    AND PM2.5 &gt; 15 µg/m³) multiplies exceedance odds by 2.8× after
+                    controlling for temperature (p &lt; 0.001).
+                </p>
+            </div>
+
+            <!-- Lakefront Finding -->
+            <div class="proj-section">
+                <div class="proj-section-label">Lakeshore vs Inland</div>
+                <h2>The lakefront is a distinct, high-risk zone</h2>
+                <p>
+                    Site-level analysis (54,197 site-days across 39 monitors) revealed a stark
+                    geographic divide. Lakefront sites along Lake Michigan show 3× higher exceedance
+                    rates and respond more strongly to both heat and smoke.
+                </p>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <div class="compare-head compare-head-2023" style="background:#E6F1FB;color:#185FA5;">Lakefront Sites (12)</div>
+                        <div class="compare-body">
+                            <div class="compare-row"><span class="compare-key">Exceedance rate</span><span class="compare-val val-high">4.21%</span></div>
+                            <div class="compare-row"><span class="compare-key">Linear R²</span><span class="compare-val">0.334</span></div>
+                            <div class="compare-row"><span class="compare-key">Temp coefficient</span><span class="compare-val">+0.655 ppb/°F</span></div>
+                            <div class="compare-row"><span class="compare-key">PM2.5 coefficient</span><span class="compare-val">+0.609 ppb/µg/m³</span></div>
+                            <div class="compare-row"><span class="compare-key">Logistic AUC</span><span class="compare-val">0.893</span></div>
+                        </div>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-head compare-head-2025" style="background:#f0ede8;color:#5a6a7e;">Inland Sites (27)</div>
+                        <div class="compare-body">
+                            <div class="compare-row"><span class="compare-key">Exceedance rate</span><span class="compare-val val-low">1.38%</span></div>
+                            <div class="compare-row"><span class="compare-key">Linear R²</span><span class="compare-val">0.231</span></div>
+                            <div class="compare-row"><span class="compare-key">Temp coefficient</span><span class="compare-val">+0.430 ppb/°F</span></div>
+                            <div class="compare-row"><span class="compare-key">PM2.5 coefficient</span><span class="compare-val">+0.443 ppb/µg/m³</span></div>
+                            <div class="compare-row"><span class="compare-key">Logistic AUC</span><span class="compare-val">0.880</span></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top:1rem;">
+                    This is consistent with the lake-breeze recirculation mechanism: onshore winds
+                    trap ozone precursors in a shallow boundary layer near the shoreline, amplifying
+                    the effects of both heat and smoke. On smoky days (PM2.5 ≥ 15), lakefront sites
+                    gain +14.9 ppb versus +9.1 ppb inland.
+                </p>
+                <p>
+                    A significant south-to-north gradient exists along Lake Michigan. Mean ozone
+                    drops 2.1 ppb per degree of latitude (r = −0.85, p = 0.002), reflecting proximity
+                    to Chicago/Milwaukee urban precursor emissions that make heat+smoke chemistry
+                    more potent at southern sites. Two sites stand out:
+                </p>
+                <table class="lakeshore-table">
+                    <thead>
+                        <tr><th>Site</th><th>Exc Rate</th><th>R²</th><th>AUC</th><th>Smoke OR</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="standout"><td class="site-name">Racine</td><td>4.9%</td><td>0.604</td><td>0.936</td><td>10.7×</td></tr>
+                        <tr class="standout"><td class="site-name">Bayside (Milwaukee)</td><td>4.1%</td><td>0.447</td><td>0.930</td><td>5.3×</td></tr>
+                        <tr><td class="site-name">Chiwaukee Prairie</td><td>6.8%</td><td>0.413</td><td>0.911</td><td>5.2×</td></tr>
+                        <tr><td class="site-name">Sheboygan – Kohler Andrae</td><td>6.4%</td><td>0.353</td><td>0.901</td><td>4.4×</td></tr>
+                        <tr><td class="site-name">Newport Park (Door Co.)</td><td>3.2%</td><td>0.220</td><td>0.887</td><td>3.1×</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:0.75rem;">
+                    Racine achieves R² = 0.604 and AUC = 0.936 — temperature and PM2.5 alone
+                    explain 60% of ozone variance and predict exceedance correctly 94% of the time.
+                    Its smoke odds ratio of 10.7× is the highest of any site in the study.
+                </p>
+            </div>
+
+            <!-- Key Findings -->
+            <div class="proj-section">
+                <div class="proj-section-label">Key Findings</div>
+                <h2>What the data shows</h2>
+                <ul class="findings-list">
+                    <li>Temperature is the dominant driver of ozone exceedances, explaining 32.7% of variance alone — strong for a single environmental variable.</li>
+                    <li>Smoke acts as a powerful amplifier: on Smoke Likely days, exceedance odds are 2.8× higher after controlling for temperature (4.1× at the site level).</li>
+                    <li>Fire proximity alone is not meaningful — only confirmed smoke delivery (fire + PM2.5 &gt; 15 µg/m³) carries predictive power.</li>
+                    <li>The critical danger zone for ozone is moderate smoke (PM2.5 15–25 µg/m³), not extreme smoke — very heavy smoke may actually block UV radiation needed for ozone photochemistry.</li>
+                    <li>2025's low exceedance count despite heavy wildfires is fully explained by fewer hot days — the model correctly predicts this outcome.</li>
+                    <li>Lakefront sites show a 3× higher exceedance rate and 50% stronger temperature sensitivity than inland sites.</li>
+                    <li>A statistically significant south-to-north decline in ozone risk exists along Lake Michigan (r = −0.85, p = 0.002).</li>
+                </ul>
+            </div>
+
+            <!-- Comparison to Literature -->
+            <div class="proj-section">
+                <div class="proj-section-label">Comparison to Literature</div>
+                <h2>Regional specificity beyond existing work</h2>
+                <p>
+                    Lee and Jaffe (2024, <em>Environmental Science and Technology</em>) examined
+                    600 ozone monitoring sites across the U.S., studying environmental fires and PM2.5
+                    using a generalized additive model with more variables (R² = 0.6).
+                </p>
+                <p>
+                    This study's statewide model achieves R² = 0.357 with only two predictors, while
+                    site-level analysis reaches R² = 0.604 at Racine. The added value here is
+                    <em>regional specificity</em>: the lakeshore vs. inland heterogeneity, the
+                    south-to-north gradient, and the interaction dynamics unique to Wisconsin's
+                    geography are not captured in national-scale analyses.
+                </p>
+                <p>
+                    A next step is to adopt the Lee and Jaffe protocol — incorporating additional
+                    variables and a generalized additive model — to improve statewide predictive power
+                    while retaining the Wisconsin-specific geographic analysis.
+                </p>
+            </div>
+
+            <!-- Applications -->
+            <div class="proj-section">
+                <div class="proj-section-label">Real-World Applications</div>
+                <h2>From analysis to action</h2>
+                <p>
+                    The logistic model provides a practical decision tool: given a forecast temperature
+                    and PM2.5 level, public health agencies can estimate same-day exceedance probability
+                    with AUC = 0.885 accuracy. Lakeshore communities — especially in Racine, Kenosha,
+                    and Milwaukee — warrant heightened alert protocols on days combining heat forecasts
+                    with active wildfire smoke advisories.
+                </p>
+                <div class="app-chips">
+                    <span class="app-chip">EPA "exceptional event" designation support</span>
+                    <span class="app-chip">Public health air quality alerts</span>
+                    <span class="app-chip">Lakeshore community early warning</span>
+                    <span class="app-chip">Wildfire smoke policy planning</span>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Project Details</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Role</span>
+                        <span class="sidebar-val">Primary Researcher</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Supervisor</span>
+                        <span class="sidebar-val">Ben Wolf, Director of Air Quality, Wisconsin DNR</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Period</span>
+                        <span class="sidebar-val">January – March 2026 (ongoing)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Status</span>
+                        <span class="sidebar-val">Active</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Language</span>
+                        <span class="sidebar-val">Python 3.12 (NumPy, SciPy, Pandas)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Dataset Scale</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Period</span>
+                        <span class="sidebar-val">2010–2025 (16 ozone seasons)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Statewide days</span>
+                        <span class="sidebar-val">2,418 (zero missing values)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Exceedance days</span>
+                        <span class="sidebar-val">283 (11.7%)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Site-level records</span>
+                        <span class="sidebar-val">54,197 site-days, 39 monitors</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">PM2.5 records</span>
+                        <span class="sidebar-val">151,367 (25 monitors)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Data Sources</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Ozone</span>
+                        <span class="sidebar-val">EPA AQS Parameter 44201</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">PM2.5</span>
+                        <span class="sidebar-val">EPA AQS</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Temperature</span>
+                        <span class="sidebar-val">IEM ASOS (5 WI stations)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Fire data (2010–24)</span>
+                        <span class="sidebar-val">Canadian National Fire Database (CNFDB)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Fire data (2025)</span>
+                        <span class="sidebar-val">NASA FIRMS VIIRS</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Reference</span>
+                        <span class="sidebar-val">LADCO Great Lakes Air Quality data</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Model Performance</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Linear R² (Temp+PM2.5)</span>
+                        <span class="sidebar-val">0.357 statewide → 0.604 at Racine</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Logistic AUC</span>
+                        <span class="sidebar-val">0.885 statewide / 0.881 site-level</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Temp sensitivity</span>
+                        <span class="sidebar-val">+0.80 ppb per °F (linear)<br>OR 1.28 per °F (logistic)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Smoke Likely OR</span>
+                        <span class="sidebar-val">2.8× statewide → 4.1× site-level</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Next Steps</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Model upgrade</span>
+                        <span class="sidebar-val">Adopt Lee &amp; Jaffe (2024) generalized additive model protocol</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Additional variables</span>
+                        <span class="sidebar-val">Wind direction, boundary layer height, NOx emissions</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Geographic expansion</span>
+                        <span class="sidebar-val">Extend to full Great Lakes region with LADCO data</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- PREV / NEXT -->
+    <div class="proj-nav-bar">
+        <div class="proj-nav-inner">
+            <a href="research-03.html" class="proj-nav-link">← Project 03: Wisconsin Precipitation Model</a>
+            <a href="research-05.html" class="proj-nav-link">Project 05: Ground-Level NO₂ Predictions →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks  = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
