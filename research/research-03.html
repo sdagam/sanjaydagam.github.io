@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisconsin Precipitation Trends | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --teal:    #0F6B6B;
+            --teal-lt: #E6F3F3;
+            --teal-mid:#1A8F8F;
+            --ink:     #0f1a2e;
+            --slate:   #2c3e55;
+            --muted:   #5a6a7e;
+            --border:  #e5e1db;
+            --bg-alt:  #f8f7f4;
+            --bg-card: #ffffff;
+        }
+
+        /* ── HERO ── */
+        .proj-hero {
+            background: var(--slate);
+            position: relative; overflow: hidden;
+            padding: 5.5rem 2rem 4rem;
+        }
+        .proj-hero-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.13;
+        }
+        .proj-hero-bg svg { width: 100%; height: 100%; }
+        .proj-hero-inner {
+            max-width: 900px; margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .proj-back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; font-weight: 600;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            margin-bottom: 2rem; letter-spacing: 0.04em;
+            text-transform: uppercase; transition: color 0.2s;
+        }
+        .proj-back:hover { color: rgba(255,255,255,0.85); }
+        .proj-meta-row {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 1.5rem; align-items: center;
+        }
+        .proj-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .proj-tag {
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+        }
+        .tag-env  { background: rgba(15,107,107,0.4); color: #5DCFCF; }
+        .tag-stat { background: rgba(125,102,8,0.35);  color: #FAC775; }
+        .proj-hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.9rem, 4.5vw, 3rem);
+            font-weight: 600; line-height: 1.15;
+            color: #fff; margin-bottom: 1.25rem;
+        }
+        .proj-hero h1 em { font-style: italic; color: #5DCFCF; }
+        .proj-hero-sub {
+            font-size: 1.05rem; color: rgba(255,255,255,0.65);
+            line-height: 1.75; max-width: 700px; margin-bottom: 2rem;
+        }
+        .proj-status-row {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .proj-status-label {
+            font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35); display: block; margin-bottom: 0.2rem;
+        }
+        .proj-status-value {
+            font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 500;
+        }
+        .status-pill {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+            background: #d8f3dc; color: #2d6a4f;
+        }
+
+        /* ── STATS BAND ── */
+        .stats-band { background: var(--ink); padding: 2.5rem 2rem; }
+        .stats-inner {
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+        .stat-item { text-align: center; padding: 0 1rem; border-right: 1px solid rgba(255,255,255,0.08); }
+        .stat-item:last-child { border-right: none; }
+        .stat-num { font-family: 'Instrument Serif', serif; font-size: 2.2rem; color: #fff; line-height: 1; display: block; }
+        .stat-num em { font-style: normal; color: #5DCFCF; }
+        .stat-lbl { font-size: 0.67rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-top: 0.35rem; }
+
+        /* ── BODY ── */
+        .proj-body {
+            max-width: 900px; margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: grid;
+            grid-template-columns: 1fr 290px;
+            gap: 4rem; align-items: start;
+        }
+        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+        .proj-section { margin-bottom: 3rem; }
+        .proj-section:last-child { margin-bottom: 0; }
+        .proj-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--teal); margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .proj-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .proj-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem; font-weight: 400;
+            color: var(--ink); margin-bottom: 0.85rem; line-height: 1.3;
+        }
+        .proj-section p { font-size: 0.97rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .proj-section p:last-child { margin-bottom: 0; }
+
+        /* plain english */
+        .plain-box {
+            background: var(--teal-lt);
+            border-left: 4px solid var(--teal);
+            border-radius: 0 10px 10px 0;
+            padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+        }
+        .plain-box-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--teal); margin-bottom: 0.5rem; display: block;
+        }
+        .plain-box p { font-size: 0.97rem; color: #0a3030; line-height: 1.75; margin: 0; }
+
+        /* three-scope cards */
+        .scope-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.85rem; margin-top: 1rem; }
+        @media (max-width: 600px) { .scope-grid { grid-template-columns: 1fr; } }
+        .scope-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.1rem 1.15rem;
+            border-top: 3px solid var(--teal);
+        }
+        .scope-card.active-focus { border-top-color: var(--teal); background: var(--teal-lt); }
+        .scope-icon { font-size: 1.4rem; display: block; margin-bottom: 0.5rem; }
+        .scope-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; color: var(--teal);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            display: block; margin-bottom: 0.4rem;
+        }
+        .scope-card p { font-size: 0.855rem; color: var(--muted); line-height: 1.65; margin: 0; }
+        .scope-badge {
+            display: inline-block; font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.15rem 0.5rem; border-radius: 100px;
+            margin-top: 0.6rem;
+        }
+        .badge-active { background: #d8f3dc; color: #2d6a4f; }
+        .badge-pending { background: #f0ede8; color: #6a5a4e; }
+
+        /* station results table */
+        .station-table {
+            width: 100%; border-collapse: collapse; font-size: 0.83rem; margin-top: 1rem;
+        }
+        .station-table th {
+            background: var(--ink); color: rgba(255,255,255,0.65);
+            font-size: 0.66rem; text-transform: uppercase;
+            letter-spacing: 0.08em; font-weight: 600;
+            padding: 0.55rem 0.75rem; text-align: left;
+        }
+        .station-table td {
+            padding: 0.55rem 0.75rem;
+            border-bottom: 1px solid var(--border); color: var(--muted);
+        }
+        .station-table tr:last-child td { border-bottom: none; }
+        .station-table tr:nth-child(even) td { background: var(--bg-alt); }
+        .station-name { color: var(--ink); font-weight: 600; font-size: 0.82rem; }
+        .sig-3 { color: #0F6B6B; font-weight: 700; }
+        .sig-2 { color: #1A8F8F; font-weight: 600; }
+        .sig-1 { color: #5DCFCF; }
+        .ns    { color: #aaa; }
+        .up    { color: #2d6a4f; font-weight: 600; }
+        .down  { color: #922B21; font-weight: 600; }
+        .tag-lake { background: #E6F3F3; color: #0F6B6B; font-size: 0.62rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; }
+        .tag-inland { background: #f0ede8; color: #6a5a4e; font-size: 0.62rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; }
+
+        /* finding callout */
+        .finding-callout {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1rem 0;
+        }
+        .finding-callout strong {
+            display: block; font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--teal); letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 0.4rem;
+        }
+        .finding-callout p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin: 0; }
+
+        /* figure block */
+        .figure-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden;
+            margin: 1.25rem 0;
+        }
+        .figure-block img {
+            width: 100%; display: block;
+        }
+        .figure-caption {
+            padding: 0.85rem 1.1rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg-alt);
+        }
+        .figure-caption-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; color: var(--teal);
+            text-transform: uppercase; letter-spacing: 0.1em;
+            display: block; margin-bottom: 0.3rem;
+        }
+        .figure-caption p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+        /* sub-analysis box */
+        .sub-box {
+            background: var(--ink); border-radius: 10px;
+            padding: 1.25rem 1.5rem; margin: 1rem 0;
+        }
+        .sub-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; color: #5DCFCF;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            display: block; margin-bottom: 0.9rem;
+        }
+        .sub-rows { display: flex; flex-direction: column; gap: 0.5rem; }
+        .sub-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 0.5rem;
+            gap: 0.5rem;
+        }
+        .sub-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sub-category { font-size: 0.835rem; color: rgba(255,255,255,0.65); }
+        .sub-result { font-size: 0.82rem; text-align: right; }
+        .sub-driver { color: #F0A070; font-weight: 700; }
+        .sub-ns { color: rgba(255,255,255,0.35); }
+
+        /* findings list */
+        .findings-list {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .findings-list li {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+        }
+        .findings-list li::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--teal); flex-shrink: 0; margin-top: 0.55rem;
+        }
+
+        /* next steps */
+        .steps-list { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.75rem; }
+        .step-item {
+            display: flex; gap: 0.85rem; align-items: flex-start;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.85rem 1rem;
+        }
+        .step-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 600; color: var(--teal);
+            background: var(--teal-lt); border-radius: 5px;
+            padding: 0.15rem 0.4rem; flex-shrink: 0; margin-top: 0.05rem;
+        }
+        .step-text { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+        /* ── SIDEBAR ── */
+        .sidebar-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem;
+        }
+        .sidebar-card-head { background: var(--ink); padding: 0.85rem 1.25rem; }
+        .sidebar-card-head h3 {
+            font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6); margin: 0;
+        }
+        .sidebar-card-body { padding: 1rem 1.25rem; }
+        .sidebar-row {
+            display: flex; flex-direction: column;
+            padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+        }
+        .sidebar-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-row:first-child { padding-top: 0; }
+        .sidebar-key { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b8; margin-bottom: 0.2rem; }
+        .sidebar-val { font-size: 0.875rem; color: var(--ink); line-height: 1.5; }
+
+        /* prev/next */
+        .proj-nav-bar { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 1.25rem 2rem; }
+        .proj-nav-inner {
+            max-width: 900px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .proj-nav-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.82rem; font-weight: 600; color: var(--muted);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .proj-nav-link:hover { color: var(--teal); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo" style="display:none;"></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../research.html" class="active">Research</a></li>
+                <li><a href="../nonprofit.html">Nonprofit</a></li>
+                <li><a href="../blog.html">Applied Math Blog</a></li>
+                <li><a href="../textbook.html">Textbook</a></li>
+                <li><a href="../mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="../apps.html">iOS Apps</a></li>
+                <li><a href="../activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="proj-hero">
+        <div class="proj-hero-bg">
+            <svg viewBox="-120 -80 920 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <!-- Rain-like vertical lines -->
+                <g opacity="0.35" stroke="#5DCFCF" stroke-width="1.5" stroke-linecap="round">
+                    <line x1="80"  y1="60"  x2="72"  y2="100"/>
+                    <line x1="120" y1="40"  x2="112" y2="80"/>
+                    <line x1="160" y1="70"  x2="152" y2="110"/>
+                    <line x1="200" y1="50"  x2="192" y2="90"/>
+                    <line x1="240" y1="65"  x2="232" y2="105"/>
+                    <line x1="280" y1="45"  x2="272" y2="85"/>
+                    <line x1="320" y1="75"  x2="312" y2="115"/>
+                    <line x1="360" y1="55"  x2="352" y2="95"/>
+                    <line x1="400" y1="68"  x2="392" y2="108"/>
+                    <line x1="440" y1="42"  x2="432" y2="82"/>
+                    <line x1="480" y1="72"  x2="472" y2="112"/>
+                    <line x1="520" y1="48"  x2="512" y2="88"/>
+                    <line x1="560" y1="62"  x2="552" y2="102"/>
+                    <line x1="600" y1="38"  x2="592" y2="78"/>
+                    <line x1="100" y1="130" x2="92"  y2="170"/>
+                    <line x1="140" y1="150" x2="132" y2="190"/>
+                    <line x1="180" y1="125" x2="172" y2="165"/>
+                    <line x1="220" y1="140" x2="212" y2="180"/>
+                    <line x1="260" y1="120" x2="252" y2="160"/>
+                    <line x1="300" y1="145" x2="292" y2="185"/>
+                    <line x1="340" y1="135" x2="332" y2="175"/>
+                    <line x1="380" y1="155" x2="372" y2="195"/>
+                    <line x1="420" y1="128" x2="412" y2="168"/>
+                    <line x1="460" y1="148" x2="452" y2="188"/>
+                    <line x1="500" y1="138" x2="492" y2="178"/>
+                    <line x1="540" y1="125" x2="532" y2="165"/>
+                    <line x1="580" y1="152" x2="572" y2="192"/>
+                </g>
+                <!-- Trend line rising -->
+                <polyline points="60,350 120,340 180,335 240,325 300,318 360,310 420,302 480,295 540,285 600,275"
+                    fill="none" stroke="#5DCFCF" stroke-width="2.5" opacity="0.4" stroke-dasharray="6,4"/>
+                <!-- Data dots on trend line -->
+                <circle cx="60"  cy="350" r="4" fill="#5DCFCF" opacity="0.5"/>
+                <circle cx="180" cy="335" r="4" fill="#5DCFCF" opacity="0.5"/>
+                <circle cx="300" cy="318" r="4" fill="#5DCFCF" opacity="0.5"/>
+                <circle cx="420" cy="302" r="4" fill="#5DCFCF" opacity="0.5"/>
+                <circle cx="540" cy="285" r="4" fill="#5DCFCF" opacity="0.5"/>
+            </svg>
+        </div>
+        <div class="proj-hero-inner">
+            <a href="../research.html" class="proj-back">← Research Projects</a>
+            <div class="proj-meta-row">
+                <span class="proj-num">Project 03</span>
+                <span class="proj-tag tag-env">Climatology</span>
+                <span class="proj-tag tag-stat">Statistical Trend Analysis</span>
+            </div>
+            <h1>Wisconsin Precipitation is <em>Redistributing</em> —<br>Fewer Light Events, More Intense Rainfall</h1>
+            <p class="proj-hero-sub">
+                An 80-year analysis of daily precipitation at six Wisconsin First Order Stations,
+                uncovering a statistically significant shift in rainfall intensity — and a
+                2–2.5× amplification of moderate rain growth at Great Lakes shoreline stations
+                compared to inland sites.
+            </p>
+            <div class="proj-status-row">
+                <div>
+                    <span class="proj-status-label">Supervisor</span>
+                    <span class="proj-status-value">Dr. Paul Buchmann, WI State Climatology Office</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Institution</span>
+                    <span class="proj-status-value">University of Wisconsin–Madison</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Timeline</span>
+                    <span class="proj-status-value">December 2025 – Present</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Status</span>
+                    <span class="status-pill">Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS BAND -->
+    <div class="stats-band">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <span class="stat-num"><em>~80</em></span>
+                <span class="stat-lbl">Years of data (1948–2025)</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>6</em></span>
+                <span class="stat-lbl">First Order Stations</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>5</em></span>
+                <span class="stat-lbl">Precipitation categories</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>2–2.5×</em></span>
+                <span class="stat-lbl">Lakeside vs. inland effect</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num"><em>2</em></span>
+                <span class="stat-lbl">Methods (OLS + Mann-Kendall)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="proj-body">
+        <main class="proj-main">
+
+            <!-- Plain English -->
+            <div class="proj-section">
+                <div class="plain-box">
+                    <span class="plain-box-label">Plain-English Summary</span>
+                    <p>
+                        Wisconsin's rainfall is changing in a way that matters for infrastructure,
+                        agriculture, and flood planning. It's not just getting wetter — the
+                        <em>character</em> of precipitation is shifting. Light, misty days are disappearing
+                        while moderate and heavy rain events are becoming more common. And this shift
+                        is especially pronounced near the Great Lakes shoreline, where Milwaukee and
+                        Green Bay are seeing the effect at more than twice the rate of inland cities
+                        like Wausau and Eau Claire.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Research Scope -->
+            <div class="proj-section">
+                <div class="proj-section-label">Research Scope</div>
+                <h2>Three parallel analyses of Wisconsin's changing climate</h2>
+                <p>
+                    In collaboration with Dr. Buchmann at the Wisconsin State Climatology Office,
+                    this project investigates three related questions about how Wisconsin's winter
+                    and precipitation climate is changing, using daily records from the state's
+                    six First Order Stations going back to roughly 1948.
+                </p>
+                <div class="scope-grid">
+                    <div class="scope-card active-focus">
+                        <span class="scope-icon">🌧</span>
+                        <span class="scope-name">Precipitation Distribution</span>
+                        <p>How is the distribution of daily rainfall shifting across intensity categories? Are heavy events becoming more frequent while light events decline?</p>
+                        <span class="scope-badge badge-active">Results in hand</span>
+                    </div>
+                    <div class="scope-card">
+                        <span class="scope-icon">🌡</span>
+                        <span class="scope-name">Freeze-Thaw Cycles</span>
+                        <p>How often does daily average temperature cross 32°F in each winter? Infrastructure and plant roots are damaged by repeated freezing and thawing cycles.</p>
+                        <span class="scope-badge badge-pending">In progress</span>
+                    </div>
+                    <div class="scope-card">
+                        <span class="scope-icon">☀️</span>
+                        <span class="scope-name">Melting Degree Days</span>
+                        <p>How many cumulative degrees above freezing does each winter accumulate? This tracks snowpack persistence — critical for ski tourism and spring frost risk.</p>
+                        <span class="scope-badge badge-pending">In progress</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data & Methods -->
+            <div class="proj-section">
+                <div class="proj-section-label">Data &amp; Methods</div>
+                <h2>~80 years of daily records at six First Order Stations</h2>
+                <p>
+                    Daily precipitation data were obtained from the Iowa Environmental Mesonet
+                    (Iowa State University), which archives ASOS station records for all U.S. states.
+                    The six Wisconsin First Order Stations — the airports that maintain the longest,
+                    most reliable continuous records — were selected as the core dataset.
+                </p>
+                <p>
+                    Each day was classified into one of five precipitation categories: dry (0"),
+                    light (0–0.5"), moderate (0.5–1"), heavy (1–2"), and extreme (2+"). Days were
+                    expressed as a percentage of annual days in each category, and trends were
+                    measured in percent per year. Missing data days were excluded from analysis.
+                    Duluth (DLH) was analyzed but excluded from primary results due to a data
+                    inconsistency — trace precipitation was recorded as exactly 0.00" until
+                    approximately 2000, creating a structural break in the series.
+                </p>
+                <p>
+                    Two independent statistical methods were applied to each trend: Ordinary Least
+                    Squares (OLS) linear regression for slope and R², and the Mann-Kendall test for
+                    non-parametric trend significance. Agreement between the two methods strengthens
+                    confidence in reported findings.
+                </p>
+            </div>
+
+            <!-- Milwaukee Figure -->
+            <div class="proj-section">
+                <div class="proj-section-label">Key Figure</div>
+                <h2>Milwaukee precipitation trends, 1948–2025</h2>
+                <p>
+                    The figure below shows all five precipitation categories for Milwaukee (MKE),
+                    the station with the longest and most complete record. Each panel shows annual
+                    percentage of days in that category, with the OLS trend line (dashed) and a
+                    5-year smoothed line (solid). Every panel reports the regression slope, R²,
+                    Mann-Kendall tau, and p-value.
+                </p>
+                <div class="figure-block">
+                    <img src="../images/milwaukee_precip_trends.png"
+                         alt="Milwaukee Precipitation Trends 1948–2025 — six panel figure showing trends across five precipitation intensity categories with Mann-Kendall test results">
+                    <div class="figure-caption">
+                        <span class="figure-caption-label">Figure 1 — Milwaukee (MKE), 1948–2025</span>
+                        <p>Each panel shows annual % of days in that precipitation category. Dashed line = OLS trend; solid line = 5-year moving average. Box in each panel: LR slope (%/yr), R², Mann-Kendall tau, and p-value. Dry days and light rain show opposite-direction trends from moderate and heavy rain, confirming the redistribution pattern.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Station-Level Results -->
+            <div class="proj-section">
+                <div class="proj-section-label">Station-Level Results</div>
+                <h2>Six stations, two geographic profiles</h2>
+                <p>
+                    The same analysis was run at all six First Order Stations to test whether
+                    Milwaukee's pattern was a statewide phenomenon or geographically specific.
+                    The most striking finding: the shift toward moderate precipitation (0.5–1")
+                    is 2–2.5× stronger at the two lakeside stations than at inland sites.
+                </p>
+                <table class="station-table">
+                    <thead>
+                        <tr>
+                            <th>Station</th>
+                            <th>Location</th>
+                            <th>Dry (0")</th>
+                            <th>Light (0–0.5")</th>
+                            <th>Moderate (0.5–1")</th>
+                            <th>Heavy (1–2")</th>
+                            <th>Extreme (2+")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="station-name">Milwaukee</span> <span class="tag-lake">Lakeside</span></td>
+                            <td>MKE</td>
+                            <td class="up sig-3">+0.074***</td>
+                            <td class="down sig-3">−0.098***</td>
+                            <td class="up sig-3">+0.016***</td>
+                            <td class="up sig-1">+0.006*</td>
+                            <td class="ns">NS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="station-name">Green Bay</span> <span class="tag-lake">Lakeside</span></td>
+                            <td>GRB</td>
+                            <td class="up sig-3">+0.076***</td>
+                            <td class="down sig-3">−0.096***</td>
+                            <td class="up sig-1">+0.011*</td>
+                            <td class="up sig-2">+0.010**</td>
+                            <td class="ns">NS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="station-name">Madison</span> <span class="tag-inland">Inland</span></td>
+                            <td>MSN</td>
+                            <td class="ns">+0.039 NS</td>
+                            <td class="down sig-2">−0.060**</td>
+                            <td class="ns">+0.009 NS</td>
+                            <td class="up sig-1">+0.007*</td>
+                            <td class="up sig-1">*</td>
+                        </tr>
+                        <tr>
+                            <td><span class="station-name">Wausau</span> <span class="tag-inland">Inland</span></td>
+                            <td>AUW</td>
+                            <td class="up sig-3">+0.072***</td>
+                            <td class="down sig-3">−0.084***</td>
+                            <td class="ns">+0.006 NS</td>
+                            <td class="ns">+0.003 NS</td>
+                            <td class="ns">NS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="station-name">Eau Claire</span> <span class="tag-inland">Inland</span></td>
+                            <td>EAU</td>
+                            <td class="up sig-3">+0.122***</td>
+                            <td class="down sig-3">−0.133***</td>
+                            <td class="ns">+0.003 NS</td>
+                            <td class="up sig-1">+0.008*</td>
+                            <td class="ns">NS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="station-name">La Crosse</span></td>
+                            <td>LSE</td>
+                            <td class="ns">+0.006 NS</td>
+                            <td class="ns">−0.033 NS</td>
+                            <td class="ns">+0.010 NS</td>
+                            <td class="up sig-3">+0.016***</td>
+                            <td class="ns">NS</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:0.75rem; font-size:0.8rem; color:#aaa;">
+                    Values are OLS slopes in %/year. * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001, NS = not significant.
+                    Mann-Kendall tau confirmed significance direction in all cases.
+                </p>
+            </div>
+
+            <!-- Lakeside Finding -->
+            <div class="proj-section">
+                <div class="proj-section-label">The Lakeside Effect</div>
+                <h2>Great Lakes proximity amplifies the redistribution</h2>
+                <p>
+                    The most geographically interesting finding is the difference between lakeside
+                    and inland stations in the moderate precipitation category (0.5–1"). Milwaukee
+                    and Green Bay — both on or near Lake Michigan — show significant upward trends
+                    in this category at rates roughly 2–2.5× those of Wausau and Eau Claire inland.
+                </p>
+                <div class="finding-callout">
+                    <strong>Lakeside vs. inland comparison — moderate rain (0.5–1")</strong>
+                    <p>Milwaukee: +0.016%/yr (p&lt;0.001) · Green Bay: +0.011%/yr (p&lt;0.05) vs.
+                    Wausau: +0.006%/yr (not significant) · Eau Claire: +0.003%/yr (not significant).
+                    The lakeside trend is statistically significant; the inland trend is not. This
+                    pattern is consistent with lake-breeze recirculation mechanisms concentrating
+                    moisture and precipitation near the shoreline — but the specific magnitude and
+                    intensity-category specificity of this effect in Wisconsin is not well documented
+                    in existing literature.</p>
+                </div>
+                <p>
+                    La Crosse shows a different profile: strong growth in the heavy category (1–2",
+                    +0.016%/yr, p&lt;0.001) with no significant change in moderate rain. This may
+                    reflect its position along the Mississippi River valley, which creates its own
+                    mesoscale moisture dynamics independent of the Great Lakes.
+                </p>
+            </div>
+
+            <!-- Trace Precipitation Finding -->
+            <div class="proj-section">
+                <div class="proj-section-label">Surprising Finding</div>
+                <h2>The light rain decline is almost entirely trace events</h2>
+                <p>
+                    The 0–0.5" light rain category is declining strongly at most stations.
+                    A sub-analysis of Milwaukee's light rain days revealed that this decline
+                    is not spread evenly across the category — it is almost entirely driven
+                    by trace precipitation events (≤0.01"), the kind of fine mist or drizzle
+                    that barely registers.
+                </p>
+                <div class="sub-box">
+                    <span class="sub-label">Milwaukee sub-analysis — breakdown of 0–0.5" category</span>
+                    <div class="sub-rows">
+                        <div class="sub-row">
+                            <span class="sub-category">Trace ≤0.01"</span>
+                            <span class="sub-result sub-driver">−6.6% total change · p&lt;0.0001 · DRIVING THE DECLINE</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-category">0.01–0.10"</span>
+                            <span class="sub-result sub-ns">−1.1% total change · p=0.159 · not significant</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-category">0.10–0.25"</span>
+                            <span class="sub-result sub-ns">−0.4% total change · p=0.503 · not significant</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-category">0.25–0.50"</span>
+                            <span class="sub-result sub-ns">+0.5% total change · p=0.250 · not significant</span>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    This means the redistribution story is more nuanced than "light rain is declining."
+                    What's actually happening is that the very lightest precipitation events — mist,
+                    drizzle, trace rainfall — are disappearing, while light rain proper (0.01–0.5")
+                    is largely stable. This sub-analysis has so far only been run for Milwaukee;
+                    whether it holds at the other five stations is an open question.
+                </p>
+            </div>
+
+            <!-- Key Findings -->
+            <div class="proj-section">
+                <div class="proj-section-label">Key Findings</div>
+                <h2>What the data shows across all six stations</h2>
+                <ul class="findings-list">
+                    <li>Wisconsin precipitation is redistributing toward greater intensity: dry days and light rain are increasing and decreasing respectively, while moderate and heavy events are growing.</li>
+                    <li>Total annual precipitation has increased alongside this shift — the state is not just experiencing redistribution but also cumulative growth.</li>
+                    <li>The moderate rain increase (0.5–1") is 2–2.5× stronger at Great Lakes shoreline stations (Milwaukee, Green Bay) than at inland stations (Wausau, Eau Claire), where the trend is not statistically significant.</li>
+                    <li>The decline in light precipitation at Milwaukee is almost entirely driven by disappearing trace events (≤0.01"), not a reduction in ordinary light rain.</li>
+                    <li>Both OLS linear regression and Mann-Kendall non-parametric tests agree on the direction and significance of all reported trends, strengthening the findings.</li>
+                    <li>La Crosse is an outlier: unlike the other five stations, its strongest growth is in heavy precipitation (1–2"), not moderate rain, possibly due to Mississippi River valley moisture dynamics.</li>
+                </ul>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="proj-section">
+                <div class="proj-section-label">Next Steps</div>
+                <h2>Expanding the analysis — confirmed with Dr. Buchmann</h2>
+                <p>
+                    Dr. Buchmann confirmed in March 2026 that the findings warrant expansion.
+                    The following next steps were agreed upon:
+                </p>
+                <div class="steps-list">
+                    <div class="step-item">
+                        <span class="step-num">01</span>
+                        <span class="step-text">Convert results from %/year to days/year for easier interpretation, and re-express all trends accordingly.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">02</span>
+                        <span class="step-text">Run the trace precipitation sub-analysis (breakdown of 0–0.5") at all six stations to determine whether Milwaukee's result is representative statewide.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">03</span>
+                        <span class="step-text">Break the analysis into seasons — fall and winter are especially interesting for testing the lake effect precipitation hypothesis.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">04</span>
+                        <span class="step-text">Expand to 20–30 stations around the Great Lakes region (including Illinois, Michigan, and Minnesota) to formally test whether the lakeside amplification holds at larger geographic scale.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">05</span>
+                        <span class="step-text">Develop a spatial map of trends across all stations — Dr. Buchmann is researching display methods for showing trend variability on a geographic map.</span>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">06</span>
+                        <span class="step-text">When enough lakeside and inland stations are assembled, combine groups for box-and-whisker comparison plots and a difference-in-means test.</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Project Details</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Role</span>
+                        <span class="sidebar-val">Primary Researcher</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Supervisor</span>
+                        <span class="sidebar-val">Dr. Paul Buchmann<br>WI State Climatology Office, UW–Madison</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Period</span>
+                        <span class="sidebar-val">December 2025 – Present</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Status</span>
+                        <span class="sidebar-val">Active — expanding to regional analysis</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Language</span>
+                        <span class="sidebar-val">Python (OLS, Mann-Kendall)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Data Sources</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Station data</span>
+                        <span class="sidebar-val">Iowa Environmental Mesonet (Iowa State) — WI ASOS airports</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Record length</span>
+                        <span class="sidebar-val">~1948–2025 (~78 years)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Stations analyzed</span>
+                        <span class="sidebar-val">Milwaukee (MKE), Green Bay (GRB), Madison (MSN), Wausau (AUW), Eau Claire (EAU), La Crosse (LSE)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Gridded data</span>
+                        <span class="sidebar-val">ERA5 Reanalysis (Copernicus) — future expansion</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Statistical Methods</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Trend estimation</span>
+                        <span class="sidebar-val">Ordinary Least Squares (OLS) linear regression — slope and R²</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Significance test</span>
+                        <span class="sidebar-val">Mann-Kendall non-parametric test — tau and p-value</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Verification</span>
+                        <span class="sidebar-val">OLS p-value and Mann-Kendall tau agreed on all reported trends</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Planned methods</span>
+                        <span class="sidebar-val">Box-and-whisker comparison, difference-in-means test (lakeside vs. inland)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Precipitation Categories</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Dry</span>
+                        <span class="sidebar-val">0.00" — no measurable precipitation</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Light</span>
+                        <span class="sidebar-val">0.001–0.50" — including trace (≤0.01")</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Moderate</span>
+                        <span class="sidebar-val">0.50–1.00"</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Heavy</span>
+                        <span class="sidebar-val">1.00–2.00"</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Extreme</span>
+                        <span class="sidebar-val">2.00"+</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- PREV / NEXT -->
+    <div class="proj-nav-bar">
+        <div class="proj-nav-inner">
+            <a href="research-02.html" class="proj-nav-link">← Project 02: Network Structure &amp; Epidemics</a>
+            <a href="research-04.html" class="proj-nav-link">Project 04: Ozone Exceedance Days →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks  = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
