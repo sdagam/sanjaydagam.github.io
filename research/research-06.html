@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dairy Herd Simulation & Cash Flow Tools | Sanjay Dagam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --brown:    #7A5C1E;
+            --brown-lt: #F5EDD8;
+            --brown-mid:#A07828;
+            --gold:     #D4A84B;
+            --ink:      #0f1a2e;
+            --slate:    #2c3e55;
+            --muted:    #5a6a7e;
+            --border:   #e5e1db;
+            --bg-alt:   #f8f7f4;
+            --bg-card:  #ffffff;
+        }
+
+        /* ── HERO ── */
+        .proj-hero {
+            background: var(--slate);
+            position: relative; overflow: hidden;
+            padding: 5.5rem 2rem 4rem;
+        }
+        .proj-hero-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0.13;
+        }
+        .proj-hero-bg svg { width: 100%; height: 100%; }
+        .proj-hero-inner {
+            max-width: 900px; margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .proj-back {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.8rem; font-weight: 600;
+            color: rgba(255,255,255,0.5); text-decoration: none;
+            margin-bottom: 2rem; letter-spacing: 0.04em;
+            text-transform: uppercase; transition: color 0.2s;
+        }
+        .proj-back:hover { color: rgba(255,255,255,0.85); }
+        .proj-meta-row {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-bottom: 1.5rem; align-items: center;
+        }
+        .proj-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .proj-tag {
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+        }
+        .tag-agri { background: rgba(122,92,30,0.4);  color: #D4A84B; }
+        .tag-cs   { background: rgba(81,46,95,0.35);  color: #c994e0; }
+        .proj-hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.9rem, 4.5vw, 3rem);
+            font-weight: 600; line-height: 1.15;
+            color: #fff; margin-bottom: 1.25rem;
+        }
+        .proj-hero h1 em { font-style: italic; color: #D4A84B; }
+        .proj-hero-sub {
+            font-size: 1.05rem; color: rgba(255,255,255,0.65);
+            line-height: 1.75; max-width: 700px; margin-bottom: 2rem;
+        }
+        .proj-status-row {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .proj-status-label {
+            font-size: 0.65rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35); display: block; margin-bottom: 0.2rem;
+        }
+        .proj-status-value { font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+        .status-pill {
+            display: inline-block; font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.2rem 0.65rem; border-radius: 100px;
+            background: #d8f3dc; color: #2d6a4f;
+        }
+
+        /* ── THREE-TOOL BAND ── */
+        .tools-band { background: var(--ink); padding: 2.5rem 2rem; }
+        .tools-inner {
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.25rem;
+        }
+        @media (max-width: 680px) { .tools-inner { grid-template-columns: 1fr; } }
+        .tool-strip {
+            border-left: 3px solid var(--gold);
+            padding: 0 0 0 1rem;
+        }
+        .tool-strip-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 600; color: var(--gold);
+            text-transform: uppercase; letter-spacing: 0.07em;
+            display: block; margin-bottom: 0.3rem;
+        }
+        .tool-strip-role {
+            font-size: 0.75rem; color: rgba(255,255,255,0.4);
+            font-style: italic; display: block; margin-bottom: 0.3rem;
+        }
+        .tool-strip p { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.55; margin: 0; }
+
+        /* ── BODY ── */
+        .proj-body {
+            max-width: 900px; margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            display: grid; grid-template-columns: 1fr 290px;
+            gap: 4rem; align-items: start;
+        }
+        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+        .proj-section { margin-bottom: 3rem; }
+        .proj-section:last-child { margin-bottom: 0; }
+        .proj-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--brown); margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .proj-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .proj-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem; font-weight: 400;
+            color: var(--ink); margin-bottom: 0.85rem; line-height: 1.3;
+        }
+        .proj-section p { font-size: 0.97rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+        .proj-section p:last-child { margin-bottom: 0; }
+
+        /* plain english */
+        .plain-box {
+            background: var(--brown-lt);
+            border-left: 4px solid var(--brown);
+            border-radius: 0 10px 10px 0;
+            padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+        }
+        .plain-box-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--brown); margin-bottom: 0.5rem; display: block;
+        }
+        .plain-box p { font-size: 0.97rem; color: #3a2a0a; line-height: 1.75; margin: 0; }
+        .plain-box p + p { margin-top: 0.75rem; }
+
+        /* tool deep-dive card */
+        .tool-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; margin: 1.25rem 0;
+        }
+        .tool-card-head {
+            background: var(--ink); padding: 0.9rem 1.4rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .tool-card-head h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 600; color: #fff; margin: 0;
+        }
+        .tool-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 0.15rem 0.55rem; border-radius: 100px;
+            background: rgba(212,168,75,0.25); color: var(--gold);
+            margin-left: auto; flex-shrink: 0;
+        }
+        .tool-card-body { padding: 1.25rem 1.4rem; }
+        .tool-card-body p { font-size: 0.93rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.85rem; }
+        .tool-card-body p:last-child { margin-bottom: 0; }
+
+        /* module grid */
+        .module-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0.65rem; margin-top: 0.85rem;
+        }
+        @media (max-width: 500px) { .module-grid { grid-template-columns: 1fr; } }
+        .module-item {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.7rem 0.9rem;
+            border-left: 3px solid var(--brown);
+        }
+        .module-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; color: var(--brown);
+            text-transform: uppercase; letter-spacing: 0.05em;
+            display: block; margin-bottom: 0.25rem;
+        }
+        .module-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin: 0; }
+
+        /* finding callout */
+        .finding-callout {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1rem 0;
+        }
+        .finding-callout strong {
+            display: block; font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--brown); letter-spacing: 0.06em;
+            text-transform: uppercase; margin-bottom: 0.4rem;
+        }
+        .finding-callout p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin: 0; }
+
+        /* bug box */
+        .bug-box {
+            background: var(--ink); border-radius: 10px;
+            padding: 1.3rem 1.5rem; margin: 1rem 0;
+        }
+        .bug-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; color: #F0A070;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            display: block; margin-bottom: 0.9rem;
+        }
+        .bug-items { display: flex; flex-direction: column; gap: 0.65rem; }
+        .bug-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+        .bug-dot {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(240,160,112,0.15); border: 1.5px solid #F0A070;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; color: #F0A070; font-weight: 700; margin-top: 0.1rem;
+        }
+        .bug-text { font-size: 0.855rem; color: rgba(255,255,255,0.6); line-height: 1.65; }
+        .bug-text code { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+
+        /* fix options */
+        .fix-list { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.85rem; }
+        .fix-item {
+            display: flex; gap: 0.85rem; align-items: flex-start;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.85rem 1rem;
+        }
+        .fix-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 600; color: var(--brown);
+            background: var(--brown-lt); border-radius: 5px;
+            padding: 0.15rem 0.4rem; flex-shrink: 0; margin-top: 0.05rem;
+        }
+        .fix-text { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+        /* video progress list */
+        .video-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
+        .video-item {
+            display: flex; gap: 0.85rem; align-items: center;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.75rem 1rem;
+        }
+        .video-status {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; padding: 0.18rem 0.55rem; border-radius: 100px;
+            flex-shrink: 0;
+        }
+        .vs-done    { background: #d8f3dc; color: #2d6a4f; }
+        .vs-active  { background: #d8f3dc; color: #2d6a4f; }
+        .vs-pending { background: var(--brown-lt); color: var(--brown); }
+        .video-name { font-size: 0.875rem; color: var(--ink); font-weight: 500; }
+        .video-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+
+        /* findings list */
+        .findings-list {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 0.75rem;
+        }
+        .findings-list li {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+        }
+        .findings-list li::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--brown); flex-shrink: 0; margin-top: 0.55rem;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem;
+        }
+        .sidebar-card-head { background: var(--ink); padding: 0.85rem 1.25rem; }
+        .sidebar-card-head h3 {
+            font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6); margin: 0;
+        }
+        .sidebar-card-body { padding: 1rem 1.25rem; }
+        .sidebar-row {
+            display: flex; flex-direction: column;
+            padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+        }
+        .sidebar-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .sidebar-row:first-child { padding-top: 0; }
+        .sidebar-key { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b8; margin-bottom: 0.2rem; }
+        .sidebar-val { font-size: 0.875rem; color: var(--ink); line-height: 1.5; }
+
+        /* prev/next */
+        .proj-nav-bar { background: var(--bg-alt); border-top: 1px solid var(--border); padding: 1.25rem 2rem; }
+        .proj-nav-inner {
+            max-width: 900px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .proj-nav-link {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.82rem; font-weight: 600; color: var(--muted);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .proj-nav-link:hover { color: var(--brown); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo" style="display:none;"></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../research.html" class="active">Research</a></li>
+                <li><a href="../nonprofit.html">Nonprofit</a></li>
+                <li><a href="../blog.html">Applied Math Blog</a></li>
+                <li><a href="../textbook.html">Textbook</a></li>
+                <li><a href="../mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="../apps.html">iOS Apps</a></li>
+                <li><a href="../activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="proj-hero">
+        <div class="proj-hero-bg">
+            <svg viewBox="-120 -80 920 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cash flow bars -->
+                <rect x="60"  y="290" width="26" height="70"  rx="3" fill="#7A5C1E" opacity="0.7"/>
+                <rect x="96"  y="265" width="26" height="95"  rx="3" fill="#A07828" opacity="0.6"/>
+                <rect x="132" y="245" width="26" height="115" rx="3" fill="#7A5C1E" opacity="0.7"/>
+                <rect x="168" y="220" width="26" height="140" rx="3" fill="#D4A84B" opacity="0.6"/>
+                <rect x="204" y="205" width="26" height="155" rx="3" fill="#7A5C1E" opacity="0.65"/>
+                <rect x="240" y="195" width="26" height="165" rx="3" fill="#A07828" opacity="0.55"/>
+                <rect x="276" y="208" width="26" height="152" rx="3" fill="#D4A84B" opacity="0.6"/>
+                <!-- Trend line -->
+                <polyline points="73,300 109,272 145,252 181,228 217,212 253,200 289,215"
+                    fill="none" stroke="#D4A84B" stroke-width="2" opacity="0.65" stroke-dasharray="5,3"/>
+                <!-- Markov chain states -->
+                <circle cx="490" cy="115" r="22" fill="none" stroke="#7A5C1E" stroke-width="1.8"/>
+                <circle cx="490" cy="115" r="8"  fill="#7A5C1E"/>
+                <circle cx="565" cy="75"  r="16" fill="none" stroke="#A07828" stroke-width="1.5"/>
+                <circle cx="565" cy="75"  r="6"  fill="#A07828"/>
+                <circle cx="565" cy="160" r="16" fill="none" stroke="#A07828" stroke-width="1.5"/>
+                <circle cx="565" cy="160" r="6"  fill="#A07828"/>
+                <circle cx="635" cy="115" r="13" fill="none" stroke="#D4A84B" stroke-width="1.4"/>
+                <circle cx="635" cy="115" r="5"  fill="#D4A84B"/>
+                <!-- Arrows between states -->
+                <path d="M 510 104 Q 538 75 550 78"  fill="none" stroke="#A07828" stroke-width="1.3"/>
+                <polygon points="548,73 557,78 548,83" fill="#A07828"/>
+                <path d="M 510 127 Q 538 155 550 158" fill="none" stroke="#A07828" stroke-width="1.3"/>
+                <polygon points="548,153 557,158 548,163" fill="#A07828"/>
+                <path d="M 578 80  Q 614 76  622 103" fill="none" stroke="#D4A84B" stroke-width="1.2"/>
+                <polygon points="620,100 629,107 621,112" fill="#D4A84B"/>
+                <path d="M 578 155 Q 614 155 622 128" fill="none" stroke="#D4A84B" stroke-width="1.2"/>
+                <polygon points="620,130 629,123 622,118" fill="#D4A84B"/>
+                <text x="479" y="119" font-family="Georgia,serif" font-size="11" fill="#7A5C1E" font-style="italic">L1</text>
+                <text x="556" y="79"  font-family="Georgia,serif" font-size="10" fill="#A07828" font-style="italic">L2</text>
+                <text x="555" y="164" font-family="Georgia,serif" font-size="10" fill="#A07828" font-style="italic">Dry</text>
+                <text x="626" y="119" font-family="Georgia,serif" font-size="10" fill="#D4A84B" font-style="italic">Cull</text>
+                <!-- THI heat stress curve -->
+                <path d="M 400 390 Q 430 378 450 365 Q 470 345 490 315 Q 510 285 530 328 Q 550 368 575 348 Q 600 328 625 338 Q 655 348 685 318"
+                    fill="none" stroke="#D4A84B" stroke-width="1.8" opacity="0.55"/>
+                <line x1="400" y1="358" x2="685" y2="358" stroke="#7A5C1E" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.45"/>
+                <text x="690" y="362" font-family="Georgia,serif" font-size="11" fill="#D4A84B" opacity="0.65">THI 68</text>
+                <!-- N flow top -->
+                <line x1="60"  y1="55" x2="155" y2="55" stroke="#7A5C1E" stroke-width="1.2" opacity="0.45"/>
+                <polygon points="152,51 162,55 152,59" fill="#7A5C1E" opacity="0.45"/>
+                <line x1="195" y1="55" x2="295" y2="55" stroke="#A07828" stroke-width="1.2" opacity="0.45"/>
+                <polygon points="292,51 302,55 292,59" fill="#A07828" opacity="0.45"/>
+                <text x="62"  y="46" font-family="Georgia,serif" font-size="13" fill="#7A5C1E" font-style="italic" opacity="0.65">Feed N</text>
+                <text x="163" y="46" font-family="Georgia,serif" font-size="13" fill="#A07828" font-style="italic" opacity="0.65">Manure</text>
+                <text x="268" y="46" font-family="Georgia,serif" font-size="13" fill="#D4A84B" font-style="italic" opacity="0.65">Leach</text>
+            </svg>
+        </div>
+        <div class="proj-hero-inner">
+            <a href="../research.html" class="proj-back">← Research Projects</a>
+            <div class="proj-meta-row">
+                <span class="proj-num">Project 06</span>
+                <span class="proj-tag tag-agri">Agricultural Science</span>
+                <span class="proj-tag tag-cs">Simulation Modeling</span>
+            </div>
+            <h1>UW–Madison Dairy Herd <em>Simulation</em><br>and Decision-Support Tools</h1>
+            <p class="proj-hero-sub">
+                Working with Prof. Victor Cabrera's lab to document, modernize, and extend
+                three dairy farm decision-support tools — producing tutorial videos for two
+                web tools and diagnosing and rebuilding a broken whole-farm simulation model
+                that has been inaccessible on modern computers since 2016.
+            </p>
+            <div class="proj-status-row">
+                <div>
+                    <span class="proj-status-label">Supervisor</span>
+                    <span class="proj-status-value">Prof. Victor Cabrera, UW–Madison</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Collaborator</span>
+                    <span class="proj-status-value">Anish Gogineni, UW–Madison</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Timeline</span>
+                    <span class="proj-status-value">January 2026 – Present</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Status</span>
+                    <span class="status-pill">Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- THREE-TOOL BAND -->
+    <div class="tools-band">
+        <div class="tools-inner">
+            <div class="tool-strip">
+                <span class="tool-strip-name">AMS Transition Budgeter</span>
+                <span class="tool-strip-role">Video completed · Published</span>
+                <p>Evaluates the financial return of switching from conventional milking to automatic milking robots. Partial-budget + 15-year cash flow projections.</p>
+            </div>
+            <div class="tool-strip">
+                <span class="tool-strip-name">Heat Abatement Investment Scouter</span>
+                <span class="tool-strip-role">Video completed · Published</span>
+                <p>Uses location-specific THI climate data to estimate milk losses from heat stress and calculate payback period on cooling infrastructure.</p>
+            </div>
+            <div class="tool-strip">
+                <span class="tool-strip-name">DyNoFlo — Dynamic Dairy Farm Model</span>
+                <span class="tool-strip-role">Repair in progress</span>
+                <p>Integrated whole-farm Markov-chain simulation with nitrogen tracking, DSSAT crop models, and LP optimization. Broken on modern Excel — rebuild underway.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="proj-body">
+        <main class="proj-main">
+
+            <!-- Plain English -->
+            <div class="proj-section">
+                <div class="plain-box">
+                    <span class="plain-box-label">Plain-English Summary</span>
+                    <p>
+                        Dairy farming is extraordinarily complex — a farm's profitability depends on
+                        thousands of interacting decisions about herd management, feeding, waste handling,
+                        and climate. Prof. Victor Cabrera at UW–Madison has built mathematical models that
+                        help farmers and extension agents simulate and optimize those decisions.
+                    </p>
+                    <p>
+                        This project has two tracks running in parallel. The first is documentation:
+                        scripting and producing professional tutorial videos for two live web tools so
+                        that dairy producers across the country can use them effectively. The second is
+                        engineering: diagnosing and repairing a powerful whole-farm simulation model
+                        that has been completely inaccessible on modern computers since 2016, due to
+                        a broken dependency on discontinued Microsoft software.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tool 1: AMS Budgeter -->
+            <div class="proj-section">
+                <div class="proj-section-label">Tool 1 — AMS Transition Budgeter</div>
+                <h2>Should a dairy farm switch to robotic milking?</h2>
+                <p>
+                    Automatic Milking Systems (robots) represent one of the largest capital investments
+                    a dairy producer can make — typically $200,000 per robot plus $50,000 in retrofit
+                    costs. The AMS Transition Budgeter, built by Prof. Cabrera's lab and available at
+                    dairymgt.cals.wisc.edu, uses a partial-budget approach combined with multi-year
+                    cash flow projections to answer not just whether the investment pays off, but when.
+                </p>
+                <div class="tool-card">
+                    <div class="tool-card-head">
+                        <h3>Key Inputs and Outputs</h3>
+                        <span class="tool-badge">Web tool · Live</span>
+                    </div>
+                    <div class="tool-card-body">
+                        <div class="module-grid">
+                            <div class="module-item">
+                                <span class="module-name">Farm Baseline</span>
+                                <p class="module-desc">Herd size, milk yield (lbs/cow/day), milk price ($/cwt), daily milking labor hours, labor rate ($/hr). Defaults: 120 cows, 80 lbs, $18/cwt, 12 hrs/day, $20/hr.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Investment &amp; Specs</span>
+                                <p class="module-desc">Number of robots, cost per robot, retrofit cost, loan rate, loan term, labor per robot per day. Default: 2 robots at $200k each, $50k retrofit, 7.5%, 10 years.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Operational Impacts</span>
+                                <p class="module-desc">Milk yield change (default +5% from increased visit frequency), feed cost adjustment ($0.15/cow/day for robot pellet), annual maintenance per robot ($8,000).</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Key Outputs</span>
+                                <p class="module-desc">Net Annual Impact, Labor Saved (hours + FTE equivalent), Breakeven Wage, 15-year Cash Flow Timeline, Breakeven Gauge, and Sensitivity Tornado chart.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="finding-callout">
+                    <strong>The Breakeven Wage insight</strong>
+                    <p>The tool's most decision-relevant output is the Breakeven Wage — the minimum hourly
+                    labor rate at which the robot investment has net present value of zero. If a farm's
+                    actual labor cost exceeds this threshold, the investment is economically favorable.
+                    The sensitivity analysis shows that milk price and labor rate are typically the
+                    two highest-leverage variables.</p>
+                </div>
+                <p>
+                    Sanjay scripted and produced the full tutorial video for this tool — writing the
+                    walkthrough script, recording screen capture of the live tool, generating AI
+                    voiceover, and editing the final MP4. The video has been posted to YouTube and
+                    linked on the lab's tools page.
+                </p>
+            </div>
+
+            <!-- Tool 2: Heat Abatement -->
+            <div class="proj-section">
+                <div class="proj-section-label">Tool 2 — Heat Abatement Investment Scouter</div>
+                <h2>Does cooling equipment pay for itself?</h2>
+                <p>
+                    High-producing dairy cows begin experiencing heat stress when the
+                    Temperature-Humidity Index (THI) exceeds 68 — a threshold routinely exceeded
+                    across much of the U.S. for months at a time. The Heat Abatement Investment
+                    Scouter uses 10-year average climate data for any location in the country to
+                    estimate milk losses from heat stress and calculate whether an investment in
+                    fans and soakers delivers a positive return.
+                </p>
+                <div class="tool-card">
+                    <div class="tool-card-head">
+                        <h3>Methodology and Key Outputs</h3>
+                        <span class="tool-badge">Web tool · Live</span>
+                    </div>
+                    <div class="tool-card-body">
+                        <div class="module-grid">
+                            <div class="module-item">
+                                <span class="module-name">THI Calculation</span>
+                                <p class="module-desc">Uses location-specific 10-year average climate data (temp, humidity) to compute monthly THI values and classify heat stress hours as mild (68–72), moderate (72–78), or severe (78+).</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Milk Loss Model</span>
+                                <p class="module-desc">Estimates milk production loss at 0.5 lbs per cow per hour per THI unit above threshold (Mader et al. 2006). Applies farm-specific herd size and yield inputs.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Investment Analysis</span>
+                                <p class="module-desc">Fan + soaker + installation capital costs, loan terms, operating costs (electricity + water), and cooling effectiveness (default 65%). Computes payback period, net annual gain, and 5-year ROI.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">2030 Projection</span>
+                                <p class="module-desc">Includes a forward-looking climate risk projection showing expected heat stress hours in 2030, helping producers factor in a warming baseline when evaluating long-term investments.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    Sanjay wrote the script, produced the video, and reshot it after the tool was
+                    updated — revising the script to match the new THI methodology and recording a
+                    final version. The video is published on YouTube and linked on the lab's tools page.
+                </p>
+            </div>
+
+            <!-- Tool 3: DyNoFlo -->
+            <div class="proj-section">
+                <div class="proj-section-label">Tool 3 — DyNoFlo</div>
+                <h2>A whole-farm dairy simulation — and an engineering problem</h2>
+                <p>
+                    DyNoFlo (Dynamic North Florida Dairy Farm Model) is Prof. Cabrera's most
+                    comprehensive tool: an integrated Excel-based simulation combining six distinct
+                    modeling components to answer a single central question — can a dairy farm
+                    reduce nitrogen leaching while maintaining profitability, and how should
+                    management strategies change based on climate forecasts?
+                </p>
+                <div class="tool-card">
+                    <div class="tool-card-head">
+                        <h3>Six Integrated Model Components</h3>
+                        <span class="tool-badge">Markov + DSSAT + LP</span>
+                    </div>
+                    <div class="tool-card-body">
+                        <div class="module-grid">
+                            <div class="module-item">
+                                <span class="module-name">Markov-Chain Herd Model</span>
+                                <p class="module-desc">3,200 cow states defined by months in milk, pregnancy status, and lactation number. Computes monthly milk production, dry matter intake, and manure nitrogen excretion per animal group.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">DSSAT Crop System</span>
+                                <p class="module-desc">Pre-computed crop outputs for up to 10 fields with configurable forage rotations (bermudagrass, corn, sorghum) across seasons. Results stratified by soil type and ENSO phase.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Nitrogen Tracking</span>
+                                <p class="module-desc">Follows manure N through the entire waste chain — flushing, pond, sludge, spraying, soil application — with configurable loss rates. Cumulative N lost shown as a percentage.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">ENSO Climate Module</span>
+                                <p class="module-desc">Assigns El Niño, La Niña, Neutral, or 43-year average to each simulation year. El Niño winters drive the most leaching; January alone accounts for 30–40% of annual nitrogen loss.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">Economic Analysis</span>
+                                <p class="module-desc">Monthly and annual profit from milk, cow/heifer sales, and expense categories. Case study result: optimizer recommended changes reduced leaching 25% while increasing profit 3%.</p>
+                            </div>
+                            <div class="module-item">
+                                <span class="module-name">LP Optimizer</span>
+                                <p class="module-desc">Maximizes profit subject to a nitrogen constraint (or vice versa), solved independently per ENSO phase. Outputs climate-specific management strategies for crude protein, forage rotations, and confined time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 2rem;">The compatibility problem</h2>
+                <p>
+                    DyNoFlo's simulation engine, data, formulas, charts, and dashboard are fully
+                    intact. But the entire VBA layer — all macros, all modules, all interactive
+                    buttons — is inaccessible on any Excel version released after 2003. This means
+                    the model has been effectively unusable for over two decades on modern machines.
+                </p>
+                <div class="bug-box">
+                    <span class="bug-label">Two compounding failures</span>
+                    <div class="bug-items">
+                        <div class="bug-item">
+                            <div class="bug-dot">1</div>
+                            <span class="bug-text">
+                                <strong style="color:#F0A070;">OWC10 / 64-bit incompatibility.</strong>
+                                The VBA project references <code>Microsoft Office XP Web Components (OWC10)</code>,
+                                discontinued after Office 2003. On 64-bit Excel, VBA API declarations also require
+                                the <code>PtrSafe</code> keyword — absent throughout the original code. Together these
+                                cause a compile failure that blocks <em>everything</em>: no macros run, the VBA
+                                editor won't load, and Excel refuses to save any changes. A catch-22 where the
+                                broken state prevents the fix.
+                            </span>
+                        </div>
+                        <div class="bug-item">
+                            <div class="bug-dot">2</div>
+                            <span class="bug-text">
+                                <strong style="color:rgba(255,255,255,0.7);">Missing linked workbooks.</strong>
+                                DyNoFlo depends on external companion files containing pre-computed DSSAT crop
+                                model tables. Without them at the expected file paths, the simulation runs for
+                                approximately 3 years then halts with <code>"Couldn't get updated values from
+                                linked workbook."</code>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 1.75rem;">Three repair pathways</h2>
+                <div class="fix-list">
+                    <div class="fix-item">
+                        <span class="fix-num">01</span>
+                        <span class="fix-text"><strong>Install OWC10 on 32-bit Excel.</strong> Download the free Microsoft Office XP Web Components redistributable, install it to register the missing type library, and re-attempt reference cleanup. Only viable on 32-bit Excel installations.</span>
+                    </div>
+                    <div class="fix-item">
+                        <span class="fix-num">02</span>
+                        <span class="fix-text"><strong>Fix on older Office machine.</strong> Open on Office 2003/2007 where OWC10 is available. Uncheck the four broken references, remove the nine OWC-dependent UserForms, import a replacement macro module (<code>RunModel.bas</code>), and save. Test on modern Excel.</span>
+                    </div>
+                    <div class="fix-item">
+                        <span class="fix-num">03</span>
+                        <span class="fix-text"><strong>Full rebuild.</strong> Open with macros disabled, copy all sheet data into a new .xlsm workbook, re-import 11 VBA module files from the extracted rebuild kit, add macro buttons, and re-embed the DSSAT companion data as local sheets to eliminate external links. Most effort — most portable result.</span>
+                    </div>
+                </div>
+                <p style="margin-top:1rem;">
+                    The simulation engine itself (the <code>MARKOV</code> subroutine in Module1)
+                    requires no logic changes — it reads entirely from worksheet cells with no
+                    dependency on OWC or UserForms. Once the VBA layer is accessible, the fix is
+                    straightforward. Sanjay is currently pursuing access to the VBA project password
+                    from Prof. Cabrera to enable Option 02 or 03.
+                </p>
+            </div>
+
+            <!-- Video Production Work -->
+            <div class="proj-section">
+                <div class="proj-section-label">Video Production</div>
+                <h2>Tutorial videos for the lab's tool suite</h2>
+                <p>
+                    A core deliverable of this project is producing professional walkthrough videos
+                    for each tool so that dairy producers and extension agents can use them without
+                    needing direct support. Each video involves writing a full narration script,
+                    screen-recording the live tool, generating AI voiceover, and editing the final
+                    MP4 for publication on the lab's YouTube channel.
+                </p>
+                <div class="video-list">
+                    <div class="video-item">
+                        <div>
+                            <div class="video-name">AMS Transition Budgeter</div>
+                            <div class="video-detail">Script written · Video recorded and edited · Published to YouTube · Linked on lab tools page</div>
+                        </div>
+                        <span class="video-status vs-done">Published</span>
+                    </div>
+                    <div class="video-item">
+                        <div>
+                            <div class="video-name">Heat Abatement Investment Scouter</div>
+                            <div class="video-detail">Script written · Video recorded · Reshot after tool update with revised script · Published to YouTube</div>
+                        </div>
+                        <span class="video-status vs-done">Published</span>
+                    </div>
+                    <div class="video-item">
+                        <div>
+                            <div class="video-name">DyNoFlo Dynamic Dairy Farm Model</div>
+                            <div class="video-detail">Script written · Video pending tool repair — interactive simulation must function before screen-recording</div>
+                        </div>
+                        <span class="video-status vs-pending">Pending repair</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Findings from DyNoFlo literature -->
+            <div class="proj-section">
+                <div class="proj-section-label">Key Insights from DyNoFlo Research</div>
+                <h2>What the model reveals about dairy nitrogen management</h2>
+                <ul class="findings-list">
+                    <li>El Niño winters drive the most nitrogen leaching — wetter, cooler conditions increase water percolation and reduce plant nitrogen uptake. La Niña years show the opposite.</li>
+                    <li>January alone accounts for 30–40% of total annual nitrogen leaching in the case study farm, making winter management the highest-leverage intervention window.</li>
+                    <li>Sandy, shallow soils leach dramatically more nitrogen than more retentive soils under identical management — soil type selection and site matching are critical.</li>
+                    <li>The most effective levers for reducing leaching without sacrificing profit: lowering dietary crude protein, planting bermudagrass in pastures and sprayfields, and strip-planting corn into bermudagrass sod.</li>
+                    <li>Climate-adaptive management matters: optimizer recommendations differ by ENSO phase. When El Niño is forecast, additional strategies include voluntary culling, exporting manure off-farm, or renting additional pasture.</li>
+                    <li>In the published 400-cow case study, optimization reduced nitrogen leaching by 25% while increasing profit by 3%. Feasible adjustments (a practical subset) still achieved 23% leaching reduction with 2.5% profit gain.</li>
+                </ul>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Project Details</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Role</span>
+                        <span class="sidebar-val">Research &amp; Engineering Collaborator</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Supervisor</span>
+                        <span class="sidebar-val">Prof. Victor Cabrera<br>Dept. of Animal and Dairy Sciences, UW–Madison</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Collaborator</span>
+                        <span class="sidebar-val">Anish Gogineni, UW–Madison</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Period</span>
+                        <span class="sidebar-val">January 2026 – Present</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Tools page</span>
+                        <span class="sidebar-val">dairymgt.cals.wisc.edu</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Deliverables</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Videos produced</span>
+                        <span class="sidebar-val">2 published (AMS Budgeter, Heat Abatement)<br>1 pending (DyNoFlo)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Scripts written</span>
+                        <span class="sidebar-val">3 complete (AMS, THI, DyNoFlo)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">DyNoFlo repair</span>
+                        <span class="sidebar-val">Root cause diagnosed; rebuild kit assembled; repair in progress</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Video tools</span>
+                        <span class="sidebar-val">Natural Reader (AI voiceover), screen recording, video editing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>DyNoFlo — Technical Stack</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Core engine</span>
+                        <span class="sidebar-val">Excel VBA — MARKOV subroutine (Module1)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Herd simulation</span>
+                        <span class="sidebar-val">Markov-chain, 3,200 cow states</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Crop data</span>
+                        <span class="sidebar-val">Pre-computed DSSAT outputs (external linked workbooks)</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Optimization</span>
+                        <span class="sidebar-val">Linear programming, per ENSO phase</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Blocking issue</span>
+                        <span class="sidebar-val">OWC10 + PtrSafe — broken on all Excel 2016+</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-card-head"><h3>Next Steps</h3></div>
+                <div class="sidebar-card-body">
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Immediate</span>
+                        <span class="sidebar-val">Obtain VBA project password from Prof. Cabrera to enable repair</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Repair path</span>
+                        <span class="sidebar-val">Add PtrSafe keywords, remove OWC references, rebuild UserForms with standard VBA controls</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">After repair</span>
+                        <span class="sidebar-val">Screen-record DyNoFlo tutorial video and publish</span>
+                    </div>
+                    <div class="sidebar-row">
+                        <span class="sidebar-key">Long-term</span>
+                        <span class="sidebar-val">Embed DSSAT companion data as local sheets for single-file portability</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- PREV / NEXT -->
+    <div class="proj-nav-bar">
+        <div class="proj-nav-inner">
+            <a href="research-05.html" class="proj-nav-link">← Project 05: Ground-Level NO₂ Predictions</a>
+            <span></span>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Sanjay Dagam. Built with curiosity.</p>
+            <div class="footer-links">
+                <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks  = document.querySelector('.nav-links');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+        }
+    </script>
+</body>
+</html>
