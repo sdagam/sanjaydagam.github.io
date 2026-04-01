@@ -418,7 +418,7 @@
                 </div>
                 <div class="proj-status-item">
                     <span class="proj-status-label">Presented At</span>
-                    <span class="proj-status-value">ISEF 2025 · Badger State Science Fair</span>
+                    <span class="proj-status-value">ISEF 2025 · Capital Science &amp; Engineering Fair · Badger State Science Fair</span>
                 </div>
                 <div class="proj-status-item">
                     <span class="proj-status-label">Timeline</span>
@@ -432,31 +432,6 @@
         </div>
     </header>
 
-    <!-- STATS BAND -->
-    <div class="stats-band">
-        <div class="stats-inner">
-            <div class="stat-item">
-                <span class="stat-num"><em>228</em></span>
-                <span class="stat-lbl">Configurations tested</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>47k+</em></span>
-                <span class="stat-lbl">Simulation runs</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>57%</em></span>
-                <span class="stat-lbl">Configs where BC wins</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>70%</em></span>
-                <span class="stat-lbl">Real-world BC wins</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>R²=.61</em></span>
-                <span class="stat-lbl">Predictive framework fit</span>
-            </div>
-        </div>
-    </div>
 
     <!-- BODY -->
     <div class="proj-body">
@@ -467,17 +442,17 @@
                 <div class="plain-box">
                     <span class="plain-box-label">Plain-English Summary</span>
                     <p>
-                        When a disease spreads through a network — whether a disease spreading between people,
-                        malware moving through computers, or misinformation on social media — public health
-                        officials face a critical question: which connections should we cut first? Should we
-                        target the most structurally important links (betweenness centrality, or BC), or does
-                        it not matter, and random removal works just as well?
+                        Imagine a disease spreading through a network of connected people — like COVID-19
+                        spreading through flights between cities. You have limited resources: you can only
+                        close a certain number of connections. Which ones do you cut? Does it matter if you
+                        choose carefully, or is picking randomly just as good?
                     </p>
                     <p style="margin-top: 0.75rem;">
-                        This research ran over 47,000 simulations across nine real and synthetic networks to
-                        find out. The surprising answer: <em>it depends on network structure and timing</em> —
-                        and BC wins not by making it harder for disease to spread, but by physically cutting
-                        the network into isolated safe zones where infection literally cannot reach.
+                        I ran over 47,000 computer simulations across nine different network types to answer
+                        this. The key finding: <em>it depends on the shape of the network and the timing of
+                        the intervention</em>. When a network has distinct groups connected by a few critical
+                        bridges, cutting those bridges doesn't just slow the disease — it physically
+                        isolates regions so the disease can't reach them at all, creating safe zones.
                     </p>
                 </div>
             </div>
@@ -485,51 +460,56 @@
             <!-- Research Question -->
             <div class="proj-section">
                 <div class="proj-section-label">Research Question</div>
-                <h2>When does targeted intervention beat random removal — and why?</h2>
+                <h2>Does it matter <em>which</em> connections you cut — or is random just as good?</h2>
                 <p>
-                    Prior literature offered contradictory findings: some studies showed BC-targeted edge removal
-                    significantly outperforms random strategies; others found it suboptimal or even counterproductive.
-                    No prior work had identified <em>when</em> BC wins, <em>when</em> it fails, or <em>why</em>.
+                    When a disease is spreading, health officials have to make quick decisions: close which
+                    borders, quarantine which contacts, restrict which routes? One targeted strategy is to
+                    identify the connections that are structural "bridges" — the links that, if removed,
+                    would split the network into separate pieces. This is called betweenness centrality
+                    (BC) targeting. But past research disagreed on whether it actually works better than
+                    just cutting random connections.
                 </p>
                 <p>
-                    Compounding this, the mechanistic explanation was contested. The dominant theory held that
-                    targeted removal works by reducing the spectral radius λ₁ — the mathematical quantity that
-                    governs how easily a disease spreads. This research tests that assumption directly, and finds
-                    it is wrong.
+                    This project set out to resolve that disagreement — and to figure out not just
+                    <em>whether</em> BC targeting works, but <em>why</em>, and under exactly
+                    <em>what conditions</em>.
                 </p>
             </div>
 
             <!-- The Central Discovery -->
             <div class="proj-section">
                 <div class="proj-section-label">Central Discovery</div>
-                <h2>Fragmentation, not threshold reduction, is the mechanism</h2>
+                <h2>BC wins by splitting the network into isolated islands — not by slowing the disease</h2>
                 <p>
-                    The core finding overturns the conventional understanding. Random removal reduces the
-                    spectral radius (λ₁) more than BC on most networks — yet BC still wins. On LFR networks
-                    with tight community structure (μ=0.1), BC achieves 97% network dissolution with only
-                    4% λ₁ reduction.
+                    Before this research, the leading explanation for why targeted removal works was that it
+                    makes the disease harder to spread overall — mathematically, it lowers the epidemic
+                    threshold. But the simulations showed something surprising: random removal actually
+                    lowers the epidemic threshold <em>more</em> than BC does — yet BC still wins.
+                </p>
+                <p>
+                    The real reason BC works is different: it physically splits the network into disconnected
+                    pieces. Once a group of people (or computers, or cities) is cut off from the main network,
+                    the disease simply cannot reach them — no matter how contagious it is. These disconnected
+                    regions are "safe zones."
                 </p>
                 <div class="finding-callout">
                     <strong>Key insight</strong>
-                    <p>BC creates literal "safe zones" — network regions where epidemic spread is physically
-                    impossible — protecting 7–54× more individuals than random removal across real-world
-                    networks. It works by fragmenting the network, not by lowering the epidemic threshold.</p>
+                    <p>Targeted removal creates safe zones protecting 7–54× more people than random removal
+                    across real-world networks. The mechanism is isolation, not reduction in contagiousness.</p>
                 </div>
-                <p>
-                    Spectral radius and fragmentation are <em>independent</em> variables in epidemic control.
-                    A strategy can dramatically reduce λ₁ while barely fragmenting the network, or vice versa.
-                    BC exploits fragmentation; random removal exploits threshold reduction — but fragmentation
-                    is the more powerful lever.
-                </p>
             </div>
 
             <!-- Network Topologies -->
             <div class="proj-section">
-                <div class="proj-section-label">Network Topologies</div>
-                <h2>Four synthetic + five real-world networks</h2>
+                <div class="proj-section-label">What Networks Were Tested</div>
+                <h2>Nine networks — from social media to biology</h2>
                 <p>
-                    The study tested four synthetic network families chosen to isolate the structural features
-                    (hubs, clustering, communities) that determine BC's effectiveness:
+                    Not all networks look the same. A social network where a few celebrities connect
+                    millions of followers (hub structure) is very different from a network of tight-knit
+                    friend groups with a few cross-group connections (community structure). To test
+                    whether structure matters, I used four types of computer-generated networks that each
+                    isolate one structural feature — plus five real-world networks including a Facebook
+                    friendship graph, a power grid, and a biological neural network.
                 </p>
                 <table class="topo-table">
                     <thead>
@@ -565,42 +545,42 @@
                     </tbody>
                 </table>
                 <p style="margin-top: 1rem;">
-                    Real-world validation used five empirical networks spanning social, biological, and
-                    infrastructure domains. BC won 21/30 (70%) real-world configurations. The single
-                    exception — C. elegans (Q = 0.09) — confirmed the prediction: community structure
-                    is required for BC to win.
+                    BC outperformed random removal in 70% of real-world tests. The one exception —
+                    a neural network with almost no community structure — confirmed the rule:
+                    targeted removal only wins when the network has distinct groups to isolate.
                 </p>
             </div>
 
             <!-- Four Mechanisms -->
             <div class="proj-section">
-                <div class="proj-section-label">The Four Mechanisms</div>
-                <h2>BC operates differently on every topology</h2>
+                <div class="proj-section-label">How BC Works Differently by Network Type</div>
+                <h2>The same strategy works through four different mechanisms</h2>
                 <p>
-                    A key finding is that BC does not work through a single unified mechanism.
-                    Four distinct modes of action were identified, each corresponding to a different
-                    network structural profile:
+                    One of the most interesting findings is that BC doesn't win the same way every time.
+                    The network's shape determines <em>how</em> the targeted cuts do their work:
                 </p>
                 <div class="mech-grid">
                     <div class="mech-card">
                         <span class="mech-name">Hub disruption</span>
-                        <p>On BA networks: BC targets hub-hub edges, achieving 70% λ₁ reduction.
-                        Primarily a threshold mechanism on hub-dominated topologies.</p>
+                        <p>When a network is dominated by a few super-connected hubs (like major airports
+                        in a flight network), BC targets the connections between those hubs — making the
+                        whole disease less transmissible.</p>
                     </div>
                     <div class="mech-card">
                         <span class="mech-name">Bridge disruption</span>
-                        <p>On LFR (μ=0.1): BC severs inter-community bridges, achieving 97% GCC
-                        dissolution with only 4% λ₁ reduction. Pure fragmentation.</p>
+                        <p>When the network has tight communities (like countries with strong internal
+                        travel), BC cuts the bridges between them — splitting the network into completely
+                        isolated safe zones with almost no impact on internal connectivity.</p>
                     </div>
                     <div class="mech-card">
                         <span class="mech-name">Compartmentalization</span>
-                        <p>On LFR (μ=0.3/0.5): BC progressively compartmentalizes weakly-separated
-                        communities, producing graduated safe zones.</p>
+                        <p>When communities are loosely defined, BC progressively carves the network
+                        into smaller and smaller pieces over time, gradually building containment zones.</p>
                     </div>
                     <div class="mech-card">
                         <span class="mech-name">Hybrid</span>
-                        <p>On HK networks: BC achieves 53% λ₁ reduction and 96% GCC dissolution
-                        simultaneously — the only topology where both mechanisms operate strongly.</p>
+                        <p>Some networks have both hubs and community structure — BC works through
+                        both mechanisms simultaneously, making it especially powerful in these cases.</p>
                     </div>
                 </div>
             </div>
@@ -608,46 +588,55 @@
             <!-- Timing Finding -->
             <div class="proj-section">
                 <div class="proj-section-label">The Timing Effect</div>
-                <h2>When you intervene matters more than how</h2>
+                <h2>When you intervene matters just as much as how</h2>
                 <p>
-                    The endemic×paradigm interaction (β* = −1.112) is the single dominant predictor
-                    across all 228 configurations — explaining more variance than all structural network
-                    features combined.
+                    A major and somewhat counterintuitive finding: the timing of intervention turned
+                    out to be the single biggest factor — more important than the network's shape
+                    and more important than which removal strategy is used.
                 </p>
                 <ul class="findings-list">
-                    <li>During active epidemics, differences between BC and random are small (median |d| ≈ 0.25) and often statistically insignificant.</li>
-                    <li>At equilibrium, effects amplify dramatically — effect sizes up to |d| = 21 on some networks.</li>
-                    <li>Early intervention creates a misleading picture: BA and LFR show crossover phenomena early in intervention where random appears to win, before BC pulls ahead.</li>
-                    <li>Practical implication: if BC-based intervention appears ineffective early in an outbreak, this is expected — the time-compounding effect means benefits accumulate over time.</li>
+                    <li><strong>Early in an outbreak</strong> — when the disease is still spreading rapidly — targeted and random removal perform almost identically. Either approach gives modest benefit.</li>
+                    <li><strong>Once the disease has settled</strong> into a stable endemic state (infecting roughly the same number of people each day), targeted removal becomes dramatically more effective — sometimes 20× more effective than random.</li>
+                    <li><strong>The misleading early phase:</strong> In some networks, random removal actually appears to be <em>winning</em> in the first weeks of intervention. This reverses over time. A public health official who stops targeted intervention early because it "isn't working" would be making a mistake — the benefits accumulate slowly at first, then compound.</li>
                 </ul>
             </div>
 
             <!-- Analytical Proofs -->
             <div class="proj-section">
-                <div class="proj-section-label">Analytical Proof Framework</div>
-                <h2>Mathematical guarantees, not just simulation</h2>
+                <div class="proj-section-label">The Math Behind the Results</div>
+                <h2>Proving it — not just observing it</h2>
                 <p>
-                    Using a planted-partition graph model G(n, k, p, q) — k communities, dense within
-                    (probability p), sparse between (probability q ≪ p) — four analytical results
-                    were proven:
+                    Simulation results can show that something happens, but they don't explain
+                    <em>why</em> it has to happen. I also proved four mathematical theorems that
+                    give guarantees for community-structured networks. Think of these as the
+                    "why" behind the simulations:
                 </p>
                 <div class="proof-box">
-                    <span class="proof-label">Theorem results</span>
+                    <span class="proof-label">Four proven results</span>
                     <div class="proof-item">
-                        <span class="result-label">Result 1 — Betweenness Gap</span>
-                        <p>Inter-community edges carry Θ(p/q) higher betweenness than intra-community edges. BC targets bridges first — provably and necessarily.</p>
+                        <span class="result-label">Result 1 — BC always finds the bridges first</span>
+                        <p>In any community-structured network, the connections between communities
+                        mathematically must have higher betweenness centrality than connections inside
+                        communities. So BC is guaranteed to target the bridges before anything else.</p>
                     </div>
                     <div class="proof-item">
-                        <span class="result-label">Result 2 — Fragmentation Theorem</span>
-                        <p>BC fragments into k components using fraction α = q(k−1)/[p + q(k−1)] of edges. Random removal needs fraction → 1 to achieve the same fragmentation.</p>
+                        <span class="result-label">Result 2 — BC fragments the network with far fewer cuts</span>
+                        <p>BC can split a network into k isolated pieces by removing only a small
+                        fraction of its edges. Random removal would need to remove nearly all edges
+                        to achieve the same isolation.</p>
                     </div>
                     <div class="proof-item">
-                        <span class="result-label">Result 3 — Crossover Threshold</span>
-                        <p>BC advantage persists until endemic level I*_cross ≈ α, the inter-community edge fraction — predicting exactly when BC's advantage disappears.</p>
+                        <span class="result-label">Result 3 — There's a predictable tipping point</span>
+                        <p>BC's advantage holds until the disease reaches a specific prevalence level
+                        (determined by the network's structure). Beyond that point, the advantage
+                        disappears — the math predicts exactly when this crossover occurs.</p>
                     </div>
                     <div class="proof-item">
-                        <span class="result-label">Result 4 — Spectral Dissociation</span>
-                        <p>λ₁ ≈ (n/k − 1)p, dominated by intra-community density. Removing all bridges reduces λ₁ by only O(α · d_intra) while creating k disconnected components — explaining why fragmentation and threshold are independent.</p>
+                        <span class="result-label">Result 4 — Why slowing spread and isolating are independent</span>
+                        <p>The math shows that isolating communities (fragmentation) and making the
+                        disease harder to spread (threshold reduction) are driven by completely
+                        different structural properties of the network — which is why one strategy
+                        can do one without doing the other.</p>
                     </div>
                 </div>
             </div>
@@ -655,29 +644,47 @@
             <!-- Key Findings -->
             <div class="proj-section">
                 <div class="proj-section-label">Key Findings</div>
-                <h2>Five conclusions that change the picture</h2>
+                <h2>What this research established</h2>
                 <ul class="findings-list">
-                    <li>Network structure — not just strategy choice — determines whether targeted epidemic interventions succeed. The same BC strategy produces radically different outcomes on different topologies.</li>
-                    <li>The conventional explanation for why targeted removal works (reducing λ₁) is incorrect. Fragmentation — physically isolating network regions — is the dominant mechanism.</li>
-                    <li>Intervention timing can matter more than intervention sophistication. Early intervention during active growth yields modest, topology-independent effects; equilibrium intervention reveals the full structural signature.</li>
-                    <li>BC creates literal safe zones protecting 7–54× more individuals than random removal across real-world networks.</li>
-                    <li>A predictive framework (R² = 0.606, 228 observations) enables estimation of intervention effectiveness from four measurable network properties, bridging theory and practice.</li>
+                    <li><strong>Network shape determines everything.</strong> The same targeted strategy produces dramatically different results depending on whether the network has hubs, communities, or neither. There is no universal "best" intervention.</li>
+                    <li><strong>The textbook explanation is wrong.</strong> For decades, researchers assumed targeted removal works by lowering the epidemic threshold. It actually works by physically splitting the network into isolated pieces.</li>
+                    <li><strong>Timing is the biggest variable.</strong> Intervening early during an active outbreak gives modest benefit regardless of strategy. Waiting until the disease stabilizes, then intervening with targeted removal, gives up to 20× greater effect.</li>
+                    <li><strong>Targeted removal creates safe zones.</strong> Across real-world networks, BC-targeted removal protected 7 to 54 times more people than an equivalent number of random cuts — by isolating them completely rather than just slowing spread.</li>
+                    <li><strong>The results are predictable in advance.</strong> Using just four measurable properties of a network, I built a model that can predict whether targeted removal will outperform random — before deploying any intervention.</li>
                 </ul>
             </div>
 
             <!-- Applications -->
             <div class="proj-section">
                 <div class="proj-section-label">Real-World Applications</div>
-                <h2>From simulation to policy</h2>
+                <h2>Where these findings apply</h2>
                 <p>
-                    The predictive framework enables decision-makers to measure four network properties
-                    and estimate in advance whether BC-targeted intervention will outperform simpler
-                    strategies — before deploying resources.
+                    The core question — <em>which connections to cut, and when</em> — shows up
+                    in surprisingly many real-world problems.
+                </p>
+                <p>
+                    <strong>Pandemic border closures.</strong> During COVID-19, governments had to decide
+                    which international routes to restrict first. This research shows that in a world of
+                    tightly connected regional clusters (Europe, Southeast Asia), cutting the few
+                    inter-regional bridge routes first creates isolated safe regions far more effectively
+                    than closing a larger number of random routes.
+                </p>
+                <p>
+                    <strong>Stopping malware outbreaks.</strong> When ransomware spreads across a corporate
+                    network, IT teams segment the network — cutting connections to contain the spread.
+                    The same framework applies: networks with departmental community structure benefit
+                    from bridge-targeted segmentation far more than random port blocking.
+                </p>
+                <p>
+                    <strong>Misinformation on social media.</strong> False information spreads through
+                    bridge accounts — users who connect otherwise separate communities. Identifying and
+                    removing those few accounts fragments the spread network more effectively than
+                    removing a larger number of randomly selected accounts.
                 </p>
                 <div class="app-chips">
-                    <span class="app-chip">Epidemiology — pandemic travel restriction design</span>
-                    <span class="app-chip">Cybersecurity — malware network segmentation</span>
-                    <span class="app-chip">Social networks — misinformation bridge identification</span>
+                    <span class="app-chip">Pandemic travel restriction design</span>
+                    <span class="app-chip">Corporate network malware containment</span>
+                    <span class="app-chip">Social media misinformation disruption</span>
                 </div>
             </div>
 
@@ -685,101 +692,6 @@
 
         <!-- SIDEBAR -->
         <aside>
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Project Details</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Role</span>
-                        <span class="sidebar-val">Primary Researcher</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Supervisor</span>
-                        <span class="sidebar-val">Prof. Laura Schaposnik, UIC</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Period</span>
-                        <span class="sidebar-val">January 2025 – Present</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Status</span>
-                        <span class="sidebar-val">Active</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Presented</span>
-                        <span class="sidebar-val">ISEF 2025<br>Badger State Science Fair</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Computing</span>
-                        <span class="sidebar-val">Mac Studio M3 Ultra<br>28-core CPU / 60-core GPU<br>96GB RAM</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Experimental Scale</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Configurations</span>
-                        <span class="sidebar-val">228 (8 endemic levels × 2 paradigms × 9 networks)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Runs per config</span>
-                        <span class="sidebar-val">100 paired (BC vs Random, same seed)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Total runs</span>
-                        <span class="sidebar-val">47,000+</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Network size</span>
-                        <span class="sidebar-val">N = 10,000 nodes</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Epidemic model</span>
-                        <span class="sidebar-val">SIS, μ = 0.03, β calibrated 20–90% endemic</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Analysis Methods</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Statistical</span>
-                        <span class="sidebar-val">Cohen's d effect sizes, multivariate regression, 10-fold cross-validation</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Network</span>
-                        <span class="sidebar-val">Spectral analysis (λ₁), percolation (GCC), fragmentation entropy</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Epidemic</span>
-                        <span class="sidebar-val">R_t tracking, phase portraits, survival analysis</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Languages</span>
-                        <span class="sidebar-val">Julia (simulation), Python (analysis)</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Future Work</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Models</span>
-                        <span class="sidebar-val">Extend to SIR and SEIR to test generalizability beyond SIS</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Algorithms</span>
-                        <span class="sidebar-val">Develop real-time BC approximation for large-scale deployment</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Adaptive</span>
-                        <span class="sidebar-val">Test strategies that switch between BC and Random based on live monitoring</span>
-                    </div>
-                </div>
-            </div>
         </aside>
     </div>
 
@@ -797,17 +709,11 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#8fe6e1e9e0cff8e6fcfbfaebeae1fbfce9e0fdfcfbfaebeae1fbfca1ece0e2">Email</a>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const navToggle = document.querySelector('.nav-toggle');
-        const navLinks  = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-        }
-    </script>
-</body>
-</html>
+        const navLinks  = document.querySelector('.nav-links
