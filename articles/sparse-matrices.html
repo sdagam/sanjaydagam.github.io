@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sparse Matrices and Graphs: Efficient Computation at Scale — Applied Math Blog</title>
+<meta name="description" content="Article 120 of 156 in Sanjay Dagam's Applied Mathematics blog. Sparse Matrices and Graphs: Efficient Computation at Scale">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Sparse Matrices and Graphs: Efficient Computation at Scale</h1>
+    <div class="article-meta">
+      <span>#120 of 156</span>
+      <span>April 18, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Google's PageRank algorithm computes a score for every one of the roughly 100 billion pages on the web. To do this, it must work with a matrix that is 100 billion by 100 billion — containing 10²² entries. Storing a full matrix this size would require more storage than all the world's computers combined. Yet Google runs PageRank in hours. The secret: almost all entries of the matrix are zero. A web page links to maybe 50 other pages out of 100 billion. The matrix is 99.9999999% zeros — it is sparse. And sparse matrices can be stored and computed with using only the nonzero entries.</p>
+<h2>What Is a Sparse Matrix?</h2>
+<p>A dense matrix stores every entry — including all the zeros. A sparse matrix stores only the nonzero entries and their positions. The savings can be astronomical. Google's web link matrix has about 100 billion nonzero entries (one per link). A dense matrix would need 10²² entries — 100 billion times larger. Sparse storage keeps only what matters.</p>
+<div class="math-block">Dense storage: store all n² entries of an n×n matrix
+Sparse storage: store only the k nonzero entries (their values and positions)
+
+For Google's matrix: n = 100 billion, k ≈ 100 billion
+Dense: n² = 10²² entries needed (impossible)
+Sparse: k = 10¹¹ entries needed (manageable)
+
+Memory saved: factor of n²/k = 10²²/10¹¹ = 10¹¹  (100 billion times less!)</div>
+<h2>The Connection to Graphs</h2>
+<p>Every graph (network) corresponds to a sparse matrix — the adjacency matrix — where entry (i,j) is 1 if node i connects to node j, and 0 otherwise. Real networks are always sparse: the internet has billions of nodes but each node connects to only a handful of others. A social network might have a billion users but even a very popular person follows only a few million — still a tiny fraction of a billion. The graph structure guarantees sparsity, and sparsity makes computation feasible.</p>
+<h2>Sparse Matrix-Vector Multiplication</h2>
+<p>The most common operation in scientific computing is multiplying a matrix by a vector: compute Ax. For a dense n×n matrix, this requires n² multiplications. For a sparse matrix with k nonzero entries, it requires only k multiplications — one per nonzero entry. PageRank is computed by repeatedly multiplying the sparse web matrix by a vector, one multiplication per iteration. Each multiplication takes time proportional to k (100 billion operations) rather than n² (10²²). That's the difference between hours and the age of the universe.</p>
+<div class="math-block">Dense Ax: n² multiplications and additions
+Sparse Ax: k multiplications and additions  (k << n²)
+
+For PageRank:
+Dense: 10²² operations per iteration  (impossible)
+Sparse: 10¹¹ operations per iteration  (feasible in hours)</div>
+<h2>Sparse Solvers: Systems of Equations</h2>
+<p>Beyond multiplication, sparse methods also solve systems of equations Ax = b efficiently. Standard Gaussian elimination on a dense n×n matrix takes n³ operations — for n = 1 million, that's 10¹⁸, impossibly slow. Sparse direct solvers exploit the zero structure to eliminate much of this work. Iterative sparse solvers (like conjugate gradient) solve Ax = b by repeated sparse matrix-vector multiplications, converging in far fewer than n steps for well-conditioned problems.</p>
+<p>These sparse solvers are what make finite element analysis (Article #64) practical. A structural simulation might have a million nodes, each connected to a handful of neighbors. The resulting million-by-million stiffness matrix is extremely sparse. Dense methods would be impossible; sparse methods make the solution run in minutes on a laptop.</p>
+<h2>Other Applications</h2>
+<p>Sparse matrices power GPS navigation (solving large sparse systems from satellite signals), climate models (discretizing the atmosphere into millions of grid cells, each coupled only to neighbors), medical imaging reconstruction (sparse tomography matrices), and chip design (analyzing circuits with millions of components connected in sparse networks). Machine learning on graph-structured data — social networks, molecular structures, citation graphs — uses sparse matrix operations throughout.</p>
+<h2>Conclusion</h2>
+<p>Sparse matrices are the key to making linear algebra work at real-world scale. When most entries are zero — as they always are in large networks, physical simulations, and scientific models — storing and computing with only the nonzero entries transforms impossible problems into tractable ones. The connection to graphs is fundamental: any network gives a sparse matrix, and any sparse matrix encodes a network. Google's PageRank, finite element simulations, and GPS positioning all depend on the same insight: ignore the zeros, work with what's there.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="perturbation-theory.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">119</span></a>
+    <a href="optimal-control.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">121</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

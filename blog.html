@@ -18,6 +18,8 @@
   --cat-cs:         #512e5f; --cat-cs-bg:      #f0ebf8;
   --cat-eng:        #1e8449; --cat-eng-bg:     #e8f8ee;
   --cat-la:         #2d6a2d; --cat-la-bg:      #d5e8d4;
+  --cat-de:         #1a5276; --cat-de-bg:      #dae8fc;
+  --cat-ra:         #6c3483; --cat-ra-bg:      #e8d5f5;
 }
 
 /* ── Category stripes ── */
@@ -28,6 +30,8 @@
 .s-cs      { background: var(--cat-cs); }
 .s-eng     { background: var(--cat-eng); }
 .s-la      { background: var(--cat-la);  }
+.s-de      { background: var(--cat-de);  }
+.s-ra      { background: var(--cat-ra);  }
 
 /* ── Hero ── */
 .blog-hero {
@@ -140,6 +144,8 @@
 .pill.active.px { background: var(--cat-cs)      !important; }
 .pill.active.pe { background: var(--cat-eng)     !important; }
 .pill.active.pl { background: var(--cat-la)      !important; }
+.pill.active.pd { background: var(--cat-de)      !important; }
+.pill.active.pr { background: var(--cat-ra)      !important; }
 .dot { width: 3px; height: 3px; border-radius: 50%; background: #d8d8e8; flex-shrink: 0; align-self: center; }
 
 /* ── Featured ── */
@@ -176,6 +182,8 @@
 .bx { background: var(--cat-cs-bg);      color: var(--cat-cs);      }
 .be { background: var(--cat-eng-bg);     color: var(--cat-eng);     }
 .bl { background: var(--cat-la-bg);      color: var(--cat-la);      }
+.bd { background: var(--cat-de-bg);      color: var(--cat-de);      }
+.br { background: var(--cat-ra-bg);      color: var(--cat-ra);      }
 
 /* ── Articles section ── */
 .articles-wrap { max-width: 1180px; margin: 0 auto; padding: 2rem 2rem 5rem; }
@@ -232,6 +240,49 @@
   .blog-stats { gap: 1.5rem; }
   .blog-stat .num { font-size: 1.5rem; }
 }
+
+/* ── Coming-soon cards ── */
+.a-card.coming-soon {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+  border-style: dashed;
+}
+.a-card.coming-soon:hover { transform: none; box-shadow: none; border-color: #e8e8f0; }
+.a-card.coming-soon .a-card-stripe { opacity: 0.4; }
+.cs-badge {
+  display: inline-block; font-size: .62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em;
+  padding: .15rem .5rem; border-radius: 2rem;
+  background: #f0f0f8; color: #9090b0; border: 1px solid #d8d8ec;
+  white-space: nowrap;
+}
+.a-card.coming-soon h3 { color: #7a7a9a; }
+.a-card.coming-soon .adate { color: #c0c0d8; }
+
+/* ── Upcoming toggle ── */
+.upcoming-toggle-wrap {
+  text-align: center; padding: 2rem 0 0.5rem;
+}
+.upcoming-toggle {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .55rem 1.4rem; border-radius: 2rem;
+  border: 1.5px solid #d0d8f0; background: #f8f8fd;
+  color: #4a5a9a; font-size: .82rem; font-weight: 600;
+  cursor: pointer; transition: border-color .15s, background .15s;
+  font-family: "DM Sans", sans-serif;
+}
+.upcoming-toggle:hover { border-color: #2d5be3; background: #f0f4ff; color: #2d5be3; }
+.upcoming-toggle .toggle-icon { font-size: .7rem; transition: transform .2s; }
+.upcoming-toggle.open .toggle-icon { transform: rotate(180deg); }
+.upcoming-count {
+  display: inline-block; background: #e8eeff; color: #2d5be3;
+  font-size: .7rem; font-weight: 700; padding: .1rem .45rem;
+  border-radius: 1rem; margin-left: .15rem;
+}
+.upcoming-section { display: none; }
+.upcoming-section.visible { display: block; }
+
 </style>
 </head>
 <body>
@@ -369,9 +420,9 @@
     <div class="blog-hero-rule"></div>
     <p class="sub">A weekly blog exploring how mathematics shapes science, technology, and everyday life — from birthday paradoxes to chaos theory, Fourier transforms to conservation laws.</p>
     <div class="blog-stats">
-      <div class="blog-stat"><span class="num">104</span><span class="lbl">Articles Published</span></div>
-      <div class="blog-stat"><span class="num">7</span><span class="lbl">Topic Areas</span></div>
-      <div class="blog-stat"><span class="num">4</span><span class="lbl">Groups</span></div>
+      <div class="blog-stat"><span class="num" id="stat-published">—</span><span class="lbl">Articles Published</span></div>
+      <div class="blog-stat"><span class="num" id="stat-topics">—</span><span class="lbl">Topic Areas</span></div>
+      <div class="blog-stat"><span class="num" id="stat-groups">—</span><span class="lbl">Groups</span></div>
     </div>
   </div>
 </header>
@@ -399,12 +450,16 @@
       <button class="pill px" data-filter="Computer Science/AI">CS / AI</button>
       <button class="pill pe" data-filter="Engineering Applications">Engineering</button>
       <button class="pill pl" data-filter="Linear Algebra">Linear Algebra</button>
+      <button class="pill pd" data-filter="Differential Equations">Diff. Equations</button>
+      <button class="pill pr" data-filter="Real Analysis">Real Analysis</button>
       <span class="dot"></span>
       <span class="filter-lbl">Group:</span>
       <button class="pill" data-batch="1">Group 1</button>
       <button class="pill" data-batch="2">Group 2</button>
       <button class="pill" data-batch="3">Group 3</button>
       <button class="pill" data-batch="4">Group 4</button>
+      <button class="pill" data-batch="5">Group 5</button>
+      <button class="pill" data-batch="6">Group 6</button>
     </div>
   </div>
 </div>
@@ -595,13 +650,67 @@ const ARTICLES = [
   {num:102, title:"Nonparametric Statistics: Making Fewer Assumptions",                cat:"Statistics & Probability",  date:"December 13, 2025",     batch:4, file:"nonparametric-statistics.html"},
   {num:103, title:"Linear Systems: Geometry of Solutions and the Null Space",          cat:"Linear Algebra",            date:"December 20, 2025",     batch:4, file:"linear-systems-geometry.html"},
   {num:104, title:"Network Motifs: The Recurring Patterns of Complex Systems",         cat:"Network Science",           date:"December 27, 2025",     batch:4, file:"network-motifs.html"},
+  {num:105, title:"Change of Basis: Choosing the Right Coordinate System",              cat:"Linear Algebra",            date:"January 3, 2026",       batch:5, file:"change-of-basis.html"},
+  {num:106, title:"First-Order Differential Equations: Modeling Rates of Change",       cat:"Differential Equations",    date:"January 10, 2026",      batch:5, file:"first-order-odes.html"},
+  {num:107, title:"Maxwell's Equations: The Mathematics of Electromagnetism",           cat:"Physics Applications",      date:"January 17, 2026",      batch:5, file:"maxwells-equations.html"},
+  {num:108, title:"Positive Definite Matrices: Geometry of Optimization",              cat:"Linear Algebra",            date:"January 24, 2026",      batch:5, file:"positive-definite-matrices.html"},
+  {num:109, title:"Laplace Transforms: Solving Differential Equations with Algebra",    cat:"Engineering Applications",  date:"January 31, 2026",      batch:5, file:"laplace-transforms.html"},
+  {num:110, title:"Convolutional Neural Networks: How Machines See",                    cat:"Computer Science/AI",       date:"February 7, 2026",      batch:5, file:"convolutional-neural-networks.html"},
+  {num:111, title:"The Four Fundamental Subspaces: A Complete Picture of a Matrix",     cat:"Linear Algebra",            date:"February 14, 2026",     batch:5, file:"four-fundamental-subspaces.html"},
+  {num:112, title:"Second-Order Linear ODEs: Springs, Circuits, and Oscillations",      cat:"Differential Equations",    date:"February 21, 2026",     batch:5, file:"second-order-odes.html"},
+  {num:113, title:"Lagrangian Mechanics: Solving Motion with Energy",                   cat:"Physics Applications",      date:"February 28, 2026",     batch:5, file:"lagrangian-mechanics.html"},
+  {num:114, title:"Gram-Schmidt and QR Decomposition: Building Orthogonal Bases",       cat:"Linear Algebra",            date:"March 7, 2026",         batch:5, file:"gram-schmidt-qr.html"},
+  {num:115, title:"Kalman Filters: Optimal Estimation Under Uncertainty",               cat:"Engineering Applications",  date:"March 14, 2026",        batch:5, file:"kalman-filters.html"},
+  {num:116, title:"Generative Models: The Mathematics of Creating Data",                cat:"Computer Science/AI",       date:"March 21, 2026",        batch:5, file:"generative-models.html"},
+  {num:117, title:"Quadratic Forms and Conic Sections: Curves as Matrices",             cat:"Linear Algebra",            date:"March 28, 2026",        batch:5, file:"quadratic-forms-conics.html"},
+  {num:118, title:"Systems of Differential Equations: Coupled Dynamics",               cat:"Differential Equations",    date:"April 4, 2026",         batch:5, file:"systems-of-odes.html"},
+  {num:119, title:"Perturbation Theory: Solving Almost-Solvable Problems",             cat:"Physics Applications",      date:"April 11, 2026",        batch:5, file:"perturbation-theory.html"},
+  {num:120, title:"Sparse Matrices and Graphs: Efficient Computation at Scale",         cat:"Linear Algebra",            date:"April 18, 2026",        batch:5, file:"sparse-matrices.html"},
+  {num:121, title:"Optimal Control: Steering Systems to Desired States",                cat:"Engineering Applications",  date:"April 25, 2026",        batch:5, file:"optimal-control.html"},
+  {num:122, title:"Graph Neural Networks: Deep Learning on Structured Data",            cat:"Computer Science/AI",       date:"May 2, 2026",           batch:5, file:"graph-neural-networks.html"},
+  {num:123, title:"Tensor Decompositions: Extending Matrices to Higher Dimensions",     cat:"Linear Algebra",            date:"May 9, 2026",           batch:5, file:"tensor-decompositions.html"},
+  {num:124, title:"Partial Differential Equations: The Heat and Wave Equations",        cat:"Differential Equations",    date:"May 16, 2026",          batch:5, file:"partial-differential-equations.html"},
+  {num:125, title:"Phase Transitions: When Systems Change Their Character",             cat:"Physics Applications",      date:"May 23, 2026",          batch:5, file:"phase-transitions.html"},
+  {num:126, title:"Least Squares and Pseudoinverses: Solving Unsolvable Systems",       cat:"Linear Algebra",            date:"May 30, 2026",          batch:5, file:"least-squares-pseudoinverse.html"},
+  {num:127, title:"Robust Optimization: Decision-Making Under Uncertainty",             cat:"Engineering Applications",  date:"June 6, 2026",          batch:5, file:"robust-optimization.html"},
+  {num:128, title:"Information Theory: Entropy, Compression, and Channel Capacity",     cat:"Computer Science/AI",       date:"June 13, 2026",         batch:5, file:"information-theory.html"},
+  {num:129, title:"Stability Analysis: When Do Solutions Stay Bounded?",               cat:"Differential Equations",    date:"June 20, 2026",         batch:5, file:"stability-analysis.html"},
+  {num:130, title:"Spectral Methods: Solving PDEs with Eigenfunction Expansions",       cat:"Linear Algebra",            date:"June 27, 2026",         batch:5, file:"spectral-methods.html"},
+  {num:131, title:"Spectral Theorem: When Matrices Are Diagonalizable",                 cat:"Linear Algebra",            date:"July 4, 2026",          batch:6, file:"spectral-theorem.html"},
+  {num:132, title:"Nonlinear Differential Equations: Chaos and Limit Cycles",           cat:"Differential Equations",    date:"July 11, 2026",         batch:6, file:"nonlinear-odes.html"},
+  {num:133, title:"Limits and Continuity: The Rigorous Foundation of Calculus",         cat:"Real Analysis",             date:"July 18, 2026",         batch:6, file:"limits-continuity.html"},
+  {num:134, title:"Hyperbolic Geometry and Networks: Mapping the Internet",             cat:"Network Science",           date:"July 25, 2026",         batch:6, file:"hyperbolic-geometry.html"},
+  {num:135, title:"Optimization Landscapes: Convexity, Saddles, and Global Minima",     cat:"Computer Science/AI",       date:"August 1, 2026",        batch:6, file:"optimization-landscapes.html"},
+  {num:136, title:"Sequences and Series: Convergence and the Meaning of Infinity",      cat:"Real Analysis",             date:"August 8, 2026",        batch:6, file:"sequences-series.html"},
+  {num:137, title:"Infinite-Dimensional Spaces: From Matrices to Functions",            cat:"Linear Algebra",            date:"August 15, 2026",       batch:6, file:"infinite-dimensional-spaces.html"},
+  {num:138, title:"Bifurcation Theory: How Systems Change Qualitatively",               cat:"Differential Equations",    date:"August 22, 2026",       batch:6, file:"bifurcation-theory.html"},
+  {num:139, title:"The Riemann Integral: What It Means to Integrate Rigorously",        cat:"Real Analysis",             date:"August 29, 2026",       batch:6, file:"riemann-integral.html"},
+  {num:140, title:"Network Geometry: Embedding Graphs in Metric Spaces",                cat:"Network Science",           date:"September 5, 2026",     batch:6, file:"network-geometry.html"},
+  {num:141, title:"PAC Learning: The Theory of What Machines Can Learn",                cat:"Computer Science/AI",       date:"September 12, 2026",    batch:6, file:"pac-learning.html"},
+  {num:142, title:"Uniform Continuity and Compactness: Fine Distinctions That Matter",  cat:"Real Analysis",             date:"September 19, 2026",    batch:6, file:"uniform-continuity.html"},
+  {num:143, title:"Operator Theory: Linear Algebra in Infinite Dimensions",             cat:"Linear Algebra",            date:"September 26, 2026",    batch:6, file:"operator-theory.html"},
+  {num:144, title:"Green's Functions: Solving Differential Equations with Impulses",    cat:"Differential Equations",    date:"October 3, 2026",       batch:6, file:"greens-functions.html"},
+  {num:145, title:"Measure Theory: A Rigorous Foundation for Probability",              cat:"Real Analysis",             date:"October 10, 2026",      batch:6, file:"measure-theory.html"},
+  {num:146, title:"Algebraic Graph Theory: Polynomials and Matrices of Graphs",         cat:"Network Science",           date:"October 17, 2026",      batch:6, file:"algebraic-graph-theory.html"},
+  {num:147, title:"Kernel Methods: Infinite-Dimensional Feature Spaces",                cat:"Computer Science/AI",       date:"October 24, 2026",      batch:6, file:"kernel-methods.html"},
+  {num:148, title:"The Lebesgue Integral: Integration Beyond Riemann",                  cat:"Real Analysis",             date:"October 31, 2026",      batch:6, file:"lebesgue-integral.html"},
+  {num:149, title:"Numerical Linear Algebra: Algorithms for Large-Scale Problems",      cat:"Linear Algebra",            date:"November 7, 2026",      batch:6, file:"numerical-linear-algebra.html"},
+  {num:150, title:"Stochastic Differential Equations: Randomness Meets Calculus",       cat:"Differential Equations",    date:"November 14, 2026",     batch:6, file:"stochastic-odes.html"},
+  {num:151, title:"Metric Spaces: Generalizing Distance and Convergence",               cat:"Real Analysis",             date:"November 21, 2026",     batch:6, file:"metric-spaces.html"},
+  {num:152, title:"Network Epidemics Revisited: Exact Solutions on Special Graphs",     cat:"Network Science",           date:"November 28, 2026",     batch:6, file:"network-epidemics.html"},
+  {num:153, title:"Algorithmic Game Theory: Nash Equilibria and Mechanism Design",      cat:"Computer Science/AI",       date:"December 5, 2026",      batch:6, file:"algorithmic-game-theory.html"},
+  {num:154, title:"Banach and Hilbert Spaces: The Geometry of Function Spaces",         cat:"Real Analysis",             date:"December 12, 2026",     batch:6, file:"banach-hilbert-spaces.html"},
+  {num:155, title:"Matrix Calculus: Derivatives of Matrices and the Chain Rule",        cat:"Linear Algebra",            date:"December 19, 2026",     batch:6, file:"matrix-calculus.html"},
+  {num:156, title:"Mathematical Modeling: From Real World to Equations and Back",       cat:"Differential Equations",    date:"January 3, 2027",       batch:6, file:"mathematical-modeling.html"},
 ];
 
 const BATCHES = {
   1: {label:"Group 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
   2: {label:"Group 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
   3: {label:"Group 3", period:"January – June 2025",   desc:"CS/AI & Engineering Depth"},
-  4: {label:"Group 4", period:"July – December 2025", desc:"Linear Algebra Enters"},
+  4: {label:"Group 4", period:"July – December 2025",    desc:"Linear Algebra Enters"},
+  5: {label:"Group 5", period:"January – June 2026",   desc:"Differential Equations Enter"},
+  6: {label:"Group 6", period:"July 2026 – January 2027", desc:"Real Analysis Enters"},
 };
 
 const BADGE = {
@@ -609,12 +718,16 @@ const BADGE = {
   "Physics Applications": "bp",     "Calculus Applications": "bc",
   "Computer Science/AI": "bx",      "Engineering Applications": "be",
   "Linear Algebra":        "bl",
+  "Differential Equations": "bd",
+  "Real Analysis":          "br",
 };
 const SHORT = {
   "Statistics & Probability":"Statistics","Network Science":"Network Science",
   "Physics Applications":"Physics","Calculus Applications":"Calculus",
   "Computer Science/AI":"CS / AI","Engineering Applications":"Engineering",
   "Linear Algebra":"Linear Algebra",
+  "Differential Equations":"Diff. Eq.",
+  "Real Analysis":"Real Analysis",
 };
 
 const STRIPE = {
@@ -630,10 +743,33 @@ function slug(t){
   return t.toLowerCase().replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").substring(0,60);
 }
 
+// ── Date gating ──────────────────────────────────────────────────────────────
+const TODAY = new Date();
+TODAY.setHours(0,0,0,0);
+
+function isPublished(a){
+  return new Date(a.date) <= TODAY;
+}
+
+const PUBLISHED  = ARTICLES.filter(isPublished);
+const UPCOMING   = ARTICLES.filter(a => !isPublished(a));
+
+// ── Auto-compute hero stats ───────────────────────────────────────────────────
+function updateStats(){
+  const pub = ARTICLES.filter(isPublished);
+  document.getElementById("stat-published").textContent = pub.length;
+  document.getElementById("stat-topics").textContent    = new Set(pub.map(a=>a.cat)).size;
+  document.getElementById("stat-groups").textContent    = new Set(pub.map(a=>a.batch)).size;
+}
+
+// ── Upcoming toggle state ────────────────────────────────────────────────────
+let showUpcoming = false;
+
+// ── Filtering ────────────────────────────────────────────────────────────────
 let filterCat="all", filterBatch=null, filterQ="";
 
-function filtered(){
-  return ARTICLES.filter(a=>{
+function applyFilters(pool){
+  return pool.filter(a=>{
     if(filterCat!=="all" && a.cat!==filterCat) return false;
     if(filterBatch!==null && a.batch!==filterBatch) return false;
     if(filterQ){
@@ -645,47 +781,96 @@ function filtered(){
 }
 
 function render(){
-  const list=filtered();
-  const root=document.getElementById("articles-root");
-  const nr=document.getElementById("no-results");
-  const cnt=document.getElementById("results-count");
-  const feat=document.getElementById("featured-section");
+  const pubList    = applyFilters(PUBLISHED);
+  const upcomList  = applyFilters(UPCOMING);
+  const root       = document.getElementById("articles-root");
+  const nr         = document.getElementById("no-results");
+  const cnt        = document.getElementById("results-count");
+  const feat       = document.getElementById("featured-section");
 
-  cnt.textContent = list.length===ARTICLES.length
-    ? `${ARTICLES.length} articles`
-    : `${list.length} of ${ARTICLES.length}`;
+  // Results count shows published only
+  cnt.textContent = pubList.length===PUBLISHED.length
+    ? `${PUBLISHED.length} articles`
+    : `${pubList.length} of ${PUBLISHED.length}`;
 
   feat.style.display=(filterCat==="all"&&filterBatch===null&&!filterQ)?"":"none";
 
-  if(!list.length){root.innerHTML="";nr.classList.add("show");return;}
+  if(!pubList.length && !upcomList.length){
+    root.innerHTML=""; nr.classList.add("show"); return;
+  }
   nr.classList.remove("show");
 
-  const byBatch={};
-  list.forEach(a=>{(byBatch[a.batch]=byBatch[a.batch]||[]).push(a);});
-
-  root.innerHTML=Object.keys(byBatch).sort((a,b)=>a-b).map(b=>{
-    const info=BATCHES[b]||{label:`Group ${b}`,period:"",desc:""};
-    const arts=byBatch[b];
-    return `<div class="batch-head">
-      <h2>${info.label}</h2>
-      <span class="bm">${info.period} &middot; ${info.desc}</span>
-      <span class="bc2">${arts.length} article${arts.length!==1?"s":""}</span>
-    </div>
-    <div class="articles-grid">
-      ${arts.map(a=>`
-        <a href="/sanjaydagam.github.io/articles/${a.file}" class="a-card">
-          <div class="a-card-stripe ${STRIPE[a.cat]||""}"></div>
-          <div class="a-card-inner">
-            <div class="top">
-              <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
-              <span class="a-num">#${a.num}</span>
+  // ── Published articles ──────────────────────────────────────────────────
+  function batchHTML(list, isComingSoon){
+    const byBatch={};
+    list.forEach(a=>{(byBatch[a.batch]=byBatch[a.batch]||[]).push(a);});
+    return Object.keys(byBatch).sort((a,b)=>a-b).map(b=>{
+      const info=BATCHES[b]||{label:`Group ${b}`,period:"",desc:""};
+      const arts=byBatch[b];
+      return `<div class="batch-head">
+        <h2>${info.label}</h2>
+        <span class="bm">${info.period} &middot; ${info.desc}</span>
+        <span class="bc2">${arts.length} article${arts.length!==1?"s":""}</span>
+      </div>
+      <div class="articles-grid">
+        ${arts.map(a=>{
+          if(isComingSoon){
+            return `<div class="a-card coming-soon">
+              <div class="a-card-stripe ${STRIPE[a.cat]||""}"></div>
+              <div class="a-card-inner">
+                <div class="top">
+                  <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
+                  <span class="cs-badge">Coming Soon</span>
+                </div>
+                <h3>${a.title}</h3>
+                <span class="adate">${a.date}</span>
+              </div>
+            </div>`;
+          }
+          return `<a href="/sanjaydagam.github.io/articles/${a.file}" class="a-card">
+            <div class="a-card-stripe ${STRIPE[a.cat]||""}"></div>
+            <div class="a-card-inner">
+              <div class="top">
+                <span class="badge ${BADGE[a.cat]||""}">${SHORT[a.cat]||a.cat}</span>
+                <span class="a-num">#${a.num}</span>
+              </div>
+              <h3>${a.title}</h3>
+              <span class="adate">${a.date}</span>
             </div>
-            <h3>${a.title}</h3>
-            <span class="adate">${a.date}</span>
-          </div>
-        </a>`).join("")}
-    </div>`;
-  }).join("");
+          </a>`;
+        }).join("")}
+      </div>`;
+    }).join("");
+  }
+
+  let html = pubList.length ? batchHTML(pubList, false) : "";
+
+  // ── Upcoming toggle + section ───────────────────────────────────────────
+  if(upcomList.length){
+    const toggleOpen = showUpcoming ? "open" : "";
+    const sectionVis = showUpcoming ? "visible" : "";
+    html += `
+      <div class="upcoming-toggle-wrap">
+        <button class="upcoming-toggle ${toggleOpen}" id="upcoming-btn" onclick="toggleUpcoming()">
+          <span>Show upcoming articles</span>
+          <span class="upcoming-count">${upcomList.length}</span>
+          <span class="toggle-icon">&#9660;</span>
+        </button>
+      </div>
+      <div class="upcoming-section ${sectionVis}" id="upcoming-section">
+        ${batchHTML(upcomList, true)}
+      </div>`;
+  }
+
+  root.innerHTML = html;
+}
+
+function toggleUpcoming(){
+  showUpcoming = !showUpcoming;
+  render();
+  // Scroll to toggle button after render
+  const btn = document.getElementById("upcoming-btn");
+  if(btn) btn.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
 // Filter pill — categories
@@ -713,8 +898,8 @@ document.getElementById("search-input").addEventListener("input", e => {
   render();
 });
 
-// Initial render
+// Initial run
+updateStats();
 render();
 </script>
 </body>
-</html>

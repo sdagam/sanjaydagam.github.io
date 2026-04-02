@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gram-Schmidt and QR Decomposition: Building Orthogonal Bases — Applied Math Blog</title>
+<meta name="description" content="Article 114 of 156 in Sanjay Dagam's Applied Mathematics blog. Gram-Schmidt and QR Decomposition: Building Orthogonal Bases">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Gram-Schmidt and QR Decomposition: Building Orthogonal Bases</h1>
+    <div class="article-meta">
+      <span>#114 of 156</span>
+      <span>March 7, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Imagine you're a surveyor mapping a city block. You take measurements in all sorts of directions — some at an angle to each other, some nearly parallel. Redundant and correlated measurements make your calculations messy and unstable. The ideal situation: measurements along perfectly perpendicular directions, each independent of the others. In linear algebra, achieving that ideal — turning a messy collection of directions into a clean perpendicular set — is exactly what the Gram-Schmidt process does. And its output, the QR decomposition, is one of the most important tools in numerical computation.</p>
+<h2>The Problem with Non-Orthogonal Bases</h2>
+<p>Any set of independent vectors can serve as a basis — a set of reference directions that can describe everything else. But if those vectors aren't perpendicular to each other, computations get complicated. Projecting a vector onto a basis direction, finding coordinates, solving least squares problems — all of these become messier when the basis vectors lean toward each other. Orthogonal bases (perpendicular vectors) make every calculation cleaner.</p>
+<h2>Gram-Schmidt: Removing the Leaning</h2>
+<p>The Gram-Schmidt process takes any set of independent vectors and produces an orthogonal set spanning the same space. The idea is sequential: start with the first vector unchanged; take the second vector and remove its component in the direction of the first; take the third vector and remove its components in both previous directions; and so on.</p>
+<div class="math-block">Gram-Schmidt step by step:
+e₁ = v₁ / ‖v₁‖  (normalize the first vector to unit length)
+
+e₂ = v₂ - (v₂·e₁)e₁  then normalize
+     (subtract the part of v₂ pointing along e₁)
+
+e₃ = v₃ - (v₃·e₁)e₁ - (v₃·e₂)e₂  then normalize
+     (subtract the parts of v₃ pointing along e₁ and e₂)
+
+Result: e₁, e₂, e₃, ... are mutually perpendicular and unit length.
+They span the same space as v₁, v₂, v₃, ...</div>
+<p>Each step uses projection: (v₂·e₁)e₁ is the component of v₂ in the e₁ direction. Subtracting it leaves only the part of v₂ perpendicular to e₁. Normalize (divide by length) and you have e₂ — perpendicular to e₁ and unit length. Repeat.</p>
+<h2>QR Decomposition: The Result Packaged Neatly</h2>
+<p>When you run Gram-Schmidt on the columns of a matrix A, the result can be written as A = QR. Q is the matrix whose columns are the new orthogonal vectors (each perpendicular and unit length). R is an upper triangular matrix (zeros below the diagonal) that records the projections computed during Gram-Schmidt. Together, they decompose A into a rotation/reflection (Q) followed by a triangular scaling (R).</p>
+<div class="math-block">A = QR
+
+Q: orthogonal matrix (columns are perpendicular unit vectors)
+   Qᵀ Q = I  (transpose times Q = identity — the defining property)
+R: upper triangular matrix (zeros below diagonal)
+
+Why useful: Qᵀ is easy to invert (it equals Q), and
+triangular systems Rx = b are easy to solve by back-substitution.</div>
+<h2>Solving Least Squares Faster</h2>
+<p>The most important application of QR is solving least squares problems — fitting a line or curve to data points (Article #84). The direct approach uses the formula (AᵀA)⁻¹Aᵀb, but this involves squaring the matrix, which amplifies numerical errors. Using QR instead — substituting A = QR and simplifying — gives the same answer with much better numerical stability. The solution reduces to back-substitution in R, which is exact and fast.</p>
+<p>In the city surveyor's problem: the surveying measurements form matrix A. QR decomposition finds the cleanest independent set of measurement directions, numerically stabilizes the solution, and gives more accurate position estimates despite measurement noise.</p>
+<h2>Other Applications</h2>
+<p>QR decomposition is used to compute eigenvalues of large matrices — the QR algorithm iteratively applies QR decompositions until the matrix converges to diagonal form, revealing all eigenvalues. It's the standard method in scientific computing for this purpose. QR is also used in signal processing to solve overdetermined systems of equations robustly, and in statistics to perform regression analysis numerically.</p>
+<h2>Conclusion</h2>
+<p>Gram-Schmidt converts any basis into an orthogonal one by sequentially removing projections — cleaning the lean out of each new vector. The resulting QR decomposition expresses any matrix as an orthogonal matrix times a triangular one. Orthogonality makes computations cleaner, more stable, and faster. Whether you're surveying city blocks, computing eigenvalues, or fitting regression models, QR decomposition is the numerical workhorse that keeps linear algebra calculations accurate and efficient.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="lagrangian-mechanics.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">113</span></a>
+    <a href="kalman-filters.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">115</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

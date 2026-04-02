@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second-Order Linear ODEs: Springs, Circuits, and Oscillations — Applied Math Blog</title>
+<meta name="description" content="Article 112 of 156 in Sanjay Dagam's Applied Mathematics blog. Second-Order Linear ODEs: Springs, Circuits, and Oscillations">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Differential Equations</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-de">Differential Equations</span>
+    <h1 class="article-title">Second-Order Linear ODEs: Springs, Circuits, and Oscillations</h1>
+    <div class="article-meta">
+      <span>#112 of 156</span>
+      <span>February 21, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Push a swing and let go. It swings forward, slows, swings back, slows, swings forward again — gradually losing height with each pass until it stops. The height of the swing at any moment is governed by a differential equation involving not just rate of change but the rate of change of the rate of change. This is a second-order differential equation, and it describes not just swings but guitar strings vibrating, bridges oscillating in wind, electrical circuits ringing after a sudden voltage change, and the shock absorbers in your car. One equation, an enormous range of phenomena.</p>
+<h2>What Makes It Second-Order?</h2>
+<p>A first-order differential equation involves one derivative — how fast something changes. A second-order equation involves a second derivative — how fast the rate of change itself changes. For the swing, the first derivative of position is velocity (how fast it's moving). The second derivative is acceleration (how fast the velocity is changing). Newton's second law — force equals mass times acceleration — is inherently second-order, which is why so much of physics lives here.</p>
+<div class="math-block">The general second-order linear ODE:
+m·x'' + c·x' + k·x = 0
+
+x = position (the height of the swing)
+x' = velocity (rate of change of position)
+x'' = acceleration (rate of change of velocity)
+m = mass (inertia — resists changes in motion)
+c = damping coefficient (friction, air resistance — opposes motion)
+k = spring constant (restoring force — pulls back toward center)
+</div>
+<p>The three terms represent a tug-of-war: inertia (m) keeps the swing moving, the restoring force (k) pulls it back to center, and damping (c) gradually drains the energy. The balance between these three determines whether the swing oscillates forever, oscillates while fading, or just slowly creeps back without oscillating.</p>
+<h2>Three Possible Behaviors</h2>
+<p>The solution depends on how damping compares to the spring and mass. Specifically, it depends on the quantity c² - 4mk:</p>
+<div class="math-block">c² - 4mk < 0: Underdamped (oscillates while fading)
+→ x(t) = e^(-ct/2m) × [A·cos(ωt) + B·sin(ωt)]
+→ The swing bounces back and forth, each swing slightly smaller
+
+c² - 4mk = 0: Critically damped (fastest return, no oscillation)
+→ x(t) = (A + Bt)·e^(-ct/2m)
+→ The swing returns to center as fast as possible without overshooting
+
+c² - 4mk > 0: Overdamped (sluggish return, no oscillation)
+→ x(t) = A·e^(r₁t) + B·e^(r₂t)  (two different exponentials)
+→ The swing creeps back slowly</div>
+<p>Car shock absorbers are designed to be slightly underdamped — you want the car to settle quickly after a bump without feeling sluggish. Hospital door closers are designed to be overdamped — they close slowly and smoothly without slamming or bouncing.</p>
+<h2>The Same Equation in Electrical Circuits</h2>
+<p>An LC circuit — an inductor (L) and capacitor (C) connected in a loop, perhaps with a resistor (R) — follows the identical equation. Replace mass with inductance, damping with resistance, and spring constant with 1/capacitance. Voltage oscillates in the circuit the same way position oscillates in the swing.</p>
+<p>This mathematical equivalence is why electrical engineers and mechanical engineers share the same equations. A radio antenna's resonant frequency — the frequency it receives best — is determined by the same formula as the natural frequency of a spring-mass system. Tuning a radio means adjusting L or C to make the resonant frequency match the station's broadcast frequency.</p>
+<h2>Resonance: When Driving Matches Natural Frequency</h2>
+<p>Add a periodic driving force F·cos(ωt) to the right side of the equation — someone pushing the swing repeatedly. If the driving frequency ω matches the system's natural frequency, the amplitude grows without bound (in the undamped case). This is resonance. It's why soldiers break step when crossing bridges — marching in unison at the bridge's natural frequency could theoretically drive oscillations large enough to cause structural failure. The Tacoma Narrows Bridge collapsed in 1940 partly from wind-driven resonance.</p>
+<h2>Conclusion</h2>
+<p>Second-order differential equations govern everything that oscillates — springs, pendulums, circuits, bridges, and shock absorbers. The equation mx'' + cx' + kx = 0 captures the competition between inertia, restoring force, and damping. Whether the solution oscillates (underdamped), returns smoothly (critically damped), or creeps back (overdamped) depends entirely on the relationship c² - 4mk. The same mathematics applies to mechanical and electrical systems alike — a unifying language for all of oscillating nature.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="four-fundamental-subspaces.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">111</span></a>
+    <a href="lagrangian-mechanics.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">113</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

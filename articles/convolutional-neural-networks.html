@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convolutional Neural Networks: How Machines See — Applied Math Blog</title>
+<meta name="description" content="Article 110 of 156 in Sanjay Dagam's Applied Mathematics blog. Convolutional Neural Networks: How Machines See">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">CS / AI</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-cs">Computer Science/AI</span>
+    <h1 class="article-title">Convolutional Neural Networks: How Machines See</h1>
+    <div class="article-meta">
+      <span>#110 of 156</span>
+      <span>February 7, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 2017, a convolutional neural network diagnosed diabetic retinopathy — a leading cause of blindness — from eye photographs with greater accuracy than the average ophthalmologist. The same type of network identifies tumors in medical scans, reads handwritten addresses on envelopes, and unlocks your phone with your face. What makes these networks different from ordinary neural networks? They use a mathematical operation called convolution that mimics how your own visual cortex detects edges, shapes, and patterns — starting simple and building toward complexity.</p>
+<h2>The Problem with Ordinary Neural Networks and Images</h2>
+<p>A regular neural network connects every input to every neuron in the next layer. For a tiny 28×28 pixel image, that's 784 inputs. For a standard 12-megapixel phone photo, that's 12 million inputs — and connecting each to each neuron produces billions of parameters. That's too many to train, too many to store, and too slow to use. Something smarter is needed.</p>
+<p>The smarter approach uses three observations about images. First, useful features — edges, corners, textures — are local: a horizontal edge at the top of the image looks exactly the same as one at the bottom. Second, the same feature detector should work everywhere in the image, not just one location. Third, what matters for recognizing a cat isn't the exact pixel values but patterns of patterns: edges combine into shapes, shapes combine into object parts, parts combine into the whole cat.</p>
+<h2>Convolution: Sliding a Filter Across an Image</h2>
+<p>A convolutional layer learns small filters — typically 3×3 or 5×5 grids of numbers. Each filter slides across the image, one position at a time. At each position, it multiplies its numbers by the pixel values underneath and sums everything up. The result is a single number at that location in the output. Slide the filter across the whole image and you get a new image — a "feature map" — showing where that filter's pattern was found.</p>
+<div class="math-block">At each position (i, j), the filter produces:
+output(i,j) = Σ filter(m,n) × image(i+m, j+n)
+
+Sum over all positions (m,n) in the filter grid.
+
+Example 3×3 filter for detecting horizontal edges:
+ 1  1  1
+ 0  0  0
+-1 -1 -1
+
+This filter gives a large positive output where the image
+transitions from light (top) to dark (bottom) — a horizontal edge.
+A large negative output means dark-to-light transition.
+Near zero means no horizontal edge at that location.</div>
+<p>One filter detects horizontal edges. Another detects vertical edges. Another detects diagonal edges. Another detects color blobs. The network learns all of these filters automatically during training — nobody programs "detect horizontal edges." The training process discovers whichever filters minimize prediction error.</p>
+<h2>Stacking Layers: From Edges to Faces</h2>
+<p>After the first convolutional layer, the outputs are fed into a second convolutional layer — but now the filters operate on combinations of the first layer's feature maps. A second-layer filter might combine a horizontal edge and a vertical edge into a corner detector. A third layer might combine corners into circles and rectangles. By the fifth or sixth layer, filters respond to whole objects — a specific arrangement of nose, eyes, and mouth that constitutes a human face.</p>
+<p>This hierarchical detection — simple features → combinations → complex patterns — is exactly how neuroscientists believe the human visual cortex works. Cells early in the visual pathway respond to edges. Cells deeper in the pathway respond to faces and objects. Convolutional networks discovered the same hierarchical structure independently, by training on data.</p>
+<h2>Pooling: Summarizing and Shrinking</h2>
+<p>Between convolutional layers, pooling layers shrink the feature maps. Max pooling takes each small region (say 2×2 pixels) and keeps only the maximum value. This makes the representation smaller (faster to process), and more robust to small shifts in position — a cat's ear moved two pixels to the right still triggers the same ear-detector, because the max pool summarizes small regions.</p>
+<h2>Other Applications</h2>
+<p>Convolutional networks diagnose skin cancer from dermatology photos, detect manufacturing defects on assembly lines, analyze satellite imagery for deforestation and crop yields, power self-driving car vision systems, and caption photographs in natural language. The same mathematical operation — sliding a learned filter across an image and summing the products — underlies all of it.</p>
+<h2>Conclusion</h2>
+<p>Convolutional neural networks see by sliding small learned filters across images, detecting local patterns that combine into increasingly complex representations. The convolution operation — multiply filter values by pixel values, sum everything up, repeat across the image — is simple mathematically. But stacked in many layers and trained on millions of images, it produces systems that outperform expert humans at visual tasks. The key insight: images have structure that ordinary networks ignore, and convolution exploits that structure efficiently.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="laplace-transforms.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">109</span></a>
+    <a href="four-fundamental-subspaces.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">111</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laplace Transforms: Solving Differential Equations with Algebra — Applied Math Blog</title>
+<meta name="description" content="Article 109 of 156 in Sanjay Dagam's Applied Mathematics blog. Laplace Transforms: Solving Differential Equations with Algebra">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Engineering Applications</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-eng">Engineering Applications</span>
+    <h1 class="article-title">Laplace Transforms: Solving Differential Equations with Algebra</h1>
+    <div class="article-meta">
+      <span>#109 of 156</span>
+      <span>January 31, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Imagine you're trying to design the suspension system for a car. You need to figure out how the car will bounce after hitting a pothole — whether it will settle quickly, oscillate for a long time, or overshoot so badly that passengers feel sick. The physics is described by a differential equation — an equation involving rates of change — and solving differential equations can be extremely difficult. The Laplace Transform is an engineering trick that converts that hard differential equation into a simple algebra problem, solves the algebra, and then converts back. It's one of the most useful sleights of hand in all of applied mathematics.</p>
+<h2>The Core Idea: Transform, Solve, Invert</h2>
+<p>The Laplace Transform takes a function of time — like the up-and-down position of a car wheel — and converts it into a function of a new variable s. In the s-world, derivatives (the hard part of differential equations) become multiplication (easy algebra). You solve the algebra problem, then apply the inverse Laplace Transform to convert the answer back into a function of time.</p>
+<div class="math-block">Laplace Transform of f(t):
+F(s) = ∫₀^∞ f(t) · e^(-st) dt
+
+In plain English: multiply the function by a decaying exponential
+and integrate over all positive time. The result F(s) is the
+function expressed in "s-space" instead of time.
+
+The key magic: derivative in time becomes multiplication in s-space
+L{df/dt} = s·F(s) - f(0)
+(the derivative of f transforms to s times F, minus the initial value)</div>
+<p>That last line is the miracle. Taking a derivative — which requires calculus — becomes multiplying by s — which is algebra. A second derivative becomes s². A whole differential equation with derivatives turns into a polynomial equation in s, which you can solve with ordinary algebra.</p>
+<h2>The Car Suspension Example</h2>
+<p>A car suspension can be modeled as a mass (the car body) connected to a spring and a shock absorber. After hitting a pothole, the position x(t) of the car satisfies:</p>
+<div class="math-block">m·x'' + c·x' + k·x = 0
+m = mass of car, c = damping (shock absorber), k = spring stiffness
+x' = velocity, x'' = acceleration
+
+Apply Laplace Transform to both sides:
+m·(s²X - s·x₀ - v₀) + c·(sX - x₀) + k·X = 0
+
+X = Laplace Transform of x(t)
+x₀ = initial position (how far wheel dropped into pothole)
+v₀ = initial velocity
+
+Solve for X: X = (m·s·x₀ + m·v₀ + c·x₀) / (ms² + cs + k)</div>
+<p>That fraction is just algebra — no derivatives anywhere. Now apply the inverse Laplace Transform to X to get x(t). The shape of the answer depends on the values of m, c, and k:</p>
+<p>If the shock absorber (c) is too weak, the denominator has complex roots — the car oscillates up and down many times before stopping (underdamped). If the shock absorber is too strong, the car settles slowly without oscillating (overdamped). The sweet spot — critical damping — settles as fast as possible without oscillating. Engineers use Laplace Transforms to find exactly what value of c achieves this.</p>
+<h2>Tables Make It Practical</h2>
+<p>In practice, engineers don't compute Laplace Transforms by evaluating the integral every time. They use tables — lists of common functions and their transforms, compiled once. "The transform of e^(-at) is 1/(s+a)." "The transform of sin(ωt) is ω/(s²+ω²)." Looking up a table entry is much faster than integration, making Laplace methods extremely practical for routine engineering calculations.</p>
+<h2>Other Applications</h2>
+<p>Laplace Transforms are the standard tool for analyzing electrical circuits — the equations governing voltages and currents are differential equations, and Laplace converts them to algebra. Control engineers use them to design autopilots, thermostat controllers, and industrial robots. Signal processing engineers use them to design filters that remove noise from audio or sensor data. Any system governed by differential equations — mechanical, electrical, chemical, biological — can be analyzed using Laplace Transforms.</p>
+<h2>Conclusion</h2>
+<p>The Laplace Transform is an engineering superpower: it converts differential equations into algebra. By transforming a function of time into a function of s, it replaces derivatives with multiplication. Solve the algebra problem in s-space, invert the transform, and you have your answer in time. For the car suspension engineer, this means finding the exact shock absorber stiffness that eliminates bouncing. For circuit designers and control engineers, it's the standard language for analyzing how systems respond over time — turning some of the hardest mathematical problems into manageable calculations.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="positive-definite-matrices.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">108</span></a>
+    <a href="convolutional-neural-networks.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">110</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

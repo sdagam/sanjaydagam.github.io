@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectral Methods: Solving PDEs with Eigenfunction Expansions — Applied Math Blog</title>
+<meta name="description" content="Article 130 of 156 in Sanjay Dagam's Applied Mathematics blog. Spectral Methods: Solving PDEs with Eigenfunction Expansions">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Spectral Methods: Solving PDEs with Eigenfunction Expansions</h1>
+    <div class="article-meta">
+      <span>#130 of 156</span>
+      <span>June 27, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Weather forecasting relies on solving equations that describe how the atmosphere evolves — temperature, pressure, and wind at millions of points across the globe. The European Centre for Medium-Range Weather Forecasts (ECMWF) produces the world's most accurate 10-day forecasts, and at its core is a mathematical technique that represents the entire global atmosphere as a sum of oscillating patterns on a sphere. This approach — called a spectral method — is the same technique Fourier used for heat, applied to the most complex fluid dynamics problem on Earth. It's orders of magnitude faster than the alternatives and directly enables forecasts that save lives.</p>
+<h2>The Core Idea: Expand in Eigenfunctions</h2>
+<p>Partial differential equations (Article #124) describe how physical fields — temperature, pressure, velocity — vary across space and time. Solving them numerically usually means discretizing space into a grid and tracking the field value at each grid point. Spectral methods do something different: instead of tracking the field at grid points, they represent the field as a sum of special functions — the eigenfunctions of the relevant differential operator.</p>
+<div class="math-block">Spectral representation:
+u(x,t) = Σₙ cₙ(t) φₙ(x)
+
+u = the field being simulated (temperature, pressure, etc.)
+φₙ(x) = basis functions (eigenfunctions of the spatial operator)
+cₙ(t) = coefficients (how much of each basis function is present)
+
+For a simple 1D problem, φₙ(x) = sin(nπx) or cos(nπx)
+For the globe, φₙ = spherical harmonics (oscillating patterns on a sphere)
+
+Instead of tracking u at thousands of grid points,
+track the (usually fewer) coefficients cₙ.</div>
+<p>The eigenfunctions are chosen so that the differential operators in the PDE act simply on them — typically just multiplying by a number (the eigenvalue). This transforms the PDE from a spatial differential equation into a set of simpler equations for the coefficients cₙ(t), which evolve over time.</p>
+<h2>Why Eigenfunctions Make Everything Simpler</h2>
+<p>Recall from Article #88: when you express a problem in terms of eigenvectors (or eigenfunctions), operators become simple multiplication. The heat equation ∂T/∂t = α∂²T/∂x² becomes trivial in Fourier space: each coefficient evolves as dcₙ/dt = -αn²π²cₙ, which is just exponential decay at rate αn²π². No spatial derivatives remain. The spatial problem has been completely absorbed into the eigenvalue n²π².</p>
+<div class="math-block">Heat equation in spectral form:
+If T(x,t) = Σₙ cₙ(t) sin(nπx), then:
+
+dcₙ/dt = -αn²π² × cₙ
+
+Solution: cₙ(t) = cₙ(0) × e^(-αn²π²t)
+
+In plain English: each Fourier mode decays independently,
+exponentially, at a rate proportional to n² (higher frequencies decay faster).
+No coupled equations, no spatial derivatives — pure algebra.</div>
+<h2>Spectral Accuracy: Why Fewer Points Beat More Grid Points</h2>
+<p>Spectral methods are exponentially more accurate than grid-based methods for smooth problems. A grid with N points can represent variations up to spatial frequency N/2. A spectral method with N coefficients represents the same frequencies but with no discretization error — only the truncation error from using finitely many terms. For smooth fields (like atmospheric variables, which vary smoothly over large scales), exponential convergence means you need far fewer degrees of freedom for the same accuracy.</p>
+<p>ECMWF's model uses spherical harmonic expansions up to wavenumber 1279 — capturing variations as fine as 16 km globally — with extraordinary accuracy. An equivalent grid-based model would need many more points to match the accuracy at the scales that matter for forecasting.</p>
+<h2>The ECMWF Weather Forecast</h2>
+<p>The global atmosphere is represented by spherical harmonics — oscillating patterns on a sphere, the natural eigenfunctions of the Laplacian operator on a spherical surface. Temperature, wind, and pressure fields are each expanded in spherical harmonics. The dynamical equations become equations for the spherical harmonic coefficients, which are advanced forward in time. Every 12 hours, new atmospheric measurements (from satellites, weather balloons, and surface stations) are assimilated using optimal estimation (Kalman-filter-like methods) to correct the forecast. The result: 10-day forecasts more accurate today than 3-day forecasts were 30 years ago.</p>
+<h2>Other Applications</h2>
+<p>Spectral methods simulate ocean circulation (for climate modeling), model plasma physics in fusion reactors, solve quantum mechanics problems on complex domains, and compute protein electrostatics in drug discovery. Any PDE on a regular domain (a line, a circle, a sphere, a rectangle) where the solution is smooth benefits from spectral methods. The Fast Fourier Transform (FFT) — an algorithm that computes spectral coefficients in O(N log N) rather than O(N²) time — makes spectral methods computationally practical at large scale.</p>
+<h2>Conclusion</h2>
+<p>Spectral methods solve PDEs by expanding fields in eigenfunctions — usually Fourier modes or spherical harmonics — and tracking the coefficients of those expansions over time. Because differential operators act simply on eigenfunctions (just multiplication by eigenvalues), the PDE becomes a set of simple equations for the coefficients, solvable with high accuracy using fewer degrees of freedom than grid-based methods. ECMWF's weather forecast — arguably the most consequential daily numerical calculation on Earth — runs on spectral methods. When smooth fields on regular domains need to be simulated to high precision, spectral methods are the gold standard.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="stability-analysis.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">129</span></a>
+    <div></div>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

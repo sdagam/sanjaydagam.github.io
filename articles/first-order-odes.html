@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First-Order Differential Equations: Modeling Rates of Change — Applied Math Blog</title>
+<meta name="description" content="Article 106 of 156 in Sanjay Dagam's Applied Mathematics blog. First-Order Differential Equations: Modeling Rates of Change">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Differential Equations</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-de">Differential Equations</span>
+    <h1 class="article-title">First-Order Differential Equations: Modeling Rates of Change</h1>
+    <div class="article-meta">
+      <span>#106 of 156</span>
+      <span>January 10, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Every morning, your coffee starts hot and gradually cools to room temperature. It cools fastest at the beginning — when it's much hotter than the room — and more slowly as it approaches room temperature. Nobody programmed the coffee to do this. It follows a law of nature: the rate of cooling is proportional to the difference in temperature between the coffee and its surroundings. That single sentence is a differential equation, and it describes not just cooling coffee but a huge fraction of how the natural world changes over time.</p>
+<h2>What Is a Differential Equation?</h2>
+<p>You've worked with equations like 2x + 3 = 7, where the unknown is a number. A differential equation is different: the unknown is a function, and the equation describes how fast that function changes. Instead of "find x," it says "find a function whose rate of change satisfies this relationship."</p>
+<p>The cooling coffee follows what's called Newton's Law of Cooling. In plain English: the faster the coffee cools, the bigger the temperature gap between coffee and room. Mathematically, if T is the temperature of the coffee and T_room is the room temperature:</p>
+<div class="math-block">dT/dt = -k(T - T_room)
+
+dT/dt = the rate of change of temperature over time
+       (how many degrees per minute the coffee is cooling)
+T - T_room = how much hotter the coffee is than the room
+k = a positive constant (depends on the mug and liquid)
+Minus sign = temperature is decreasing (cooling, not heating)</div>
+<p>This is a first-order differential equation — "first-order" because it involves the first derivative (rate of change), not higher ones. The equation says: the rate of cooling equals k times the current temperature gap. Big gap → fast cooling. Small gap → slow cooling. Exactly what experience tells us.</p>
+<h2>Solving It: The Answer Is an Exponential</h2>
+<p>To "solve" a differential equation means to find the function T(t) that satisfies it — a formula giving the temperature at any time t. For this equation, the solution is:</p>
+<div class="math-block">T(t) = T_room + (T_start - T_room) × e^(-kt)
+
+T_start = initial temperature of the coffee
+e = Euler's number ≈ 2.718 (a mathematical constant)
+e^(-kt) starts at 1 (when t=0) and shrinks toward 0 as t grows
+
+In plain English: the temperature gap between coffee and room
+shrinks exponentially over time — fast at first, then more slowly.</div>
+<p>If your coffee starts at 90°C and the room is 20°C, the gap starts at 70°C. After one time constant (1/k minutes), the gap has shrunk to 70 × e⁻¹ ≈ 26°C, so the coffee is about 46°C. After another time constant, it's 20 + 26 × e⁻¹ ≈ 30°C. The coffee never quite reaches room temperature mathematically — but it gets close enough that you'd taste no difference.</p>
+<h2>The Same Equation, Everywhere</h2>
+<p>The remarkable thing about this first-order equation is that it describes dozens of different phenomena, all with the same mathematical structure. Radioactive decay: atoms decay at a rate proportional to how many remain — same equation, different letters. A drug clearing your bloodstream: the kidneys remove drug at a rate proportional to concentration — same equation. A bank account earning continuous interest: the balance grows at a rate proportional to the current balance — same equation, but with a positive k instead of negative (growing instead of shrinking).</p>
+<div class="math-block">General first-order equation: dy/dt = ky
+
+k negative → exponential decay  (cooling, radioactive decay, drug clearance)
+k positive → exponential growth  (compound interest, early epidemic spread)
+
+Solution in both cases: y(t) = y_start × e^(kt)</div>
+<h2>Why This Is the Gateway to Everything</h2>
+<p>First-order differential equations are the entry point to an entire world of mathematical modeling. Once you understand that "rate of change equals something" translates directly into an equation you can solve, you can model almost anything that changes continuously over time. Engineers use them to model charging capacitors and heating systems. Epidemiologists use them to model the early spread of infectious disease. Economists use them to model how prices respond to supply and demand imbalances.</p>
+<h2>Conclusion</h2>
+<p>A differential equation describes how something changes, not just what it equals. The cooling coffee obeys one of the simplest differential equations: rate of cooling is proportional to the temperature gap. Solving it reveals exponential decay — a curve that falls steeply at first and flattens gradually. This same curve describes radioactive atoms, blood drug concentration, and compound interest. First-order differential equations are the mathematical language of change, and they show up everywhere something in nature grows, decays, or approaches equilibrium.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="change-of-basis.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">105</span></a>
+    <a href="maxwells-equations.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">107</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

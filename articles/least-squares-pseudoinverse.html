@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Least Squares and Pseudoinverses: Solving Unsolvable Systems — Applied Math Blog</title>
+<meta name="description" content="Article 126 of 156 in Sanjay Dagam's Applied Mathematics blog. Least Squares and Pseudoinverses: Solving Unsolvable Systems">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
+.cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Least Squares and Pseudoinverses: Solving Unsolvable Systems</h1>
+    <div class="article-meta">
+      <span>#126 of 156</span>
+      <span>May 30, 2026</span>
+      <span>Group 5 &middot; Jan&ndash;Jun 2026</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 2009, the FBI offered a $1 million reward for information about the most wanted criminals. Investigators had surveillance footage — blurry, pixelated images — and needed to reconstruct clearer photographs. The mathematical problem: they had many low-quality measurements (blurry pixels) and needed to find the high-resolution image most consistent with all of them. No single exact answer existed — the system was overdetermined, with more equations than unknowns. The tool that finds the best possible answer to an unsolvable system is the pseudoinverse, and it's one of the most broadly used results in all of applied mathematics.</p>
+<h2>When Exact Solutions Don't Exist</h2>
+<p>You've probably solved systems of equations where the number of equations equals the number of unknowns — and if everything works out, there's exactly one solution. But real problems often have more equations than unknowns (overdetermined) or more unknowns than equations (underdetermined).</p>
+<p>Overdetermined: more measurements than unknowns. A GPS receiver gets signals from 8 satellites, each giving one equation relating your position to the satellite's position. But you only have 3 unknown coordinates. The 8 equations are inconsistent (due to measurement noise) — no exact solution exists. Which approximate solution is best?</p>
+<p>Underdetermined: more unknowns than equations. A compressed sensing problem might recover an image from far fewer measurements than pixels — using the additional knowledge that real images are sparse in some basis. Infinitely many solutions satisfy the equations — which one should you choose?</p>
+<h2>Least Squares: The Best Approximate Solution</h2>
+<p>For overdetermined systems Ax = b where no exact x exists, the least squares solution minimizes ‖Ax - b‖² — the sum of squared differences between the left and right sides. It's the x that makes the equations "as true as possible" in total.</p>
+<div class="math-block">Least squares: minimize ‖Ax - b‖²
+
+Normal equations solution: x̂ = (AᵀA)⁻¹Aᵀb
+
+Aᵀ = transpose of A (rows become columns)
+AᵀA = a square matrix (always)
+(AᵀA)⁻¹ = inverse of AᵀA
+
+In plain English: the formula (AᵀA)⁻¹Aᵀ extracts the best
+possible x from an inconsistent system. It's exact when a solution
+exists and minimizes total squared error when it doesn't.</div>
+<h2>The Pseudoinverse: One Formula for All Cases</h2>
+<p>The expression (AᵀA)⁻¹Aᵀ is called the Moore-Penrose pseudoinverse of A, written A⁺. It's defined even when A is not square and even when AᵀA is singular (not invertible). The pseudoinverse uses the SVD (Article #91) to handle all cases uniformly:</p>
+<div class="math-block">Pseudoinverse via SVD:
+A = UΣVᵀ  (SVD decomposition)
+A⁺ = VΣ⁺Uᵀ
+
+Σ⁺ = replace each nonzero diagonal entry σᵢ with 1/σᵢ
+     leave zero entries as zero (don't invert them)
+
+For overdetermined (more equations than unknowns):
+A⁺b = least squares solution (minimizes ‖Ax - b‖²)
+
+For underdetermined (more unknowns than equations):
+A⁺b = minimum norm solution (smallest ‖x‖ among all exact solutions)</div>
+<p>The pseudoinverse automatically handles both cases. For overdetermined systems, it gives the least squares solution — best approximate answer. For underdetermined systems, it gives the minimum-norm solution — the most conservative choice among all exact solutions. One formula, all cases.</p>
+<h2>Image Reconstruction</h2>
+<p>For the FBI's blurry surveillance images: each blurry pixel is a weighted average of nearby sharp pixels — a linear equation. Many blurry pixels give many equations relating the unknown sharp pixel values. The system is overdetermined and inconsistent (due to sensor noise). The pseudoinverse finds the sharp image that best explains all the blurry observations simultaneously — the least squares reconstruction. Modern image deblurring software uses exactly this approach, extended with regularization to prevent noise amplification.</p>
+<h2>Other Applications</h2>
+<p>Pseudoinverses solve GPS positioning (overdetermined from many satellites), fit polynomial curves to data points (least squares curve fitting), control robot arms (underdetermined — many joint configurations reach a target), and reconstruct signals in MRI and CT imaging. Any time you need the best answer to a system that doesn't have an exact one, the pseudoinverse provides it.</p>
+<h2>Conclusion</h2>
+<p>Real problems rarely come with systems of equations that have exactly one solution. The least squares solution handles overdetermined systems by minimizing total squared error. The pseudoinverse handles all cases — overdetermined and underdetermined — with one unified formula derived from SVD. For GPS positioning, image reconstruction, robot control, and medical imaging, the pseudoinverse provides the best possible answer when no perfect answer exists. It's the mathematical definition of "good enough" — proven to be the best you can do.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 5</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2026</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="phase-transitions.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">125</span></a>
+    <a href="robust-optimization.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">127</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>
