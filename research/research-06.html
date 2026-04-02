@@ -120,7 +120,7 @@
             display: grid; grid-template-columns: 1fr 290px;
             gap: 4rem; align-items: start;
         }
-        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+        
 
         .proj-section { margin-bottom: 3rem; }
         .proj-section:last-child { margin-bottom: 0; }
@@ -413,12 +413,12 @@
                     <span class="proj-status-value">Anish Gogineni, UW–Madison</span>
                 </div>
                 <div>
-                    <span class="proj-status-label">Timeline</span>
-                    <span class="proj-status-value">January 2026 – Present</span>
-                </div>
-                <div>
                     <span class="proj-status-label">Status</span>
                     <span class="status-pill">Active</span>
+                </div>
+                <div>
+                    <span class="proj-status-label">Tools Website</span>
+                    <span class="proj-status-value"><a href="https://dairymgt.cals.wisc.edu" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85);text-decoration:underline;text-underline-offset:3px;">dairymgt.cals.wisc.edu</a></span>
                 </div>
             </div>
         </div>
@@ -454,18 +454,19 @@
                 <div class="plain-box">
                     <span class="plain-box-label">Plain-English Summary</span>
                     <p>
-                        Dairy farming is extraordinarily complex — a farm's profitability depends on
-                        thousands of interacting decisions about herd management, feeding, waste handling,
-                        and climate. Prof. Victor Cabrera at UW–Madison has built mathematical models that
-                        help farmers and extension agents simulate and optimize those decisions.
+                        Running a profitable dairy farm means making hundreds of interconnected decisions
+                        every day — how many cows to milk, when to replace aging animals, how much feed
+                        to buy, how to handle manure, and how heat waves will affect production. Prof.
+                        Victor Cabrera's lab at UW–Madison has built free web-based tools that let
+                        farmers and agricultural advisors model these decisions mathematically and see
+                        the financial consequences before committing real money.
                     </p>
                     <p>
-                        This project has two tracks running in parallel. The first is documentation:
-                        scripting and producing professional tutorial videos for two live web tools so
-                        that dairy producers across the country can use them effectively. The second is
-                        engineering: diagnosing and repairing a powerful whole-farm simulation model
-                        that has been completely inaccessible on modern computers since 2016, due to
-                        a broken dependency on discontinued Microsoft software.
+                        This project has two tracks. The first is making those tools more accessible:
+                        scripting and producing tutorial videos so dairy producers across the country
+                        can actually use them. The second is engineering: a powerful whole-farm
+                        simulation has been sitting broken on modern computers since 2016, and this
+                        project is diagnosing and rebuilding it.
                     </p>
                 </div>
             </div>
@@ -475,11 +476,12 @@
                 <div class="proj-section-label">Tool 1 — AMS Transition Budgeter</div>
                 <h2>Should a dairy farm switch to robotic milking?</h2>
                 <p>
-                    Automatic Milking Systems (robots) represent one of the largest capital investments
-                    a dairy producer can make — typically $200,000 per robot plus $50,000 in retrofit
-                    costs. The AMS Transition Budgeter, built by Prof. Cabrera's lab and available at
-                    dairymgt.cals.wisc.edu, uses a partial-budget approach combined with multi-year
-                    cash flow projections to answer not just whether the investment pays off, but when.
+                    Milking robots cost roughly $200,000 each — one of the biggest capital decisions
+                    a dairy farm can make. The AMS Transition Budgeter helps farmers think through
+                    whether that investment makes financial sense for their specific operation. Enter
+                    your herd size, current milk price, labor costs, and loan terms, and the tool
+                    projects your cash flow over 15 years — showing not just whether the robots pay
+                    off, but exactly when.
                 </p>
                 <div class="tool-card">
                     <div class="tool-card-head">
@@ -490,36 +492,34 @@
                         <div class="module-grid">
                             <div class="module-item">
                                 <span class="module-name">Farm Baseline</span>
-                                <p class="module-desc">Herd size, milk yield (lbs/cow/day), milk price ($/cwt), daily milking labor hours, labor rate ($/hr). Defaults: 120 cows, 80 lbs, $18/cwt, 12 hrs/day, $20/hr.</p>
+                                <p class="module-desc">How many cows, how much milk each produces, the price you receive, how many hours milking takes, and what you pay your labor. Pre-loaded with industry averages you can overwrite.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Investment &amp; Specs</span>
-                                <p class="module-desc">Number of robots, cost per robot, retrofit cost, loan rate, loan term, labor per robot per day. Default: 2 robots at $200k each, $50k retrofit, 7.5%, 10 years.</p>
+                                <p class="module-desc">How many robots, what they cost, barn modification costs, loan terms, and ongoing labor per robot. Defaults reflect typical industry figures.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Operational Impacts</span>
-                                <p class="module-desc">Milk yield change (default +5% from increased visit frequency), feed cost adjustment ($0.15/cow/day for robot pellet), annual maintenance per robot ($8,000).</p>
+                                <p class="module-desc">Robots typically increase yield ~5% because cows can be milked more frequently. They also require a special feed pellet and annual maintenance — all adjustable with sliders.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Key Outputs</span>
-                                <p class="module-desc">Net Annual Impact, Labor Saved (hours + FTE equivalent), Breakeven Wage, 15-year Cash Flow Timeline, Breakeven Gauge, and Sensitivity Tornado chart.</p>
+                                <p class="module-desc">Annual profit after debt service, hours of labor eliminated, the wage rate at which robots break even, a 15-year cash flow curve, and a chart showing which assumptions matter most.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="finding-callout">
-                    <strong>The Breakeven Wage insight</strong>
-                    <p>The tool's most decision-relevant output is the Breakeven Wage — the minimum hourly
-                    labor rate at which the robot investment has net present value of zero. If a farm's
-                    actual labor cost exceeds this threshold, the investment is economically favorable.
-                    The sensitivity analysis shows that milk price and labor rate are typically the
-                    two highest-leverage variables.</p>
+                    <strong>The most useful output: Breakeven Wage</strong>
+                    <p>This tells you the minimum hourly wage at which robots become worth it. If you're
+                    already paying more than that, the investment pays off. The tool also shows which
+                    inputs — milk price, labor rate, robot cost — swing the outcome most, so you know
+                    where your assumptions matter.</p>
                 </div>
                 <p>
-                    Sanjay scripted and produced the full tutorial video for this tool — writing the
-                    walkthrough script, recording screen capture of the live tool, generating AI
-                    voiceover, and editing the final MP4. The video has been posted to YouTube and
-                    linked on the lab's tools page.
+                    Sanjay wrote the full walkthrough script, recorded the live tool, generated
+                    AI voiceover, and edited the final video. It's published on YouTube and linked
+                    on the lab's tools page at dairymgt.cals.wisc.edu.
                 </p>
             </div>
 
@@ -528,12 +528,12 @@
                 <div class="proj-section-label">Tool 2 — Heat Abatement Investment Scouter</div>
                 <h2>Does cooling equipment pay for itself?</h2>
                 <p>
-                    High-producing dairy cows begin experiencing heat stress when the
-                    Temperature-Humidity Index (THI) exceeds 68 — a threshold routinely exceeded
-                    across much of the U.S. for months at a time. The Heat Abatement Investment
-                    Scouter uses 10-year average climate data for any location in the country to
-                    estimate milk losses from heat stress and calculate whether an investment in
-                    fans and soakers delivers a positive return.
+                    Dairy cows start losing milk production when it gets hot and humid — and
+                    in much of the U.S., that happens for weeks or months every summer. The Heat
+                    Abatement Investment Scouter uses 10 years of climate data for any U.S. location
+                    to estimate how much milk a farm is losing to heat stress each year, then
+                    calculates whether installing cooling equipment (fans and soakers) would
+                    pay for itself.
                 </p>
                 <div class="tool-card">
                     <div class="tool-card-head">
@@ -544,27 +544,27 @@
                         <div class="module-grid">
                             <div class="module-item">
                                 <span class="module-name">THI Calculation</span>
-                                <p class="module-desc">Uses location-specific 10-year average climate data (temp, humidity) to compute monthly THI values and classify heat stress hours as mild (68–72), moderate (72–78), or severe (78+).</p>
+                                <p class="module-desc">Pulls 10-year average temperature and humidity for your location and calculates how many hours per year fall into mild, moderate, and severe heat stress zones.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Milk Loss Model</span>
-                                <p class="module-desc">Estimates milk production loss at 0.5 lbs per cow per hour per THI unit above threshold (Mader et al. 2006). Applies farm-specific herd size and yield inputs.</p>
+                                <p class="module-desc">Translates heat stress hours into lost milk production using established research, applied to your herd size and average yield.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Investment Analysis</span>
-                                <p class="module-desc">Fan + soaker + installation capital costs, loan terms, operating costs (electricity + water), and cooling effectiveness (default 65%). Computes payback period, net annual gain, and 5-year ROI.</p>
+                                <p class="module-desc">Enter cooling system cost, loan terms, and electricity/water operating expenses. The tool computes payback period and 5-year return on investment.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">2030 Projection</span>
-                                <p class="module-desc">Includes a forward-looking climate risk projection showing expected heat stress hours in 2030, helping producers factor in a warming baseline when evaluating long-term investments.</p>
+                                <p class="module-desc">Shows projected heat stress hours in 2030 so producers can factor a warming climate into their long-term investment decision.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <p>
-                    Sanjay wrote the script, produced the video, and reshot it after the tool was
-                    updated — revising the script to match the new THI methodology and recording a
-                    final version. The video is published on YouTube and linked on the lab's tools page.
+                    Sanjay wrote the script, recorded the video, then reshot it after the tool
+                    was updated to match a revised methodology. The final version is published on
+                    YouTube and linked on the lab's tools page.
                 </p>
             </div>
 
@@ -573,11 +573,12 @@
                 <div class="proj-section-label">Tool 3 — DyNoFlo</div>
                 <h2>A whole-farm dairy simulation — and an engineering problem</h2>
                 <p>
-                    DyNoFlo (Dynamic North Florida Dairy Farm Model) is Prof. Cabrera's most
-                    comprehensive tool: an integrated Excel-based simulation combining six distinct
-                    modeling components to answer a single central question — can a dairy farm
-                    reduce nitrogen leaching while maintaining profitability, and how should
-                    management strategies change based on climate forecasts?
+                    DyNoFlo is Prof. Cabrera's most ambitious tool — a whole-farm simulator
+                    built in Excel that tracks everything at once: the herd's milk production,
+                    what the cows eat, how manure moves through the farm, how crops grow, and
+                    whether it all makes money. Its central question: can a dairy farm reduce the
+                    nitrogen that leaches from manure into groundwater, without sacrificing profit?
+                    And does the answer change depending on whether it's an El Niño year?
                 </p>
                 <div class="tool-card">
                     <div class="tool-card-head">
@@ -588,27 +589,27 @@
                         <div class="module-grid">
                             <div class="module-item">
                                 <span class="module-name">Markov-Chain Herd Model</span>
-                                <p class="module-desc">3,200 cow states defined by months in milk, pregnancy status, and lactation number. Computes monthly milk production, dry matter intake, and manure nitrogen excretion per animal group.</p>
+                                <p class="module-desc">Tracks every cow group by stage of lactation and pregnancy — computing monthly milk output, feed consumption, and manure nitrogen produced.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">DSSAT Crop System</span>
-                                <p class="module-desc">Pre-computed crop outputs for up to 10 fields with configurable forage rotations (bermudagrass, corn, sorghum) across seasons. Results stratified by soil type and ENSO phase.</p>
+                                <p class="module-desc">Models how different crops (grasses, corn, sorghum) grow on each field under different soil types and rainfall conditions — providing the feed and land-use side of the farm equation.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Nitrogen Tracking</span>
-                                <p class="module-desc">Follows manure N through the entire waste chain — flushing, pond, sludge, spraying, soil application — with configurable loss rates. Cumulative N lost shown as a percentage.</p>
+                                <p class="module-desc">Follows nitrogen from the barn through every step — storage pond, sludge, land application — tracking how much leaches into groundwater versus stays in the soil.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">ENSO Climate Module</span>
-                                <p class="module-desc">Assigns El Niño, La Niña, Neutral, or 43-year average to each simulation year. El Niño winters drive the most leaching; January alone accounts for 30–40% of annual nitrogen loss.</p>
+                                <p class="module-desc">Assigns each simulated year an El Niño, La Niña, or neutral weather pattern. Wetter El Niño winters drive far more nitrogen leaching — January alone can account for 30–40% of the annual total.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">Economic Analysis</span>
-                                <p class="module-desc">Monthly and annual profit from milk, cow/heifer sales, and expense categories. Case study result: optimizer recommended changes reduced leaching 25% while increasing profit 3%.</p>
+                                <p class="module-desc">Calculates monthly and annual profit from milk revenue, animal sales, and all major expense categories. In a published case study, the optimized management plan cut nitrogen leaching 25% while raising profit 3%.</p>
                             </div>
                             <div class="module-item">
                                 <span class="module-name">LP Optimizer</span>
-                                <p class="module-desc">Maximizes profit subject to a nitrogen constraint (or vice versa), solved independently per ENSO phase. Outputs climate-specific management strategies for crude protein, forage rotations, and confined time.</p>
+                                <p class="module-desc">Finds the management strategy that maximizes profit while keeping nitrogen below a set limit — or vice versa. Run separately for each climate pattern so recommendations adapt to the forecast.</p>
                             </div>
                         </div>
                     </div>
@@ -616,10 +617,11 @@
 
                 <h2 style="margin-top: 2rem;">The compatibility problem</h2>
                 <p>
-                    DyNoFlo's simulation engine, data, formulas, charts, and dashboard are fully
-                    intact. But the entire VBA layer — all macros, all modules, all interactive
-                    buttons — is inaccessible on any Excel version released after 2003. This means
-                    the model has been effectively unusable for over two decades on modern machines.
+                    All of DyNoFlo's data, formulas, charts, and outputs are perfectly intact.
+                    The problem is the interactive layer — the buttons that run the simulation,
+                    switch between scenarios, and trigger the optimizer. These are powered by
+                    Visual Basic macros (VBA) that were written for Excel in 2004, and they
+                    simply don't work on any version of Excel released since 2003.
                 </p>
                 <div class="bug-box">
                     <span class="bug-label">Two compounding failures</span>
@@ -627,23 +629,21 @@
                         <div class="bug-item">
                             <div class="bug-dot">1</div>
                             <span class="bug-text">
-                                <strong style="color:#F0A070;">OWC10 / 64-bit incompatibility.</strong>
-                                The VBA project references <code>Microsoft Office XP Web Components (OWC10)</code>,
-                                discontinued after Office 2003. On 64-bit Excel, VBA API declarations also require
-                                the <code>PtrSafe</code> keyword — absent throughout the original code. Together these
-                                cause a compile failure that blocks <em>everything</em>: no macros run, the VBA
-                                editor won't load, and Excel refuses to save any changes. A catch-22 where the
-                                broken state prevents the fix.
+                                <strong style="color:#F0A070;">A discontinued Microsoft component blocks everything.</strong>
+                                The code depends on a Microsoft add-on called OWC10 that was discontinued after
+                                Office 2003. Modern Excel also requires a security keyword (<code>PtrSafe</code>)
+                                that the original code doesn't have. Together these cause a compile failure that
+                                prevents any macro from running — and, critically, prevents saving any changes.
+                                It's a catch-22: the broken state prevents the fix.
                             </span>
                         </div>
                         <div class="bug-item">
                             <div class="bug-dot">2</div>
                             <span class="bug-text">
-                                <strong style="color:rgba(255,255,255,0.7);">Missing linked workbooks.</strong>
-                                DyNoFlo depends on external companion files containing pre-computed DSSAT crop
-                                model tables. Without them at the expected file paths, the simulation runs for
-                                approximately 3 years then halts with <code>"Couldn't get updated values from
-                                linked workbook."</code>
+                                <strong style="color:rgba(255,255,255,0.7);">Missing companion files.</strong>
+                                DyNoFlo was originally distributed as a package of linked Excel files containing
+                                pre-computed crop data. Without those companion files in exactly the right folder
+                                path, the simulation runs for about 3 years then stops with an error.
                             </span>
                         </div>
                     </div>
@@ -653,23 +653,22 @@
                 <div class="fix-list">
                     <div class="fix-item">
                         <span class="fix-num">01</span>
-                        <span class="fix-text"><strong>Install OWC10 on 32-bit Excel.</strong> Download the free Microsoft Office XP Web Components redistributable, install it to register the missing type library, and re-attempt reference cleanup. Only viable on 32-bit Excel installations.</span>
+                        <span class="fix-text"><strong>Reinstall the missing component on an older machine.</strong> The original OWC10 component is still available as a free download. Installing it on a 32-bit version of Excel may allow the broken references to be cleaned up — though this approach requires finding a machine still running old Office software.</span>
                     </div>
                     <div class="fix-item">
                         <span class="fix-num">02</span>
-                        <span class="fix-text"><strong>Fix on older Office machine.</strong> Open on Office 2003/2007 where OWC10 is available. Uncheck the four broken references, remove the nine OWC-dependent UserForms, import a replacement macro module (<code>RunModel.bas</code>), and save. Test on modern Excel.</span>
+                        <span class="fix-text"><strong>Fix using an old Office installation.</strong> On a machine still running Office 2003 or 2007, the broken component references can be unchecked, old interface elements removed, and a clean replacement macro file imported. The result can then be saved and tested on modern Excel.</span>
                     </div>
                     <div class="fix-item">
                         <span class="fix-num">03</span>
-                        <span class="fix-text"><strong>Full rebuild.</strong> Open with macros disabled, copy all sheet data into a new .xlsm workbook, re-import 11 VBA module files from the extracted rebuild kit, add macro buttons, and re-embed the DSSAT companion data as local sheets to eliminate external links. Most effort — most portable result.</span>
+                        <span class="fix-text"><strong>Full rebuild from scratch.</strong> Copy all the data and formulas into a brand-new Excel file, rewrite the macro code from scratch in modern VBA, and embed the crop companion data directly so no external files are needed. The most work — but the most portable, future-proof result.</span>
                     </div>
                 </div>
                 <p style="margin-top:1rem;">
-                    The simulation engine itself (the <code>MARKOV</code> subroutine in Module1)
-                    requires no logic changes — it reads entirely from worksheet cells with no
-                    dependency on OWC or UserForms. Once the VBA layer is accessible, the fix is
-                    straightforward. Sanjay is currently pursuing access to the VBA project password
-                    from Prof. Cabrera to enable Option 02 or 03.
+                    Importantly, the simulation logic itself requires no changes — only the
+                    interactive shell around it is broken. Once access to the underlying code is
+                    unlocked (which requires a project password from Prof. Cabrera), the actual
+                    fix is straightforward.
                 </p>
             </div>
 
@@ -678,11 +677,11 @@
                 <div class="proj-section-label">Video Production</div>
                 <h2>Tutorial videos for the lab's tool suite</h2>
                 <p>
-                    A core deliverable of this project is producing professional walkthrough videos
-                    for each tool so that dairy producers and extension agents can use them without
-                    needing direct support. Each video involves writing a full narration script,
-                    screen-recording the live tool, generating AI voiceover, and editing the final
-                    MP4 for publication on the lab's YouTube channel.
+                    Prof. Cabrera's tools are powerful, but only useful if people know how to
+                    use them. Each video walks through the tool from start to finish — what to
+                    enter, what the outputs mean, and how to read the results. Sanjay wrote the
+                    script, recorded the screen, generated voiceover, and edited the final video
+                    for each one.
                 </p>
                 <div class="video-list">
                     <div class="video-item">
@@ -725,104 +724,7 @@
 
         </main>
 
-        <!-- SIDEBAR -->
-        <aside>
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Project Details</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Role</span>
-                        <span class="sidebar-val">Research &amp; Engineering Collaborator</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Supervisor</span>
-                        <span class="sidebar-val">Prof. Victor Cabrera<br>Dept. of Animal and Dairy Sciences, UW–Madison</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Collaborator</span>
-                        <span class="sidebar-val">Anish Gogineni, UW–Madison</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Period</span>
-                        <span class="sidebar-val">January 2026 – Present</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Tools page</span>
-                        <span class="sidebar-val">dairymgt.cals.wisc.edu</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Deliverables</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Videos produced</span>
-                        <span class="sidebar-val">2 published (AMS Budgeter, Heat Abatement)<br>1 pending (DyNoFlo)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Scripts written</span>
-                        <span class="sidebar-val">3 complete (AMS, THI, DyNoFlo)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">DyNoFlo repair</span>
-                        <span class="sidebar-val">Root cause diagnosed; rebuild kit assembled; repair in progress</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Video tools</span>
-                        <span class="sidebar-val">Natural Reader (AI voiceover), screen recording, video editing</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>DyNoFlo — Technical Stack</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Core engine</span>
-                        <span class="sidebar-val">Excel VBA — MARKOV subroutine (Module1)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Herd simulation</span>
-                        <span class="sidebar-val">Markov-chain, 3,200 cow states</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Crop data</span>
-                        <span class="sidebar-val">Pre-computed DSSAT outputs (external linked workbooks)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Optimization</span>
-                        <span class="sidebar-val">Linear programming, per ENSO phase</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Blocking issue</span>
-                        <span class="sidebar-val">OWC10 + PtrSafe — broken on all Excel 2016+</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Next Steps</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Immediate</span>
-                        <span class="sidebar-val">Obtain VBA project password from Prof. Cabrera to enable repair</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Repair path</span>
-                        <span class="sidebar-val">Add PtrSafe keywords, remove OWC references, rebuild UserForms with standard VBA controls</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">After repair</span>
-                        <span class="sidebar-val">Screen-record DyNoFlo tutorial video and publish</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Long-term</span>
-                        <span class="sidebar-val">Embed DSSAT companion data as local sheets for single-file portability</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </div>
 
     <!-- PREV / NEXT -->
@@ -839,17 +741,11 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#5f363139301f28362c2b2a3b3a312b2c39302d2c2b2a3b3a312b2c713c3032">Email</a>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const navToggle = document.querySelector('.nav-toggle');
-        const navLinks  = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-        }
-    </script>
-</body>
-</html>
+        const navLinks  = document.querySelector('.nav-links

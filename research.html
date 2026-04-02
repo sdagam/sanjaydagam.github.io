@@ -109,6 +109,7 @@
             display: flex;
             flex-direction: row;
             transition: box-shadow 0.2s, transform 0.2s;
+            cursor: pointer;
         }
         .rcard:hover {
             box-shadow: 0 4px 20px rgba(0,0,0,0.09);
@@ -361,7 +362,7 @@
             </svg>
         </div>
         <div class="research-hero-inner">
-            <h1>Research Projects</h1>
+            <h1>Research Portfolio</h1>
             <p>
                 I work across network science, epidemiology, public health, environmental science,
                 and agricultural modeling — applying rigorous mathematics to problems that affect
@@ -374,7 +375,7 @@
     <section class="cards-section">
         <div class="cards-inner">
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-01.html">
                 <div class="rcard-stripe stripe-network"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -391,7 +392,7 @@
                 </div>
             </article>
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-02.html">
                 <div class="rcard-stripe stripe-network"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -408,7 +409,7 @@
                 </div>
             </article>
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-03.html">
                 <div class="rcard-stripe stripe-env"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -425,7 +426,7 @@
                 </div>
             </article>
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-04.html">
                 <div class="rcard-stripe stripe-env"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -442,7 +443,7 @@
                 </div>
             </article>
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-05.html">
                 <div class="rcard-stripe stripe-ml"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -459,7 +460,7 @@
                 </div>
             </article>
 
-            <article class="rcard">
+            <article class="rcard" data-href="research/research-06.html">
                 <div class="rcard-stripe stripe-agri"></div>
                 <div class="rcard-inner">
                     <div class="rcard-body">
@@ -506,6 +507,16 @@
                 navLinks.classList.toggle('active');
             });
         }
+    </script>
+
+    <script>
+        document.querySelectorAll('.rcard[data-href]').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't double-fire if they clicked the Read More link itself
+                if (e.target.closest('a')) return;
+                window.location.href = this.dataset.href;
+            });
+        });
     </script>
 </body>
 </html>
