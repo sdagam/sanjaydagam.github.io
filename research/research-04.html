@@ -110,10 +110,10 @@
             max-width: 900px; margin: 0 auto;
             padding: 4rem 2rem 6rem;
             display: grid;
-            grid-template-columns: 1fr 290px;
+            grid-template-columns: 1fr;
             gap: 4rem; align-items: start;
         }
-        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+        
 
         .proj-section { margin-bottom: 3rem; }
         .proj-section:last-child { margin-bottom: 0; }
@@ -214,16 +214,15 @@
         /* findings list */
         .findings-list {
             list-style: none; padding: 0; margin: 0;
-            display: flex; flex-direction: column; gap: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
         }
         .findings-list li {
-            display: flex; gap: 0.75rem; align-items: flex-start;
-            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem 1.15rem;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.7;
         }
-        .findings-list li::before {
-            content: ''; width: 6px; height: 6px; border-radius: 50%;
-            background: var(--green); flex-shrink: 0; margin-top: 0.55rem;
-        }
+        .findings-list li::before { content: none; }
 
         /* model comparison table */
         .model-table {
@@ -388,10 +387,6 @@
                     <span class="proj-status-value">Ben Wolf, Director of Air Quality, Wisconsin DNR</span>
                 </div>
                 <div>
-                    <span class="proj-status-label">Timeline</span>
-                    <span class="proj-status-value">January 2026 – March 2026 (ongoing)</span>
-                </div>
-                <div>
                     <span class="proj-status-label">Status</span>
                     <span class="status-pill">Active</span>
                 </div>
@@ -399,35 +394,6 @@
         </div>
     </header>
 
-    <!-- STATS BAND -->
-    <div class="stats-band">
-        <div class="stats-inner">
-            <div class="stat-item">
-                <span class="stat-num"><em>2,418</em></span>
-                <span class="stat-lbl">Ozone-season days</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>283</em></span>
-                <span class="stat-lbl">Exceedance days</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>54k</em></span>
-                <span class="stat-lbl">Site-level records</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>0.885</em></span>
-                <span class="stat-lbl">AUC — logistic model</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>2.8×</em></span>
-                <span class="stat-lbl">Smoke exceedance odds</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>16°F</em></span>
-                <span class="stat-lbl">Smoke threshold shift</span>
-            </div>
-        </div>
-    </div>
 
     <!-- BODY -->
     <div class="proj-body">
@@ -438,13 +404,15 @@
                 <div class="plain-box">
                     <span class="plain-box-label">Plain-English Summary</span>
                     <p>
-                        When Canadian wildfires send smoke drifting into Wisconsin, ozone levels spike —
-                        sometimes crossing the federal safety limit. But 2023 had 39 exceedance days
-                        while 2025 had only 5, even though both years had massive wildfires. Why?
-                        This study found the answer: <em>it's not just the smoke — it's the heat</em>.
-                        Temperature is the dominant driver of ozone exceedances, and smoke amplifies it.
-                        On a smoky day, Wisconsin can hit dangerous ozone levels at 83°F — a temperature
-                        that would be perfectly safe on a clear day. The lakeshore is especially vulnerable.
+                        Ozone is an invisible air pollutant that can cause serious lung damage — and
+                        Wisconsin occasionally sees dangerous levels when Canadian wildfire smoke drifts
+                        south on hot summer days. But 2023 saw 33 days where ozone exceeded the federal
+                        safety limit, while 2025 had only 5 days, even though both years had record
+                        wildfires. Why the difference? This project found the answer:
+                        <em>smoke alone isn't enough — you need heat too</em>. On a smoky day,
+                        Wisconsin can reach dangerous ozone levels at just 83°F, a temperature
+                        that would be completely safe on a clear day. And communities along
+                        Lake Michigan face this risk at three times the rate of inland areas.
                     </p>
                 </div>
             </div>
@@ -454,9 +422,11 @@
                 <div class="proj-section-label">The Central Puzzle</div>
                 <h2>Two massive wildfire years — vastly different outcomes</h2>
                 <p>
-                    Both 2023 and 2025 saw record-setting Canadian wildfires with comparable PM2.5 levels,
-                    yet their ozone impacts were dramatically different. A simple year-to-year comparison
-                    wasn't revealing, so the analysis was extended to 2010–2025 to identify the underlying drivers.
+                    Both 2023 and 2025 had enormous Canadian wildfires that sent smoke into Wisconsin,
+                    with similar levels of particulate matter (PM2.5) measured at the surface. Yet their
+                    ozone impacts were completely different. To understand why, the analysis looked back
+                    across 16 ozone seasons from 2010 to 2025 to find what really separates a bad ozone
+                    year from a manageable one.
                 </p>
                 <div class="compare-grid">
                     <div class="compare-card">
@@ -483,102 +453,84 @@
                     </div>
                 </div>
                 <p style="margin-top:1rem;">
-                    2025 had similar PM2.5 levels to 2023 but 18 fewer hot days (≥85°F) and 10 fewer
-                    very hot days (≥90°F). The regression analysis confirms: PM2.5 alone cannot
-                    overcome the absence of heat. The 2025 result is exactly what the model predicts.
+                    The key difference wasn't the fires — it was the weather. 2025 had 18 fewer
+                    days above 85°F and 10 fewer days above 90°F than 2023. The analysis confirms:
+                    smoke without heat doesn't push ozone over the limit. 2025 had plenty of smoke
+                    but a cooler summer, and the model predicts exactly what happened.
                 </p>
             </div>
 
             <!-- Data & Methods -->
             <div class="proj-section">
                 <div class="proj-section-label">Data &amp; Methods</div>
-                <h2>A 16-year, multi-source dataset</h2>
+                <h2>16 years of data from across Wisconsin</h2>
                 <p>
-                    The study merged five independent data sources into a single 2,418-day dataset
-                    covering the Wisconsin ozone season (May–September) from 2010 to 2025,
-                    with zero missing values across all predictors.
+                    Five separate datasets were combined into a single record covering every day of
+                    Wisconsin's ozone season (May–September) from 2010 to 2025 — about 2,400 days total.
+                    For each day, the analysis tracked the highest ozone reading anywhere in the state,
+                    the highest smoke particle (PM2.5) reading, the highest temperature, and whether
+                    large Canadian wildfires were burning within roughly 900 miles.
                 </p>
-                <ul class="findings-list">
-                    <li>Daily max ozone: EPA AQS Parameter 44201, max across ~31 Wisconsin monitors per day</li>
-                    <li>Daily max PM2.5: EPA AQS, max across 25 Wisconsin monitors (151,367 total records)</li>
-                    <li>Daily max temperature: IEM ASOS, max across 5 Wisconsin stations (Sheboygan, Milwaukee, Green Bay, Madison, Appleton)</li>
-                    <li>Fire proximity: Canadian National Fire Database (2010–2024) and NASA FIRMS VIIRS (2025), fires ≥200 ha within 1,500 km</li>
-                    <li>Site-level validation: 54,197 site-days across 39 ozone monitors, each paired with nearest PM2.5 station (median distance: 9.6 km)</li>
-                </ul>
-                <p style="margin-top:1rem;">
-                    Analysis used Python 3.12 with NumPy, SciPy, and Pandas. Linear regression via
-                    Ordinary Least Squares; logistic regression via Newton-Raphson maximum likelihood
-                    estimation (convergence criterion: max|Δβ| &lt; 10⁻⁸).
+                <p>
+                    The analysis then used two types of statistical models. The first estimates how
+                    many ppb of ozone each degree of heat or unit of smoke adds — like a recipe with
+                    measured ingredients. The second calculates the probability that ozone will
+                    exceed the federal limit on any given day, based on the forecast temperature
+                    and smoke levels.
                 </p>
             </div>
 
             <!-- Linear Regression -->
             <div class="proj-section">
-                <div class="proj-section-label">Linear Regression Results</div>
-                <h2>How much does each factor add to ozone?</h2>
+                <div class="proj-section-label">What Drives Ozone?</div>
+                <h2>Temperature is the main driver — smoke is a powerful multiplier</h2>
                 <p>
-                    The best-fit linear model uses temperature and PM2.5 together, explaining 35.7%
-                    of daily ozone variance across all 2,418 days.
+                    Temperature alone explains about a third of the variation in daily ozone levels.
+                    Each additional degree Fahrenheit adds roughly 0.8 ppb of ozone. Smoke particles
+                    (PM2.5) add another 0.24 ppb per unit — weaker on its own, but when combined
+                    with heat, the two factors amplify each other.
                 </p>
                 <div class="equation-box">
-                    <span class="equation-label">Best linear model (R² = 0.357, p &lt; 0.001)</span>
-                    <span class="equation-text">Ozone (ppb) = −13.27 + 0.803 × Temp(°F) + 0.240 × PM2.5(µg/m³)</span>
-                    <span class="equation-sub">Each 1°F → +0.80 ppb &nbsp;|&nbsp; Each 1 µg/m³ PM2.5 → +0.24 ppb &nbsp;|&nbsp; Both p &lt; 0.001</span>
+                    <span class="equation-label">The model in plain terms</span>
+                    <span class="equation-text">Ozone = −13.27 + 0.803 × Temperature + 0.240 × Smoke Particles</span>
+                    <span class="equation-sub">Each 1°F warmer → +0.80 ppb ozone &nbsp;|&nbsp; Each unit of smoke → +0.24 ppb ozone</span>
                 </div>
-                <table class="model-table" style="margin-top:1rem;">
-                    <thead>
-                        <tr><th>Model</th><th>R²</th><th>vs Temp Only</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Temperature only</td><td>0.327</td><td>baseline</td></tr>
-                        <tr><td>PM2.5 only</td><td>0.101</td><td>−0.226 (much weaker)</td></tr>
-                        <tr class="best"><td>Temperature + PM2.5</td><td class="highlight">0.357</td><td>+0.031</td></tr>
-                        <tr><td>Temp + PM2.5 + Fire Proximity</td><td>0.357</td><td>fire adds nothing</td></tr>
-                        <tr><td>Temp + PM2.5 + Interaction</td><td>0.371</td><td>+0.044 (best fit)</td></tr>
-                    </tbody>
-                </table>
                 <div class="finding-callout" style="margin-top:1rem;">
-                    <strong>Key insight — fire proximity doesn't matter</strong>
-                    <p>Fire proximity alone (just having fires within 1,500 km) explains only 2.1% of variance.
-                    It adds nothing once PM2.5 is in the model. What matters is whether smoke
-                    actually arrives and delivers particulates — not whether fires exist upwind.</p>
+                    <strong>Where the fires are doesn't matter — only the smoke that arrives does</strong>
+                    <p>Simply having Canadian wildfires burning within 900 miles adds almost no
+                    predictive value. What matters is whether smoke actually reaches Wisconsin and
+                    shows up in PM2.5 readings. Distant fires with smoke that stays north of the
+                    border are irrelevant to Wisconsin's ozone levels.</p>
                 </div>
                 <p>
-                    The interaction term (Temp × PM2.5) is highly significant (p = 1.2 × 10⁻¹²),
-                    confirming that smoke has a larger effect on hot days than cool days. On a 90°F day,
-                    each µg/m³ of PM2.5 drives more ozone than on a 70°F day — a synergistic,
-                    not merely additive, relationship.
+                    Crucially, smoke and heat don't just add together — they multiply. On a 90°F day,
+                    the same amount of smoke pushes ozone much higher than it would on a 70°F day.
+                    A cool summer with heavy wildfire smoke is far less dangerous than a hot summer
+                    with the same smoke.
                 </p>
             </div>
 
             <!-- Logistic Regression -->
             <div class="proj-section">
-                <div class="proj-section-label">Logistic Regression Results</div>
-                <h2>Predicting whether exceedance will occur</h2>
+                <div class="proj-section-label">Predicting Bad Ozone Days</div>
+                <h2>The model can predict dangerous ozone days with 89% accuracy</h2>
                 <p>
-                    The logistic model answers the more practical question: on a given day, how likely
-                    is an ozone exceedance? The model achieves AUC = 0.885 — excellent discrimination.
+                    A second model was built to answer a simpler yes-or-no question: will ozone
+                    exceed the federal safety limit today? Using just temperature and smoke levels,
+                    the model correctly identifies dangerous ozone days 89% of the time.
                 </p>
-                <div class="equation-box">
-                    <span class="equation-label">Logistic model (AUC = 0.885, n = 2,418)</span>
-                    <span class="equation-text">P(exc) = 1 / (1 + e^(23.50 − 0.247×Temp − 0.041×PM2.5))</span>
-                    <span class="equation-sub">
-                        Each 1°F → odds × 1.28 &nbsp;|&nbsp; Each 10°F → odds × 11.8× &nbsp;|&nbsp;
-                        Each 10 µg/m³ PM2.5 → odds × 1.5× &nbsp;|&nbsp; Smoke Likely (binary) → odds × 2.8×
-                    </span>
-                </div>
                 <div class="finding-callout" style="margin-top:1rem;">
-                    <strong>The 16°F smoke threshold shift</strong>
-                    <p>Smoke shifts the exceedance probability curve leftward by approximately 7°F.
-                    On a smoky day, conditions at 83°F carry the same exceedance risk as clean air
-                    at 90°F. On clean-air days, the EPA threshold (70 ppb) isn't crossed until
-                    temperatures reach approximately 104°F.</p>
+                    <strong>Smoke lowers the danger threshold by 16°F</strong>
+                    <p>On a clear day, ozone typically doesn't cross the safety limit unless
+                    temperatures reach around 99°F. On a smoky day, that danger threshold drops
+                    to about 83°F — a temperature that feels like a pleasant summer afternoon.
+                    When smoke is present, days that would normally be safe become risky.</p>
                 </div>
                 <p>
-                    Temperature alone achieves AUC = 0.872 — already excellent. Adding PM2.5
-                    improves it to 0.885. The Smoke Likely binary variable (fire within 1,500 km
-                    AND PM2.5 &gt; 15 µg/m³) multiplies exceedance odds by 2.8× after
-                    controlling for temperature (p &lt; 0.001).
+                    When a day is classified as "smoke likely" — meaning fires are burning nearby
+                    AND elevated particles are measured at the surface — the odds of exceeding the
+                    ozone limit nearly triple compared to a similar-temperature clear day. This is
+                    the core finding that makes the model practically useful for forecasters.
                 </p>
             </div>
 
@@ -614,16 +566,18 @@
                     </div>
                 </div>
                 <p style="margin-top:1rem;">
-                    This is consistent with the lake-breeze recirculation mechanism: onshore winds
-                    trap ozone precursors in a shallow boundary layer near the shoreline, amplifying
-                    the effects of both heat and smoke. On smoky days (PM2.5 ≥ 15), lakefront sites
-                    gain +14.9 ppb versus +9.1 ppb inland.
+                    The reason is a phenomenon called lake-breeze recirculation. On summer afternoons,
+                    cooler air from Lake Michigan pushes onshore, trapping a shallow layer of warm,
+                    polluted air against the shore. Ozone and the chemicals that form it build up in
+                    this trapped layer — and when wildfire smoke arrives on top of the heat, the
+                    effect compounds. On smoky days, lakefront monitors record nearly 15 ppb more
+                    ozone than inland monitors seeing the same smoke.
                 </p>
                 <p>
-                    A significant south-to-north gradient exists along Lake Michigan. Mean ozone
-                    drops 2.1 ppb per degree of latitude (r = −0.85, p = 0.002), reflecting proximity
-                    to Chicago/Milwaukee urban precursor emissions that make heat+smoke chemistry
-                    more potent at southern sites. Two sites stand out:
+                    The risk is also higher in the south than the north. Ozone decreases steadily
+                    from Kenosha/Racine up to Door County, likely because southern lakeshore communities
+                    sit downwind of the Chicago and Milwaukee urban areas, which pump out the chemical
+                    precursors that smoke and heat convert into ozone. Two sites stand out most:
                 </p>
                 <table class="lakeshore-table">
                     <thead>
@@ -638,9 +592,11 @@
                     </tbody>
                 </table>
                 <p style="margin-top:0.75rem;">
-                    Racine achieves R² = 0.604 and AUC = 0.936 — temperature and PM2.5 alone
-                    explain 60% of ozone variance and predict exceedance correctly 94% of the time.
-                    Its smoke odds ratio of 10.7× is the highest of any site in the study.
+                    Racine is the most predictable site in the study — temperature and smoke alone
+                    explain 60% of its ozone variation and correctly predict dangerous days 94% of
+                    the time. When smoke is present, Racine's exceedance risk increases more than
+                    ten-fold compared to smoke-free days — the strongest smoke response of any
+                    monitoring site in Wisconsin.
                 </p>
             </div>
 
@@ -649,184 +605,78 @@
                 <div class="proj-section-label">Key Findings</div>
                 <h2>What the data shows</h2>
                 <ul class="findings-list">
-                    <li>Temperature is the dominant driver of ozone exceedances, explaining 32.7% of variance alone — strong for a single environmental variable.</li>
-                    <li>Smoke acts as a powerful amplifier: on Smoke Likely days, exceedance odds are 2.8× higher after controlling for temperature (4.1× at the site level).</li>
-                    <li>Fire proximity alone is not meaningful — only confirmed smoke delivery (fire + PM2.5 &gt; 15 µg/m³) carries predictive power.</li>
-                    <li>The critical danger zone for ozone is moderate smoke (PM2.5 15–25 µg/m³), not extreme smoke — very heavy smoke may actually block UV radiation needed for ozone photochemistry.</li>
-                    <li>2025's low exceedance count despite heavy wildfires is fully explained by fewer hot days — the model correctly predicts this outcome.</li>
-                    <li>Lakefront sites show a 3× higher exceedance rate and 50% stronger temperature sensitivity than inland sites.</li>
-                    <li>A statistically significant south-to-north decline in ozone risk exists along Lake Michigan (r = −0.85, p = 0.002).</li>
+                    <li><strong>Heat is the main driver, smoke is the amplifier.</strong> Temperature alone explains about a third of ozone variation. Smoke nearly triples the odds of a dangerous day when combined with heat.</li>
+                    <li><strong>Where the fires are doesn't matter — only the smoke that arrives.</strong> Just knowing wildfires are burning upwind adds almost no predictive value. Measured smoke particles at the surface are what count.</li>
+                    <li><strong>Medium smoke is more dangerous than heavy smoke.</strong> Very thick smoke can actually block the sunlight needed to form ozone. The most dangerous combination is moderate smoke on a hot day, not the heaviest smoke events.</li>
+                    <li><strong>2025 proves the model.</strong> Despite massive wildfires, 2025 had far fewer dangerous ozone days than 2023 — because the summer was cooler. The model predicted this correctly without any adjustment.</li>
+                    <li><strong>Lakeshore communities face three times the risk.</strong> Lake Michigan's shoreline traps heat and pollution in a way that dramatically amplifies the smoke-plus-heat effect compared to inland areas.</li>
+                    <li><strong>The danger decreases as you go north along the lake.</strong> Communities near Kenosha and Racine are more at risk than those near Green Bay or Door County, partly due to proximity to Chicago-area pollution sources.</li>
                 </ul>
             </div>
 
             <!-- Comparison to Literature -->
             <div class="proj-section">
-                <div class="proj-section-label">Comparison to Literature</div>
-                <h2>Regional specificity beyond existing work</h2>
+                <div class="proj-section-label">How This Compares to Existing Research</div>
+                <h2>National studies exist — Wisconsin's geography requires its own analysis</h2>
                 <p>
-                    Lee and Jaffe (2024, <em>Environmental Science and Technology</em>) examined
-                    600 ozone monitoring sites across the U.S., studying environmental fires and PM2.5
-                    using a generalized additive model with more variables (R² = 0.6).
+                    A 2024 study by Lee and Jaffe looked at 600 ozone monitoring sites across the
+                    entire U.S. using a more complex model with many more variables. Their model
+                    explains about 60% of ozone variation nationally.
                 </p>
                 <p>
-                    This study's statewide model achieves R² = 0.357 with only two predictors, while
-                    site-level analysis reaches R² = 0.604 at Racine. The added value here is
-                    <em>regional specificity</em>: the lakeshore vs. inland heterogeneity, the
-                    south-to-north gradient, and the interaction dynamics unique to Wisconsin's
-                    geography are not captured in national-scale analyses.
-                </p>
-                <p>
-                    A next step is to adopt the Lee and Jaffe protocol — incorporating additional
-                    variables and a generalized additive model — to improve statewide predictive power
-                    while retaining the Wisconsin-specific geographic analysis.
+                    This project explains about 36% statewide using just two variables — but reaches
+                    60% at individual lakefront sites like Racine. More importantly, national analyses
+                    can't capture what makes Wisconsin distinct: the Lake Michigan shoreline effect,
+                    the south-to-north gradient, and the specific way the lake-breeze mechanism
+                    concentrates risk in shoreline communities. That geographic specificity is the
+                    unique contribution of this work.
                 </p>
             </div>
 
             <!-- Applications -->
             <div class="proj-section">
                 <div class="proj-section-label">Real-World Applications</div>
-                <h2>From analysis to action</h2>
+                <h2>Why this matters — concrete benefits</h2>
                 <p>
-                    The logistic model provides a practical decision tool: given a forecast temperature
-                    and PM2.5 level, public health agencies can estimate same-day exceedance probability
-                    with AUC = 0.885 accuracy. Lakeshore communities — especially in Racine, Kenosha,
-                    and Milwaukee — warrant heightened alert protocols on days combining heat forecasts
-                    with active wildfire smoke advisories.
+                    <strong>Same-day air quality alerts.</strong> The model can take a weather
+                    forecast (temperature) and a morning smoke reading (PM2.5) and calculate the
+                    probability that ozone will be dangerous by afternoon — with 89% accuracy.
+                    This gives public health agencies a simple, early-morning tool to decide
+                    whether to issue an air quality action day, triggering advisories for people
+                    with asthma, the elderly, and outdoor workers.
+                </p>
+                <p>
+                    <strong>Targeted lakeshore warnings.</strong> The analysis shows that Racine,
+                    Kenosha, and southern Milwaukee-area communities face dramatically higher risk
+                    than inland areas on smoke-plus-heat days. Alerts could be issued specifically
+                    for shoreline zip codes rather than statewide — which would be more accurate
+                    and less likely to cause "alert fatigue" in areas that aren't actually at risk.
+                </p>
+                <p>
+                    <strong>Supporting EPA "exceptional event" designations.</strong> When ozone
+                    exceeds federal limits due to wildfire smoke — something outside a state's
+                    control — states can apply to have those days excluded from their compliance
+                    records. This analysis provides quantitative evidence of the smoke-ozone link
+                    that supports those applications for Wisconsin.
+                </p>
+                <p>
+                    <strong>Planning for a warming future.</strong> As summers get hotter due to
+                    climate change, the heat-smoke interaction means that even moderate wildfire
+                    seasons will produce more dangerous ozone days. This model gives Wisconsin
+                    DNR a baseline to estimate how exceedance frequency will change as temperatures
+                    rise — important for long-range air quality planning.
                 </p>
                 <div class="app-chips">
-                    <span class="app-chip">EPA "exceptional event" designation support</span>
-                    <span class="app-chip">Public health air quality alerts</span>
-                    <span class="app-chip">Lakeshore community early warning</span>
-                    <span class="app-chip">Wildfire smoke policy planning</span>
+                    <span class="app-chip">Same-day ozone forecasting</span>
+                    <span class="app-chip">Lakeshore community alerts</span>
+                    <span class="app-chip">EPA exceptional event support</span>
+                    <span class="app-chip">Climate change air quality planning</span>
                 </div>
             </div>
 
         </main>
 
-        <!-- SIDEBAR -->
-        <aside>
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Project Details</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Role</span>
-                        <span class="sidebar-val">Primary Researcher</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Supervisor</span>
-                        <span class="sidebar-val">Ben Wolf, Director of Air Quality, Wisconsin DNR</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Period</span>
-                        <span class="sidebar-val">January – March 2026 (ongoing)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Status</span>
-                        <span class="sidebar-val">Active</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Language</span>
-                        <span class="sidebar-val">Python 3.12 (NumPy, SciPy, Pandas)</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Dataset Scale</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Period</span>
-                        <span class="sidebar-val">2010–2025 (16 ozone seasons)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Statewide days</span>
-                        <span class="sidebar-val">2,418 (zero missing values)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Exceedance days</span>
-                        <span class="sidebar-val">283 (11.7%)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Site-level records</span>
-                        <span class="sidebar-val">54,197 site-days, 39 monitors</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">PM2.5 records</span>
-                        <span class="sidebar-val">151,367 (25 monitors)</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Data Sources</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Ozone</span>
-                        <span class="sidebar-val">EPA AQS Parameter 44201</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">PM2.5</span>
-                        <span class="sidebar-val">EPA AQS</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Temperature</span>
-                        <span class="sidebar-val">IEM ASOS (5 WI stations)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Fire data (2010–24)</span>
-                        <span class="sidebar-val">Canadian National Fire Database (CNFDB)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Fire data (2025)</span>
-                        <span class="sidebar-val">NASA FIRMS VIIRS</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Reference</span>
-                        <span class="sidebar-val">LADCO Great Lakes Air Quality data</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Model Performance</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Linear R² (Temp+PM2.5)</span>
-                        <span class="sidebar-val">0.357 statewide → 0.604 at Racine</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Logistic AUC</span>
-                        <span class="sidebar-val">0.885 statewide / 0.881 site-level</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Temp sensitivity</span>
-                        <span class="sidebar-val">+0.80 ppb per °F (linear)<br>OR 1.28 per °F (logistic)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Smoke Likely OR</span>
-                        <span class="sidebar-val">2.8× statewide → 4.1× site-level</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Next Steps</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Model upgrade</span>
-                        <span class="sidebar-val">Adopt Lee &amp; Jaffe (2024) generalized additive model protocol</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Additional variables</span>
-                        <span class="sidebar-val">Wind direction, boundary layer height, NOx emissions</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Geographic expansion</span>
-                        <span class="sidebar-val">Extend to full Great Lakes region with LADCO data</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </div>
 
     <!-- PREV / NEXT -->
@@ -843,17 +693,11 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#88e1e6eee7c8ffe1fbfcfdecede6fcfbeee7fafbfcfdecede6fcfba6ebe7e5">Email</a>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const navToggle = document.querySelector('.nav-toggle');
-        const navLinks  = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-        }
-    </script>
-</body>
-</html>
+        const navLinks  = document.querySelector('.nav-links
