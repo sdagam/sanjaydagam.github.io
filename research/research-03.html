@@ -260,16 +260,15 @@
         /* findings list */
         .findings-list {
             list-style: none; padding: 0; margin: 0;
-            display: flex; flex-direction: column; gap: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
         }
         .findings-list li {
-            display: flex; gap: 0.75rem; align-items: flex-start;
-            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem 1.15rem;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.7;
         }
-        .findings-list li::before {
-            content: ''; width: 6px; height: 6px; border-radius: 50%;
-            background: var(--teal); flex-shrink: 0; margin-top: 0.55rem;
-        }
+        .findings-list li::before { content: none; }
 
         /* next steps */
         .steps-list { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.75rem; }
@@ -410,10 +409,6 @@
                     <span class="proj-status-value">University of Wisconsin–Madison</span>
                 </div>
                 <div>
-                    <span class="proj-status-label">Timeline</span>
-                    <span class="proj-status-value">December 2025 – Present</span>
-                </div>
-                <div>
                     <span class="proj-status-label">Status</span>
                     <span class="status-pill">Active</span>
                 </div>
@@ -421,31 +416,6 @@
         </div>
     </header>
 
-    <!-- STATS BAND -->
-    <div class="stats-band">
-        <div class="stats-inner">
-            <div class="stat-item">
-                <span class="stat-num"><em>~80</em></span>
-                <span class="stat-lbl">Years of data (1948–2025)</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>6</em></span>
-                <span class="stat-lbl">First Order Stations</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>5</em></span>
-                <span class="stat-lbl">Precipitation categories</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>2–2.5×</em></span>
-                <span class="stat-lbl">Lakeside vs. inland effect</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-num"><em>2</em></span>
-                <span class="stat-lbl">Methods (OLS + Mann-Kendall)</span>
-            </div>
-        </div>
-    </div>
 
     <!-- BODY -->
     <div class="proj-body">
@@ -457,12 +427,11 @@
                     <span class="plain-box-label">Plain-English Summary</span>
                     <p>
                         Wisconsin's rainfall is changing in a way that matters for infrastructure,
-                        agriculture, and flood planning. It's not just getting wetter — the
-                        <em>character</em> of precipitation is shifting. Light, misty days are disappearing
-                        while moderate and heavy rain events are becoming more common. And this shift
-                        is especially pronounced near the Great Lakes shoreline, where Milwaukee and
-                        Green Bay are seeing the effect at more than twice the rate of inland cities
-                        like Wausau and Eau Claire.
+                        agriculture, and flood planning. It's not just getting wetter overall — the
+                        <em>type</em> of rain is changing. Drizzly, misty days are becoming rarer, while
+                        moderate and heavy downpours are becoming more common. Cities along Lake Michigan
+                        like Milwaukee and Green Bay are experiencing this shift at more than twice the
+                        rate of inland cities like Wausau and Eau Claire.
                     </p>
                 </div>
             </div>
@@ -472,10 +441,10 @@
                 <div class="proj-section-label">Research Scope</div>
                 <h2>Three parallel analyses of Wisconsin's changing climate</h2>
                 <p>
-                    In collaboration with Dr. Buchmann at the Wisconsin State Climatology Office,
-                    this project investigates three related questions about how Wisconsin's winter
-                    and precipitation climate is changing, using daily records from the state's
-                    six First Order Stations going back to roughly 1948.
+                    This project investigates three related questions about how Wisconsin's
+                    climate is changing, using daily weather records from the state's six major
+                    airport weather stations — the sites with the longest and most reliable histories,
+                    going back to around 1948.
                 </p>
                 <div class="scope-grid">
                     <div class="scope-card active-focus">
@@ -502,27 +471,24 @@
             <!-- Data & Methods -->
             <div class="proj-section">
                 <div class="proj-section-label">Data &amp; Methods</div>
-                <h2>~80 years of daily records at six First Order Stations</h2>
+                <h2>About 80 years of daily rain records across Wisconsin</h2>
                 <p>
-                    Daily precipitation data were obtained from the Iowa Environmental Mesonet
-                    (Iowa State University), which archives ASOS station records for all U.S. states.
-                    The six Wisconsin First Order Stations — the airports that maintain the longest,
-                    most reliable continuous records — were selected as the core dataset.
+                    Daily precipitation data came from six Wisconsin airport weather stations —
+                    Milwaukee, Madison, Green Bay, La Crosse, Wausau, and Eau Claire — which
+                    have kept consistent records since around 1948. Airport stations are used
+                    because they follow strict federal standards and have the fewest gaps.
                 </p>
                 <p>
-                    Each day was classified into one of five precipitation categories: dry (0"),
-                    light (0–0.5"), moderate (0.5–1"), heavy (1–2"), and extreme (2+"). Days were
-                    expressed as a percentage of annual days in each category, and trends were
-                    measured in percent per year. Missing data days were excluded from analysis.
-                    Duluth (DLH) was analyzed but excluded from primary results due to a data
-                    inconsistency — trace precipitation was recorded as exactly 0.00" until
-                    approximately 2000, creating a structural break in the series.
+                    Every day in the record was placed into one of five buckets based on how much
+                    rain fell: none, light (under half an inch), moderate (half to one inch), heavy
+                    (one to two inches), or extreme (over two inches). I then calculated whether
+                    each category was becoming more or less frequent over the decades.
                 </p>
                 <p>
-                    Two independent statistical methods were applied to each trend: Ordinary Least
-                    Squares (OLS) linear regression for slope and R², and the Mann-Kendall test for
-                    non-parametric trend significance. Agreement between the two methods strengthens
-                    confidence in reported findings.
+                    To make sure the trends were real and not just noise, I used two independent
+                    statistical tests — one that fits a straight line through the data and one that
+                    doesn't assume any particular shape. When both tests agree, the trend is on
+                    solid ground. They agreed on every major finding reported here.
                 </p>
             </div>
 
@@ -531,18 +497,18 @@
                 <div class="proj-section-label">Key Figure</div>
                 <h2>Milwaukee precipitation trends, 1948–2025</h2>
                 <p>
-                    The figure below shows all five precipitation categories for Milwaukee (MKE),
-                    the station with the longest and most complete record. Each panel shows annual
-                    percentage of days in that category, with the OLS trend line (dashed) and a
-                    5-year smoothed line (solid). Every panel reports the regression slope, R²,
-                    Mann-Kendall tau, and p-value.
+                    The chart below shows Milwaukee — the station with the longest record — broken
+                    into all five rain categories. Each panel covers 1948 to 2025. The dashed line
+                    is the long-term trend; the solid line smooths out year-to-year noise. The
+                    numbers in each box show how fast the trend is moving and how statistically
+                    confident we are in it.
                 </p>
                 <div class="figure-block">
                     <img src="../images/milwaukee_precip_trends.png"
                          alt="Milwaukee Precipitation Trends 1948–2025 — six panel figure showing trends across five precipitation intensity categories with Mann-Kendall test results">
                     <div class="figure-caption">
                         <span class="figure-caption-label">Figure 1 — Milwaukee (MKE), 1948–2025</span>
-                        <p>Each panel shows annual % of days in that precipitation category. Dashed line = OLS trend; solid line = 5-year moving average. Box in each panel: LR slope (%/yr), R², Mann-Kendall tau, and p-value. Dry days and light rain show opposite-direction trends from moderate and heavy rain, confirming the redistribution pattern.</p>
+                        <p>Each panel shows the percentage of days per year in that rain category. The dashed trend line and the statistics box (slope, R², p-value) in each panel confirm the direction and strength of the change. Note that dry days and light rain trend in the opposite direction from moderate and heavy rain — the clearest sign of redistribution.</p>
                     </div>
                 </div>
             </div>
@@ -552,10 +518,10 @@
                 <div class="proj-section-label">Station-Level Results</div>
                 <h2>Six stations, two geographic profiles</h2>
                 <p>
-                    The same analysis was run at all six First Order Stations to test whether
-                    Milwaukee's pattern was a statewide phenomenon or geographically specific.
-                    The most striking finding: the shift toward moderate precipitation (0.5–1")
-                    is 2–2.5× stronger at the two lakeside stations than at inland sites.
+                    Running the same analysis at all six stations revealed that Milwaukee's pattern
+                    isn't unique — but the <em>strength</em> of the effect depends on where you are.
+                    The most striking result: the growth in moderate rainfall is roughly twice as
+                    fast at stations near Lake Michigan as at stations further inland.
                 </p>
                 <table class="station-table">
                     <thead>
@@ -627,8 +593,7 @@
                     </tbody>
                 </table>
                 <p style="margin-top:0.75rem; font-size:0.8rem; color:#aaa;">
-                    Values are OLS slopes in %/year. * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001, NS = not significant.
-                    Mann-Kendall tau confirmed significance direction in all cases.
+                    Numbers show how fast each category is changing (%/year). Stars indicate statistical confidence: * reasonably confident, ** very confident, *** extremely confident. NS = no clear trend detected.
                 </p>
             </div>
 
@@ -643,20 +608,19 @@
                     in this category at rates roughly 2–2.5× those of Wausau and Eau Claire inland.
                 </p>
                 <div class="finding-callout">
-                    <strong>Lakeside vs. inland comparison — moderate rain (0.5–1")</strong>
-                    <p>Milwaukee: +0.016%/yr (p&lt;0.001) · Green Bay: +0.011%/yr (p&lt;0.05) vs.
-                    Wausau: +0.006%/yr (not significant) · Eau Claire: +0.003%/yr (not significant).
-                    The lakeside trend is statistically significant; the inland trend is not. This
-                    pattern is consistent with lake-breeze recirculation mechanisms concentrating
-                    moisture and precipitation near the shoreline — but the specific magnitude and
-                    intensity-category specificity of this effect in Wisconsin is not well documented
-                    in existing literature.</p>
+                    <strong>Lakeside vs. inland — moderate rain (0.5–1")</strong>
+                    <p>Milwaukee (+0.016%/yr) and Green Bay (+0.011%/yr) both show statistically
+                    significant increases in moderate rain. Wausau (+0.006%/yr) and Eau Claire
+                    (+0.003%/yr) show no significant trend at all. The Lake Michigan shoreline
+                    appears to be amplifying this shift — consistent with how lake breezes can
+                    recirculate moisture and concentrate rainfall near the water — though this
+                    specific pattern in Wisconsin hasn't been well documented before.</p>
                 </div>
                 <p>
-                    La Crosse shows a different profile: strong growth in the heavy category (1–2",
-                    +0.016%/yr, p&lt;0.001) with no significant change in moderate rain. This may
-                    reflect its position along the Mississippi River valley, which creates its own
-                    mesoscale moisture dynamics independent of the Great Lakes.
+                    La Crosse stands apart from the other five stations. Its strongest trend is
+                    in heavy rainfall (over an inch), not moderate. This may reflect its location
+                    in the Mississippi River valley, which has its own weather dynamics separate
+                    from the Great Lakes.
                 </p>
             </div>
 
@@ -693,36 +657,30 @@
                     </div>
                 </div>
                 <p>
-                    This means the redistribution story is more nuanced than "light rain is declining."
-                    What's actually happening is that the very lightest precipitation events — mist,
-                    drizzle, trace rainfall — are disappearing, while light rain proper (0.01–0.5")
-                    is largely stable. This sub-analysis has so far only been run for Milwaukee;
-                    whether it holds at the other five stations is an open question.
+                    So the "light rain is declining" story is actually more specific than it sounds.
+                    It's not that half-inch rainstorms are disappearing — it's that barely-there
+                    drizzle and mist events are. Whether this pattern holds at the other five
+                    stations is one of the next things to investigate.
                 </p>
             </div>
 
             <!-- Key Findings -->
             <div class="proj-section">
                 <div class="proj-section-label">Key Findings</div>
-                <h2>What the data shows across all six stations</h2>
+                <h2>What the data shows</h2>
                 <ul class="findings-list">
-                    <li>Wisconsin precipitation is redistributing toward greater intensity: dry days and light rain are increasing and decreasing respectively, while moderate and heavy events are growing.</li>
-                    <li>Total annual precipitation has increased alongside this shift — the state is not just experiencing redistribution but also cumulative growth.</li>
-                    <li>The moderate rain increase (0.5–1") is 2–2.5× stronger at Great Lakes shoreline stations (Milwaukee, Green Bay) than at inland stations (Wausau, Eau Claire), where the trend is not statistically significant.</li>
-                    <li>The decline in light precipitation at Milwaukee is almost entirely driven by disappearing trace events (≤0.01"), not a reduction in ordinary light rain.</li>
-                    <li>Both OLS linear regression and Mann-Kendall non-parametric tests agree on the direction and significance of all reported trends, strengthening the findings.</li>
-                    <li>La Crosse is an outlier: unlike the other five stations, its strongest growth is in heavy precipitation (1–2"), not moderate rain, possibly due to Mississippi River valley moisture dynamics.</li>
+                    <li><strong>Wisconsin rain is changing shape, not just amount.</strong> There are more dry days, fewer drizzly days, and more moderate and heavy downpours — a clear shift in the character of precipitation over the past 80 years.</li>
+                    <li><strong>It's also getting wetter overall.</strong> Total annual rainfall has increased — so this isn't just redistribution, it's redistribution <em>plus</em> more rain in total.</li>
+                    <li><strong>Lake Michigan amplifies the effect.</strong> The growth in moderate rainfall is roughly twice as fast near the lakeshore (Milwaukee, Green Bay) as it is inland (Wausau, Eau Claire), where the trend is too weak to be statistically reliable.</li>
+                    <li><strong>The "less light rain" story is really about mist disappearing.</strong> At Milwaukee, the decline in light precipitation is almost entirely coming from trace events — drizzle and mist that barely registers. Light rain proper is holding steady.</li>
+                    <li><strong>La Crosse is different.</strong> Its biggest shift is toward heavy rain (over an inch), not moderate rain — possibly because it sits in the Mississippi River valley rather than near the Great Lakes.</li>
                 </ul>
             </div>
 
             <!-- Next Steps -->
             <div class="proj-section">
                 <div class="proj-section-label">Next Steps</div>
-                <h2>Expanding the analysis — confirmed with Dr. Buchmann</h2>
-                <p>
-                    Dr. Buchmann confirmed in March 2026 that the findings warrant expansion.
-                    The following next steps were agreed upon:
-                </p>
+                <h2>Where this project is heading</h2>
                 <div class="steps-list">
                     <div class="step-item">
                         <span class="step-num">01</span>
@@ -742,7 +700,7 @@
                     </div>
                     <div class="step-item">
                         <span class="step-num">05</span>
-                        <span class="step-text">Develop a spatial map of trends across all stations — Dr. Buchmann is researching display methods for showing trend variability on a geographic map.</span>
+                        <span class="step-text">Develop a spatial map of trends across all stations to show how the pattern varies geographically.</span>
                     </div>
                     <div class="step-item">
                         <span class="step-num">06</span>
@@ -755,7 +713,8 @@
 
         <!-- SIDEBAR -->
         <aside>
-            <div class="sidebar-card">
+            <!-- Project Details removed -->
+            <div class="sidebar-card" style="display:none">
                 <div class="sidebar-card-head"><h3>Project Details</h3></div>
                 <div class="sidebar-card-body">
                     <div class="sidebar-row">
@@ -867,17 +826,11 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#50393e363f10273923242534353e2423363f2223242534353e24237e333f3d">Email</a>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const navToggle = document.querySelector('.nav-toggle');
-        const navLinks  = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-        }
-    </script>
-</body>
-</html>
+        const navLinks  = document.querySelector('.nav-links
