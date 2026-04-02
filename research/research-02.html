@@ -34,7 +34,7 @@
         }
         .proj-hero-bg svg { width: 100%; height: 100%; }
         .proj-hero-inner {
-            max-width: 900px; margin: 0 auto;
+            max-width: 780px; margin: 0 auto;
             position: relative; z-index: 1;
         }
         .proj-back {
@@ -98,7 +98,7 @@
             padding: 2.5rem 2rem;
         }
         .stats-inner {
-            max-width: 900px; margin: 0 auto;
+            max-width: 780px; margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 0;
@@ -123,10 +123,10 @@
 
         /* ── BODY LAYOUT ── */
         .proj-body {
-            max-width: 900px; margin: 0 auto;
+            max-width: 780px; margin: 0 auto;
             padding: 4rem 2rem 6rem;
             display: grid;
-            grid-template-columns: 1fr 290px;
+            grid-template-columns: 1fr;
             gap: 4rem; align-items: start;
         }
         @media (max-width: 780px) {
@@ -190,16 +190,23 @@
         /* findings list */
         .findings-list {
             list-style: none; padding: 0; margin: 0;
-            display: flex; flex-direction: column; gap: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
         }
         .findings-list li {
-            display: flex; gap: 0.75rem; align-items: flex-start;
-            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem 1.15rem;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.7;
         }
         .findings-list li::before {
-            content: '';
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--blue); flex-shrink: 0; margin-top: 0.55rem;
+            content: none;
+        }
+        .findings-list li .fi-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; font-weight: 700; color: var(--blue);
+            background: var(--blue-lt); border-radius: 6px;
+            padding: 0.2rem 0.5rem; flex-shrink: 0; margin-top: 0.1rem;
+            line-height: 1.4;
         }
 
         /* topology table */
@@ -311,7 +318,7 @@
             padding: 1.25rem 2rem;
         }
         .proj-nav-inner {
-            max-width: 900px; margin: 0 auto;
+            max-width: 780px; margin: 0 auto;
             display: flex; justify-content: space-between; align-items: center;
         }
         .proj-nav-link {
@@ -595,9 +602,9 @@
                     and more important than which removal strategy is used.
                 </p>
                 <ul class="findings-list">
-                    <li><strong>Early in an outbreak</strong> — when the disease is still spreading rapidly — targeted and random removal perform almost identically. Either approach gives modest benefit.</li>
-                    <li><strong>Once the disease has settled</strong> into a stable endemic state (infecting roughly the same number of people each day), targeted removal becomes dramatically more effective — sometimes 20× more effective than random.</li>
-                    <li><strong>The misleading early phase:</strong> In some networks, random removal actually appears to be <em>winning</em> in the first weeks of intervention. This reverses over time. A public health official who stops targeted intervention early because it "isn't working" would be making a mistake — the benefits accumulate slowly at first, then compound.</li>
+                    <li><span class="fi-num">01</span><span><strong>Early in an outbreak</strong> — when the disease is still spreading rapidly — targeted and random removal perform almost identically. Either approach gives modest benefit.</span></li>
+                    <li><span class="fi-num">02</span><span><strong>Once the disease has settled</strong> into a stable endemic state (infecting roughly the same number of people each day), targeted removal becomes dramatically more effective — sometimes 20× more effective than random.</span></li>
+                    <li><span class="fi-num">03</span><span><strong>The misleading early phase:</strong> In some networks, random removal actually appears to be <em>winning</em> in the first weeks of intervention. This reverses over time. A public health official who stops targeted intervention early because it "isn't working" would be making a mistake — the benefits accumulate slowly at first, then compound.</span></li>
                 </ul>
             </div>
 
@@ -646,11 +653,11 @@
                 <div class="proj-section-label">Key Findings</div>
                 <h2>What this research established</h2>
                 <ul class="findings-list">
-                    <li><strong>Network shape determines everything.</strong> The same targeted strategy produces dramatically different results depending on whether the network has hubs, communities, or neither. There is no universal "best" intervention.</li>
-                    <li><strong>The textbook explanation is wrong.</strong> For decades, researchers assumed targeted removal works by lowering the epidemic threshold. It actually works by physically splitting the network into isolated pieces.</li>
-                    <li><strong>Timing is the biggest variable.</strong> Intervening early during an active outbreak gives modest benefit regardless of strategy. Waiting until the disease stabilizes, then intervening with targeted removal, gives up to 20× greater effect.</li>
-                    <li><strong>Targeted removal creates safe zones.</strong> Across real-world networks, BC-targeted removal protected 7 to 54 times more people than an equivalent number of random cuts — by isolating them completely rather than just slowing spread.</li>
-                    <li><strong>The results are predictable in advance.</strong> Using just four measurable properties of a network, I built a model that can predict whether targeted removal will outperform random — before deploying any intervention.</li>
+                    <li><span class="fi-num">01</span><span><strong>Network shape determines everything.</strong> The same targeted strategy produces dramatically different results depending on whether the network has hubs, communities, or neither. There is no universal "best" intervention.</span></li>
+                    <li><span class="fi-num">02</span><span><strong>The textbook explanation is wrong.</strong> For decades, researchers assumed targeted removal works by lowering the epidemic threshold. It actually works by physically splitting the network into isolated pieces.</span></li>
+                    <li><span class="fi-num">03</span><span><strong>Timing is the biggest variable.</strong> Intervening early during an active outbreak gives modest benefit regardless of strategy. Waiting until the disease stabilizes, then intervening with targeted removal, gives up to 20× greater effect.</span></li>
+                    <li><span class="fi-num">04</span><span><strong>Targeted removal creates safe zones.</strong> Across real-world networks, BC-targeted removal protected 7 to 54 times more people than an equivalent number of random cuts — by isolating them completely rather than just slowing spread.</span></li>
+                    <li><span class="fi-num">05</span><span><strong>The results are predictable in advance.</strong> Using just four measurable properties of a network, I built a model that can predict whether targeted removal will outperform random — before deploying any intervention.</span></li>
                 </ul>
             </div>
 
@@ -690,9 +697,7 @@
 
         </main>
 
-        <!-- SIDEBAR -->
-        <aside>
-        </aside>
+
     </div>
 
     <!-- PREV / NEXT -->
