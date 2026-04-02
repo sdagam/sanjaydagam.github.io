@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orthogonality and Projections: The Best Approximation — Applied Math Blog</title>
+<meta name="description" content="Article 97 of 156 in Sanjay Dagam's Applied Mathematics blog. Orthogonality and Projections: The Best Approximation">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Orthogonality and Projections: The Best Approximation</h1>
+    <div class="article-meta">
+      <span>#97 of 156</span>
+      <span>November 8, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">When the James Webb Space Telescope captured its first images, scientists were amazed — but the raw data wasn't quite a photograph. It was a stream of measurements from infrared detectors, contaminated by instrument noise and background radiation. Extracting the actual astronomical signal from noisy measurements is a problem that appears throughout science and engineering, and the mathematical concept at its heart is surprisingly simple: finding the closest point in a subspace. That's projection, and it's one of linear algebra's most powerful ideas.</p>
+<h2>Perpendicular Is Best</h2>
+<p>Start with a geometric fact: the shortest path from a point to a line is the perpendicular one. Drop a right angle from the point to the line, and you've found the closest point on the line. This seems obvious in 2D, but it's exactly the right intuition for higher dimensions too. The "line" becomes a subspace (a flat region through the origin in many dimensions), and the shortest distance still means perpendicular — orthogonal, in the mathematical language.</p>
+<div class="math-block">Projection of b onto direction a:
+proj = (a·b / a·a) × a
+The error b - proj is perpendicular to a (their dot product is zero)</div>
+<p>The dot product a·b measures how much b overlaps with the direction of a. Dividing by a·a normalizes for length. Multiplying by a gives you the component of b in the direction of a. That's the projection — and the remainder (b minus the projection) is perpendicular to a by construction.</p>
+<h2>Projecting onto a Subspace</h2>
+<p>For Webb's telescope, the "signal" lives in a subspace: the set of all sky images consistent with the telescope's optics. Noise pushes the raw measurement outside this subspace. Finding the best estimate of the true sky signal means projecting the noisy measurement onto the signal subspace — finding the closest point in the subspace to what was actually measured.</p>
+<p>If the signal subspace is spanned by the columns of a matrix A, the projection is: p = A(AᵀA)⁻¹Aᵀb. The matrix P = A(AᵀA)⁻¹Aᵀ is the projection matrix. Apply it to any measurement b and you get the closest possible point in the signal subspace. The difference e = b - p is the noise estimate — perpendicular to everything in the signal subspace.</p>
+<div class="math-block">Projection matrix: P = A(AᵀA)⁻¹Aᵀ
+Best signal estimate: p = Pb
+Noise estimate: e = b - p  (perpendicular to signal subspace)</div>
+<h2>The Connection to Least Squares</h2>
+<p>This is exactly the same operation as least squares regression (Article #84). Finding the regression coefficients means finding the point in the column space of the data matrix closest to the response variable. The normal equations — Aᵀ(Ax - b) = 0 — say exactly that the residual vector is perpendicular to all columns of A. Regression is projection in disguise.</p>
+<h2>Gram-Schmidt: Building Orthogonal Coordinates</h2>
+<p>Often you want to work in a coordinate system where all basis vectors are perpendicular to each other — making projections especially easy. The Gram-Schmidt process builds such a system from any set of independent vectors. Take the first vector; normalize it. Subtract its component from the second vector (projecting out anything in the first direction); normalize the result. Repeat. Each new basis vector is perpendicular to all previous ones by construction. For telescope calibration, orthogonal basis functions make it much easier to separate different components of the noise and signal.</p>
+<h2>Other Applications</h2>
+<p>Orthogonal projections appear in audio processing (separating signal from noise), GPS positioning (projecting satellite measurements onto position space), medical imaging reconstruction, and any machine learning model that needs to remove correlated features. Any time you want the closest point in a constrained set, and that set is a subspace, the projection formula gives you the exact answer.</p>
+<h2>Conclusion</h2>
+<p>The shortest distance from a point to a subspace is always achieved by the perpendicular projection — the closest point in the subspace. Mathematically, this is computed by the projection matrix P = A(AᵀA)⁻¹Aᵀ, and the error is always perpendicular to the subspace. This single geometric idea underlies regression, signal denoising, image reconstruction, and GPS. When the James Webb Telescope extracts faint light from distant galaxies, it's doing projection — finding the best possible signal in a noisy measurement by asking: what's the closest point in signal space to what we actually measured?</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="expectation-maximization.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Expectation Maximization: Learning with Hidden Variables</span></a>
+    <a href="multiplex-networks.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Multiplex Networks: When Nodes Interact in Multiple Ways</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

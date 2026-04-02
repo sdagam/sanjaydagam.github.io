@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numerical Integration: When Exact Answers Are Out of Reach — Applied Math Blog</title>
+<meta name="description" content="Article 101 of 156 in Sanjay Dagam's Applied Mathematics blog. Numerical Integration: When Exact Answers Are Out of Reach">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Calculus Applications</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-calc">Calculus Applications</span>
+    <h1 class="article-title">Numerical Integration: When Exact Answers Are Out of Reach</h1>
+    <div class="article-meta">
+      <span>#101 of 156</span>
+      <span>December 6, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">The odds that a baby is born at exactly midnight, with a weight of exactly 3.5 kilograms, given any specific set of health conditions, is effectively zero for any exact point — yet calculating the probability it falls within a range requires integrating a probability density function that has no clean antiderivative. This situation — needing an integral you can't compute symbolically — arises constantly in statistics, physics, and engineering. Numerical integration is how mathematicians handle it.</p>
+<h2>Most Integrals Have No Formula</h2>
+<p>In calculus class, integrals have nice answers: ∫x² dx = x³/3, ∫sin(x) dx = -cos(x). But most real integrals don't. The normal distribution's bell curve — fundamental to statistics — is e^(-x²/2), and its antiderivative can't be written in terms of any standard function. The same is true of elliptic integrals (describing planetary orbits), Bessel functions (describing wave patterns), and thousands of other functions that arise in practice. You need the answer; you just can't find it symbolically.</p>
+<h2>The Trapezoid Rule: Start Simple</h2>
+<p>The simplest approach: divide the integration interval into n equal strips. Instead of finding the exact area under the curve in each strip, approximate it with a trapezoid — connect the function values at the strip's two endpoints with a straight line and compute the resulting trapezoid area. Add up all the trapezoids for an approximation of the total integral.</p>
+<div class="math-block">Trapezoid rule: ∫f(x)dx ≈ h × [f(x₀)/2 + f(x₁) + f(x₂) + ... + f(xₙ₋₁) + f(xₙ)/2]
+h = strip width = (b-a)/n
+More strips (smaller h) → better approximation</div>
+<p>The error shrinks as h² — halving the strip width reduces error by a factor of four. For the normal distribution, a 100-strip trapezoid rule gives the answer to six decimal places, which is accurate enough for almost any statistics application.</p>
+<h2>Simpson's Rule: A Better Approximation</h2>
+<p>Instead of straight lines, fit a parabola through each triple of consecutive points. A parabola follows the curve better than a straight line, so the approximation improves dramatically. Simpson's rule uses the formula:</p>
+<div class="math-block">Simpson's rule: ∫f(x)dx ≈ (h/3) × [f(x₀) + 4f(x₁) + 2f(x₂) + 4f(x₃) + ... + f(xₙ)]
+Alternating coefficients 4, 2, 4, 2, ... between endpoints
+Error shrinks as h⁴ — halving strips reduces error by factor of 16</div>
+<p>For the birth weight probability calculation, Simpson's rule with just 10 strips gives 8-digit accuracy. The dramatic improvement over the trapezoid rule (h⁴ vs. h²) means you need far fewer function evaluations to reach any desired accuracy — which matters when each function evaluation is expensive.</p>
+<h2>Applying This to Statistics</h2>
+<p>In practice, computing the probability that a baby's weight falls between 2.5 and 4.5 kg under a normal distribution means evaluating ∫₂.₅⁴·⁵ (1/σ√2π) e^(-(x-μ)²/2σ²) dx. Statistical software uses adaptive numerical integration — starting with a coarse approximation, then automatically adding more evaluation points in regions where the function changes rapidly, until the estimated error drops below a user-specified tolerance. This adaptive strategy is why statistical calculations that would have required specialized tables in 1950 now take microseconds.</p>
+<h2>Other Applications</h2>
+<p>Numerical integration runs through every field of quantitative science. Aerospace engineers integrate equations of motion to simulate rocket trajectories. Economists integrate probability distributions to compute expected values of financial instruments. Physicists integrate quantum mechanical wavefunctions to predict particle behavior. Any time a physical law is expressed as a differential equation or a probability is described by a density function, numerical integration provides the answers that symbolic methods cannot.</p>
+<h2>Conclusion</h2>
+<p>Most integrals that arise in real problems have no clean symbolic answer. Numerical integration approximates them by dividing the area into manageable pieces — trapezoids, parabolas, or more sophisticated shapes — and adding them up. The trapezoid rule gives h² accuracy; Simpson's rule gives h⁴. Adaptive methods combine these ideas with automatic error estimation to deliver any desired precision efficiently. It's the tool that lets statistics, physics, and engineering compute answers that calculus, alone, cannot provide.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="matrix-factorization.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Matrix Factorization: Recommendation Systems and Beyond</span></a>
+    <a href="nonparametric-statistics.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Nonparametric Statistics: Making Fewer Assumptions</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

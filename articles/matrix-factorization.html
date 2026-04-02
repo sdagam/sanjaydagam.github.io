@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Factorization: Recommendation Systems and Beyond — Applied Math Blog</title>
+<meta name="description" content="Article 100 of 156 in Sanjay Dagam's Applied Mathematics blog. Matrix Factorization: Recommendation Systems and Beyond">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Matrix Factorization: Recommendation Systems and Beyond</h1>
+    <div class="article-meta">
+      <span>#100 of 156</span>
+      <span>November 29, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 2009, a team of data scientists called BellKor's Pragmatic Chaos won $1 million from Netflix by improving movie recommendations by 10.06%. The core of their solution: taking a massive matrix of viewer ratings and finding hidden patterns within it by breaking the matrix into smaller, simpler pieces. This technique — matrix factorization — is now the backbone of almost every recommendation system you use, from Spotify to Amazon to YouTube.</p>
+<h2>The Giant Empty Spreadsheet</h2>
+<p>Picture a spreadsheet with millions of users as rows and thousands of movies as columns. Where a user has watched and rated a movie, there's a number from 1 to 5. Everywhere else — the vast majority of cells — it's blank. Each user has seen maybe 200 movies out of 20,000 available. The challenge: fill in the blanks. Predict the rating User A would give Movie X if they watched it.</p>
+<p>Matrix factorization assumes the blank entries aren't truly random — they're determined by underlying structure. Users have taste profiles. Movies have attribute profiles. A user who loves space dramas will probably love any space drama, even ones they haven't seen. The rating is high when the user's taste profile matches the movie's attribute profile.</p>
+<h2>The Factorization</h2>
+<p>The technique decomposes the rating matrix R (users × movies) into two smaller matrices: R ≈ U × Vᵀ. U is a users × k matrix: each user is described by k numbers capturing their taste profile. V is a movies × k matrix: each movie is described by the same k numbers capturing its attributes. The predicted rating for User i watching Movie j is the dot product of row i of U with row j of V.</p>
+<div class="math-block">Rating matrix R ≈ U × Vᵀ
+U: each user's taste profile (users × k)
+V: each movie's attribute profile (movies × k)
+Predicted rating: R̂ᵢⱼ = uᵢ · vⱼ  (dot product)</div>
+<p>The number k (typically 20–200) is the number of "latent factors" — hidden dimensions of taste. The algorithm learns U and V simultaneously by adjusting all their numbers to minimize prediction error on the known ratings. Once converged, the dot product for any (user, movie) pair gives a predicted rating — including for movies the user has never seen.</p>
+<h2>What Do the Factors Mean?</h2>
+<p>Nobody tells the algorithm what the k factors represent. They emerge from the data. After training on real Netflix data, researchers found that some factors clearly corresponded to interpretable attributes — one factor tracked whether a film was critically acclaimed, another tracked whether it was family-friendly, another tracked the era of release. Other factors captured more subtle patterns that humans wouldn't have labeled but that genuinely predicted preferences. The algorithm discovers the taxonomy of taste on its own.</p>
+<h2>Training: Minimizing Error</h2>
+<p>U and V are learned by gradient descent: start with random values, compute predicted ratings, measure error against known ratings, and nudge all values slightly in the direction that reduces error. Repeat millions of times. The error function includes a regularization term — a penalty for large values in U and V — that prevents overfitting to the training data. After convergence, the model generalizes well to predicting unseen ratings.</p>
+<div class="math-block">Minimize: Σ(known ratings) (Rᵢⱼ - uᵢ·vⱼ)² + λ(‖U‖² + ‖V‖²)
+λ controls regularization strength</div>
+<h2>Beyond Recommendations</h2>
+<p>Matrix factorization finds structure in any large, sparse matrix. In drug discovery, a drugs × diseases matrix factored into latent profiles predicts which drugs might treat diseases they've never been tested against. In NLP, a documents × words matrix factorization (called LSA) finds topics in large text collections. In genomics, factoring gene expression matrices identifies cancer subtypes with shared molecular signatures.</p>
+<h2>Conclusion</h2>
+<p>Matrix factorization solves the problem of predicting the unknown entries in a large sparse matrix by discovering the hidden structure beneath the surface. For Netflix, that structure is user taste profiles and movie attribute profiles — latent dimensions that neither the user nor the programmer consciously defined. By learning these profiles from observed ratings and combining them with dot products, matrix factorization fills in the blanks with surprising accuracy. It won the Netflix Prize, powers most streaming recommendations, and turns up wherever structured patterns hide in large, incomplete datasets.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="computational-complexity.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Computational Complexity: P vs. NP and the Limits of Algorithms</span></a>
+    <a href="numerical-integration.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Numerical Integration: When Exact Answers Are Out of Reach</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

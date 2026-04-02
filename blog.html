@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Applied Math Blog — Sanjay Dagam | Applied Mathematics in the Real World</title>
-<meta name="description" content="78 articles exploring applied mathematics across statistics, network science, physics, calculus, CS/AI, and engineering.">
+<meta name="description" content="104 articles exploring applied mathematics across statistics, network science, physics, calculus, CS/AI, and engineering.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -17,6 +17,7 @@
   --cat-calc:       #1a5276; --cat-calc-bg:    #e3f0f8;
   --cat-cs:         #512e5f; --cat-cs-bg:      #f0ebf8;
   --cat-eng:        #1e8449; --cat-eng-bg:     #e8f8ee;
+  --cat-la:         #2d6a2d; --cat-la-bg:      #d5e8d4;
 }
 
 /* ── Category stripes ── */
@@ -26,6 +27,7 @@
 .s-calc    { background: var(--cat-calc); }
 .s-cs      { background: var(--cat-cs); }
 .s-eng     { background: var(--cat-eng); }
+.s-la      { background: var(--cat-la);  }
 
 /* ── Hero ── */
 .blog-hero {
@@ -137,6 +139,7 @@
 .pill.active.pc { background: var(--cat-calc)    !important; }
 .pill.active.px { background: var(--cat-cs)      !important; }
 .pill.active.pe { background: var(--cat-eng)     !important; }
+.pill.active.pl { background: var(--cat-la)      !important; }
 .dot { width: 3px; height: 3px; border-radius: 50%; background: #d8d8e8; flex-shrink: 0; align-self: center; }
 
 /* ── Featured ── */
@@ -172,6 +175,7 @@
 .bc { background: var(--cat-calc-bg);    color: var(--cat-calc);    }
 .bx { background: var(--cat-cs-bg);      color: var(--cat-cs);      }
 .be { background: var(--cat-eng-bg);     color: var(--cat-eng);     }
+.bl { background: var(--cat-la-bg);      color: var(--cat-la);      }
 
 /* ── Articles section ── */
 .articles-wrap { max-width: 1180px; margin: 0 auto; padding: 2rem 2rem 5rem; }
@@ -365,9 +369,9 @@
     <div class="blog-hero-rule"></div>
     <p class="sub">A weekly blog exploring how mathematics shapes science, technology, and everyday life — from birthday paradoxes to chaos theory, Fourier transforms to conservation laws.</p>
     <div class="blog-stats">
-      <div class="blog-stat"><span class="num">78</span><span class="lbl">Articles Published</span></div>
-      <div class="blog-stat"><span class="num">6</span><span class="lbl">Topic Areas</span></div>
-      <div class="blog-stat"><span class="num">3</span><span class="lbl">Groups</span></div>
+      <div class="blog-stat"><span class="num">104</span><span class="lbl">Articles Published</span></div>
+      <div class="blog-stat"><span class="num">7</span><span class="lbl">Topic Areas</span></div>
+      <div class="blog-stat"><span class="num">4</span><span class="lbl">Groups</span></div>
     </div>
   </div>
 </header>
@@ -383,7 +387,7 @@
         </svg>
         <input type="text" id="search-input" placeholder="Search articles, topics, concepts…" autocomplete="off">
       </div>
-      <span class="results-count" id="results-count">78 articles</span>
+      <span class="results-count" id="results-count">104 articles</span>
     </div>
     <div class="filter-row">
       <span class="filter-lbl">Topic:</span>
@@ -394,11 +398,13 @@
       <button class="pill pc" data-filter="Calculus Applications">Calculus</button>
       <button class="pill px" data-filter="Computer Science/AI">CS / AI</button>
       <button class="pill pe" data-filter="Engineering Applications">Engineering</button>
+      <button class="pill pl" data-filter="Linear Algebra">Linear Algebra</button>
       <span class="dot"></span>
       <span class="filter-lbl">Group:</span>
       <button class="pill" data-batch="1">Group 1</button>
       <button class="pill" data-batch="2">Group 2</button>
       <button class="pill" data-batch="3">Group 3</button>
+      <button class="pill" data-batch="4">Group 4</button>
     </div>
   </div>
 </div>
@@ -563,23 +569,52 @@ const ARTICLES = [
   {num:76, title:"Stokes' Theorem: Unifying the Theorems of Vector Calculus",          cat:"Calculus Applications",      date:"June 14, 2025",        batch:3, file:"stokes-theorem.html"},
   {num:77, title:"Diffusion: Why Things Spread from High to Low Concentration",        cat:"Physics Applications",       date:"June 21, 2025",        batch:3, file:"diffusion.html"},
   {num:78, title:"Cryptography: The Mathematics of Secrets",                           cat:"Computer Science/AI",        date:"June 28, 2025",        batch:3, file:"cryptography.html"},
+  {num:79,  title:"Vectors and Matrices: The Language of Linear Algebra",              cat:"Linear Algebra",            date:"July 5, 2025",          batch:4, file:"vectors-and-matrices.html"},
+  {num:80,  title:"Spectral Graph Theory: What Eigenvalues Reveal About Networks",     cat:"Network Science",           date:"July 12, 2025",         batch:4, file:"spectral-graph-theory.html"},
+  {num:81,  title:"Principal Component Analysis: Finding Structure in High-Dimensional Data", cat:"Computer Science/AI", date:"July 19, 2025",         batch:4, file:"principal-component-analysis.html"},
+  {num:82,  title:"Matrix Multiplication: Composing Linear Transformations",           cat:"Linear Algebra",            date:"July 26, 2025",         batch:4, file:"matrix-multiplication.html"},
+  {num:83,  title:"Polar Coordinates: When Circles Are Simpler Than Squares",          cat:"Calculus Applications",     date:"August 2, 2025",        batch:4, file:"polar-coordinates.html"},
+  {num:84,  title:"Linear Regression: Fitting Lines to Data with Least Squares",       cat:"Statistics & Probability",  date:"August 9, 2025",        batch:4, file:"linear-regression.html"},
+  {num:85,  title:"Determinants: Measuring Volume and Orientation",                    cat:"Linear Algebra",            date:"August 16, 2025",       batch:4, file:"determinants.html"},
+  {num:86,  title:"Influence Maximization: Spreading Ideas Strategically",             cat:"Network Science",           date:"August 23, 2025",       batch:4, file:"influence-maximization.html"},
+  {num:87,  title:"Reinforcement Learning: Learning Through Rewards and Penalties",    cat:"Computer Science/AI",       date:"August 30, 2025",       batch:4, file:"reinforcement-learning.html"},
+  {num:88,  title:"Eigenvalues and Eigenvectors: Axes of Transformation",              cat:"Linear Algebra",            date:"September 6, 2025",     batch:4, file:"eigenvalues-eigenvectors.html"},
+  {num:89,  title:"Fourier Series: Representing Functions as Infinite Sums",           cat:"Calculus Applications",     date:"September 13, 2025",    batch:4, file:"fourier-series.html"},
+  {num:90,  title:"Markov Chains: Random Walks with Memory",                           cat:"Statistics & Probability",  date:"September 20, 2025",    batch:4, file:"markov-chains.html"},
+  {num:91,  title:"The Singular Value Decomposition: Dissecting Any Matrix",           cat:"Linear Algebra",            date:"September 27, 2025",    batch:4, file:"singular-value-decomposition.html"},
+  {num:92,  title:"Temporal Networks: How Time Changes Everything",                    cat:"Network Science",           date:"October 4, 2025",       batch:4, file:"temporal-networks.html"},
+  {num:93,  title:"Attention Mechanisms: The Engine Behind Transformers",              cat:"Computer Science/AI",       date:"October 11, 2025",      batch:4, file:"attention-mechanisms.html"},
+  {num:94,  title:"Vector Spaces and Subspaces: The Geometry of Solutions",            cat:"Linear Algebra",            date:"October 18, 2025",      batch:4, file:"vector-spaces-subspaces.html"},
+  {num:95,  title:"Parametric Equations: Describing Motion Through Time",              cat:"Calculus Applications",     date:"October 25, 2025",      batch:4, file:"parametric-equations.html"},
+  {num:96,  title:"Expectation Maximization: Learning with Hidden Variables",          cat:"Statistics & Probability",  date:"November 1, 2025",      batch:4, file:"expectation-maximization.html"},
+  {num:97,  title:"Orthogonality and Projections: The Best Approximation",             cat:"Linear Algebra",            date:"November 8, 2025",      batch:4, file:"orthogonality-projections.html"},
+  {num:98,  title:"Multiplex Networks: When Nodes Interact in Multiple Ways",          cat:"Network Science",           date:"November 15, 2025",     batch:4, file:"multiplex-networks.html"},
+  {num:99,  title:"Computational Complexity: P vs. NP and the Limits of Algorithms",  cat:"Computer Science/AI",       date:"November 22, 2025",     batch:4, file:"computational-complexity.html"},
+  {num:100, title:"Matrix Factorization: Recommendation Systems and Beyond",           cat:"Linear Algebra",            date:"November 29, 2025",     batch:4, file:"matrix-factorization.html"},
+  {num:101, title:"Numerical Integration: When Exact Answers Are Out of Reach",        cat:"Calculus Applications",     date:"December 6, 2025",      batch:4, file:"numerical-integration.html"},
+  {num:102, title:"Nonparametric Statistics: Making Fewer Assumptions",                cat:"Statistics & Probability",  date:"December 13, 2025",     batch:4, file:"nonparametric-statistics.html"},
+  {num:103, title:"Linear Systems: Geometry of Solutions and the Null Space",          cat:"Linear Algebra",            date:"December 20, 2025",     batch:4, file:"linear-systems-geometry.html"},
+  {num:104, title:"Network Motifs: The Recurring Patterns of Complex Systems",         cat:"Network Science",           date:"December 27, 2025",     batch:4, file:"network-motifs.html"},
 ];
 
 const BATCHES = {
   1: {label:"Group 1", period:"January – June 2024",   desc:"Foundational Applied Mathematics"},
   2: {label:"Group 2", period:"July – December 2024",  desc:"Engineering Applications Enter"},
   3: {label:"Group 3", period:"January – June 2025",   desc:"CS/AI & Engineering Depth"},
+  4: {label:"Group 4", period:"July – December 2025", desc:"Linear Algebra Enters"},
 };
 
 const BADGE = {
   "Statistics & Probability": "bs", "Network Science": "bn",
   "Physics Applications": "bp",     "Calculus Applications": "bc",
   "Computer Science/AI": "bx",      "Engineering Applications": "be",
+  "Linear Algebra":        "bl",
 };
 const SHORT = {
   "Statistics & Probability":"Statistics","Network Science":"Network Science",
   "Physics Applications":"Physics","Calculus Applications":"Calculus",
   "Computer Science/AI":"CS / AI","Engineering Applications":"Engineering",
+  "Linear Algebra":"Linear Algebra",
 };
 
 const STRIPE = {

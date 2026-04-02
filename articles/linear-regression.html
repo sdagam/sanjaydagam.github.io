@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Regression: Fitting Lines to Data with Least Squares — Applied Math Blog</title>
+<meta name="description" content="Article 84 of 156 in Sanjay Dagam's Applied Mathematics blog. Linear Regression: Fitting Lines to Data with Least Squares">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Statistics &amp; Probability</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics</span>
+    <h1 class="article-title">Linear Regression: Fitting Lines to Data with Least Squares</h1>
+    <div class="article-meta">
+      <span>#84 of 156</span>
+      <span>August 9, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Major League Baseball teams now spend millions of dollars on data analysts who predict player performance from statistics. How many runs will this pitcher give up next season? How much is that batter worth? The core mathematical tool behind those predictions — and behind medical studies, economic forecasts, and climate models — is linear regression. And the reason it works comes down to a beautiful geometric idea.</p>
+<h2>The Setup: Finding the Best Line</h2>
+<p>Suppose you have five years of data for a pitcher: innings pitched and earned runs allowed. Plot those five points on a graph. They don't fall perfectly on a line — real data never does — but there's a trend. You want the line that comes closest to all five points simultaneously. But "closest" needs a precise definition. Which line wins?</p>
+<p>The standard answer: the line that minimizes the sum of squared vertical distances between each data point and the line. Square the distance from each point to the line, add them all up, and find the line that makes that total as small as possible. This is least squares regression, and the reason we square (rather than just add distances) is that squaring penalizes large errors more harshly than small ones — a miss of 10 counts as 100, while a miss of 1 counts as just 1.</p>
+<div class="math-block">Minimize: (y₁ - ŷ₁)² + (y₂ - ŷ₂)² + ... + (yₙ - ŷₙ)²
+where ŷᵢ = predicted value from the line at point i</div>
+<h2>The Solution: One Clean Formula</h2>
+<p>Calculus gives us the exact answer. Take the derivative of that sum with respect to the slope and intercept, set both to zero, and solve. The result is pleasingly simple: the optimal slope equals the covariance of x and y divided by the variance of x. In plain English: the slope tells you how much y tends to change when x increases by one unit, corrected for how much x itself varies.</p>
+<div class="math-block">Slope = (how much x and y move together) / (how much x varies on its own)</div>
+<p>The line always passes through the averages — (x̄, ȳ). That's a nice geometric fact: the regression line is anchored at the center of mass of the data.</p>
+<h2>Back to Baseball</h2>
+<p>A baseball analyst fits a regression line with a pitcher's fastball velocity on the x-axis and ERA (earned run average, lower is better) on the y-axis. With five years of data across the league, the slope comes out negative: for every extra mph of fastball velocity, ERA drops by about 0.15. The formula then lets the team predict: if they sign a pitcher who throws 95 mph instead of 92 mph, they'd expect roughly 0.45 fewer earned runs per game. That's worth millions in player valuation.</p>
+<h2>How Good Is the Fit?</h2>
+<p>The R² value (R-squared) measures how well the line explains the data. It ranges from 0 to 1. An R² of 0.8 means 80% of the variation in ERA is explained by velocity. An R² of 0.1 means velocity barely predicts ERA — you'd need other variables. R² is the analyst's first reality check: does this relationship actually hold, or is it noise?</p>
+<h2>Other Applications</h2>
+<p>The same math powers medical dosage studies (how does dose affect response?), real estate pricing (how does square footage predict sale price?), and climate models (how does CO₂ level predict temperature?). Multiple regression extends the same idea to many predictors at once — a dozen pitching statistics instead of just velocity.</p>
+<h2>Conclusion</h2>
+<p>Linear regression finds the line that minimizes total squared error, and it does so with an exact formula derived from calculus. It's the workhorse of prediction across every data-driven field because the idea is simple — find the best-fit line — and the math delivers a precise, defensible answer. Behind every sports metric, clinical trial result, and economic forecast, least squares is doing the work.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="polar-coordinates.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Polar Coordinates: When Circles Are Simpler Than Squares</span></a>
+    <a href="determinants.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Determinants: Measuring Volume and Orientation</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

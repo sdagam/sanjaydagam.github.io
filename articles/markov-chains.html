@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markov Chains: Random Walks with Memory — Applied Math Blog</title>
+<meta name="description" content="Article 90 of 156 in Sanjay Dagam's Applied Mathematics blog. Markov Chains: Random Walks with Memory">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Statistics &amp; Probability</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-stats">Statistics</span>
+    <h1 class="article-title">Markov Chains: Random Walks with Memory</h1>
+    <div class="article-meta">
+      <span>#90 of 156</span>
+      <span>September 20, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Every time Google ranks a webpage, it's answering a question that sounds almost philosophical: which pages would a random internet surfer eventually spend the most time on? The answer comes from a mathematical model where the future depends only on where you are right now — not on how you got there. That model is called a Markov chain, and it's the engine behind one of the most valuable algorithms ever built.</p>
+<h2>The Forgetful Traveler</h2>
+<p>A Markov chain models a system that jumps between states randomly. The defining rule — called the Markov property — is that your next state depends only on your current state, not on your history. Where you go next doesn't depend on how you got here.</p>
+<p>The classic illustration: a random web surfer. At each step, they click a random link on the current page. The next page they land on depends only on the current page's links — not on the entire browsing history. Which page they visited ten clicks ago is irrelevant. That's the Markov property in action.</p>
+<div class="math-block">P(next state | current state, all past states) = P(next state | current state)
+"Where I go depends only on where I am now."</div>
+<h2>Transition Matrices</h2>
+<p>A Markov chain with a fixed set of states is completely described by its transition matrix. Each row represents a current state, each column represents a possible next state, and the entry in row i, column j is the probability of moving from state i to state j. Each row must sum to 1, since you have to go somewhere.</p>
+<p>For a simple three-page web: if Page A links to B and C with equal probability (50% each), and Page B links back to A (100%), and Page C links to A and B (50% each), the transition matrix encodes all of this. Starting from any page, multiply your current probability distribution by the matrix to get next step's distribution.</p>
+<h2>Where the Surfer Ends Up</h2>
+<p>Here's the remarkable result: if you let a random surfer wander long enough, they settle into a stable distribution — spending a fixed fraction of time on each page regardless of where they started. This is called the stationary distribution, and it satisfies one elegant equation: multiply the distribution by the transition matrix and get the same distribution back. It's a fixed point of the process.</p>
+<div class="math-block">Stationary distribution π satisfies: π × P = π
+"After one step, the distribution is unchanged."</div>
+<p>PageRank is literally this stationary distribution for the entire web graph. Pages that many other pages link to — especially pages that themselves are popular — end up with high stationary probability. The random surfer spends more time there. That's the page's PageRank score.</p>
+<h2>Computing PageRank</h2>
+<p>The web has billions of pages, so you can't solve the stationary distribution equation directly. Instead, Google starts with a uniform distribution (every page equally likely) and repeatedly multiplies by the transition matrix. After about 50 iterations, the distribution converges to the stationary distribution. This power iteration method works because of a mathematical guarantee: for well-behaved Markov chains, the distribution always converges, and the speed of convergence is determined by the second-largest eigenvalue of the transition matrix.</p>
+<h2>Other Applications</h2>
+<p>Markov chains power spell checkers (the next letter depends on the current ones), predictive text keyboards, DNA sequence analysis, financial models of credit rating changes, and weather forecasting. Wherever a system jumps between states with fixed probabilities, a Markov chain can model it — and the stationary distribution reveals its long-run behavior.</p>
+<h2>Conclusion</h2>
+<p>Markov chains capture systems where the future depends only on the present. The transition matrix encodes the rules, and the stationary distribution reveals long-run behavior. Google turned this abstract math into the world's most important algorithm: PageRank ranks websites by where a random surfer would naturally spend their time. The same framework — states, transitions, convergence — underlies everything from spell checkers to genetic sequencing.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="fourier-series.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Fourier Series: Representing Functions as Infinite Sums</span></a>
+    <a href="singular-value-decomposition.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">The Singular Value Decomposition: Dissecting Any Matrix</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

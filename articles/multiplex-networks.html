@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplex Networks: When Nodes Interact in Multiple Ways — Applied Math Blog</title>
+<meta name="description" content="Article 98 of 156 in Sanjay Dagam's Applied Mathematics blog. Multiplex Networks: When Nodes Interact in Multiple Ways">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Network Science</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Multiplex Networks: When Nodes Interact in Multiple Ways</h1>
+    <div class="article-meta">
+      <span>#98 of 156</span>
+      <span>November 15, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 2008, when Lehman Brothers collapsed and triggered a global financial crisis, regulators were caught off guard. They had been monitoring banks' exposures to each other through loans and equity stakes — one type of connection. What they missed were the simultaneous connections through derivatives, short-term funding markets, and fire-sale dynamics. The financial system wasn't one network. It was multiple overlapping networks, and the crisis spread through all of them at once. This is exactly what multiplex network theory was built to analyze.</p>
+<h2>One Network Isn't Enough</h2>
+<p>In a traditional network, you pick one type of relationship: banks connected by loans, or by equity holdings, or by shared derivative counterparties. Each produces a different graph with different structure. But banks interact through all of these channels simultaneously. A stress event in one layer — say, a sudden drop in collateral values — can cascade through the loan layer, then the funding layer, then the derivatives layer in a chain that no single-layer model would predict.</p>
+<p>Multiplex networks capture this reality by explicitly representing the same set of nodes (banks, in this case) connected by multiple types of edges across multiple layers. Layer 1 is the loan network. Layer 2 is the equity holdings network. Layer 3 is the derivative contracts network. Each layer is its own graph, and the full multiplex structure is the collection of all layers together.</p>
+<h2>Why Layers Interact</h2>
+<p>The key feature of multiplex networks is inter-layer coupling: what happens in one layer affects another. If Bank A has to sell assets to cover losses in the loan layer, the fire sale depresses prices, creating losses for Bank B in the equity layer. Bank B then reduces its lending in the loan layer, creating losses for Bank C. The crisis spirals across layers in ways that are invisible when you look at any single layer alone.</p>
+<div class="math-block">Single-layer analysis: monitors loan network → misses derivatives cascade
+Multiplex analysis: monitors all layers simultaneously → catches cross-layer contagion</div>
+<p>Mathematical models of multiplex contagion show that the critical threshold for a cascade is much lower in multiplex networks than in any individual layer. The system is more fragile than any single-layer model suggests, because failures can find alternative paths through other layers when one path is blocked.</p>
+<h2>Who Matters Most?</h2>
+<p>In a single network, the most important nodes are usually the most connected ones. In a multiplex network, importance depends on connections across all layers simultaneously. A bank might be moderately connected in every individual layer — not dominant in any one — but be the single node that connects two communities that are otherwise separated. That bank becomes a critical bridge in the multiplex structure, even though no single-layer analysis would flag it.</p>
+<p>This is measured using multiplex centrality: a generalization of eigenvector centrality that accounts for how importance in one layer reinforces importance in others. Banks with high multiplex centrality are the ones regulators should monitor most carefully, because their failure would cascade across the entire system.</p>
+<h2>Post-2008 Reforms</h2>
+<p>Following the financial crisis, regulators began requiring banks to report exposures across multiple channels — not just loans but derivatives, funding relationships, and clearing arrangements. This data enables multiplex network analysis. Central banks now run regular stress tests that model cross-layer contagion: what happens if Layer 1 (funding markets) seizes up? How does that propagate through Layer 2 (derivatives) and Layer 3 (equity)? These simulations use the same mathematical framework that network scientists use to study disease spread, information cascades, and infrastructure failures.</p>
+<h2>Other Applications</h2>
+<p>Multiplex networks model transportation systems (roads, rail, and air travel serving the same cities), communication systems (voice calls, email, and text between the same people), and biological systems (different types of neural connections between the same brain regions). Wherever the same entities interact in multiple distinct ways, multiplex analysis captures dynamics that single-layer models miss.</p>
+<h2>Conclusion</h2>
+<p>The 2008 financial crisis was a multiplex network failure: stress cascaded across overlapping layers of connections that regulators, focused on single networks, had failed to monitor together. Multiplex network theory provides the mathematical framework for understanding how interconnected systems fail — and for identifying the nodes whose collapse would reverberate most destructively through all layers simultaneously. It's a harder analysis than single-layer network modeling, but for interconnected real-world systems, it's the only analysis that tells the whole story.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="orthogonality-projections.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Orthogonality and Projections: The Best Approximation</span></a>
+    <a href="computational-complexity.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Computational Complexity: P vs. NP and the Limits of Algorithms</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

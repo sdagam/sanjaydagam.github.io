@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Influence Maximization: Spreading Ideas Strategically — Applied Math Blog</title>
+<meta name="description" content="Article 86 of 156 in Sanjay Dagam's Applied Mathematics blog. Influence Maximization: Spreading Ideas Strategically">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Network Science</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Influence Maximization: Spreading Ideas Strategically</h1>
+    <div class="article-meta">
+      <span>#86 of 156</span>
+      <span>August 23, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">During the 2009 H1N1 flu pandemic, public health officials had limited doses of vaccine and needed to decide who should receive them first to slow the epidemic most effectively. Intuitively, you'd vaccinate the most connected people — those who know the most others. But network science showed that this intuition is often wrong, sometimes badly. The right answer requires a mathematical framework called influence maximization.</p>
+<h2>The Problem</h2>
+<p>Imagine a contact network: every person is a node, and two people are connected if they have enough contact to transmit disease. You have k vaccines. Which k people do you vaccinate to protect the most people overall? It sounds like "pick the k most connected." But connected people often know each other — their social circles overlap. Vaccinating ten members of the same friend group gives you ten times the cost but not ten times the protection.</p>
+<h2>How Influence Spreads: The Model</h2>
+<p>The Independent Cascade model gives a precise mathematical description of spreading. When a person becomes infected (or convinced of an idea, or aware of a product), they get one chance to pass it to each neighbor. Each edge has a transmission probability p — say, 30%. The epidemic plays out probabilistically from whoever starts infected. Given a set of seed nodes (the unvaccinated superspreaders), researchers simulate this process thousands of times and average the results to estimate how many people get infected.</p>
+<div class="math-block">Each edge transmits with probability p
+Expected spread = average over thousands of simulations
+Goal: choose k seed nodes to minimize expected spread</div>
+<h2>Why Simple Rules Fail</h2>
+<p>Studies during H1N1 found that vaccinating the highest-degree nodes (most connected people) was outperformed by smarter strategies. Here's why: in a social network, the most connected people tend to form a cluster at the core. They all know each other. Vaccinating five of them protects overlapping circles. A better strategy picks people from different parts of the network — a few hub-connected people, yes, but also bridge people who connect otherwise separate communities.</p>
+<p>This is the submodularity insight: each additional seed you add helps less than the previous one (diminishing returns), but the gains are maximized when seeds are spread across different network regions rather than clustered together. A mathematical theorem guarantees that a simple greedy algorithm — always add the seed that gains the most — achieves at least 63% of the theoretical maximum spread reduction. That 63% guarantee holds regardless of the network structure.</p>
+<h2>Finding the Bridges</h2>
+<p>The practical algorithm runs like this: simulate the epidemic with no vaccines. Then try adding each possible person as the first vaccine — whoever protects the most people becomes seed #1. Then repeat with that person vaccinated: whoever protects the most additional people becomes seed #2. Repeat k times. It's slow to compute, but approximation algorithms using random sampling can find near-optimal solutions in seconds even for networks with millions of people.</p>
+<h2>Other Applications</h2>
+<p>The same math applies beyond epidemics. Marketing teams use influence maximization to identify which customers to give free product samples to — those most likely to spread word-of-mouth to new buyers. Researchers use it to identify which social media accounts, if removed, would most reduce misinformation spread. Aid organizations use it to find which community members, if trained in a new farming technique, would most effectively spread it to others.</p>
+<h2>Conclusion</h2>
+<p>Influence maximization shows that network structure is as important as individual prominence when spreading anything — disease, ideas, or behaviors. The most connected person isn't always the most strategic vaccination target. Math that accounts for overlapping social circles, transmission probabilities, and network topology delivers better answers than intuition. During a pandemic, that difference can mean millions of additional people protected.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="determinants.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Determinants: Measuring Volume and Orientation</span></a>
+    <a href="reinforcement-learning.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Reinforcement Learning: Learning Through Rewards and Penalties</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

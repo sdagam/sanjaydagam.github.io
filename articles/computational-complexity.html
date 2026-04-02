@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computational Complexity: P vs. NP and the Limits of Algorithms — Applied Math Blog</title>
+<meta name="description" content="Article 99 of 156 in Sanjay Dagam's Applied Mathematics blog. Computational Complexity: P vs. NP and the Limits of Algorithms">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">CS / AI</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-cs">Computer Science/AI</span>
+    <h1 class="article-title">Computational Complexity: P vs. NP and the Limits of Algorithms</h1>
+    <div class="article-meta">
+      <span>#99 of 156</span>
+      <span>November 22, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Every time you use a credit card online, your transaction is protected by encryption based on one assumption: that certain math problems are fundamentally hard to solve — specifically, that factoring a large number into its prime factors is impossibly slow without knowing the answer in advance. But no one has actually proven this is true. The question of whether hard-looking problems are genuinely hard is the most famous unsolved problem in computer science, and it's worth $1 million to whoever solves it.</p>
+<h2>Two Kinds of Problems</h2>
+<p>Computer scientists measure an algorithm's speed by how its runtime grows with input size. An algorithm that takes n² steps for an input of size n is "polynomial time" — manageable. One that takes 2ⁿ steps is "exponential time" — it becomes unusable almost immediately. Finding the shortest route between two cities in a road map? Polynomial. Sorting a list? Polynomial. These are problems where efficient algorithms are known.</p>
+<p>But some problems seem different. The Traveling Salesman Problem asks: given n cities, find the shortest route that visits all of them exactly once. The best known algorithm for finding the guaranteed optimal solution is exponential — for 50 cities, the calculation would take longer than the age of the universe. Yet if someone hands you a proposed route, you can instantly verify whether it's shorter than another proposed route. Checking is easy. Finding is hard.</p>
+<div class="math-block">P: problems solvable in polynomial time (efficient)
+NP: problems where solutions are verifiable in polynomial time
+P ⊆ NP  (anything solvable efficiently is also verifiable efficiently)
+P = NP?  (the million-dollar question)</div>
+<h2>The Class P and the Class NP</h2>
+<p>P is the class of all problems with efficient (polynomial-time) solving algorithms. NP stands for "Nondeterministic Polynomial" — it's the class of problems where you can verify a given solution in polynomial time, even if finding the solution might take much longer. Every problem in P is also in NP (if you can solve it quickly, you can certainly verify a solution quickly). The question is whether NP contains problems that are genuinely harder than P — or whether every problem that's easy to verify is also easy to solve.</p>
+<h2>NP-Complete: The Hardest of the Hard</h2>
+<p>Within NP, there's a special class called NP-complete: problems that are as hard as any problem in NP. If you found an efficient algorithm for any one NP-complete problem, you could use it to solve all NP problems efficiently — and P would equal NP. The Traveling Salesman Problem is NP-complete. So is Sudoku (for any size board). So is packing items into containers optimally, scheduling tasks with constraints, and coloring a map with the minimum number of colors.</p>
+<p>These aren't just puzzles. NP-complete problems appear throughout logistics (scheduling delivery trucks), drug discovery (folding proteins), circuit design (placing components optimally), and operations research. The fact that they're NP-complete means practitioners use clever approximations rather than exact solutions — getting within 5% of optimal in minutes rather than finding the exact optimum in centuries.</p>
+<h2>Why Cryptography Depends on This</h2>
+<p>RSA encryption — the standard protecting most online transactions — works because multiplying two large prime numbers together is fast, but factoring a large number back into its prime factors seems hard. If P = NP, an efficient factoring algorithm would exist, and RSA would be broken overnight. All encrypted credit card transactions, private messages, and bank communications would be vulnerable. The security of the internet's financial infrastructure rests on the unproven assumption that P ≠ NP.</p>
+<h2>Where Things Stand</h2>
+<p>Despite enormous effort from the world's best mathematicians and computer scientists, the P vs. NP question remains open. Most experts believe P ≠ NP — that hard-looking problems are genuinely hard — but no one has proven it. The Clay Mathematics Institute has offered $1 million for a solution. A proof either way would be the most consequential mathematical result of the century.</p>
+<h2>Conclusion</h2>
+<p>Computational complexity asks which problems can be solved efficiently and which cannot. The boundary between P (easy to solve) and NP (easy to verify) marks the frontier of what computers can do. If P = NP, countless optimization problems would become tractable and modern encryption would collapse. If P ≠ NP, certain problems are fundamentally beyond efficient computation. Either answer would reshape mathematics, computer science, and the security of the digital world. The question remains open — and the million dollars unclaimed.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="multiplex-networks.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Multiplex Networks: When Nodes Interact in Multiple Ways</span></a>
+    <a href="matrix-factorization.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Matrix Factorization: Recommendation Systems and Beyond</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

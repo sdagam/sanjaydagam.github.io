@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Multiplication: Composing Linear Transformations — Applied Math Blog</title>
+<meta name="description" content="Article 82 of 156 in Sanjay Dagam's Applied Mathematics blog. Matrix Multiplication: Composing Linear Transformations">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Matrix Multiplication: Composing Linear Transformations</h1>
+    <div class="article-meta">
+      <span>#82 of 156</span>
+      <span>July 26, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Every frame of a Pixar movie involves rotating, scaling, and repositioning thousands of 3D objects — characters, props, lights — and rendering them onto a flat screen. The animators don't do this by hand for every object in every frame. Instead, each transformation is encoded as a matrix, and combining transformations is done by multiplying those matrices together. Understanding why that works is the key to understanding matrix multiplication.</p>
+<h2>A Matrix Is a Transformation</h2>
+<p>Start with one idea: a matrix is a recipe for moving vectors around. Multiply a matrix by a vector and you get a new vector — the original, transformed. A rotation matrix rotates every vector by a fixed angle. A scaling matrix stretches or shrinks. A reflection matrix flips across an axis. In 3D animation, every object in the scene has a position described by vectors, and moving that object means multiplying by transformation matrices.</p>
+<h2>Combining Two Moves</h2>
+<p>Here's where multiplication comes in. Suppose you want to rotate a character, then move it to the right. That's two transformations in sequence. You could apply the rotation matrix first, then the translation matrix. Or — and this is the key insight — you could multiply the two matrices together first to get a single combined matrix, then apply that to every point in the character. One matrix, one multiplication per point, same result.</p>
+<div class="math-block">Apply A then B to vector v:  B(Av)  =  (BA)v
+Combined matrix: C = BA  →  Cv gives the same result</div>
+<p>Notice the order: B comes before A in the product even though A is applied first. This trips people up, but it makes sense once you see it as function composition — just like f(g(x)) means "do g first, then f."</p>
+<h2>How the Arithmetic Works</h2>
+<p>The (i, j) entry of the product AB is computed by taking row i of A and column j of B, multiplying the matching entries, and adding them all up. That's it. The reason for this specific recipe — and not some simpler one, like just multiplying matching entries — is that it's the only definition that makes the composition interpretation work out correctly. The formula is engineered to be geometrically meaningful.</p>
+<div class="math-block">(AB)ᵢⱼ = (row i of A) · (column j of B)</div>
+<h2>Order Matters — Always</h2>
+<p>One thing that surprises people: AB and BA are generally different matrices. Rotating then scaling gives a different result than scaling then rotating. In animation, this matters enormously — the order in which you apply a character's joint rotations determines the final pose. A shoulder rotation followed by an elbow rotation produces a very different arm position than the same rotations in reverse order. Matrix multiplication captures this real asymmetry in the world.</p>
+<h2>Other Places This Shows Up</h2>
+<p>3D animation is just one application. Every time your phone renders graphics, it's multiplying transformation matrices. Robotics uses matrix chains to compute a robot arm's position from its joint angles. Quantum mechanics uses matrix multiplication to track how particles evolve over time. The same operation — rows times columns — underlies all of these, because in each case you're composing one transformation with another.</p>
+<h2>Conclusion</h2>
+<p>Matrix multiplication isn't an arbitrary arithmetic rule — it's the mathematically correct way to combine two transformations into one. When Pixar rotates then scales a character, they're computing a matrix product. When your phone maps 3D geometry to a 2D screen, it's multiplying transformation matrices. Understanding multiplication as composition turns a confusing procedure into an obvious necessity: of course you do it that way, because that's what combining transformations means.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="principal-component-analysis.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Principal Component Analysis: Finding Structure in High-Dimensional Data</span></a>
+    <a href="polar-coordinates.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Polar Coordinates: When Circles Are Simpler Than Squares</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

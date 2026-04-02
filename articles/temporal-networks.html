@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temporal Networks: How Time Changes Everything — Applied Math Blog</title>
+<meta name="description" content="Article 92 of 156 in Sanjay Dagam's Applied Mathematics blog. Temporal Networks: How Time Changes Everything">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Network Science</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Temporal Networks: How Time Changes Everything</h1>
+    <div class="article-meta">
+      <span>#92 of 156</span>
+      <span>October 4, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 2014, an Ebola outbreak in West Africa became the deadliest in history, killing over 11,000 people. Epidemiologists modeling the spread used contact networks — graphs of who was in contact with whom. But standard network models gave predictions that were badly wrong. The missing ingredient was time: not just who contacted whom, but when. Adding timestamps to a network changes almost everything about what can spread and how fast.</p>
+<h2>The Problem with Snapshots</h2>
+<p>A standard network is a snapshot: connect Person A to Person B if they ever have contact. But if A visits B on Monday and B visits C on Sunday, a disease can't travel from A to C through B — that would require going backward in time. In a static network, you'd see a path A→B→C and predict the disease could spread that way. In a temporal network, you track when each contact happens and see the path is causally blocked.</p>
+<div class="math-block">Static network: A—B—C  (path exists, so spread seems possible)
+Temporal:      A→B on Monday, B→C on Sunday  (no time-respecting path A to C)</div>
+<p>For Ebola, this mattered enormously. Burial ceremonies — where mourners touched the deceased — were a major transmission route. These contacts happened at specific times during a short window. Timing determined everything about who infected whom, and static network models missed these dynamics entirely.</p>
+<h2>Time-Respecting Paths</h2>
+<p>A time-respecting path is a sequence of contacts where each contact happens after the previous one. Only these paths can transmit disease or information. The set of people reachable from a starting person via time-respecting paths can be dramatically smaller than what a static network suggests. In the Ebola network, careful temporal analysis showed that certain funeral ceremonies created brief "super-spreading windows" — time periods when one contact would lead to chains reaching dozens of people. Outside those windows, the same contacts would reach almost no one.</p>
+<h2>Burstiness Changes Everything</h2>
+<p>Human contact isn't uniform — we communicate in bursts. You might exchange ten texts with a friend in ten minutes, then nothing for three days. This burstiness slows spreading compared to what you'd predict from average contact rates. Here's why: if two people have 10 contacts per week but all clustered in one hour, and a disease has a 24-hour infectious window, those 10 contacts effectively count as one transmission opportunity — not ten. Static models using average rates would overestimate spread dramatically.</p>
+<p>In the Ebola data, researchers found that accounting for burstiness in burial ceremony attendance reduced the predicted number of people infected in each cluster by roughly 40% compared to static models. That's a big enough error to make intervention strategies fail.</p>
+<h2>Better Interventions</h2>
+<p>Temporal network analysis led to better targeted interventions during Ebola. Instead of quarantining everyone who had any contact with an infected person, health workers focused on contacts during the patient's infectious window — typically the 48 hours before death and the burial ceremony. Contacts before that window were irrelevant. This more precise targeting allowed limited quarantine resources to be used more effectively and reduced the number of people unnecessarily isolated.</p>
+<h2>Other Applications</h2>
+<p>Temporal networks improve models of information spreading on social media (a tweet's reach depends on when followers are online), disease spread in schools (contact patterns differ by time of day and day of week), and financial contagion (market shocks propagate along chains of transactions that happen in sequence).</p>
+<h2>Conclusion</h2>
+<p>Adding timestamps to a network isn't just a refinement — it fundamentally changes what can spread and how. Time-respecting paths, bursty contact patterns, and infectious windows all interact to produce spreading dynamics that static models get badly wrong. The Ebola epidemic showed in tragic terms how much that matters. Temporal networks give epidemiologists a more honest model of how disease actually moves through a population, enabling interventions that work in the real world rather than in the simplified world of static graphs.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="singular-value-decomposition.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">The Singular Value Decomposition: Dissecting Any Matrix</span></a>
+    <a href="attention-mechanisms.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Attention Mechanisms: The Engine Behind Transformers</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

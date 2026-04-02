@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Systems: Geometry of Solutions and the Null Space — Applied Math Blog</title>
+<meta name="description" content="Article 103 of 156 in Sanjay Dagam's Applied Mathematics blog. Linear Systems: Geometry of Solutions and the Null Space">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Linear Systems: Geometry of Solutions and the Null Space</h1>
+    <div class="article-meta">
+      <span>#103 of 156</span>
+      <span>December 20, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">When scientists study the composition of an ancient meteorite, they bombard it with X-rays and measure how different elements absorb those X-rays. Each measurement is a linear equation involving the unknown amounts of dozens of elements. With enough measurements and good instrumentation, you'd expect to uniquely determine the meteorite's composition. But sometimes you can't — not because of measurement error, but because of a fundamental mathematical property of the measurement setup. Understanding why requires seeing linear systems geometrically.</p>
+<h2>Three Possible Outcomes</h2>
+<p>Any system of linear equations — written as Ax = b, where A is the matrix of coefficients, x is the vector of unknowns, and b is the vector of measurements — falls into exactly one of three situations. Either there's no solution (the equations are contradictory), exactly one solution (the equations pin down x uniquely), or infinitely many solutions (the equations are underdetermined). For the meteorite problem, only the middle outcome is useful. Understanding which situation you're in — and why — comes down to two geometric concepts.</p>
+<h2>The Column Space: What's Achievable</h2>
+<p>The column space of A is the set of all possible right-hand sides that the equations can produce. Think of it this way: each column of A is a direction in measurement space. The measurement vector b can only be reached if it's a combination of those directions — if it lies in the column space. If the meteorite contains trace amounts of an element that every measurement direction is blind to, then certain measurement vectors b are impossible to produce. The system has no solution for those b.</p>
+<div class="math-block">A solution exists if and only if b is in the column space of A
+Column space = all reachable measurements (combinations of A's columns)</div>
+<p>For the meteorite experiment, this means: if two elements always occur in the same ratio in all standard reference samples (making their measurement contributions always proportional), your measurement matrix can't distinguish them. The column space is too small to separate their effects.</p>
+<h2>The Null Space: Hidden Ambiguity</h2>
+<p>The null space of A is the set of all x that map to zero — all element combinations that produce no signal whatsoever: Ax = 0. If the null space contains only the zero vector, every distinct composition produces a distinct measurement, and you can recover x uniquely from b. But if the null space has other vectors, there are "invisible" combinations — real differences in composition that create zero difference in measurements. Those differences can never be detected no matter how precise your instruments are.</p>
+<div class="math-block">Null space N(A) = {x : Ax = 0}
+If N(A) contains only zero → unique solution
+If N(A) has other vectors → infinitely many solutions (ambiguity)</div>
+<p>In the meteorite case, if iron-56 and iron-57 isotopes produce identical X-ray absorption signatures, then any amount can be transferred from one to the other without changing any measurement. The difference between their amounts is in the null space. The total iron is determinable; the isotope ratio is not.</p>
+<h2>The Rank-Nullity Theorem</h2>
+<p>A clean theorem ties these together: for any m×n matrix A, the dimension of the column space (the rank) plus the dimension of the null space (the nullity) equals n, the number of unknowns. If you're trying to determine 30 elemental abundances (n = 30) and your measurement matrix has rank 28, then the null space is 2-dimensional — two independent combinations of abundances are completely undetectable, no matter how many measurements you take.</p>
+<div class="math-block">rank(A) + nullity(A) = n
+Rank = number of determinable combinations
+Nullity = number of fundamentally undetectable combinations</div>
+<h2>The Fix: Better Measurement Design</h2>
+<p>Knowing this, scientists can design experiments to eliminate null space directions. Add different types of measurements — X-ray fluorescence, mass spectrometry, neutron activation — each sensitive to different element combinations. The combined measurement matrix has a larger column space and, ideally, a trivial null space. The Rank-Nullity Theorem guides experiment design: you need rank equal to n to uniquely determine everything.</p>
+<h2>Conclusion</h2>
+<p>Whether a system of equations has a unique solution depends on the geometry of two subspaces: the column space (what's achievable) and the null space (what's invisible). For the meteorite problem, a nontrivial null space means certain elemental combinations are fundamentally undetectable — a mathematical limit, not a technological one. The Rank-Nullity Theorem quantifies this limit precisely. Designing better experiments means enlarging the column space and shrinking the null space until every unknown can be uniquely determined from measurements.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="nonparametric-statistics.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Nonparametric Statistics: Making Fewer Assumptions</span></a>
+    <a href="network-motifs.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Network Motifs: The Recurring Patterns of Complex Systems</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

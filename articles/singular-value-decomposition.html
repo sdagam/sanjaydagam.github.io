@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Singular Value Decomposition: Dissecting Any Matrix — Applied Math Blog</title>
+<meta name="description" content="Article 91 of 156 in Sanjay Dagam's Applied Mathematics blog. The Singular Value Decomposition: Dissecting Any Matrix">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">The Singular Value Decomposition: Dissecting Any Matrix</h1>
+    <div class="article-meta">
+      <span>#91 of 156</span>
+      <span>September 27, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Netflix once offered $1 million to anyone who could improve their movie recommendation algorithm by 10%. The winning team's key technique? Breaking down a giant matrix of viewer ratings into smaller, simpler pieces — and using just the most important pieces to predict what people wanted to watch. That technique is the Singular Value Decomposition, and it's arguably the most powerful tool in all of applied linear algebra.</p>
+<h2>The Rating Matrix Problem</h2>
+<p>Imagine a matrix with 100 million users as rows and 20,000 movies as columns. Each entry is a rating — but most entries are blank, because each user has seen only a tiny fraction of all movies. The question: how do you predict the missing ratings? How do you know that User A, who loved The Shawshank Redemption and The Green Mile, would probably also love Cast Away — even though they haven't rated it?</p>
+<p>The answer is that users and movies have hidden structure. There are underlying "taste dimensions" — drama lovers, action fans, fans of a particular era. SVD finds those hidden dimensions automatically, without anyone telling it what they are.</p>
+<h2>What SVD Does</h2>
+<p>SVD takes any matrix A and breaks it into three pieces: A = U Σ Vᵀ. U is a matrix describing users in terms of taste dimensions. V is a matrix describing movies in terms of the same taste dimensions. Σ (sigma) is a diagonal matrix of singular values — numbers that rank the taste dimensions from most to least important. The largest singular value corresponds to the most important taste dimension (the one that explains the most variation in ratings); the smallest corresponds to the least important.</p>
+<div class="math-block">A = U Σ Vᵀ
+U: users × taste dimensions
+Σ: importance of each dimension (diagonal)
+Vᵀ: taste dimensions × movies</div>
+<h2>Throwing Away the Noise</h2>
+<p>Here's the key move: keep only the top k singular values and throw the rest away. If k = 50, you're saying "these 50 taste dimensions capture most of what matters." The approximation Aₖ = Uₖ Σₖ Vₖᵀ is the best possible rank-k approximation to the original matrix — it's provably the closest you can get with only k dimensions. And because you've compressed the noise away, Aₖ actually predicts missing ratings better than the original sparse matrix with all its gaps.</p>
+<div class="math-block">Use top k dimensions only: Aₖ ≈ A
+Predicted rating for user i, movie j = row i of Uₖ · Σₖ · column j of Vₖ</div>
+<p>The Netflix Prize winners found that k ≈ 100 dimensions captured most of meaningful taste variation. With those 100 dimensions, they predicted unseen ratings far more accurately than simpler methods — enough to win the million dollars.</p>
+<h2>Image Compression</h2>
+<p>SVD does the same thing for images. A grayscale photo is a matrix of pixel brightness values. Apply SVD, keep only the top 20 singular values, and the result is a compressed image that looks nearly identical to the original but takes a fraction of the storage. The large singular values capture the big shapes and contrasts; the small ones capture fine details and noise. Throwing away the small ones saves space with minimal visual loss.</p>
+<h2>Other Applications</h2>
+<p>SVD is used in search engines to find documents related to a query even when they don't contain the exact search words. It underlies PCA (the principal components are the singular vectors of the centered data matrix). It solves least squares problems robustly when the matrix is nearly singular. It's the Swiss Army knife of numerical linear algebra.</p>
+<h2>Conclusion</h2>
+<p>SVD dissects any matrix into three interpretable pieces and ranks them by importance. By keeping only the most important pieces, you get the best possible low-complexity approximation — throwing away noise and redundancy while preserving signal. That's how Netflix predicted what you'd want to watch, how images get compressed without visible quality loss, and how search engines find relevant documents. One decomposition, endless applications.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="markov-chains.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Markov Chains: Random Walks with Memory</span></a>
+    <a href="temporal-networks.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Temporal Networks: How Time Changes Everything</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

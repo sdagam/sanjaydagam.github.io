@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eigenvalues and Eigenvectors: Axes of Transformation — Applied Math Blog</title>
+<meta name="description" content="Article 88 of 156 in Sanjay Dagam's Applied Mathematics blog. Eigenvalues and Eigenvectors: Axes of Transformation">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Eigenvalues and Eigenvectors: Axes of Transformation</h1>
+    <div class="article-meta">
+      <span>#88 of 156</span>
+      <span>September 6, 2025</span>
+      <span>Group 4 &middot; Jul&ndash;Dec 2025</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In 1986, NASA engineers were investigating why the Space Shuttle's solid rocket booster joints were failing. They built mathematical models of the joint's stress under pressure — large matrices describing forces at hundreds of points. The key to understanding where the joint would crack first? Finding the special directions where stress concentrated without rotating — the eigenvectors of the stress matrix. Eigenvectors and eigenvalues aren't just abstract math. They're how engineers find the weak points in real structures.</p>
+<h2>What Makes a Vector Special</h2>
+<p>When a matrix transforms a vector, the vector usually changes both its length and its direction — it gets rotated and scaled. But certain special vectors only get scaled. Their direction stays the same; they just grow or shrink. These are eigenvectors. The scaling factor — how much they stretch or shrink — is the eigenvalue.</p>
+<div class="math-block">A × v = λ × v
+Matrix times eigenvector = eigenvalue times same eigenvector
+(direction unchanged, just scaled by λ)</div>
+<p>If λ = 3, the transformation triples the length of that eigenvector. If λ = -1, it flips direction but keeps the same magnitude. If λ = 0, the eigenvector gets crushed to zero — a catastrophic direction in structural engineering terms.</p>
+<h2>Finding Eigenvalues</h2>
+<p>To find eigenvalues, rearrange the definition: Av = λv means (A - λI)v = 0, where I is the identity matrix (ones on the diagonal, zeros elsewhere). For this to have a nonzero solution v, the matrix (A - λI) must be singular — it must have determinant zero. So you solve det(A - λI) = 0. This gives you a polynomial in λ, and its roots are the eigenvalues. For a 3×3 matrix, you get a cubic polynomial with up to three roots.</p>
+<div class="math-block">det(A - λI) = 0  →  solve for λ  →  find each eigenvector</div>
+<h2>Back to the Shuttle Joint</h2>
+<p>The stress matrix for the Challenger booster joint had several eigenvalues. The largest eigenvalue corresponded to the direction of maximum stress concentration — the eigenvector pointing in that direction showed engineers exactly where the joint would fail first under high pressure. When the temperature dropped on launch day, material properties changed, and that maximum eigenvalue increased beyond safe limits. The eigenvector was pointing right at the O-ring joint. The disaster became mathematically predictable after the fact — and this kind of eigenvalue analysis is now standard in safety-critical engineering design.</p>
+<h2>Diagonalization: Simplifying the Math</h2>
+<p>Once you find all the eigenvectors, something elegant happens. In the basis formed by the eigenvectors, the matrix transformation becomes pure scaling — just multiply each eigenvector direction by its eigenvalue, no rotation. This is called diagonalization. It's enormously useful for computation: instead of multiplying a complicated matrix over and over, you just raise the eigenvalues to powers. Simulating 50 time steps of a vibrating structure? Raise each eigenvalue to the 50th power — trivial instead of tedious.</p>
+<h2>Other Applications</h2>
+<p>Eigenvalues appear across science. In quantum mechanics, the observable energy levels of atoms are eigenvalues of energy operators. In population biology, the dominant eigenvalue of a demographic matrix gives the long-term growth rate of a population — is it shrinking, growing, or stable? In data science, PCA (Article #81) finds the eigenvectors of a covariance matrix to discover structure in high-dimensional data. Google's PageRank is the dominant eigenvector of the web's link matrix.</p>
+<h2>Conclusion</h2>
+<p>Eigenvectors and eigenvalues find the natural axes of any transformation — the directions where a matrix acts most simply, just stretching or shrinking. In structural engineering, the largest eigenvalue identifies the most dangerous stress direction. In physics, eigenvalues are measurable quantities. In data science, they reveal hidden structure. The math is the same in every case: find the vectors that don't rotate, and the scaling factors become the numbers that matter most.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 4</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul &ndash; Dec 2025</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="reinforcement-learning.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Reinforcement Learning: Learning Through Rewards and Penalties</span></a>
+    <a href="fourier-series.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Fourier Series: Representing Functions as Infinite Sums</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>
