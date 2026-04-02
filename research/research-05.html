@@ -109,10 +109,10 @@
             max-width: 900px; margin: 0 auto;
             padding: 4rem 2rem 6rem;
             display: grid;
-            grid-template-columns: 1fr 290px;
+            grid-template-columns: 1fr;
             gap: 4rem; align-items: start;
         }
-        @media (max-width: 780px) { .proj-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+        
 
         .proj-section { margin-bottom: 3rem; }
         .proj-section:last-child { margin-bottom: 0; }
@@ -171,16 +171,15 @@
         /* findings list */
         .findings-list {
             list-style: none; padding: 0; margin: 0;
-            display: flex; flex-direction: column; gap: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.85rem;
         }
         .findings-list li {
-            display: flex; gap: 0.75rem; align-items: flex-start;
-            font-size: 0.95rem; color: var(--muted); line-height: 1.65;
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: var(--bg-alt); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1rem 1.15rem;
+            font-size: 0.95rem; color: var(--muted); line-height: 1.7;
         }
-        .findings-list li::before {
-            content: ''; width: 6px; height: 6px; border-radius: 50%;
-            background: var(--ml); flex-shrink: 0; margin-top: 0.55rem;
-        }
+        .findings-list li::before { content: none; }
 
         /* prior work table */
         .prior-table {
@@ -402,30 +401,6 @@
     </header>
 
     <!-- OPPORTUNITY BAND -->
-    <div class="opp-band">
-        <div class="opp-inner">
-            <div class="opp-item">
-                <span class="opp-num"><em>3</em></span>
-                <span class="opp-lbl">NO₂ monitors in WI (Milwaukee only)</span>
-            </div>
-            <div class="opp-item">
-                <span class="opp-num"><em>500</em></span>
-                <span class="opp-lbl">EPA monitors in CONUS (Cao baseline)</span>
-            </div>
-            <div class="opp-item">
-                <span class="opp-num"><em>0.892</em></span>
-                <span class="opp-lbl">Cao CNN R² (daily, TROPOMI only)</span>
-            </div>
-            <div class="opp-item">
-                <span class="opp-num"><em>0.593</em></span>
-                <span class="opp-lbl">Cao spatial CV R² (unseen sites)</span>
-            </div>
-            <div class="opp-item">
-                <span class="opp-num"><em>2.1km</em></span>
-                <span class="opp-lbl">TEMPO resolution (vs 3.5km TROPOMI)</span>
-            </div>
-        </div>
-    </div>
 
     <!-- BODY -->
     <div class="proj-body">
@@ -455,21 +430,21 @@
             <!-- The Research Gap -->
             <div class="proj-section">
                 <div class="proj-section-label">The Research Gap</div>
-                <h2>Three open problems this project addresses</h2>
+                <h2>Three problems this project addresses</h2>
                 <div class="gap-box">
-                    <span class="gap-label">Identified gaps in the literature</span>
+                    <span class="gap-label">Why this work is needed</span>
                     <div class="gap-items">
                         <div class="gap-item">
                             <div class="gap-bullet">1</div>
-                            <p><strong style="color:#fff;">No TEMPO-trained models exist.</strong> CNN and regression models have been trained on OMI and TROPOMI satellite data. TEMPO launched in April 2023 and provides hourly NO₂ at 2.1 km × 4.4 km resolution over North America — higher temporal and spatial resolution than any prior instrument. No published model has used it as a training input.</p>
+                            <p><strong style="color:#fff;">No model has been trained on TEMPO yet.</strong> TEMPO launched in April 2023 and provides hourly NO₂ imagery over North America at higher resolution than any prior satellite. It represents an entirely new source of data — and no published model has used it.</p>
                         </div>
                         <div class="gap-item">
                             <div class="gap-bullet">2</div>
-                            <p><strong style="color:#fff;">Spatial generalization is the field's central unsolved problem.</strong> Cao (2023) achieved R² = 0.892 with standard cross-validation but only R² = 0.593 when predicting at sites never seen during training. Kim et al. (2024) similarly found their best model generalized only to R² = 0.65–0.89 regionally. TEMPO's hourly data may enable the model to learn more robust spatial features.</p>
+                            <p><strong style="color:#fff;">Existing AI models fail at new locations.</strong> The best current approach predicts NO₂ accurately at sites it trained on, but accuracy drops sharply at sites it has never seen — the real-world test that matters. TEMPO's richer hourly data may help the model learn patterns that generalize more broadly.</p>
                         </div>
                         <div class="gap-item">
                             <div class="gap-bullet">3</div>
-                            <p><strong style="color:#fff;">Wisconsin is severely underserved.</strong> The entire state of Wisconsin — 65,000 square miles with agricultural, urban, and industrial zones — is monitored by only three NO₂ sensors, all concentrated in Milwaukee. Environmental equity concerns require better spatial coverage, especially in communities of color and low-income areas that may be disproportionately exposed.</p>
+                            <p><strong style="color:#fff;">Wisconsin has only three NO₂ monitors, all in Milwaukee.</strong> The rest of the state — farms, mid-size cities, industrial zones — has no direct air quality measurement for this pollutant. That leaves communities potentially exposed to elevated NO₂ without any data.</p>
                         </div>
                     </div>
                 </div>
@@ -477,27 +452,29 @@
 
             <!-- Scientific Background -->
             <div class="proj-section">
-                <div class="proj-section-label">Scientific Background</div>
-                <h2>Why predicting surface NO₂ from satellites is hard</h2>
+                <div class="proj-section-label">Background</div>
+                <h2>Why this is hard to measure</h2>
                 <p>
-                    NO₂ is a harmful air pollutant produced primarily by fossil fuel combustion. It causes
-                    cardiovascular and respiratory illness, contributes to childhood asthma, and reacts in the
-                    atmosphere to form tropospheric ozone and PM2.5. The EPA requires annual mean concentrations
-                    to stay below 53 ppb in inhabited areas.
+                    NO₂ is a traffic and combustion pollutant linked to asthma, cardiovascular disease,
+                    and the formation of ozone and PM2.5. The EPA sets a legal limit of 53 ppb annual average.
                 </p>
                 <p>
-                    The problem is that satellites don't measure ground-level NO₂ — they measure the total
-                    column of NO₂ through the entire atmosphere, with greater sensitivity to NO₂ in the middle
-                    troposphere than at the surface. The relationship between column NO₂ (what satellites see)
-                    and surface NO₂ (what humans breathe) varies by location, land use, season, road proximity,
-                    and meteorological conditions. This gap is what machine learning models are designed to bridge.
+                    Satellites can photograph NO₂ across the entire state at once — but they measure the
+                    total amount in the whole air column above, not just what's at the surface where people
+                    breathe. The relationship between the satellite reading and ground level varies by location,
+                    season, weather, and nearby land use. Translating satellite data into accurate surface
+                    readings requires machine learning. And because NO₂ can vary tenfold over just a few
+                    kilometers, the model needs to learn fine-scale spatial patterns — which is exactly what
+                    convolutional neural networks (CNNs) are designed to do.
                 </p>
                 <p>
-                    Because NO₂ has a short atmospheric lifetime of only a few hours, it remains concentrated
-                    near its source. This produces sharp spatial gradients — NO₂ can vary by a factor of 10
-                    across a few kilometers — that simple regression models cannot capture from coarse buffer
-                    distance averages. CNNs, which learn spatial patterns directly from 2D satellite imagery,
-                    are better suited to this problem.
+                    The main satellite used in prior work is <strong>TROPOMI</strong> (TROPOspheric
+                    Monitoring Instrument), launched by the European Space Agency in 2017. It orbits
+                    the Earth once a day and images NO₂ across the globe at roughly 3.5 km resolution.
+                    This project also introduces <strong>TEMPO</strong> (Tropospheric Emissions:
+                    Monitoring of Pollution), NASA's geostationary satellite launched in April 2023.
+                    Unlike TROPOMI, TEMPO stays fixed above North America and captures imagery every
+                    hour throughout the day — up to 12 snapshots where TROPOMI gives one.
                 </p>
             </div>
 
@@ -505,10 +482,7 @@
             <div class="proj-section">
                 <div class="proj-section-label">Prior Work</div>
                 <h2>Two key studies that frame this project</h2>
-                <p>
-                    Two papers directly motivated this research and define the methodological baseline.
-                    Both use TROPOMI data; neither uses TEMPO.
-                </p>
+                <p>Two prior studies define the starting point. Both use TROPOMI; neither uses TEMPO.</p>
                 <table class="prior-table">
                     <thead>
                         <tr><th>Aspect</th><th>Kim et al. 2024 (JGR Atmospheres)</th><th>Cao 2023 (Frontiers Env. Sci.)</th></tr>
@@ -524,12 +498,9 @@
                         <tr><td>Supervisor connection</td><td>Prof. Holloway's lab (UW-Madison)</td><td>Fairview High School student</td></tr>
                     </tbody>
                 </table>
-                <p style="margin-top:1rem;">
-                    Kim et al.'s regression approach is interpretable and requires minimal computation —
-                    but it cannot capture the spatial structure of satellite data. Cao's CNN achieves far
-                    higher accuracy but fails at the key real-world challenge of predicting in locations
-                    it hasn't seen during training. The research question here is whether TEMPO data can
-                    close that gap.
+                <p style="margin-top:0.75rem;">
+                    Cao's CNN is more accurate but collapses at new locations. This project tests whether
+                    TEMPO's hourly imagery can close that gap.
                 </p>
             </div>
 
@@ -567,13 +538,10 @@
                         </div>
                     </div>
                 </div>
-                <p style="margin-top:1rem;">
-                    The central hypothesis is that TEMPO's hourly temporal resolution allows the model
-                    to observe how NO₂ changes throughout the day at thousands of locations — providing
-                    a richer signal about local emission sources, boundary layer dynamics, and photochemistry
-                    that TROPOMI's single daily overpass cannot capture. This richer training signal may
-                    help the model generalize to locations it hasn't seen, addressing the field's most
-                    persistent limitation.
+                <p style="margin-top:0.75rem;">
+                    TEMPO passes over a location up to 12 times per day; TROPOMI does so once.
+                    That richer daily signal may teach the model patterns that hold up at new locations —
+                    addressing the field's central limitation.
                 </p>
             </div>
 
@@ -586,35 +554,35 @@
                         <div class="phase-num">01</div>
                         <div>
                             <span class="phase-title">Problem Definition and Data Inventory</span>
-                            <p class="phase-desc">Define target variable (daily / monthly surface NO₂ in ppb), identify training inputs (TROPOMI, TEMPO, ERA5 meteorology, land use, road networks, population density), and establish spatial and temporal resolution. Inventory Wisconsin's 3 EPA monitors and assess CONUS monitor coverage for training data.</p>
+                            <p class="phase-desc">Define what the model predicts (ground-level NO₂ in ppb), identify all input data sources (satellite imagery, meteorology, land use, roads), and inventory Wisconsin's 3 EPA monitors alongside nationwide training sites.</p>
                         </div>
                     </div>
                     <div class="phase-card">
                         <div class="phase-num">02</div>
                         <div>
                             <span class="phase-title">Data Acquisition and Pipeline</span>
-                            <p class="phase-desc">Extract TROPOMI and TEMPO NO₂ from Google Earth Engine (GEE) as 2D pixel grids. Download ERA5 meteorological reanalysis (temperature, wind, boundary layer height, pressure, radiation). Acquire land-use variables (NLCD impervious surface, MODIS vegetation, population density, road networks from OpenStreetMap). Align all sources spatially and temporally to EPA monitor locations.</p>
+                            <p class="phase-desc">Pull TROPOMI and TEMPO imagery from Google Earth Engine as pixel grids. Download weather data (temperature, wind, pressure). Collect land-use layers (roads, vegetation, population density). Align everything to EPA monitor locations in space and time.</p>
                         </div>
                     </div>
                     <div class="phase-card">
                         <div class="phase-num">03</div>
                         <div>
                             <span class="phase-title">Preprocessing and Feature Engineering</span>
-                            <p class="phase-desc">Handle satellite data gaps from cloud cover. Apply Anscombe transform to TROPOMI NO₂ (following Kim et al. 2024 best practice) and test appropriate transforms for TEMPO. Construct feature grids at multiple resolutions (500m–4,000m). Engineer temporal features: sine/cosine encodings of hour and month, lag variables, boundary layer ratio features.</p>
+                            <p class="phase-desc">Fill satellite data gaps caused by cloud cover. Normalize inputs so the model trains cleanly. Build feature grids at multiple resolutions and add time-of-day and seasonal encodings.</p>
                         </div>
                     </div>
                     <div class="phase-card">
                         <div class="phase-num">04</div>
                         <div>
                             <span class="phase-title">Model Training and Evaluation</span>
-                            <p class="phase-desc">Train CNN architecture following Cao (2023) — Architecture 1 (stacked multi-channel tensor, four 2D convolution layers). Benchmark against MLR, FNN, and Random Forest baselines using identical variables. Evaluate with standard 10-fold CV, spatial hold-out CV (unseen sites), and temporal hold-out CV. Target metrics: R², RMSE, MAE, and spatial CV R² (the critical generalization test).</p>
+                            <p class="phase-desc">Train the CNN and compare it against simpler baseline models using the same inputs. The critical test: how well does it predict at locations it has never seen during training? That spatial generalization score is the key metric.</p>
                         </div>
                     </div>
                     <div class="phase-card">
                         <div class="phase-num">05</div>
                         <div>
                             <span class="phase-title">Wisconsin NO₂ Mapping</span>
-                            <p class="phase-desc">Apply the trained model to generate statewide Wisconsin NO₂ concentration maps at 0.01° × 0.01° (≈1 km) resolution. Identify high-exposure zones not captured by existing monitors. Conduct SHAP analysis to interpret what spatial features the model learned. Compare lakeshore vs. inland patterns, urban vs. agricultural zones, and seasonal variation.</p>
+                            <p class="phase-desc">Apply the model across all of Wisconsin to generate a statewide NO₂ map at roughly 1 km resolution — identifying high-exposure areas that have no monitors today, and comparing lakeshore vs. inland and urban vs. rural patterns.</p>
                         </div>
                     </div>
                 </div>
@@ -623,157 +591,19 @@
             <!-- Key Questions -->
             <div class="proj-section">
                 <div class="proj-section-label">Research Questions</div>
-                <h2>What we're asking — and why it matters</h2>
+                <h2>What this project is trying to answer</h2>
                 <ul class="findings-list">
-                    <li>Does training on TEMPO hourly imagery improve spatial generalization compared to TROPOMI-only models — specifically, does spatial CV R² improve beyond Cao's 0.593 baseline?</li>
-                    <li>Can the CNN produce reliable NO₂ estimates for locations in Wisconsin that have no EPA monitor, using TEMPO and TROPOMI data jointly?</li>
-                    <li>What spatial features drive NO₂ predictions in Wisconsin's distinctive geography — lakeshore industrial corridors, agricultural zones, urban core, and rural areas?</li>
-                    <li>Do communities without monitoring coverage show systematically higher or lower predicted NO₂ than monitored areas — and what are the environmental equity implications?</li>
+                    <li>Does adding TEMPO's hourly data make the model work better at places it hasn't seen before — solving the field's core generalization problem?</li>
+                    <li>Can the model produce reliable NO₂ estimates for Wisconsin locations that currently have no monitor at all?</li>
+                    <li>Are there communities across Wisconsin with elevated NO₂ that nobody is currently measuring — and if so, where?</li>
                 </ul>
             </div>
 
-            <!-- Literature Foundation -->
-            <div class="proj-section">
-                <div class="proj-section-label">Literature Foundation</div>
-                <h2>Key papers informing this work</h2>
-                <div class="lit-list">
-                    <div class="lit-item">
-                        <span class="lit-title">Kim et al. (2024) — JGR Atmospheres</span>
-                        <span class="lit-meta">Comparison of regression methods for inferring near-surface NO₂ with satellite data. Supervisor Prof. Holloway's lab at UW-Madison. Best result: Anscombe-transformed MLR, R² = 0.78 across CONUS. Motivates the data transform approach and establishes the regression baseline this project improves upon.</span>
-                    </div>
-                    <div class="lit-item">
-                        <span class="lit-title">Cao (2023) — Frontiers in Environmental Science</span>
-                        <span class="lit-meta">National ground-level NO₂ predictions via satellite imagery-driven CNNs. Fairview High School student. R² = 0.892 daily, R² = 0.952 annual — state of the art. Critical limitation: spatial CV R² = 0.593. This project follows Cao's protocol and tests whether TEMPO input addresses the spatial generalization failure.</span>
-                    </div>
-                    <div class="lit-item">
-                        <span class="lit-title">Ghahremanloo et al. (2021) — JGR Atmospheres</span>
-                        <span class="lit-meta">Deep learning estimation of daily ground-level NO₂ using TROPOMI over Texas. CNN outperformed MLR (R = 0.91 vs 0.77). First major demonstration of CNN superiority for this problem; established the deep learning paradigm this project builds on.</span>
-                    </div>
-                    <div class="lit-item">
-                        <span class="lit-title">Zoogman et al. (2017) — JQSRT (TEMPO)</span>
-                        <span class="lit-meta">Tropospheric Emissions: Monitoring of Pollution (TEMPO). Launch: April 2023. Hourly NO₂ at 2.1 km × 4.4 km over North America. First geostationary air quality satellite. This instrument provides the novel training data that no prior NO₂ CNN model has used.</span>
-                    </div>
-                </div>
-            </div>
+
 
         </main>
 
-        <!-- SIDEBAR -->
-        <aside>
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Project Details</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Role</span>
-                        <span class="sidebar-val">Primary Researcher</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Supervisor</span>
-                        <span class="sidebar-val">Prof. Tracey Holloway<br>UW–Madison (Atmospheric &amp; Oceanic Science)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Timeline</span>
-                        <span class="sidebar-val">January 2026 – Present</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Status</span>
-                        <span class="sidebar-val">Ongoing — data acquisition phase</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Satellite Instruments</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">TROPOMI</span>
-                        <span class="sidebar-val">ESA Sentinel-5P<br>3.5 km × 5.5 km resolution<br>1 overpass/day (~1:30 PM)<br>Available since 2018</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">TEMPO</span>
-                        <span class="sidebar-val">NASA geostationary<br>2.1 km × 4.4 km resolution<br>Hourly during daylight<br>Launched April 2023</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Key difference</span>
-                        <span class="sidebar-val">TEMPO provides ~12 observations/day vs. TROPOMI's 1 — enabling diurnal NO₂ pattern learning</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Model Architecture</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Type</span>
-                        <span class="sidebar-val">Convolutional Neural Network (CNN)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Input</span>
-                        <span class="sidebar-val">Stacked 2D satellite pixel grids (10 km bounding box)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Architecture</span>
-                        <span class="sidebar-val">4 conv layers + fully-connected layers (following Cao 2023)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Framework</span>
-                        <span class="sidebar-val">PyTorch</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Data pipeline</span>
-                        <span class="sidebar-val">Google Earth Engine (GEE)</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Input Variables</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Satellite NO₂</span>
-                        <span class="sidebar-val">TROPOMI column density, TEMPO column density</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Land cover</span>
-                        <span class="sidebar-val">Impervious surface, tree cover, NDVI, water, burned area (MODIS/NLCD)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Transportation</span>
-                        <span class="sidebar-val">Roads (5 tiers), railways (OpenStreetMap)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Meteorology</span>
-                        <span class="sidebar-val">Temperature, wind, boundary layer height, radiation, pressure (ERA5)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Demographics</span>
-                        <span class="sidebar-val">Population density, elevation</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-card-head"><h3>Target Benchmark</h3></div>
-                <div class="sidebar-card-body">
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Baseline daily R²</span>
-                        <span class="sidebar-val">0.892 (Cao, TROPOMI-only CNN)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Baseline spatial CV R²</span>
-                        <span class="sidebar-val">0.593 (Cao — the key gap)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Regression baseline</span>
-                        <span class="sidebar-val">0.78 (Kim et al., anscMLR)</span>
-                    </div>
-                    <div class="sidebar-row">
-                        <span class="sidebar-key">Primary goal</span>
-                        <span class="sidebar-val">Improve spatial CV R² by adding TEMPO input</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
     </div>
 
     <!-- PREV / NEXT -->
@@ -790,17 +620,11 @@
             <div class="footer-links">
                 <a href="https://github.com/sanjaydagam" target="_blank" rel="noopener">GitHub</a>
                 <a href="https://linkedin.com/in/sanjaydagam" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:info@wistudentsforstudents.com">Email</a>
+                <a href="/cdn-cgi/l/email-protection#3f565159507f48564c4b4a5b5a514b4c59504d4c4b4a5b5a514b4c115c5052">Email</a>
             </div>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         const navToggle = document.querySelector('.nav-toggle');
-        const navLinks  = document.querySelector('.nav-links');
-        if (navToggle) {
-            navToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
-        }
-    </script>
-</body>
-</html>
+        const navLinks  = document.querySelector('.nav-links
