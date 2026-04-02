@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Physics Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Statistical Mechanics: From Atoms to Temperature</h1>
@@ -152,59 +125,54 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">Temperature is 293 Kelvin. Pressure is 101 kilopascals. These macroscopic quantities describe a gas with ~10²³ molecules whose individual positions and velocities are utterly unknowable. Statistical mechanics bridges the microscopic and macroscopic worlds: using probability and statistics to derive thermodynamic laws from the mechanics of atoms. It explains why gases obey the ideal gas law, why heat flows from hot to cold, and why absolute zero is unreachable—all from nothing more than Newton's laws and the counting of microstates.</p>
+<p class="lead">A cup of coffee sitting on your desk is getting colder. You know this from everyday experience. But why does heat flow from hot to cold — and never spontaneously from cold to hot? Your coffee never gets hotter while the desk gets colder, even though that would conserve energy just as well. The answer isn't in the laws governing individual atoms — it's in statistics. When you have 10²³ atoms, the mathematics of probability makes some outcomes so vastly more likely than others that the unlikely ones never happen.</p>
+<h2>The Connection Between Heat and Motion</h2>
+<p>Temperature is not a fundamental property of matter — it's a measure of the average kinetic energy of atoms and molecules. A hot cup of coffee has water molecules moving fast, on average. A cold desk has slower-moving molecules. When the hot and cold objects touch, fast-moving coffee molecules collide with slow-moving desk molecules, transferring kinetic energy from fast to slow. Heat flows — macroscopic temperature change — is just the statistical average of trillions of individual molecular collisions.</p>
+<div class="math-block">Average kinetic energy per molecule = (3/2) kT
+k = Boltzmann constant = 1.38 × 10⁻²³ joules per kelvin
+T = temperature in kelvin (kelvin = celsius + 273)
+
+In plain English: double the temperature (in kelvin)
+and you double the average kinetic energy of each molecule.
+Temperature IS molecular motion, statistically averaged.</div>
+<h2>Why Heat Flows One Way: Entropy</h2>
+<p>Consider 100 coins, all starting heads-up. You shake them randomly. What's the probability they all land heads again? One in 2¹⁰⁰ — roughly one in a nonillion. The overwhelmingly probable outcome is something close to 50 heads and 50 tails — the most "mixed" state. Now scale up to 10²³ atoms. The ordered state (all kinetic energy concentrated in the coffee) has so many fewer possible arrangements than the disordered state (energy spread evenly) that, in practice, only the disordered state ever occurs. That's entropy: the tendency of systems toward the arrangements that can be achieved in the most ways.</p>
+<p>Entropy S of a state is defined by the number of microscopic arrangements W that produce that macroscopic state: S = k ln W. The natural log compresses the enormous number W into a manageable value. A high-entropy state has a huge W — many ways to arrange the atoms to produce that macroscopic result. A low-entropy state has small W — very few arrangements. The Second Law of Thermodynamics — entropy never decreases in an isolated system — is just the statement that systems evolve toward more probable states.</p>
+<div class="math-block">Entropy: S = k ln W
+k = Boltzmann constant
+W = number of microscopic arrangements producing this macroscopic state
+
+Hot coffee next to cold desk:
+W_mixed (energy spread out) >> W_separated (energy concentrated in coffee)
+System moves toward higher W → entropy increases → heat flows to desk</div>
 <h2>The Boltzmann Distribution</h2>
-<p>A system in thermal equilibrium with a heat bath at temperature T has its microscopic states distributed according to the Boltzmann distribution: P(state with energy E) ∝ e^{−E/k_B T}. Low-energy states are exponentially more probable than high-energy ones; the ratio depends only on the temperature. The partition function Z = Σ e^{−E_i/k_B T} normalizes the distribution and encodes all thermodynamic information: free energy F = −k_B T ln Z, entropy S = −∂F/∂T, average energy U = −∂ ln Z/∂β (where β = 1/k_B T). The Boltzmann distribution is the cornerstone of statistical mechanics.</p>
-<div class="math-block">Boltzmann distribution: P_i = e^{−E_i/k_BT} / Z
-Partition function: Z = Σᵢ e^{−E_i/k_BT}</div>
-<h2>The Ideal Gas</h2>
-<p>For N non-interacting point particles of mass m in a box, the partition function factorizes into N single-particle partition functions. The single-particle partition function integrates over all positions and momenta: Z₁ = V(2πmk_BT/h²)^{3/2}, the thermal de Broglie volume. The resulting thermodynamics gives: average kinetic energy = (3/2)k_BT per particle; pressure P = Nk_BT/V (ideal gas law); heat capacity C_V = (3/2)Nk_B. The equipartition theorem—each quadratic degree of freedom contributes (1/2)k_BT to average energy—follows naturally, explaining why diatomic gases have higher heat capacity than monatomic ones.</p>
-<div class="math-block">Ideal gas law from stat mech: PV = Nk_BT
-Mean kinetic energy: ⟨E_kin⟩ = (3/2)k_BT per particle</div>
-<h2>Phase Transitions</h2>
-<p>Statistical mechanics explains phase transitions—the abrupt changes in material properties at critical temperatures. The Ising model—a lattice of binary spins (+1 or −1) with nearest-neighbor interactions—is the simplest model exhibiting a phase transition. Below the Curie temperature, spins align ferromagnetically; above it, thermal fluctuations disorder them. The partition function's behavior near the critical point reveals universal scaling laws: the correlation length diverges as |T − T_c|^{−ν}, the magnetization as |T − T_c|^β. These critical exponents are universal—independent of microscopic details—which is why the Ising model describes transitions in magnets, binary liquids, and protein folding.</p>
-<h2>Entropy and the Second Law</h2>
-<p>The Boltzmann entropy S = k_B ln Ω counts the number of accessible microstates Ω. The Second Law—entropy increases in isolated systems—follows from the overwhelming probability of high-entropy states: there are astronomically more disordered configurations than ordered ones. If 10²³ gas molecules are confined to the left half of a container and the partition is removed, expansion is certain not because of any force but because the fraction of microstates with all molecules on the left is ∼2^{−10²³}—effectively zero probability. Irreversibility emerges from probability, not from any violation of microscopic time-reversibility.</p>
-<h2>Quantum Statistical Mechanics</h2>
-<p>At low temperatures or high densities, quantum effects become important. Identical quantum particles obey either Fermi-Dirac statistics (fermions: electrons, protons—no two in the same state) or Bose-Einstein statistics (bosons: photons, helium-4—can share states). The Fermi-Dirac distribution explains metallic conductivity and the stability of white dwarf stars (electron degeneracy pressure). The Bose-Einstein distribution explains blackbody radiation (Planck's law) and predicts Bose-Einstein condensation—a phase transition where bosons macroscopically occupy the lowest energy state, observed experimentally in 1995 and underlying superconductivity and superfluidity.</p>
+<p>At thermal equilibrium, the probability of finding a molecule in a state with energy E follows the Boltzmann distribution: P(E) ∝ e^(-E/kT). Higher temperature means higher kT, which flattens the distribution — more molecules have high energy. Lower temperature makes the distribution steep — almost all molecules huddle in the lowest energy state. This distribution explains why chemical reactions speed up with temperature (more molecules have enough energy to react), why the atmosphere thins with altitude (higher-energy molecules reach higher against gravity), and why liquid water evaporates (a fraction of molecules always have enough energy to escape).</p>
+<h2>Other Applications</h2>
+<p>Statistical mechanics predicts the magnetic properties of materials from electron spin statistics. It explains superconductivity — why some materials lose all electrical resistance at low temperatures — through quantum statistical effects. It underpins modern machine learning: the "simulated annealing" optimization algorithm and Boltzmann machines (a type of neural network) borrow directly from the mathematics of thermal systems finding their lowest-energy states.</p>
 <h2>Conclusion</h2>
-<p>Statistical mechanics is one of physics' greatest intellectual achievements: deriving thermodynamics from mechanics by embracing ignorance rather than fighting it. By treating the unknowable positions and velocities of 10²³ particles statistically, it derives temperature, pressure, heat capacity, and phase transitions from first principles. The Boltzmann distribution and partition function encode all equilibrium thermodynamics, while the entropy-as-microstate-counting resolves the arrow of time. Statistical mechanics reveals that macroscopic certainty is simply the overwhelming weight of probability at astronomical scales.</p>
-
+<p>Statistical mechanics bridges the gap between the atomic world and the everyday world. Temperature is molecular kinetic energy, averaged. Entropy is the logarithm of the number of microscopic arrangements. Heat flows from hot to cold because the mixed state has incomprehensibly more possible arrangements than the separated state — not because atoms "want" to mix, but because the alternative is so astronomically unlikely it never happens. The laws of thermodynamics aren't separate from atomic physics — they emerge from probability applied to very large numbers of atoms.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="vector-fields-curl.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Vector Fields and Curl: Measuring Rotation in Space</span>
-    </a>
-    <a href="neural-networks.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Neural Networks: Layers, Weights, and Activation Functions</span>
-    </a>
+    <a href="vector-fields-curl.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">66</span></a>
+    <a href="neural-networks.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">68</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

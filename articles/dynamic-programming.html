@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Dynamic Programming: Solving Complex Problems by Breaking Them Down</h1>
@@ -152,59 +125,47 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">How do you find the shortest route through a city with thousands of intersections? How do you determine the best sequence of investments over a decade? How do you align two DNA sequences to find mutations? These problems share a hidden structure: they can be broken into overlapping subproblems whose solutions can be reused. Dynamic programming—coined by Richard Bellman in the 1950s—transforms exponential-time brute-force searches into efficient polynomial-time algorithms by systematically storing and reusing partial results.</p>
-<h2>The Core Idea: Overlapping Subproblems</h2>
-<p>Consider computing the nth Fibonacci number naively: F(n) = F(n−1) + F(n−2). A recursive implementation recomputes F(2) an exponential number of times. Dynamic programming avoids this by storing each computed value—memoization (top-down) stores results as they're computed; tabulation (bottom-up) fills a table from small to large. Either way, each subproblem is solved exactly once. The Fibonacci computation drops from O(2ⁿ) to O(n). This pattern—identify overlapping subproblems, store their solutions, build larger solutions from smaller ones—is the DP template.</p>
-<div class="math-block">Naive Fibonacci: O(2ⁿ) time
-DP Fibonacci: O(n) time, O(n) space (or O(1) with rolling variables)</div>
-<h2>Optimal Substructure</h2>
-<p>DP also requires optimal substructure: an optimal solution to the full problem contains optimal solutions to its subproblems. The shortest path from A to C through B consists of the shortest path from A to B plus the shortest path from B to C. This allows building optimal global solutions from optimal local ones. Problems lacking this property—like the longest simple path in a graph with cycles—cannot be solved by DP because the best subpath might not be part of the best full path. Identifying whether a problem has both properties is the first step in applying DP.</p>
-<h2>Classic Examples</h2>
-<p>The 0/1 knapsack problem: given items with weights and values, maximize value subject to a weight capacity. The DP table has rows for items and columns for capacities; each cell records the best value achievable with the first i items and capacity j. Longest common subsequence (used in diff tools and DNA alignment): fill an (m+1)×(n+1) table where each cell records the LCS length of the first i characters of one string and first j of the other. Matrix chain multiplication: find the order to multiply matrices minimizing operations—a classic O(n³) DP that underlies compiler optimization.</p>
-<div class="math-block">Knapsack recurrence: dp[i][w] = max(dp[i−1][w], dp[i−1][w−wᵢ] + vᵢ)</div>
-<h2>Bellman-Ford and Shortest Paths</h2>
-<p>Bellman's original application was optimal control and shortest paths. The Bellman-Ford algorithm finds shortest paths in graphs with negative edge weights by relaxing all edges n−1 times: if the path to v through u is shorter than the known path to v, update it. This DP on path length handles negative weights that Dijkstra's algorithm cannot. The Floyd-Warshall algorithm extends this to all-pairs shortest paths in O(n³): dp[i][j][k] is the shortest path from i to j using only nodes 1 through k as intermediates, building up from k=0 to k=n.</p>
-<div class="math-block">Bellman-Ford: dist[v] = min(dist[v], dist[u] + w(u,v))  for all edges (u,v), repeated n−1 times</div>
-<h2>DP in Modern ML</h2>
-<p>Dynamic programming underlies key algorithms in machine learning and NLP. The Viterbi algorithm for Hidden Markov Models—used in speech recognition and gene finding—uses DP to find the most likely sequence of hidden states. The CYK algorithm parses context-free grammars in O(n³) using DP. Sequence-to-sequence models in neural machine translation use beam search, a heuristic DP variant. Reinforcement learning's value iteration and policy iteration are DP algorithms on Markov Decision Processes, computing optimal policies by solving Bellman equations iteratively.</p>
+<p class="lead">You're planning a road trip from New York to Los Angeles, with the freedom to stop in any city along the way. There are hundreds of possible routes. Checking every combination would take longer than the trip itself. Yet Google Maps finds the optimal route in under a second. The secret isn't raw speed — it's a strategy called dynamic programming, which avoids ever solving the same subproblem twice.</p>
+<h2>The Key Insight: Overlapping Subproblems</h2>
+<p>Most hard problems share a hidden structure: to solve the big problem, you break it into smaller pieces — and those pieces share sub-pieces with each other. A naive approach solves each sub-piece every time it appears. Dynamic programming solves each sub-piece once, stores the answer, and looks it up whenever it's needed again. This simple change can turn a calculation that takes years into one that takes milliseconds.</p>
+<p>For the road trip: the shortest path from New York to LA through Chicago is the shortest path from New York to Chicago, plus the shortest path from Chicago to LA. If you've already computed the best way to reach Chicago, you don't recompute it when exploring routes through Detroit. You just look it up.</p>
+<h2>A Concrete Example: The Shortest Path</h2>
+<p>Suppose you're driving through five cities — A, B, C, D, and E (your destination). From any city, you can drive to two or three others, each with a known travel time. The naive approach tries all possible routes and picks the shortest. The number of routes grows exponentially — with 20 cities, there are millions to check.</p>
+<p>Dynamic programming flips the approach. Start at the destination and work backward. What's the shortest time to reach E from D? Look it up directly — there's only one direct road. What's the shortest time to reach E from C? You can go C→D→E, or C→E directly — pick whichever is shorter. Store that answer. Now when computing the best route from B, you use the stored answers for C and D without re-solving anything.</p>
+<div class="math-block">shortest(city) = min over all roads leaving city of:
+    [road_time + shortest(next_city)]
+
+Build this table from destination backward to start.
+Each city solved once. Total work: proportional to number of roads.</div>
+<p>With 1,000 cities and 3,000 roads, this takes 3,000 operations. The naive approach would take more than the number of atoms in the universe for the same problem. That's the power of storing and reusing solutions.</p>
+<h2>The Fibonacci Connection</h2>
+<p>The simplest illustration of dynamic programming is computing Fibonacci numbers — where each number is the sum of the two before it: 1, 1, 2, 3, 5, 8, 13, … Without dynamic programming, computing the 50th Fibonacci number naively requires over a trillion calculations because the same sub-calculations repeat endlessly. With dynamic programming — store each result the first time you compute it — it takes exactly 50 additions. The same principle, the same payoff.</p>
+<h2>Other Applications</h2>
+<p>Dynamic programming solves a surprising range of real problems. Autocorrect uses it to find the word closest to what you typed, by computing the minimum number of letter insertions, deletions, and substitutions needed to transform one word into another. Genomics researchers use it to align DNA sequences — finding the best match between two genetic sequences with millions of base pairs. Portfolio optimization uses it to find the best allocation of investments given constraints. Any time a problem can be broken into overlapping pieces with reusable solutions, dynamic programming turns the impossible into the instant.</p>
 <h2>Conclusion</h2>
-<p>Dynamic programming is a paradigm shift in problem-solving: from trying all possibilities to systematically building solutions from their components. The combination of overlapping subproblems and optimal substructure turns intractable combinatorial searches into efficient algorithms. Recognizing these properties in a new problem is the key skill—once identified, the DP table design and recurrence usually follow naturally, transforming an exponential problem into a polynomial one through organized reuse of work.</p>
-
+<p>Dynamic programming doesn't use brute force or clever tricks — it uses memory. By recognizing that big problems contain repeated smaller problems, and storing the answer to each small problem the first time it's solved, it eliminates redundant work entirely. Google Maps, your phone's autocorrect, and DNA sequencing tools all owe their speed to this one principle: never solve the same problem twice.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="numerical-methods.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Numerical Methods: When Exact Solutions Don't Exist</span>
-    </a>
-    <a href="structural-optimization.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Structural Optimization: How Bridges Find Their Shape</span>
-    </a>
+    <div></div>
+    <a href="structural-optimization.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">54</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

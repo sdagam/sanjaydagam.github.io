@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Engineering Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-eng">Engineering Applications</span>
     <h1 class="article-title">Reliability Engineering: Predicting When Things Fail</h1>
@@ -152,60 +125,56 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A commercial aircraft has tens of thousands of components, each capable of failure. Yet the overall failure rate of modern commercial aviation is extraordinarily low—less than one fatal accident per ten million flights. Achieving this reliability isn't luck or over-engineering; it is the systematic application of reliability engineering: the mathematical discipline of predicting, measuring, and improving the probability that systems perform their required function for a specified time under stated conditions. The same mathematics that keeps aircraft flying also governs medical devices, nuclear plants, and semiconductor chips.</p>
-<h2>Failure Rate and the Bathtub Curve</h2>
-<p>The hazard rate h(t) measures the instantaneous probability of failure given survival to time t. For most engineering components, h(t) follows the bathtub curve: high initial failure rate during infant mortality (manufacturing defects, installation errors), a low constant failure rate during useful life (random failures), and increasing failure rate during wearout (fatigue, corrosion, degradation). The exponential distribution—constant hazard h(t) = λ—models the useful life phase; the Weibull distribution generalizes to increasing (β > 1) or decreasing (β < 1) hazard, fitting all three phases with different parameter values.</p>
-<div class="math-block">Exponential: h(t) = λ,  R(t) = e^{−λt}
-Weibull: h(t) = (β/η)(t/η)^{β−1},  R(t) = e^{−(t/η)^β}</div>
+<p class="lead">On January 28, 1986, the Space Shuttle Challenger broke apart 73 seconds after launch, killing all seven crew members. The cause: an O-ring seal failed in the cold weather. NASA engineers had data showing O-rings behaved poorly at low temperatures — but they didn't have a mathematical framework for translating that data into a probability of failure on that specific cold morning. Reliability engineering provides that framework: the mathematics of predicting when components will fail and what that means for systems that depend on them.</p>
+<h2>The Bathtub Curve</h2>
+<p>Most manufactured components follow a characteristic failure rate pattern over their lifetime called the bathtub curve. Early in life, failure rates are high — "infant mortality" failures from manufacturing defects. These failures weed out quickly. In the middle period, failure rates are low and roughly constant — normal useful life. Late in life, failure rates rise again as components wear out. Understanding which phase a component is in determines the appropriate maintenance and replacement strategy.</p>
+<div class="math-block">Failure rate λ(t) over time:
+Early life:   λ(t) high (manufacturing defects surfacing)
+Middle life:  λ(t) ≈ constant = λ  (random failures)
+End of life:  λ(t) rising (wear-out failures)
+
+During middle life (constant λ):
+Reliability R(t) = P(component survives past time t) = e^(-λt)
+Mean Time Between Failures (MTBF) = 1/λ</div>
+<p>The exponential reliability function R(t) = e^(-λt) describes the probability of surviving past time t during the useful life phase. If λ = 0.001 failures per hour (MTBF = 1000 hours), then after 500 hours: R(500) = e^(-0.5) ≈ 0.61. There's a 61% chance the component is still working — and a 39% chance it's already failed. Engineers use this to schedule preventive maintenance before the failure probability becomes unacceptably high.</p>
 <h2>System Reliability: Series and Parallel</h2>
-<p>Complex systems are analyzed by combining component reliabilities using probability theory. Series systems fail if any component fails: R_system = Π Rᵢ. Parallel (redundant) systems fail only if all components fail: R_system = 1 − Π(1 − Rᵢ). Adding redundancy dramatically improves reliability: if each component has R = 0.99, a series system of 100 components has R ≈ 0.37, while doubling up (each component has a redundant backup) gives R ≈ 0.86. Fault tree analysis (FTA) builds Boolean logic trees of failure combinations; reliability block diagrams map system topology to probability calculations.</p>
-<div class="math-block">Series: R_sys = Π Rᵢ
-Parallel: R_sys = 1 − Π(1−Rᵢ)
-Example: 2 components R=0.9 in parallel → R_sys = 1−(0.1)² = 0.99</div>
-<h2>Failure Mode Analysis</h2>
-<p>Failure Mode and Effects Analysis (FMEA) systematically identifies all ways each component can fail, the effect on the system, and the risk priority. The Risk Priority Number (RPN) = Severity × Occurrence × Detection combines three dimensions into a prioritization score. Components with high RPN receive design changes or additional testing. FMEA is mandated in medical device design (ISO 13485), automotive engineering (IATF 16949), and aviation (DO-178C). The goal is not eliminating all failures—impossible and uneconomical—but ensuring critical failure modes have multiple independent barriers preventing them from causing system failure.</p>
-<h2>Accelerated Life Testing</h2>
-<p>Qualifying long-life products (20-year lifetimes for aerospace components) requires accelerated life testing: exposing components to elevated stress (temperature, voltage, vibration) to trigger failures faster, then extrapolating to operating conditions. The Arrhenius model relates thermal acceleration: L(T) = A e^{E_a/k_BT}, where E_a is activation energy and T is temperature. Running tests at 125°C instead of 55°C accelerates failure by a factor of 100–1000. Statistical models (typically Weibull or lognormal) fit to accelerated test failure times, then transform back to operating conditions using the acceleration model. Extrapolation assumptions must be validated carefully.</p>
-<h2>Software Reliability</h2>
-<p>Hardware reliability has a well-developed mathematical framework; software reliability is harder. Software doesn't wear out—it fails due to latent bugs triggered by specific input combinations. Software reliability models (NHPP models) treat bug discovery as a nonhomogeneous Poisson process: discovery rate decreases as bugs are found and fixed. The Nelson model and Musa-Okumoto model predict total bug count and time to achieve target reliability. Formal verification—mathematically proving software meets its specification—provides the highest reliability assurance for critical systems (aircraft flight control software, cryptographic protocols) but remains expensive and applicable only to limited code sizes.</p>
+<p>Real systems combine many components. How their individual reliabilities combine into system reliability depends on the architecture.</p>
+<div class="math-block">Series system (all components must work):
+R_system = R₁ × R₂ × R₃ × ...
+(weakest link: any failure kills the system)
+
+Parallel system (at least one must work):
+R_system = 1 - (1-R₁)(1-R₂)(1-R₃)...
+(redundancy: system only fails if ALL components fail)</div>
+<p>A Space Shuttle had thousands of components in series — any single critical failure could be catastrophic. The O-ring seal was one such component. If its reliability at cold temperatures was 0.90 (a 10% chance of failure), and the shuttle required it to work, the system reliability included that 10% failure probability directly.</p>
+<h2>The Challenger Lesson</h2>
+<p>The data on O-ring damage at low temperatures existed. A simple reliability analysis would have shown a clear trend: O-ring damage incidents clustered at low launch temperatures, and none occurred at high temperatures. A logistic regression model — a standard statistical tool in reliability analysis — would have predicted a dramatically elevated probability of O-ring failure at 29°F, the temperature on launch morning. The mathematical model that wasn't built might have stopped the launch.</p>
+<h2>Fault Tree Analysis</h2>
+<p>Modern reliability engineering uses fault tree analysis: start with an undesired event (system failure) and work backward through all possible causes, building a tree of "AND" gates (all sub-causes must occur simultaneously) and "OR" gates (any one sub-cause is sufficient). The probability of the top event is computed by combining the component failure probabilities through the tree. This visual, mathematical method is now required for all safety-critical aerospace and nuclear systems — a direct legacy of accident investigations like Challenger.</p>
 <h2>Conclusion</h2>
-<p>Reliability engineering translates physics of failure into quantitative probability statements, enabling systematic design for dependability rather than hoping for the best. From the Weibull distribution capturing component lifetimes to fault trees analyzing system failure logic to accelerated testing extrapolating from weeks to decades, the mathematical tools of reliability engineering underlie the extraordinary dependability of modern technology. The discipline's central insight—that reliability is designed and quantified, not assumed—is what makes billion-mile space missions, decades-long implanted medical devices, and trillion-transistor chips feasible.</p>
-
+<p>Reliability engineering translates component failure data into probabilities, then combines those probabilities to predict system behavior. The bathtub curve describes how failure rates evolve over a component's lifetime. Exponential reliability functions quantify survival probability. Series and parallel reliability formulas propagate component probabilities to system level. Fault tree analysis maps how failures combine into catastrophic events. Challenger showed what happens when this mathematics isn't applied. Modern aerospace, nuclear, and medical device engineering applies it rigorously — predicting failure before it happens rather than investigating it after.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="compression-algorithms.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Compression Algorithms: Storing More with Less</span>
-    </a>
-    <a href="chi-square-test.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">The Chi-Square Test: Checking Fit Between Data and Models</span>
-    </a>
+    <a href="compression-algorithms.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">73</span></a>
+    <a href="chi-square-test.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">75</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

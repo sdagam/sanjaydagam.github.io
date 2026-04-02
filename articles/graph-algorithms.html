@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Graph Algorithms: BFS, DFS, and Shortest Paths</h1>
@@ -152,61 +125,63 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">How does Google Maps find the fastest route across a city? How does Facebook suggest friends you might know? How does a web crawler discover new pages? These questions all reduce to searching and navigating graphs—mathematical structures of nodes connected by edges. Graph algorithms are among the most practically important algorithms in computer science, providing systematic methods for traversal, shortest paths, connectivity, and flow that power everything from navigation to network analysis to compiler design.</p>
-<h2>Breadth-First Search</h2>
-<p>BFS explores a graph level by level outward from a source node. Using a queue, BFS visits all neighbors of the source before any of their neighbors. This guarantees that when a node is first visited, it has been reached by the shortest path (fewest edges) from the source. BFS runs in O(V + E) time (V vertices, E edges) and simultaneously computes: the shortest path in terms of hops from source to every reachable node, the connected component containing the source, and whether the graph is bipartite (2-colorable). BFS underlies social network distance calculations, peer-to-peer network routing, and finding the shortest word ladder between two words.</p>
-<div class="math-block">BFS time: O(V + E)
-Guarantees shortest path (by edge count) from source to all reachable nodes</div>
-<h2>Depth-First Search</h2>
-<p>DFS explores as far as possible along each branch before backtracking, using a stack (or recursion). DFS runs in O(V + E) and produces a DFS tree with discovery and finish timestamps for each node. These timestamps reveal graph structure: edges not in the DFS tree fall into three categories (back, forward, cross edges) that characterize cycles, DAGs, and strongly connected components. DFS finds topological orderings of DAGs (valid task schedules respecting dependencies), detects cycles, and is the basis for Tarjan's and Kosaraju's algorithms for finding strongly connected components in directed graphs.</p>
-<h2>Dijkstra's Algorithm</h2>
-<p>For weighted graphs where edge weights represent distances or travel times, BFS's hop count is insufficient. Dijkstra's algorithm finds shortest weighted paths from a source using a greedy strategy: always extend the currently shortest known path. Using a min-heap, it runs in O((V + E) log V) time. The algorithm maintains a distance array (initialized to ∞ except source = 0), extracts the minimum-distance unvisited node, and relaxes all its outgoing edges—updating distances if a shorter path is found. Dijkstra requires non-negative edge weights; for graphs with negative weights, Bellman-Ford is needed.</p>
-<div class="math-block">Dijkstra relaxation: dist[v] = min(dist[v], dist[u] + w(u,v))
-Time: O((V+E) log V) with binary heap</div>
-<h2>A* Search</h2>
-<p>A* extends Dijkstra with a heuristic h(v) estimating the remaining distance from node v to the target. Instead of the minimum dist[v] node, A* extracts the minimum of dist[v] + h(v)—combining known cost with estimated future cost. With an admissible heuristic (never overestimates true remaining cost), A* is guaranteed to find the optimal path while exploring far fewer nodes than Dijkstra. Google Maps uses A* (or variants) with geographic distance as the heuristic for routing. The same framework drives pathfinding in video games, robot motion planning, and puzzle solvers.</p>
-<div class="math-block">A* priority: f(v) = g(v) + h(v)  where g = cost so far, h = heuristic to goal
-Optimal if h is admissible: h(v) ≤ true remaining distance</div>
-<h2>Maximum Flow</h2>
-<p>The maximum flow problem asks: given a directed graph with edge capacities, what is the maximum amount of flow that can be sent from source to sink? The Ford-Fulkerson method repeatedly finds augmenting paths from source to sink and pushes flow along them until no augmenting path exists. The max-flow min-cut theorem is a fundamental duality result: maximum flow equals minimum cut (the minimum capacity edge set whose removal disconnects source from sink). Applications include network routing capacity, bipartite matching (job assignments, kidney transplant pairing), image segmentation, and airline scheduling.</p>
+<p class="lead">When you ask Google Maps for the fastest route from your hotel to the airport, it's solving a problem on a graph: a network of intersections connected by roads. It doesn't check every possible route — that would take too long. Instead, it uses graph algorithms that intelligently explore only the promising paths. The same algorithms power Facebook's friend suggestions, LinkedIn's "degrees of connection," and the routing protocols that guide internet traffic around the globe.</p>
+<h2>What Is a Graph?</h2>
+<p>A graph is a collection of nodes (also called vertices) connected by edges. A road map is a graph: intersections are nodes, roads are edges. The internet is a graph: computers are nodes, cables and wireless connections are edges. Social networks are graphs: people are nodes, friendships are edges. Graphs are everywhere — and the algorithms for navigating them efficiently are among the most important in computer science.</p>
+<h2>Breadth-First Search: Explore Level by Level</h2>
+<p>Breadth-first search (BFS) explores a graph layer by layer, starting from a source node. First visit all nodes one edge away. Then visit all nodes two edges away. Then three, and so on. This guarantees you find the shortest path in terms of number of edges — because you explore close nodes before distant ones.</p>
+<div class="math-block">BFS from node S:
+Level 0: {S}
+Level 1: {all neighbors of S}
+Level 2: {all unvisited neighbors of Level 1 nodes}
+Level 3: {all unvisited neighbors of Level 2 nodes}
+...continue until destination found or all nodes visited
+
+Time: O(V + E)  — proportional to nodes plus edges
+First time destination D appears = shortest path from S to D</div>
+<p>Facebook uses BFS to find your "degrees of separation" from any other user. LinkedIn uses it to show "2nd connection" and "3rd connection" labels. The answer is the level at which BFS first reaches that person from you.</p>
+<h2>Depth-First Search: Explore One Path Fully</h2>
+<p>Depth-first search (DFS) takes the opposite approach: from the current node, immediately follow one edge as deep as possible before backtracking. It's like exploring a maze by always turning right until you hit a dead end, then backtracking to the last fork. DFS is used to detect cycles in a graph (important for scheduling problems), to check if a graph is connected, and to generate mazes and puzzles.</p>
+<h2>Dijkstra's Algorithm: Shortest Weighted Paths</h2>
+<p>BFS finds the shortest path by number of edges — but real roads have different travel times. Dijkstra's algorithm finds the shortest path by total weight (time, distance, or cost) in a graph where edges have numerical weights.</p>
+<div class="math-block">Dijkstra's Algorithm:
+1. Assign distance 0 to start, infinity to all others
+2. Visit the unvisited node with smallest current distance
+3. For each neighbor: if (current distance + edge weight) &lt; neighbor's distance,
+   update neighbor's distance
+4. Repeat until destination reached
+
+Result: shortest weighted path from start to destination
+Time: O((V + E) log V) with a priority queue</div>
+<p>Google Maps runs a variant of Dijkstra's algorithm (with heuristic improvements for speed) every time you request directions. The "priority queue" in step 2 efficiently finds the next-closest node — without it, the algorithm would be too slow for large road networks.</p>
+<h2>The Six Degrees Problem</h2>
+<p>How many degrees of separation are you from any other person on Earth? BFS on the social graph answers this. Facebook researchers ran BFS on their entire user graph — over a billion nodes — and found an average of 3.57 degrees of separation. This was a major computational achievement: BFS on a billion-node graph, returning in minutes, thanks to efficient graph algorithm implementations.</p>
+<h2>Other Applications</h2>
+<p>Graph algorithms solve network routing (finding the path for your internet data through dozens of routers), airline scheduling (finding connections between cities), recommendation systems (finding users similar to you by graph distance), and dependency resolution in software (finding the correct order to install packages). Any time you need to navigate a network — real or abstract — BFS, DFS, or Dijkstra's is doing the work.</p>
 <h2>Conclusion</h2>
-<p>Graph algorithms translate the abstract mathematics of graphs into practical computational tools. BFS and DFS are the foundation—simple traversals that reveal connectivity, structure, and paths. Dijkstra and A* optimize traversal for weighted networks. Max-flow solves resource routing. Together, they form the computational backbone for navigation, network analysis, scheduling, and countless other applications where the world's connections can be modeled as graphs. Mastering these algorithms means acquiring tools applicable across virtually every domain of computer science and engineering.</p>
-
+<p>Graph algorithms are the tools for navigating networks intelligently. BFS explores level by level, guaranteeing shortest paths by edge count. DFS explores depth first, useful for detecting structure. Dijkstra's finds shortest weighted paths — the core of GPS navigation. These three algorithms, invented decades ago, run billions of times daily in the infrastructure of the modern world, from internet routing to social network analysis to map navigation.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="quantum-probability.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Quantum Probability: Superposition and Measurement</span>
-    </a>
-    <a href="finite-element-analysis.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Finite Element Analysis: Simulating the Physical World</span>
-    </a>
+    <a href="quantum-probability.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">62</span></a>
+    <a href="finite-element-analysis.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">64</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

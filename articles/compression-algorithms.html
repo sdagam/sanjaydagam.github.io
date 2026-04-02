@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Compression Algorithms: Storing More with Less</h1>
@@ -152,63 +125,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A high-resolution photograph contains 24 megabytes of raw data. Stored as a JPEG, it takes perhaps 2 megabytes—a 12:1 compression ratio—with barely perceptible quality loss. A one-hour HD video contains 50 gigabytes raw; compressed to H.264, it fits on a DVD. Without compression, the internet as we know it would be impossible: video streaming, video calls, and image sharing would consume bandwidth and storage orders of magnitude beyond what exists. Compression algorithms combine information theory, signal processing, and clever data structures to represent information in far fewer bits.</p>
-<h2>Lossless Compression: Entropy Coding</h2>
-<p>Lossless compression removes statistical redundancy without discarding any information. Huffman coding assigns shorter bit sequences to more frequent symbols: the letter 'e' (12.7% frequency in English) gets a short code like '00'; 'z' (0.07%) gets a long code like '11011010'. The average code length approaches the Shannon entropy H = −Σ pᵢ log₂ pᵢ—the theoretical minimum bits per symbol. Arithmetic coding goes further, encoding entire messages as a single fraction, achieving entropy exactly. LZ77 and LZ78 (used in ZIP and gzip) find repeated patterns and replace them with references to earlier occurrences—exploiting long-range statistical structure beyond single-symbol frequencies.</p>
-<div class="math-block">Shannon entropy: H = −Σ pᵢ log₂ pᵢ  (minimum bits per symbol)
-Huffman coding achieves average length ≤ H + 1 bit/symbol</div>
-<h2>Lossy Compression: The JPEG Story</h2>
-<p>JPEG compresses images by discarding information human vision barely notices. The algorithm: divide the image into 8×8 pixel blocks; apply the Discrete Cosine Transform (DCT) to represent each block as a sum of frequency components; quantize the DCT coefficients (round them, discarding small high-frequency components—the compression step); entropy code the remaining nonzero coefficients. The DCT concentrates energy in low-frequency components; quantization zeros out high-frequency components (fine textures, sharp details) that the eye barely perceives. The quality parameter controls how aggressively to quantize—higher quality means less quantization and larger files.</p>
-<div class="math-block">JPEG: image block → DCT → Quantize (lossy step) → Entropy code
-DCT coefficient: F(u,v) = (2/N) Σ Σ f(x,y)·cos(πu(2x+1)/2N)·cos(πv(2y+1)/2N)</div>
-<h2>Video Compression: Exploiting Time</h2>
-<p>Video compression exploits temporal redundancy: consecutive frames are nearly identical, differing only in moving objects. MPEG standards divide frames into I-frames (complete images, compressed like JPEG), P-frames (predicted from the previous frame—only differences are stored), and B-frames (predicted from both previous and next frames). Motion estimation finds how blocks of pixels moved between frames; motion compensation stores the motion vectors plus the prediction residuals. This temporal prediction reduces the data needed by factors of 10–100 compared to compressing each frame independently, enabling HD video at manageable bitrates.</p>
-<div class="math-block">Video compression: store motion vectors + residuals instead of full frames
-P-frame data ≈ 10-20× less than I-frame for typical content</div>
-<h2>Neural Compression</h2>
-<p>Recent neural network-based compression approaches achieve better quality at lower bitrates than classical algorithms for images, audio, and video. Variational autoencoders (VAEs) learn compact latent representations optimizing a rate-distortion tradeoff: minimize bits used while minimizing perceptual distortion. The encoder maps images to a compressed latent code; the decoder reconstructs from it. Neural compression can capture semantic structure—compressing a face image by representing facial geometry and texture separately—rather than treating images as generic signal. HEVC and AV1 video codecs incorporate neural network components, and fully neural codecs are advancing rapidly.</p>
-<h2>Rate-Distortion Theory</h2>
-<p>Shannon's rate-distortion theory establishes fundamental limits on lossy compression: for a given acceptable distortion level D, there is a minimum bit rate R(D) below which it is impossible to compress while staying within the distortion bound. The rate-distortion curve R(D) decreases as D increases—tolerating more distortion allows fewer bits. This theoretical framework guides practical algorithm design, providing benchmarks against which codecs are measured. Modern image and video codecs typically operate within 2–5× of the Shannon limit, meaning improvements must come from better perceptual models rather than purely information-theoretic efficiency.</p>
-<div class="math-block">Rate-distortion: R(D) = min_{p(x̂|x): E[d(X,X̂)]≤D} I(X; X̂)
-(minimum mutual information for given distortion)</div>
+<p class="lead">A two-hour HD movie contains about 100 gigabytes of raw video data. Netflix streams that movie to you at 5 gigabytes per hour — a 10-to-1 reduction. Your phone stores thousands of photos in the space that raw images would fill with dozens. Every file you download, every call you make over the internet, every song you stream relies on compression: the mathematics of representing the same information using fewer bits. How does compression work without losing anything — or losing only what you won't miss?</p>
+<h2>Lossless vs. Lossy Compression</h2>
+<p>There are two types of compression. Lossless compression reduces file size while preserving every bit of the original — decompress it and you get exactly the original back. ZIP files, PNG images, and FLAC audio use lossless compression. Lossy compression discards some information permanently — the decompressed file is an approximation of the original. MP3, JPEG, and the H.264 video codec are lossy. The art of lossy compression is discarding information you won't notice is missing.</p>
+<h2>Lossless: Huffman Coding</h2>
+<p>Every text file stores characters as fixed-length binary codes — typically 8 bits per character. But some characters appear far more often than others. In English, 'e' appears about 13% of the time; 'z' appears 0.07% of the time. Why use the same 8 bits for both? Huffman coding assigns shorter codes to frequent characters and longer codes to rare ones, reducing the average bits per character.</p>
+<div class="math-block">Fixed-length encoding: every character uses 8 bits
+
+Huffman encoding example:
+'e' (13% frequency) → code: 10       (2 bits)
+'t' (9% frequency)  → code: 01       (2 bits)
+'z' (0.07%)         → code: 111001010 (9 bits)
+
+Average bits per character ≈ 4.5 instead of 8
+→ text file reduced to 56% of original size
+
+The trick: frequent characters get short codes,
+rare ones get long codes. Average length decreases.</div>
+<p>Huffman coding builds an optimal code by treating character frequencies as a binary tree, where the most frequent characters sit closest to the root (shortest path = shortest code). The algorithm is guaranteed to produce the most efficient fixed-tree code possible.</p>
+<h2>Lossy: JPEG Image Compression</h2>
+<p>JPEG exploits a fact about human vision: we're much more sensitive to brightness differences than to color differences, and we're much more sensitive to gradual changes than to rapid fine detail. JPEG first converts the image from color to a representation separating brightness from color, then applies the Discrete Cosine Transform (DCT) to break each 8×8 block of pixels into frequency components — like Fourier analysis but for images. Low-frequency components (gradual color changes) are kept at full precision. High-frequency components (fine detail) are heavily rounded, since the eye barely notices their loss.</p>
+<div class="math-block">JPEG pipeline for each 8×8 pixel block:
+1. Apply DCT → 64 frequency coefficients
+   (like asking: how much coarse pattern? how much fine detail?)
+2. Divide each coefficient by a quality factor → round to integer
+   (high-frequency coefficients get divided by larger numbers → more rounding)
+3. Encode the rounded integers (with Huffman coding)
+
+At quality 80: typically 10:1 compression
+At quality 50: typically 20:1 compression, noticeable artifacts</div>
+<h2>Video: Exploiting Time</h2>
+<p>Video compression goes further by exploiting similarity between frames. In a typical scene, most of the frame is static — only small regions change between frames. H.264 (the codec behind most streaming video) encodes each frame as a set of changes from the previous frame, rather than as a full image. A slow-moving scene might encode 29 out of 30 frames as tiny "difference patches" rather than full images. Only when the scene cuts completely is a full frame needed. This inter-frame prediction is why a two-hour movie with 172,800 frames can be compressed to a fraction of what 172,800 full JPEG images would require.</p>
 <h2>Conclusion</h2>
-<p>Compression algorithms are applied information theory—taking Shannon's abstract measure of information and turning it into algorithms that shrank the internet's storage and bandwidth requirements by orders of magnitude. Lossless compression removes statistical redundancy; lossy compression discards what humans won't notice. Neural approaches are pushing the frontier toward the rate-distortion theoretical limits. Every image you view, video you stream, and audio file you play is the output of these mathematical techniques, silently making the modern information infrastructure possible.</p>
-
+<p>Compression works by exploiting redundancy: common characters in text, gradual spatial variation in images, temporal similarity in video. Lossless methods like Huffman coding remove redundancy without discarding information. Lossy methods like JPEG go further, discarding information the receiver is unlikely to notice. Together, these mathematical techniques make streaming movies, storing thousands of photos on a phone, and sending files over the internet practical — the difference between a 100GB raw movie and a 5GB compressed one is the mathematics of information theory applied to human perception.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="potential-energy-landscapes.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Potential Energy Landscapes: From Chemistry to Protein Folding</span>
-    </a>
-    <a href="reliability-engineering.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Reliability Engineering: Predicting When Things Fail</span>
-    </a>
+    <a href="potential-energy-landscapes.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">72</span></a>
+    <a href="reliability-engineering.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">74</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

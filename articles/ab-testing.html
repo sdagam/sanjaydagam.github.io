@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Statistics &amp; Probability</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-stats">Statistics & Probability</span>
     <h1 class="article-title">A/B Testing: The Mathematics of Making Better Decisions</h1>
@@ -152,58 +125,50 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">Should the button be blue or green? Should the headline be short or long? Should the price be $9.99 or $10? Rather than debating these questions, technology companies answer them with experiments: show version A to half of users and version B to the other half, measure the outcome, and apply statistics to decide which is better. A/B testing—also called randomized controlled experimentation—has become the primary decision-making tool at companies like Google, Amazon, and Netflix, where thousands of experiments run simultaneously.</p>
-<h2>The Statistical Framework</h2>
-<p>An A/B test is a two-sample hypothesis test. The null hypothesis is that both variants perform equally—any observed difference is due to random sampling variation. The alternative hypothesis is that one variant genuinely outperforms the other. After running the experiment for a planned duration, compute the test statistic and p-value. If p < α (typically 0.05), reject the null and ship the winning variant. The two-sample z-test for proportions or t-test for means are the standard choices. Effect size—the magnitude of the difference—matters as much as statistical significance for practical decisions.</p>
-<div class="math-block">Two-proportion z-test: z = (p̂_A − p̂_B) / √(p̂(1−p̂)(1/n_A + 1/n_B))
-where p̂ = pooled proportion</div>
-<h2>Sample Size and Power</h2>
-<p>The most common mistake in A/B testing is running experiments too small or too short to detect meaningful effects. Power analysis determines the required sample size before running the test: given a minimum detectable effect (MDE), significance level α, and desired power 1−β, the required n per variant is approximately n = 2(z_{α/2} + z_β)² σ² / δ², where δ is the MDE. For a conversion rate improvement from 5% to 5.5% (a 10% relative lift), you need roughly 50,000 users per variant to achieve 80% power. Underpowered tests frequently miss real effects—a false negative that leaves improvements unshipped.</p>
-<div class="math-block">Required n per variant: n ≈ 2(z_{α/2} + z_β)² · p̄(1−p̄) / δ²</div>
-<h2>Common Pitfalls</h2>
-<p>Several statistical traps catch practitioners. Peeking: checking results repeatedly and stopping when p < 0.05 dramatically inflates the false positive rate—the true α can reach 20–30% with frequent peeking. Multiple comparisons: testing 20 variants simultaneously, 1 will appear significant by chance at α = 0.05 even if none differ. The Bonferroni correction (use α/k per test for k tests) or false discovery rate methods address this. Network effects: in social platforms, users in the control group interact with treated users, violating the independence assumption and biasing results toward zero—a problem requiring cluster randomization.</p>
-<h2>Beyond Simple A/B Tests</h2>
-<p>Multi-armed bandit algorithms adapt during the experiment, allocating more traffic to better-performing variants as data accumulates—reducing regret (lost conversions from showing a worse variant) compared to fixed allocation. Bayesian A/B testing replaces p-values with posterior probability that variant B beats A, updating continuously as data arrives and allowing stopping when confidence is sufficiently high. Switchback experiments—used when randomizing individual users is impossible (e.g., marketplace pricing)—randomize time periods instead, controlling for temporal variation through careful experimental design.</p>
+<p class="lead">In 2000, Google tested 41 different shades of blue to find which one users were most likely to click on in search results. That sounds absurd — does shade of blue really matter? It does: the winning shade generated an additional $200 million in annual revenue. Google didn't guess or debate. They ran an experiment, collected data, and applied statistics. That process is called A/B testing, and it's how technology companies make almost every design decision.</p>
+<h2>The Setup: Two Versions, One Question</h2>
+<p>An A/B test is simple in concept. You have two versions of something — a webpage, an email subject line, a button color. You randomly split your users into two groups: Group A sees the original, Group B sees the new version. After a set period, you measure an outcome — click rate, purchase rate, sign-up rate — and ask: is the difference between the two groups real, or just random noise?</p>
+<p>That last question is the tricky part. If Group B clicks 4.2% of the time and Group A clicks 4.0% of the time, is the 0.2% difference meaningful? Or did it happen by chance, the way you might flip five heads in a row without the coin being unfair? Statistics provides the answer.</p>
+<h2>The Hypothesis Test</h2>
+<p>You start by assuming the two versions perform identically — this is called the null hypothesis. Then you ask: if they truly were identical, how likely is it that the data would show a difference as large as what you observed, purely by chance?</p>
+<div class="math-block">Test statistic: z = (p_B - p_A) / SE
+SE = standard error = √[p(1-p) × (1/n_A + 1/n_B)]
+
+p_B and p_A = click rates in each group
+n_A and n_B = number of users in each group
+SE = how much random variation you'd expect in the difference</div>
+<p>The standard error measures how noisy your data is. Larger sample sizes shrink the standard error — with a million users per group, even a tiny 0.01% difference becomes statistically detectable. With only 100 users per group, even a large difference might just be noise.</p>
+<p>The z-score tells you how many standard errors separate your observed difference from zero. A z-score above 1.96 means there's less than a 5% chance the difference happened by chance — the standard threshold for declaring a result "statistically significant."</p>
+<h2>Back to Google's Blue</h2>
+<p>With millions of users clicking search results daily, Google could detect very small differences reliably. For each of the 41 shades, they computed the click rate and ran the hypothesis test against the current standard. Shades that passed the significance threshold advanced; others were eliminated. The winning shade wasn't the prettiest — it was the one that produced the highest click rate with statistical confidence that the result was real and not luck.</p>
+<h2>Sample Size Matters</h2>
+<p>One of the most common mistakes in A/B testing is stopping too early. If you check the results after 50 users and see a big difference, it might be noise — you just haven't collected enough data yet. The required sample size can be calculated before the experiment: it depends on how small a difference you want to be able to detect and how confident you want to be. For a 1% difference in click rate, you might need 50,000 users per group. For a 5% difference, a few thousand suffice.</p>
+<h2>Other Applications</h2>
+<p>A/B testing isn't limited to tech companies. Clinical trials use the same statistical framework to test whether a new drug outperforms a placebo — with the stakes being patient lives rather than click rates. Educators test whether a new teaching method improves test scores. Politicians test which campaign message drives more voter registration. The math is identical; only the stakes change.</p>
 <h2>Conclusion</h2>
-<p>A/B testing is applied statistics at industrial scale—the mechanism by which data-driven organizations systematically improve products. Its power lies in randomization: by randomly assigning users, all differences between groups except the tested treatment average out, enabling causal inference from observational data. Done well—with adequate power, pre-registered stopping rules, and awareness of pitfalls—A/B testing transforms subjective debates about design choices into empirical questions answerable with mathematical rigor and measurable business impact.</p>
-
-  <h2>Conclusion</h2>
-<p>A/B testing is applied statistics at industrial scale—the mechanism by which data-driven organizations systematically improve products. Its power lies in randomization: by randomly assigning users, all differences between groups except the tested treatment average out, enabling causal inference from observational data. Done well—with adequate power, pre-registered stopping rules, and awareness of statistical pitfalls—A/B testing transforms subjective debates about design choices into empirical questions answerable with mathematical rigor. In an industry where a one-percentage-point conversion improvement can mean millions in revenue, the ability to run valid experiments at scale is one of the highest-value applications of statistics in the modern economy.</p>
+<p>A/B testing turns intuition into evidence. Instead of arguing about which shade of blue looks better, you measure which one works better — and statistics tells you whether the measured difference is real. The formula is straightforward: compute a z-score, compare it to a threshold, and declare a winner only when the data justifies it. It's how the modern world makes decisions at scale, one carefully measured experiment at a time.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="structural-optimization.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Structural Optimization: How Bridges Find Their Shape</span>
-    </a>
-    <a href="implicit-differentiation.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Implicit Differentiation: Finding Slopes Without Solving for y</span>
-    </a>
+    <a href="structural-optimization.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">54</span></a>
+    <a href="implicit-differentiation.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">56</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

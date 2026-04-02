@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Neural Networks: Layers, Weights, and Activation Functions</h1>
@@ -152,61 +125,59 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A neural network that can recognize any photograph, translate between languages, write code, and hold a conversation was trained on data using an algorithm that adjusts millions of numbers—weights—to minimize prediction errors. No explicit rules were programmed; the network learned statistical patterns from examples. Understanding how neural networks represent, learn, and generalize is essential for anyone working with modern AI—and it requires understanding the linear algebra, calculus, and optimization that make them work.</p>
-<h2>Architecture: Layers and Neurons</h2>
-<p>A feedforward neural network organizes computation into layers. Each neuron in a layer computes a weighted sum of its inputs and applies a nonlinear activation function: output = f(Σ wᵢxᵢ + b), where wᵢ are weights, b is a bias, and f is the activation. In matrix form, one layer computes h = f(Wx + b), where W is the weight matrix and f is applied elementwise. Stacking multiple layers creates a deep network: h₁ = f₁(W₁x + b₁), h₂ = f₂(W₂h₁ + b₂), and so on. The depth enables hierarchical representations: early layers detect simple features; later layers combine them into complex concepts.</p>
-<div class="math-block">Single layer: h = f(Wx + b)
-Deep network: y = fₙ(Wₙ fₙ₋₁(… f₁(W₁x+b₁) … ) + bₙ)</div>
-<h2>Activation Functions</h2>
-<p>The activation function introduces nonlinearity essential for universal approximation. ReLU (Rectified Linear Unit): f(x) = max(0,x)—simple, cheap to compute, and solves the vanishing gradient problem that plagued sigmoid and tanh activations in deep networks. Sigmoid: f(x) = 1/(1+e^{−x})—used in output layers for binary classification, squashing output to (0,1). Softmax: f(xᵢ) = e^{xᵢ}/Σe^{xⱼ}—used for multi-class classification, converting raw scores to probabilities summing to 1. GELU (Gaussian Error Linear Unit) is preferred in Transformers. The choice of activation function significantly affects training dynamics and performance.</p>
-<div class="math-block">ReLU: f(x) = max(0,x)     Sigmoid: f(x) = 1/(1+e⁻ˣ)
-Softmax: f(xᵢ) = eˣⁱ/Σeˣʲ</div>
-<h2>Backpropagation</h2>
-<p>Neural networks are trained by minimizing a loss function via gradient descent. Backpropagation efficiently computes gradients of the loss with respect to all weights using the chain rule applied layer by layer. Starting from the output loss, gradients flow backward: the gradient of the loss with respect to layer k's weights is computed from the gradient with respect to layer k+1's activations. This reverse-mode automatic differentiation requires only one forward pass and one backward pass—O(n) in the number of parameters—far cheaper than finite-difference approximation. Backpropagation is the reason deep learning is computationally feasible.</p>
-<div class="math-block">Backprop chain rule: ∂L/∂Wₖ = (∂L/∂hₖ) · (∂hₖ/∂Wₖ)
-Each layer's gradient uses the gradient from the layer above</div>
-<h2>Universal Approximation</h2>
-<p>The Universal Approximation Theorem guarantees that a feedforward network with a single hidden layer of sufficient width can approximate any continuous function on a compact domain to arbitrary precision. This ensures neural networks are expressively powerful enough for any task—in principle. In practice, depth is crucial: deep narrow networks often achieve better generalization than shallow wide networks with the same parameter count, and many practical architectures (CNNs for images, Transformers for sequences) exploit structural inductive biases that shallow networks lack.</p>
-<h2>Regularization and Generalization</h2>
-<p>A network with enough parameters can memorize training data perfectly while failing on new examples—overfitting. Regularization techniques prevent this. L2 regularization (weight decay) penalizes large weights, keeping the network smooth. Dropout randomly zeros neurons during training, forcing redundant representations. Batch normalization normalizes activations within each mini-batch, stabilizing training and allowing higher learning rates. Data augmentation (random crops, flips, color jitter) artificially expands the training set. These techniques collectively enable networks to generalize—learning patterns rather than memorizing examples.</p>
+<p class="lead">In 2012, a neural network called AlexNet was shown an image it had never seen before — a photograph of a cat — and correctly identified it as a cat. This sounds trivial. But AlexNet was the first program to match human-level performance on a benchmark with 1,000 categories of objects. No programmer wrote a rule that said "cats have pointed ears and whiskers." The network learned what a cat looks like from 1.2 million labeled photographs. Understanding how that learning works requires understanding the mechanics of a neural network.</p>
+<h2>The Basic Unit: A Neuron</h2>
+<p>A artificial neuron takes several inputs, multiplies each by a weight, adds the weighted inputs together, adds a bias term, and passes the result through an activation function. The output is a single number. That's it — one neuron is not very powerful. But chain thousands of them together in layers, and the system can represent extraordinarily complex patterns.</p>
+<div class="math-block">Single neuron output:
+y = f(w₁x₁ + w₂x₂ + ... + wₙxₙ + b)
+
+x₁...xₙ = inputs (e.g., pixel brightness values)
+w₁...wₙ = weights (learned from data)
+b = bias (a learned offset)
+f = activation function (adds nonlinearity)
+
+In plain English: weight each input by its importance,
+sum everything up, then squash through a nonlinear function.</div>
+<p>The activation function is crucial. Without it, stacking layers of neurons would be mathematically equivalent to just one layer — the whole network would still only compute linear functions. Common choices like ReLU (f(x) = max(0, x) — output zero if input is negative, otherwise pass it through unchanged) introduce the nonlinearity that lets networks learn curved decision boundaries and complex shapes.</p>
+<h2>Layers: Building Depth</h2>
+<p>A neural network organizes neurons into layers. The input layer receives raw data — for AlexNet, 224×224 pixel values. The output layer produces predictions — one probability per category. In between are hidden layers, where the network builds increasingly abstract representations. Early layers detect edges and color gradients. Middle layers combine edges into shapes. Deep layers combine shapes into object parts. The final layer combines parts into whole objects.</p>
+<p>AlexNet had 8 layers (5 convolutional + 3 fully connected), 60 million parameters (weights and biases), and needed 6 days of training on two GPUs to learn. Today's state-of-the-art vision networks have hundreds of layers and billions of parameters. Depth is what makes "deep learning" deep.</p>
+<h2>Learning: Backpropagation</h2>
+<p>The network starts with random weights. It sees a labeled example — a cat photo with the label "cat" — and produces an output. The output is almost certainly wrong initially. The loss function measures how wrong: the difference between the predicted probability for "cat" and 1.0 (the correct answer). Backpropagation computes how much each weight contributed to the error, by working backward through the network using the chain rule of calculus. Then gradient descent adjusts every weight slightly in the direction that reduces the error.</p>
+<div class="math-block">One training step:
+1. Forward pass: compute output given current weights
+2. Compute loss: how wrong is the prediction?
+3. Backward pass (backpropagation): compute ∂loss/∂weight for every weight
+4. Update: weight ← weight - learning_rate × ∂loss/∂weight
+
+Repeat for millions of examples → weights converge to useful values</div>
+<p>After a million training examples, each with this four-step adjustment, the weights encode the visual features that distinguish cats from dogs from cars from chairs — not because anyone programmed those features, but because they minimize prediction error across the training set.</p>
+<h2>Other Applications</h2>
+<p>The same architecture — inputs, weighted connections, hidden layers, outputs, trained by backpropagation — is adapted for text (language models), audio (speech recognition), protein structure prediction (AlphaFold), and drug discovery. The specific architecture changes for each domain, but the core learning mechanism is universal. Neural networks don't know in advance what they're learning — they discover useful representations from data.</p>
 <h2>Conclusion</h2>
-<p>Neural networks combine linear algebra (weight matrices), calculus (backpropagation), and optimization (gradient descent) into a learning system of remarkable power. Their success comes not from mimicking biological neurons but from being flexible, differentiable function approximators trainable end-to-end from data. Understanding the mathematics—how layers compose, how gradients flow backward, what activations do—transforms neural networks from mysterious black boxes into interpretable computational systems whose behavior can be reasoned about, improved, and adapted to new problems.</p>
-
+<p>A neural network is a layered system of simple computation units whose connections are tuned by exposure to data. Each neuron computes a weighted sum followed by a nonlinear squash. Layers build increasingly abstract representations. Backpropagation computes exactly how each weight should change to reduce prediction error. Repeat across millions of examples and the network learns — not from explicit rules, but from patterns in data. This mechanism, refined over decades, is what made AlexNet recognize cats and what makes modern AI systems as capable as they are.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="statistical-mechanics.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Statistical Mechanics: From Atoms to Temperature</span>
-    </a>
-    <a href="queueing-theory.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Queueing Theory: The Math of Waiting in Line</span>
-    </a>
+    <a href="statistical-mechanics.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">67</span></a>
+    <a href="queueing-theory.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">69</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

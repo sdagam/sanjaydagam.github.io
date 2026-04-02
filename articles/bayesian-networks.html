@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Statistics &amp; Probability</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-stats">Statistics & Probability</span>
     <h1 class="article-title">Bayesian Networks: Modeling Probabilistic Dependencies</h1>
@@ -152,57 +125,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A patient has a fever and cough. Given these symptoms, what is the probability of pneumonia versus influenza versus COVID-19? Answering this requires modeling probabilistic dependencies: fever and cough are both caused by respiratory infections, so they're dependent; knowing the infection type renders them conditionally independent of each other given the diagnosis. Bayesian networks—directed graphs encoding probabilistic dependencies through conditional probability tables—provide a principled framework for reasoning under uncertainty, combining domain knowledge with data in a transparent, interpretable structure.</p>
-<h2>Structure: The DAG</h2>
-<p>A Bayesian network consists of a directed acyclic graph (DAG) and a set of conditional probability distributions. Each node represents a random variable. Directed edges represent direct probabilistic influences—a parent node directly influences its child. Each node has a conditional probability table (CPT): P(node | its parents). For binary variables, a node with k parents has a CPT with 2^k rows. The joint probability of all variables factors as: P(X₁, …, Xₙ) = Π P(Xᵢ | parents(Xᵢ)). This factorization—the key property—allows joint distributions over many variables to be represented compactly by specifying only local dependencies.</p>
-<div class="math-block">Joint distribution: P(X₁,…,Xₙ) = Πᵢ P(Xᵢ | Parents(Xᵢ))
-Conditional independence: Xᵢ ⊥ non-descendants | Parents(Xᵢ)</div>
-<h2>Conditional Independence</h2>
-<p>The graph structure encodes conditional independence: a node is independent of its non-descendants given its parents. The d-separation criterion determines, from graph structure alone, whether any two sets of variables are conditionally independent given a third. Three fundamental patterns: common cause (X ← Z → Y: X and Y are independent given Z), common effect (X → Z ← Y: X and Y become dependent given Z—explaining away), and chain (X → Z → Y: X and Y are independent given Z). These patterns—especially explaining away, where observing an effect makes its causes compete—capture subtle probabilistic reasoning that humans find difficult but Bayesian networks handle automatically.</p>
-<h2>Inference</h2>
-<p>Given a Bayesian network, inference computes posterior probabilities of variables given observed evidence. Exact inference using variable elimination runs in time exponential in the treewidth of the graph—efficient for tree-structured networks, intractable for dense graphs. Approximate methods like belief propagation (exact on trees, approximate with loops) and Monte Carlo sampling (MCMC) scale to large networks. Medical diagnosis systems, fault detection in industrial equipment, and spam filtering all use Bayesian network inference to combine evidence from multiple uncertain sources into posterior probability estimates.</p>
-<h2>Learning from Data</h2>
-<p>Bayesian network parameters (the CPTs) can be estimated from data by maximum likelihood—simply counting conditional frequencies. Structure learning—inferring the DAG itself from data—is an NP-hard combinatorial problem, typically addressed through score-based methods (searching for the structure maximizing a penalized likelihood score like BIC) or constraint-based methods (testing for conditional independence and using the results to construct a compatible DAG). Learning structure from data faces fundamental identifiability limits: many different DAGs encode the same conditional independence structure and cannot be distinguished by data alone.</p>
-<h2>Dynamic Bayesian Networks</h2>
-<p>Dynamic Bayesian networks (DBNs) extend static networks to temporal data by modeling how variables evolve over time. The Hidden Markov Model (HMM) is a simple DBN where a hidden state at each time step directly generates an observation and transitions to the next hidden state. The Kalman filter—widely used in navigation and tracking—is a DBN with continuous Gaussian variables, enabling exact inference in linear systems. DBNs model gene regulatory networks, speech recognition, and robot localization, combining Bayesian network structure with temporal dynamics.</p>
+<p class="lead">A spam filter receives an email with the words "congratulations," "winner," "click here," and "free prize." Each word individually is suspicious. But how do they combine? Does seeing all four words make it 4 times as likely to be spam as seeing just one? Or more? And what if the sender is your grandmother — does that override the suspicious words? Bayesian networks are the mathematical tool for answering these questions: reasoning through chains of probabilistic cause and effect.</p>
+<h2>The Problem with Simple Probability</h2>
+<p>Naive spam filters multiply the probabilities of individual suspicious words, treating each as independent. But words in emails aren't independent — a message about "free prizes" is also likely to contain "congratulations," so these words are correlated. Multiplying their probabilities as if they're independent double-counts evidence and produces badly calibrated estimates. Bayesian networks fix this by explicitly modeling which variables cause which others.</p>
+<h2>The Structure: A Causal Graph</h2>
+<p>A Bayesian network is a directed graph where each node is a variable and each arrow represents a direct causal or probabilistic influence. For the spam example: "Email is Spam" causes "Contains 'free'" and "Contains 'congratulations'" and "Contains 'click here'" — but those three word variables don't cause each other. They're all caused by the same root (spam status). In graph terms, they're conditionally independent given the spam status: once you know whether it's spam, knowing about one word tells you nothing extra about the others.</p>
+<div class="math-block">Bayesian Network for spam:
+
+Spam (S) → Word1 (W1)
+Spam (S) → Word2 (W2)
+Spam (S) → Word3 (W3)
+
+P(S, W1, W2, W3) = P(S) × P(W1|S) × P(W2|S) × P(W3|S)
+
+In plain English: the joint probability of all variables equals
+the product of each variable's probability given its parents.
+This is much simpler than tracking all combinations directly.</div>
+<p>The network encodes the insight that W1, W2, and W3 are independent once you know S — so instead of needing a probability table with 2⁴ = 16 entries, you need just P(S), P(W1|S), P(W2|S), P(W3|S) — 5 numbers. This compression grows dramatically with more variables.</p>
+<h2>Bayesian Inference: Updating Beliefs</h2>
+<p>The power of a Bayesian network is inference: given observed evidence, compute the probability of unobserved variables. For spam detection: you observe which words appear in the email. Using Bayes' theorem, the network computes the posterior probability of spam given those observations. Each word that's more common in spam than legitimate email increases the spam probability; each word more common in legitimate email decreases it.</p>
+<div class="math-block">P(Spam | words observed) = P(words | Spam) × P(Spam) / P(words)
+
+Numerator: how likely are these exact words in a spam email?
+P(Spam): prior probability email is spam (before seeing words)
+Denominator: how likely are these words regardless of spam status?
+
+Update this for each new piece of evidence.</div>
+<p>If you add sender information — "sender is in my contacts" — the network incorporates this as another node: "Known Sender" reduces P(Spam) substantially, even if the words are suspicious. The network balances all evidence simultaneously.</p>
+<h2>Medical Diagnosis</h2>
+<p>Bayesian networks were famously applied to medical diagnosis in the early 1990s. A network for diagnosing chest pain has nodes for possible diseases (heart attack, pulmonary embolism, anxiety), symptoms (chest pain, shortness of breath, sweating), and test results (ECG, troponin levels). Doctors enter symptoms and test results as observed evidence; the network computes the probability of each diagnosis. The QMR-DT system, one of the first, encoded knowledge from thousands of medical cases into a Bayesian network and achieved diagnostic accuracy comparable to specialist physicians.</p>
+<h2>Other Applications</h2>
+<p>Bayesian networks model gene regulatory interactions in biology, fault diagnosis in complex machinery (given these sensor readings, what component has most likely failed?), weather forecasting (given today's pressure and humidity, what's tomorrow's rain probability?), and financial risk assessment. Anywhere multiple uncertain variables influence each other through known causal pathways, a Bayesian network provides a principled probabilistic model.</p>
 <h2>Conclusion</h2>
-<p>Bayesian networks provide a graphical language for representing, reasoning about, and learning from uncertain, interdependent information. Their power lies in making probabilistic structure explicit and interpretable—domain experts can encode knowledge as graph structure, and inference algorithms efficiently compute consequences. The combination of principled uncertainty quantification, transparent structure, and learnable parameters from data makes Bayesian networks indispensable tools wherever complex systems must be diagnosed, predicted, or controlled under uncertainty.</p>
-
+<p>Bayesian networks represent probabilistic cause-and-effect relationships in a graph, then use Bayes' theorem to reason from observed evidence to unobserved causes. The graph structure encodes independence assumptions — once you know the cause, the effects don't give you extra information about each other — compressing a complex joint probability into manageable pieces. For spam filtering, medical diagnosis, and machine fault detection, this framework provides a mathematically rigorous way to update beliefs as evidence accumulates.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="queueing-theory.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Queueing Theory: The Math of Waiting in Line</span>
-    </a>
-    <a href="divergence-theorem.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">The Divergence Theorem: Flux Through Closed Surfaces</span>
-    </a>
+    <a href="queueing-theory.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">69</span></a>
+    <a href="divergence-theorem.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">71</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Physics Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Potential Energy Landscapes: From Chemistry to Protein Folding</h1>
@@ -152,59 +125,61 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A protein chain of 300 amino acids has ~10⁸⁰ possible conformations. Yet within milliseconds, it folds into a precise three-dimensional shape essential for its function. How does it find this needle in an astronomically large haystack so quickly? The answer involves the potential energy landscape—a mathematical surface over configuration space whose valleys represent stable structures, ridges represent barriers, and gradient drives the folding process. This concept, unifying chemistry, biology, and physics, explains not just protein folding but glass transitions, chemical reactions, and the optimization problems of machine learning.</p>
-<h2>Configuration Space and Energy Surfaces</h2>
-<p>Every physical system has a configuration space—the set of all possible arrangements. For a protein, this is the space of all backbone dihedral angles. For a liquid becoming a glass, it's all possible molecular positions. The potential energy landscape is a function from configuration space to energy: U(configuration). At every configuration, the forces on atoms are the negative gradient of U—systems evolve toward lower energy. Stable configurations (local energy minima) correspond to folded proteins, crystals, or chemical products. The landscape's topology—how minima connect through saddle points—determines kinetics: how quickly and by what pathways systems transform.</p>
-<div class="math-block">Forces: F = −∇U(configuration)
-System evolves toward lower energy; stable states = local minima</div>
-<h2>The Folding Funnel</h2>
-<p>Proteins don't search configuration space randomly—their landscapes have a funnel structure. The native (functional) fold corresponds to a global energy minimum, but the landscape is also funneled: most configurations have direct downhill pathways toward the native state, not random trajectories. The Levinthal paradox (if a protein randomly sampled conformations at nanosecond intervals, finding the minimum would take longer than the age of the universe) is resolved by the funnel: evolution has shaped sequences so their landscapes guide rapid folding. Misfolded proteins trapped in local minima rather than the global minimum cause diseases like Alzheimer's and Parkinson's—amyloid fibrils are alternative low-energy structures.</p>
-<h2>Transition States and Rates</h2>
-<p>The rate of any thermally activated process—a chemical reaction, a protein folding event, a conformational change—is governed by the energy barrier ΔG‡ separating reactants from products. Transition state theory gives the Arrhenius rate: k = A e^{−ΔG‡/k_BT}. The prefactor A reflects vibrational frequencies at the transition state; the exponential captures the Boltzmann probability of reaching the barrier top. A barrier of 10 kcal/mol at room temperature reduces rates by a factor of ~10⁷ compared to a barrierless process. Catalysts—enzymes or inorganic—accelerate reactions by stabilizing the transition state, lowering ΔG‡.</p>
-<div class="math-block">Arrhenius rate: k = A · e^{−ΔE‡/k_BT}
-10 kcal/mol barrier at 300K slows rate by factor ~10⁷</div>
-<h2>Energy Landscapes in Machine Learning</h2>
-<p>The loss landscape of a neural network is a high-dimensional potential energy landscape. Gradient descent is physically analogous to a ball rolling downhill. Local minima in the loss landscape correspond to neural network weights that minimize training error. The landscape of large neural networks is poorly understood but empirically has many shallow local minima of similar quality—the network reaches different but equivalently good solutions from different initializations. Flat minima (wide, shallow valleys) generalize better than sharp minima—a connection between landscape geometry and generalization that active research continues to explore.</p>
-<h2>Glasses and Rugged Landscapes</h2>
-<p>Not all landscapes have clear funnels. Spin glasses—models with random, conflicting interactions—have rugged landscapes with exponentially many local minima separated by high barriers. Actual glasses (amorphous solids) have similarly rugged landscapes: the liquid explores configuration space rapidly at high temperature, but below the glass transition, barriers trap the system in a local minimum for timescales exceeding experimental observation. This kinetic arrest—falling into a random local minimum and becoming trapped—is the physical mechanism of glass formation. The mathematical theory of rugged landscapes, originally developed for spin glasses, now informs our understanding of protein misfolding, neural network training, and combinatorial optimization.</p>
+<p class="lead">Every protein in your body — hemoglobin carrying oxygen, enzymes digesting food, antibodies fighting infection — begins life as a flat chain of amino acids. Within milliseconds, it folds into a precise three-dimensional shape that determines its function. Get the shape wrong, and you get disease: misfolded proteins cause Alzheimer's, Parkinson's, and cystic fibrosis. How does a chain of hundreds of amino acids find its correct shape so quickly? The answer involves a mathematical landscape of hills and valleys.</p>
+<h2>What Is a Potential Energy Landscape?</h2>
+<p>Every physical system has a potential energy that depends on its configuration — the arrangement of its parts. A ball on a hilly terrain has gravitational potential energy that depends on its height: high positions have high energy, low positions have low energy. The ball naturally rolls toward lower energy. A protein's potential energy depends on how its atoms are arranged: some folded configurations are energetically favorable (stable), others are not.</p>
+<p>Imagine mapping all possible configurations of a protein as points on a vast, high-dimensional surface, with potential energy as the height. This surface — with peaks, valleys, saddle points, and ravines — is the potential energy landscape. The protein's natural folding process is a descent through this landscape toward low-energy valleys.</p>
+<div class="math-block">Potential energy landscape: E = E(configuration)
+Configuration = positions of all atoms
+
+At any point, the system feels a force:
+F = -∇E  (force = negative gradient of energy)
+
+In plain English: the force pushes the system
+"downhill" on the energy landscape — toward lower energy.
+∇E (the gradient) points in the direction of steepest ascent,
+so -∇E points toward steepest descent.</div>
+<h2>The Protein Folding Problem</h2>
+<p>A chain of 100 amino acids has roughly 3¹⁰⁰ possible configurations (each of the many rotatable bonds can take about 3 positions). Checking every configuration would take longer than the age of the universe, yet proteins fold correctly in milliseconds. How?</p>
+<p>The landscape isn't random — it has structure. The energy landscape of a protein is often described as a funnel: the vast majority of configurations at the rim of the funnel have high energy, but there's a consistent downward slope leading toward the native (correctly folded) state at the bottom. The protein doesn't search randomly through all configurations; it follows energy gradients downhill. The funnel shape ensures that almost any starting configuration leads quickly toward the correct fold.</p>
+<h2>Local Minima: The Trap Problem</h2>
+<p>Not every valley in the landscape is the global minimum — the deepest point, corresponding to the correct fold. The landscape also has local minima: valleys that are lower than nearby configurations, but not the lowest overall. A protein that gets trapped in a local minimum folds into a stable but incorrect structure — a misfolded protein. Some misfolded structures are harmless; others aggregate into the plaques associated with Alzheimer's disease.</p>
+<div class="math-block">Global minimum: correct fold (lowest energy overall)
+Local minimum: stable misfolded state (lower than neighbors, but not the lowest)
+
+Transition state energy barrier between minima:
+ΔE = barrier height
+Rate of escape: proportional to e^(-ΔE/kT)
+
+Higher temperature → more thermal energy → faster escape from local minima</div>
+<h2>AlphaFold: Mapping the Landscape Computationally</h2>
+<p>DeepMind's AlphaFold2, released in 2021, effectively learned to predict where the bottom of the energy landscape lies for any given amino acid sequence — without explicitly computing the landscape. Trained on the known structures of 170,000 proteins, it predicts the 3D structure of new proteins with near-experimental accuracy. In 2022, it released predicted structures for nearly all 200 million known proteins. This is the biggest advance in structural biology in decades, and it's accelerating drug discovery by revealing the shapes of disease-related proteins.</p>
+<h2>Other Applications</h2>
+<p>Potential energy landscapes describe chemical reactions (the activation energy barrier a reaction must overcome), the magnetization of materials (landscape over possible magnetic orientations), and even neural networks in machine learning — the loss function landscape that gradient descent navigates during training shares the same hills, valleys, and local minima that make protein folding both fascinating and challenging.</p>
 <h2>Conclusion</h2>
-<p>Potential energy landscapes provide a unifying geometric picture for how systems explore configuration spaces and find stable states. The funnel topology explains protein folding speed, the Arrhenius equation quantifies barrier-crossing rates, and the rugged landscape model explains glassy dynamics. This mathematical framework—applicable from single molecules to neural networks—reveals that understanding complex systems is often a matter of understanding the geometry of their energy surface: how many valleys exist, how they connect, and what drives systems to explore or become trapped.</p>
-
+<p>Potential energy landscapes give physical intuition to complex systems: high-energy configurations are "uphill," low-energy configurations are "downhill," and systems naturally descend toward stability. For proteins, the landscape is funnel-shaped, guiding chains to their correct fold in milliseconds. Local minima — traps in the landscape — produce misfolded proteins linked to disease. Understanding the landscape mathematically, and predicting where its minimum lies, is what AlphaFold accomplished — turning a 50-year unsolved problem into a solved one using the mathematics of optimization over energy surfaces.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="divergence-theorem.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">The Divergence Theorem: Flux Through Closed Surfaces</span>
-    </a>
-    <a href="compression-algorithms.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Compression Algorithms: Storing More with Less</span>
-    </a>
+    <a href="divergence-theorem.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">71</span></a>
+    <a href="compression-algorithms.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">73</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

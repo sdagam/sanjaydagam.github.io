@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Decision Trees and Random Forests: Learning from Data</h1>
@@ -152,62 +125,55 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A doctor diagnosing a patient asks a series of questions: Is there fever? Is there cough? Is there shortness of breath? Each answer narrows the diagnosis. This sequential questioning process is exactly what a decision tree does—it learns a series of yes/no questions from data to classify examples or predict outcomes. Random forests take this further, combining hundreds of trees to produce predictions far more accurate and robust than any single tree. Together, they are among the most widely used and interpretable machine learning algorithms.</p>
-<h2>How Decision Trees Work</h2>
-<p>A decision tree partitions the feature space into rectangular regions by recursively splitting data based on feature thresholds. At each node, the algorithm selects the feature and threshold that best separates the classes (for classification) or reduces variance (for regression). For classification, 'best' is typically measured by information gain (reduction in entropy) or Gini impurity decrease. The tree grows until leaves are pure (all one class) or a stopping criterion is met. Predictions for new examples follow the tree from root to leaf, with each internal node applying a threshold test.</p>
-<div class="math-block">Gini impurity: G = 1 − Σ pᵢ²
-Entropy: H = −Σ pᵢ log₂(pᵢ)
-Split quality: ΔH = H(parent) − Σ (nᵢ/n)·H(child_i)</div>
-<h2>The Bias-Variance Tradeoff</h2>
-<p>A single decision tree grown to full depth has low bias (it fits training data perfectly) but high variance (it changes dramatically with different training samples)—it overfits. Pruning the tree—cutting back branches that provide little improvement—reduces variance at the cost of some bias. This bias-variance tradeoff is fundamental to all of supervised learning: simpler models have high bias (underfit), complex models have high variance (overfit), and the goal is the sweet spot that minimizes total error on unseen data. Cross-validation estimates this tradeoff empirically to choose the right tree depth.</p>
-<div class="math-block">Total error ≈ Bias² + Variance + Irreducible noise
-Goal: minimize expected error on new data</div>
-<h2>Random Forests</h2>
-<p>Random forests reduce variance by averaging many decorrelated trees. Two sources of randomness make trees decorrelated: bootstrap sampling (each tree trains on a random sample with replacement from the training set—bagging) and feature subsampling (at each split, only a random subset of features is considered—typically √p features for p total). Averaging n trees reduces variance by a factor of n (if trees were independent), while the decorrelation from feature subsampling ensures trees aren't all making the same mistakes. In practice, forests of 100–1000 trees typically converge to near-optimal performance.</p>
-<div class="math-block">Forest prediction: ŷ = (1/B) Σᵢ Tree_i(x)
-Variance reduction: Var(average) ≈ ρσ² + (1−ρ)σ²/B  (ρ = tree correlation)</div>
-<h2>Feature Importance</h2>
-<p>A key strength of tree methods is interpretability through feature importance scores. Mean Decrease in Impurity (MDI) sums the impurity reduction from all splits on a feature, weighted by the number of samples. Mean Decrease in Accuracy (MDA, or permutation importance) measures how much accuracy drops when a feature's values are randomly shuffled—capturing non-linear and interaction effects missed by MDI. These scores reveal which variables drive predictions, enabling model interpretation and feature selection. This transparency distinguishes forests from neural networks in high-stakes applications like medical diagnosis and credit scoring.</p>
-<h2>Gradient Boosting</h2>
-<p>Where random forests train trees independently in parallel, gradient boosting trains them sequentially. Each new tree fits the residuals—the errors—of the ensemble so far. The mathematical insight: fitting residuals is equivalent to gradient descent in function space, where the loss is the prediction error and each tree is a step in the negative gradient direction. XGBoost, LightGBM, and CatBoost are optimized implementations that dominate tabular data competitions. By combining many weak learners (shallow trees) into a powerful ensemble through boosting, these methods achieve state-of-the-art accuracy on structured data tasks.</p>
+<p class="lead">A doctor examining a patient with chest pain must decide: is this a heart attack, or indigestion? They run through a mental checklist — age, blood pressure, electrocardiogram results, whether the pain radiates to the arm — and each answer narrows the possibilities. This branching, question-by-question process is exactly how decision trees work. The difference is that a computer can learn which questions to ask and in what order directly from thousands of past cases.</p>
+<h2>What Is a Decision Tree?</h2>
+<p>A decision tree is a flowchart built from data. At each node, it asks a yes-or-no question about one variable. Based on the answer, it branches left or right. At the end of each branch — a leaf — it makes a prediction. For the chest pain example, the tree might start by asking "Is the patient over 60?" Then "Does the ECG show ST elevation?" Then "Is systolic blood pressure above 140?" After a few questions, it reaches a leaf that says "High probability of heart attack" or "Low probability."</p>
+<h2>How a Tree Gets Built</h2>
+<p>A decision tree learns by finding the question that best separates your data at each step. "Best" means the question that, when answered, creates the purest groups — groups that are most homogeneous in terms of the outcome you're predicting.</p>
+<p>Purity is measured by a metric called the Gini impurity. A perfectly pure group (all heart attacks, or all non-heart-attacks) has Gini impurity of 0. A perfectly mixed group (50% each) has Gini impurity of 0.5. The algorithm tries every possible question on every variable and picks the one that creates the biggest drop in Gini impurity.</p>
+<div class="math-block">Gini impurity = 1 - Σ(pᵢ²)
+pᵢ = fraction of examples in class i
+
+Example: group with 90% heart attacks, 10% not:
+Gini = 1 - (0.9² + 0.1²) = 1 - (0.81 + 0.01) = 0.18  (fairly pure)
+
+Group with 50/50 split:
+Gini = 1 - (0.5² + 0.5²) = 1 - 0.50 = 0.50  (maximally impure)</div>
+<p>The algorithm builds the tree greedily: at each node, pick the best question now, without worrying about later nodes. It stops splitting when groups become pure enough, or when groups become too small to split further.</p>
+<h2>The Problem: Overfitting</h2>
+<p>A single decision tree has a weakness: it can memorize the training data. Given enough splits, it creates so many specific rules that it perfectly classifies every past case — but fails on new cases because it's learned the noise in the data rather than the true patterns. A tree that asks "Is the patient's age exactly 47, and their last name starts with B?" is too specific to generalize.</p>
+<h2>Random Forests: Wisdom of the Crowd</h2>
+<p>The solution is to build hundreds of trees instead of one — a random forest. Each tree is trained on a random subset of the training data and allowed to consider only a random subset of the variables at each split. Individual trees overfit in different directions. But when you average their predictions — let them vote — their individual errors cancel out, and the collective prediction is much more accurate than any single tree.</p>
+<div class="math-block">Random Forest prediction = majority vote of N trees
+N = 100 to 1000 trees typical
+Each tree sees ~63% of training data (random sample with replacement)
+Each split considers √(total variables) randomly chosen variables</div>
+<h2>Other Applications</h2>
+<p>Random forests are used to predict loan defaults (which applicants are most likely to miss payments?), detect fraud (does this transaction pattern look unusual?), diagnose plant disease from leaf photographs, and predict equipment failures in manufacturing. They're popular because they handle mixed data types, don't require scaling or normalization, and naturally indicate which variables matter most — a useful feature for medical diagnosis where understanding the reasoning matters as much as the prediction.</p>
 <h2>Conclusion</h2>
-<p>Decision trees capture the intuitive structure of rule-based reasoning and make it learnable from data. Their extension to random forests and gradient boosting produces some of the most powerful and practical machine learning algorithms available. The combination of high predictive accuracy, built-in feature importance, robustness to outliers, and minimal preprocessing requirements makes tree ensembles the default choice for tabular data problems across industries from finance to healthcare to e-commerce.</p>
-
+<p>Decision trees mimic the branching logic of expert reasoning — asking the most informative questions first, narrowing down possibilities with each answer. The math selects questions using Gini impurity, measuring how much each question clarifies the outcome. Random forests fix the single tree's tendency to overfit by averaging hundreds of diverse trees, turning individual mistakes into collective accuracy. From medical diagnosis to fraud detection, this combination of simple logic and statistical averaging is one of the most reliable tools in machine learning.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="wave-interference.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Wave Interference: How Waves Add and Cancel</span>
-    </a>
-    <a href="error-correction.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Error Correction Codes: How Data Survives Transmission</span>
-    </a>
+    <a href="wave-interference.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">57</span></a>
+    <a href="error-correction.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">59</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

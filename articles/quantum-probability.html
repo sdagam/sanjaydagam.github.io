@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Physics Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Quantum Probability: Superposition and Measurement</h1>
@@ -152,61 +125,49 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A quantum particle is not definitely here or definitely there—it exists in a superposition, simultaneously in multiple states until measured. A quantum coin doesn't land heads or tails while spinning; it is genuinely both, with probabilities only crystallizing upon observation. Quantum probability is not classical probability with extra steps—it is a fundamentally different mathematical framework that violates classical intuitions in measurable, experimentally confirmed ways, and it underlies both our deepest understanding of nature and the quantum technologies being built today.</p>
-<h2>The Quantum State</h2>
-<p>In quantum mechanics, the state of a system is a vector |ψ⟩ in a complex Hilbert space. For a qubit (the quantum analog of a bit), the state is |ψ⟩ = α|0⟩ + β|1⟩, where α and β are complex amplitudes satisfying |α|² + |β|² = 1. The probabilities of measuring 0 or 1 are |α|² and |β|² respectively. Unlike classical probability, amplitudes can be negative or complex—interference between amplitudes is what distinguishes quantum from classical behavior. The state is not a probability distribution; it is a richer object from which probabilities emerge through the Born rule upon measurement.</p>
-<div class="math-block">Qubit: |ψ⟩ = α|0⟩ + β|1⟩,  |α|² + |β|² = 1
-P(measure 0) = |α|²,  P(measure 1) = |β|²  (Born rule)</div>
-<h2>Superposition and Interference</h2>
-<p>A quantum system in superposition is not secretly in one definite state—it truly exists in multiple states simultaneously, as confirmed by interference experiments. If |ψ⟩ = (|0⟩ + |1⟩)/√2 and we measure in the {|0⟩, |1⟩} basis, we get 50%/50%. But rotating to the {|+⟩, |−⟩} basis and measuring gives 100% |+⟩—the state is definite in this basis. Classical probability cannot explain this: no classical hidden variable assigns definite pre-measurement values consistent with all quantum measurement statistics, as proven by Bell's theorem and confirmed by experiments. Superposition is not ignorance—it is genuine physical indefiniteness.</p>
-<div class="math-block">|+⟩ = (|0⟩+|1⟩)/√2,  |−⟩ = (|0⟩−|1⟩)/√2
-Measuring |+⟩ in {|+⟩,|−⟩} basis: 100% probability of |+⟩</div>
-<h2>Entanglement</h2>
-<p>Two quantum particles can be entangled: their joint state cannot be written as a product of individual states. The Bell state |Φ⁺⟩ = (|00⟩ + |11⟩)/√2 is perfectly correlated: measuring the first qubit as 0 instantly forces the second to be 0, regardless of the distance between them. This correlation violates Bell inequalities—bounds that any classical local hidden variable theory must satisfy. Experiments by Aspect (1982) and others have confirmed quantum violations of Bell inequalities, ruling out classical explanations. Entanglement is the resource underlying quantum teleportation, quantum cryptography, and the exponential speedup of quantum computing.</p>
-<div class="math-block">Bell state: |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
-Measurement correlations violate Bell inequalities — no classical explanation possible</div>
-<h2>The Measurement Problem</h2>
-<p>Quantum mechanics describes two distinct dynamics: the Schrödinger equation evolves states deterministically and continuously, while measurement collapses the wavefunction instantaneously and randomly. Why measurement is different—how definite outcomes emerge from a superposition—is the quantum measurement problem, the deepest unresolved interpretive question in physics. The Copenhagen interpretation treats measurement as a primitive; many-worlds says all outcomes occur in branching universes; decoherence theory explains apparent collapse through entanglement with the environment. No experiment discriminates between interpretations, leaving the question philosophical as much as scientific.</p>
-<h2>Quantum Computing</h2>
-<p>Quantum computers exploit superposition and entanglement to perform computations impossible for classical computers. A quantum register of n qubits exists in superposition over 2ⁿ states simultaneously, potentially exploring all states in parallel. Quantum algorithms use interference to amplify amplitudes of correct answers: Shor's algorithm factors integers in polynomial time (breaking RSA encryption); Grover's algorithm searches unsorted databases in O(√n) steps. The challenge is maintaining coherence—entanglement with the environment destroys superposition through decoherence—which is why building large-scale fault-tolerant quantum computers remains an enormous engineering challenge.</p>
+<p class="lead">An electron passes through two parallel slits in a barrier and lands on a detector screen behind it. When both slits are open, the electron lands in a striped interference pattern — as if it went through both slits simultaneously. When you place a detector at one slit to watch which one the electron uses, the interference pattern disappears. The act of observing the electron changes where it lands. This is quantum mechanics, and the mathematics behind it is a fundamentally different kind of probability.</p>
+<h2>Classical Probability vs. Quantum Probability</h2>
+<p>In classical probability, things have definite states. A coin is either heads or tails — we might not know which, but it is one. Quantum particles are different. Before measurement, an electron genuinely has no definite position, spin, or energy. It exists in a superposition — a combination of multiple possible states simultaneously. The mathematics that describes this isn't the ordinary probability you know. It uses something called probability amplitudes.</p>
+<div class="math-block">Quantum state: |ψ⟩ = α|up⟩ + β|down⟩
+α and β are complex numbers called probability amplitudes
+|α|² = probability of measuring "up"
+|β|² = probability of measuring "down"
+Requirement: |α|² + |β|² = 1  (probabilities must sum to 1)
+
+In plain English: before measurement, the electron is "both up and down"
+in proportions given by α and β.</div>
+<p>The crucial difference: classical probability adds probabilities. Quantum mechanics adds amplitudes — which can be negative or complex numbers. When you square amplitudes to get probabilities, the cross terms can cancel (destructive interference) or reinforce (constructive interference). This is why quantum probability produces interference patterns that ordinary probability never could.</p>
+<h2>The Two-Slit Experiment Explained</h2>
+<p>An electron heading toward two slits has two possible paths: through slit 1, or through slit 2. In quantum mechanics, its amplitude is the sum of the amplitude for path 1 and the amplitude for path 2. These two amplitudes can interfere — adding where the paths are in sync, canceling where they're out of sync. The result at the detector screen: bright stripes (constructive interference) alternating with dark stripes (destructive cancellation). The interference pattern comes directly from adding amplitudes before squaring.</p>
+<p>When you place a detector at one slit to watch which path the electron takes, the measurement forces the electron to "choose" — it can no longer be in superposition. Now only one amplitude contributes, and there's nothing to interfere with. The pattern disappears, replaced by two simple bright spots behind each slit. Observing the path destroys the superposition.</p>
+<h2>Schrödinger's Equation</h2>
+<p>The quantum state evolves over time according to Schrödinger's equation — the quantum equivalent of Newton's laws of motion. It describes how the superposition of possibilities changes moment to moment, wave-like, until a measurement collapses it to a definite value. Between measurements, the quantum state spreads and interferes like a wave. At measurement, it suddenly becomes a particle at a specific location. This wave-particle duality is not a paradox — it's what the mathematics predicts, and experiments confirm it with extraordinary precision.</p>
+<h2>Other Applications</h2>
+<p>Quantum probability underlies modern technology more than most people realize. MRI machines work because hydrogen nuclei in your body exist in quantum spin superpositions that can be manipulated and measured to map tissue density. Lasers work because quantum superposition allows atoms to emit light coherently. Quantum computers — currently in early development — exploit superposition to process multiple possible answers simultaneously, potentially solving certain problems exponentially faster than classical computers. Every transistor in your phone operates on quantum tunneling, another consequence of quantum probability.</p>
 <h2>Conclusion</h2>
-<p>Quantum probability is the mathematical language of physical reality at the smallest scales. Its departure from classical probability—complex amplitudes, superposition, interference, entanglement—is not a deficiency of our knowledge but a feature of the world itself, confirmed by decades of experiments. Understanding quantum probability is prerequisite to quantum mechanics, quantum information theory, and the quantum technologies—computing, cryptography, sensing—that are moving from laboratory curiosities to engineering reality.</p>
-
+<p>Quantum probability differs from ordinary probability in one essential way: it uses amplitudes — numbers that can cancel — rather than probabilities, which can only add. This produces interference: possibilities can reinforce or cancel each other. The two-slit experiment is the starkest demonstration — electrons interfere with themselves when unobserved, but land in ordinary spots when watched. The mathematics is precise and experimentally perfect. The physical interpretation — that particles genuinely have no definite state before measurement — remains the strangest verified fact in science.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="greens-theorem.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Green's Theorem: Connecting Line Integrals and Area</span>
-    </a>
-    <a href="graph-algorithms.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Graph Algorithms: BFS, DFS, and Shortest Paths</span>
-    </a>
+    <a href="greens-theorem.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">61</span></a>
+    <a href="graph-algorithms.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">63</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

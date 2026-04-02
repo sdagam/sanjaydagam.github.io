@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Engineering Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-eng">Engineering Applications</span>
     <h1 class="article-title">Queueing Theory: The Math of Waiting in Line</h1>
@@ -152,62 +125,51 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">How many checkout lanes does a supermarket need to keep average wait times under two minutes? How many servers should a cloud computing cluster run to handle peak traffic? How many emergency room beds should a hospital maintain? These questions share mathematical structure: a random stream of arrivals, limited service capacity, and queues forming when demand exceeds supply. Queueing theory—pioneered by Danish engineer A. K. Erlang in 1909 while designing telephone networks—provides exact analytical solutions to a surprisingly wide range of waiting-line problems.</p>
-<h2>The M/M/1 Queue</h2>
-<p>The simplest queueing model—M/M/1—assumes Poisson arrivals at rate λ, exponential service times with rate μ, a single server, and infinite queue capacity. The steady-state analysis yields elegant closed-form results. The traffic intensity ρ = λ/μ must be less than 1 for stability (otherwise the queue grows without bound). The average number in the system L = ρ/(1−ρ); average waiting time W = 1/(μ−λ) (Little's Law: L = λW). Near capacity (ρ → 1), both queue length and waiting time diverge to infinity—the queuing system becomes unstable long before the server is actually always busy.</p>
-<div class="math-block">M/M/1: ρ = λ/μ < 1 for stability
-Avg queue length: L = ρ/(1−ρ)
-Little's Law: L = λW</div>
-<h2>Little's Law</h2>
-<p>One of queueing theory's most powerful results is Little's Law: L = λW, where L is the average number of customers in a system, λ is the average arrival rate, and W is the average time a customer spends in the system. This relationship holds for any stable queueing system—any arrival process, any service time distribution, any number of servers. Little's Law requires no distributional assumptions and is therefore universally applicable. It has an elegant proof based on conservation of customers: in steady state, the rate of customers entering must equal the rate leaving.</p>
-<div class="math-block">Little's Law: L = λW
-Holds for ANY stable queue regardless of arrival/service distributions</div>
-<h2>M/M/c and Multi-Server Queues</h2>
-<p>Real service systems have multiple servers. The M/M/c queue has c parallel servers, each with rate μ. A customer waits if all c servers are busy, then goes to the next available server. The Erlang C formula gives the probability of waiting: C(c, ρ) = (ρᶜ/c!)·1/(1−ρ/c) / [Σᵢ₌₀^{c-1} ρⁱ/i! + (ρᶜ/c!)·1/(1−ρ/c)]. Given waiting probability, average wait time is W_q = C(c,ρ)/(cμ−λ). Call centers use this formula to determine staffing levels that achieve target service levels (e.g., 80% of calls answered within 20 seconds).</p>
-<div class="math-block">Traffic intensity: ρ = λ/(cμ)
-Erlang C: probability a customer must wait = C(c, λ/μ)</div>
-<h2>Non-Markovian Queues and Simulation</h2>
-<p>M/M/1 assumptions are rarely met exactly—arrivals may cluster (not Poisson), service times may be deterministic or heavy-tailed. The M/G/1 queue (general service times, single server) has the Pollaczek-Khinchine formula: W_q = λE[S²] / (2(1−ρ)), where E[S²] is the second moment of service time. High service time variability dramatically increases waiting times even at moderate utilization—the reason unpredictable service (like emergency medical care) requires more capacity than predictable service. When analytical solutions are intractable, discrete-event simulation models complex queueing networks computationally.</p>
-<h2>Applications in Computing</h2>
-<p>Computer performance engineering applies queueing theory extensively. A web server with request arrival rate λ and average processing time 1/μ has utilization ρ = λ/μ; response times follow M/M/1 predictions when ρ is moderate. Database connection pools, CPU schedulers, and network switches all model as queues. The fundamental insight—that utilization above 70–80% causes disproportionate response time increases due to queueing—guides capacity planning for cloud systems. Jackson networks extend queueing analysis to systems of interconnected queues, modeling multi-tier web architectures where requests flow through multiple service stages.</p>
+<p class="lead">You're standing in line at the DMV, watching one customer after another take what seems like forever at the single open window. Three other windows are empty. Why doesn't the DMV open more windows? How many windows would actually eliminate the long wait? And why does traffic seem to move freely until a highway reaches about 90% of its capacity — then suddenly jam? The answers come from queueing theory, the branch of mathematics dedicated to analyzing waiting lines.</p>
+<h2>The Basic Model: Arrivals and Service</h2>
+<p>Any queue has two essential components: customers arriving (at some rate) and a server processing them (at some rate). If customers arrive faster than the server can handle them, the line grows without bound. If the server is faster, the line stays short or empty. The interesting case is when the two rates are close — and real queues are almost always in that interesting zone.</p>
+<p>The simplest mathematical model is called M/M/1 (one server, random arrivals, random service times). "Random" here means Poisson arrivals (arrivals happen independently at a constant average rate) and exponential service times (each customer takes a random amount of time, with a fixed average).</p>
+<div class="math-block">M/M/1 Queue:
+λ = arrival rate (customers per minute)
+μ = service rate (customers per minute the server can handle)
+ρ = λ/μ = traffic intensity (must be less than 1 for stable queue)
+
+Average number of customers in system: L = ρ / (1 - ρ)
+Average waiting time: W = 1 / (μ - λ)
+
+In plain English: ρ is how busy the server is.
+As ρ approaches 1 (server nearly saturated), L and W explode toward infinity.</div>
+<p>This nonlinear behavior is the key insight of queueing theory. At 50% utilization (ρ = 0.5), the average queue length is 1. At 90% utilization (ρ = 0.9), the average queue length jumps to 9. At 99% utilization, it's 99. The queue length doesn't grow linearly with load — it explodes. This explains the DMV: even with three windows closed, if the arrival rate is 80% of one window's capacity, wait times are manageable. Open a second window, drop ρ from 0.80 to 0.40, and the average wait cuts by a factor of 6 — not 2.</p>
+<h2>Highway Traffic: The Same Math</h2>
+<p>Traffic engineers model highways using the same framework. Cars are the "customers," the highway is the "server," and capacity is the maximum flow rate in cars per hour. At 70% of capacity, traffic flows freely — average delays are small. At 90%, occasional random bunching (one driver braking slightly) creates ripples that amplify into jams. At 100%, the system becomes unstable — any perturbation causes a growing backup. The nonlinear explosion in waiting time near ρ = 1 is why adding just 10% more cars to a nearly full highway can turn a smooth commute into gridlock.</p>
+<h2>Multiple Servers</h2>
+<p>The M/M/c model extends the analysis to c servers. The key result: the expected wait drops dramatically even when going from 1 server to 2. One server handling 90% of capacity produces an average queue of 9 customers. Two servers, each handling 45% of capacity, produce an average queue of less than 1. This is why banks use a single line feeding multiple tellers (rather than separate lines per teller) — it minimizes average wait time by ensuring no teller sits idle while customers wait at a busy one.</p>
+<h2>Other Applications</h2>
+<p>Queueing theory designs hospital emergency department staffing (how many doctors minimize average wait time?), sizes call center workforces (how many agents to handle peak call volume?), optimizes computer network routers (how large should packet buffers be?), and plans airport security checkpoints. Amazon's fulfillment center logistics — routing millions of packages through sorting facilities — uses queueing models to determine conveyor belt speeds and sorting station counts.</p>
 <h2>Conclusion</h2>
-<p>Queueing theory transforms the everyday experience of waiting into precise mathematical predictions. The M/M/1 model's elegant formulas, Little's universally applicable law, and the Erlang formulas for multi-server systems give engineers and operations managers exact tools for capacity planning, resource allocation, and service level design. The central lesson—that systems near saturation suffer dramatically—guides decisions from hospital staffing to internet infrastructure, making queueing theory one of the most practically impactful branches of applied probability.</p>
-
+<p>Queueing theory reveals the mathematics of waiting: as server utilization approaches 100%, wait times don't just grow — they explode. The formula L = ρ/(1-ρ) shows that a server running at 90% produces nine times the queue of a server at 50%. This nonlinear behavior is why highway traffic suddenly jams, why DMVs need more open windows than you'd naively expect, and why banks found that one shared queue beats separate lines. The math doesn't just describe waiting — it tells you exactly how much waiting you can eliminate and at what cost.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="neural-networks.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Neural Networks: Layers, Weights, and Activation Functions</span>
-    </a>
-    <a href="bayesian-networks.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Bayesian Networks: Modeling Probabilistic Dependencies</span>
-    </a>
+    <a href="neural-networks.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">68</span></a>
+    <a href="bayesian-networks.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">70</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

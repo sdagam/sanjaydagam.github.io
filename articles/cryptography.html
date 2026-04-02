@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
-  <span class="crumb">Computer Science/AI</span>
+  <span class="crumb">CS / AI</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-cs">Computer Science/AI</span>
     <h1 class="article-title">Cryptography: The Mathematics of Secrets</h1>
@@ -152,59 +125,60 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">Every time you connect to a website over HTTPS, your browser and the server perform a cryptographic handshake, establishing a secret key that encrypts all subsequent communication—in milliseconds, invisibly. The security of this exchange rests on mathematical problems believed to be computationally hard: factoring large integers, computing discrete logarithms, or finding short lattice vectors. Modern cryptography is applied mathematics, transforming number theory and algebra into tools that secure the entire digital economy, protect private communications, and authenticate identities at internet scale.</p>
-<h2>Symmetric Encryption</h2>
-<p>Symmetric encryption uses the same key for encryption and decryption. The Advanced Encryption Standard (AES) is the global standard: it operates on 128-bit blocks using a 128, 192, or 256-bit key, performing 10–14 rounds of substitution, permutation, and mixing operations. The security of AES rests not on mathematical hardness but on confusion and diffusion—obscuring the relationship between plaintext, key, and ciphertext so thoroughly that no attack better than exhaustive key search is known. A 256-bit AES key has 2²⁵⁶ possible values—more than the estimated number of atoms in the observable universe—making brute force impossible.</p>
-<div class="math-block">AES-256: 2²⁵⁶ possible keys ≈ 10⁷⁷
-Brute force at 10¹⁸ keys/second: 10⁵⁹ years</div>
-<h2>Public Key Cryptography: RSA</h2>
-<p>RSA solves the key distribution problem: how to communicate secretly without first sharing a key. The RSA algorithm exploits the difficulty of factoring the product of two large primes. Generate two large primes p and q; compute N = pq; choose e coprime to (p−1)(q−1); compute d such that ed ≡ 1 (mod (p−1)(q−1)). Public key: (N, e). Private key: d. Encrypt: c = mᵉ mod N. Decrypt: m = cᵈ mod N. Security: to decrypt without d, an attacker must factor N—a problem for which no polynomial-time classical algorithm is known for numbers with thousands of digits.</p>
-<div class="math-block">RSA: public key (N,e), private key d
-Encrypt: c = mᵉ mod N     Decrypt: m = cᵈ mod N
-Security ← hardness of factoring N = p·q</div>
-<h2>Elliptic Curve Cryptography</h2>
-<p>Elliptic curve cryptography (ECC) achieves equivalent security to RSA with much smaller keys—a 256-bit ECC key is as secure as a 3072-bit RSA key. An elliptic curve over a finite field is the set of points satisfying y² = x³ + ax + b (mod p). Point addition defines a group structure; the discrete logarithm problem on this group (given points P and Q = kP, find k) is believed harder per bit than integer factoring. ECDSA (Elliptic Curve Digital Signature Algorithm) secures Bitcoin transactions; X25519 (a specific elliptic curve) provides the key exchange in TLS 1.3, securing most HTTPS traffic.</p>
-<div class="math-block">ECC: group operations on curve y² = x³ + ax + b (mod p)
-Security ← hardness of elliptic curve discrete logarithm problem</div>
-<h2>Hash Functions and Digital Signatures</h2>
-<p>Cryptographic hash functions—SHA-256, SHA-3—map inputs to fixed-length digests with three key properties: pre-image resistance (can't find input from hash), second pre-image resistance (can't find different input with same hash), and collision resistance (can't find any two inputs with the same hash). Digital signatures combine hashing with asymmetric cryptography: sign by hashing the message and encrypting the hash with your private key; verify by decrypting with the public key and comparing hashes. Digital signatures provide authentication (only the private key holder could have signed) and integrity (any modification changes the hash and invalidates the signature).</p>
-<h2>Post-Quantum Cryptography</h2>
-<p>Shor's quantum algorithm can factor integers and compute discrete logarithms in polynomial time on a sufficiently powerful quantum computer—breaking RSA and ECC. The US National Institute of Standards and Technology (NIST) standardized post-quantum cryptographic algorithms in 2024, including CRYSTALS-Kyber (key encapsulation based on lattice problems) and CRYSTALS-Dilithium (digital signatures). These algorithms rely on problems like Learning With Errors (LWE), believed hard even for quantum computers. The migration to post-quantum cryptography is one of the largest infrastructure challenges in the history of computing, affecting every secure digital communication system.</p>
+<p class="lead">Every time you shop online, your credit card number travels across the internet — through dozens of routers, many of which you don't control. Anyone intercepting that data stream would see the credit card number in plain text, unless the data is encrypted. Today's encryption is so strong that even with every computer on Earth working together, breaking it would take longer than the age of the universe. This extraordinary security doesn't come from complex machinery — it comes from a mathematical trick involving numbers so large that certain operations become one-way streets.</p>
+<h2>The One-Way Function</h2>
+<p>The foundation of modern cryptography is the one-way function: a mathematical operation that's easy to compute forward but practically impossible to reverse. Multiplying two large prime numbers together is easy — a computer does it in microseconds. But given a large number, finding which two primes were multiplied together (factoring) is extraordinarily hard. A 2,048-bit number (about 620 digits) can be multiplied in milliseconds, but factored in longer than the sun's remaining lifetime with known algorithms.</p>
+<div class="math-block">Easy: 61 × 53 = 3,233
+Hard: 3,233 = ? × ?  (factoring — have to find 61 and 53)
+
+For 2048-bit numbers:
+Multiplication: microseconds
+Factoring: estimated 10²⁵ years with best known algorithms</div>
+<p>This asymmetry — easy one way, impossible the other — is the mathematical bedrock of RSA encryption, used for most secure internet communication.</p>
+<h2>RSA: Public Key Cryptography</h2>
+<p>RSA is clever because it solves a seemingly impossible problem: how can two people communicate secretly when anyone can listen to everything they say — including the initial exchange of keys? The answer is public key cryptography. Each person has two keys: a public key (shared openly, even with adversaries) and a private key (kept secret). A message encrypted with the public key can only be decrypted with the private key.</p>
+<div class="math-block">RSA Key Generation:
+1. Choose two large primes p and q (keep secret)
+2. Compute n = p × q  (public — the modulus)
+3. Choose public exponent e (typically 65537)
+4. Compute private exponent d such that e × d ≡ 1 (mod φ(n))
+   where φ(n) = (p-1)(q-1)
+
+Encryption (anyone can do): ciphertext = message^e mod n
+Decryption (only private key holder): message = ciphertext^d mod n
+
+Security: finding d requires knowing p and q, which requires factoring n.</div>
+<p>The "mod n" operation means divide by n and keep the remainder — like clock arithmetic. The security rests entirely on the hardness of factoring n. Even though n is public, recovering p and q from it is computationally infeasible for large enough n.</p>
+<h2>When You Visit a Website</h2>
+<p>When your browser connects to a bank's website (https://), here's what happens. Your browser receives the bank's public key. Your browser generates a random session key, encrypts it with the bank's public key, and sends it. Only the bank's server — holding the private key — can decrypt this session key. Now both your browser and the bank share a secret session key that was never transmitted in the clear. All subsequent communication is encrypted with this symmetric key. The entire handshake takes milliseconds and is mathematically secure against interception.</p>
+<h2>Modular Arithmetic: The Clock Math Behind It All</h2>
+<p>Modular arithmetic is the mathematical system underlying RSA. "37 mod 12 = 1" means: 37 divided by 12 leaves remainder 1 — the same as 1 o'clock on a 12-hour clock. This system has the crucial property that exponentiation is easy to compute (using repeated squaring) but discrete logarithms — finding what exponent produces a given result — are hard. This hardness of certain modular arithmetic problems is the mathematical guarantee that RSA's encryption is secure.</p>
+<h2>Other Cryptographic Applications</h2>
+<p>The same mathematical principles protect digital signatures (proving a document came from who it claims), blockchain transactions (each Bitcoin transfer is cryptographically signed), and password storage (passwords are stored as one-way hashes, not in plain text). Elliptic curve cryptography — a more efficient alternative to RSA using a different one-way function — is now standard on smartphones, providing the same security with shorter keys.</p>
 <h2>Conclusion</h2>
-<p>Cryptography is the mathematical discipline that makes digital trust possible—enabling private communication, authenticated identity, and verifiable transactions without requiring participants to meet in person or share secrets in advance. Its security rests on the assumed difficulty of mathematical problems: integer factorization, discrete logarithm, lattice problems. The transition to post-quantum algorithms underway today illustrates cryptography's perpetual arms race between code makers and code breakers, with the security of the entire digital world depending on which mathematical problems remain hard.</p>
-
+<p>Modern cryptography is built on mathematical asymmetry: operations that are easy in one direction and practically impossible to reverse. Multiplying primes is easy; factoring their product is not. This asymmetry enables RSA encryption, which lets two parties establish a secret communication channel even when adversaries can see everything exchanged. The mathematics of modular arithmetic — clock arithmetic scaled to numbers with hundreds of digits — is what makes your credit card number safe on the internet. The strongest lock in the world is made of pure mathematics.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="diffusion.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Diffusion: Why Things Spread from High to Low Concentration</span>
-    </a>
-    
+    <a href="diffusion.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">77</span></a>
+    <div></div>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Physics Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Diffusion: Why Things Spread from High to Low Concentration</h1>
@@ -152,61 +125,71 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">A drop of ink falls into still water and spreads outward. The scent of a flower drifts across a room. Oxygen moves from the lungs into the bloodstream. Heat flows from a hot pan into a cooler handle. All of these phenomena are governed by diffusion—the net movement of particles or energy from regions of high concentration to regions of low concentration through random molecular motion. The mathematics of diffusion, captured in the diffusion equation, is one of the most important and widely applied partial differential equations in all of science.</p>
-<h2>Fick's Laws</h2>
-<p>Fick's first law describes the diffusive flux: J = −D ∇c, where J is the flux (amount per area per time), c is concentration, and D is the diffusion coefficient (m²/s). The negative sign means flux points from high to low concentration—downhill in concentration space. Fick's second law combines this with conservation of mass (∂c/∂t = −∇·J) to give the diffusion equation: ∂c/∂t = D ∇²c. In one dimension: ∂c/∂t = D ∂²c/∂x². This parabolic PDE describes how concentration profiles evolve over time, smoothing out gradients and spreading initial distributions.</p>
-<div class="math-block">Fick's first law: J = −D∇c
-Diffusion equation: ∂c/∂t = D∇²c = D(∂²c/∂x² + ∂²c/∂y² + ∂²c/∂z²)</div>
-<h2>The Fundamental Solution</h2>
-<p>The fundamental solution of the diffusion equation—the solution for a point source of material released at the origin at t = 0—is a Gaussian: c(x,t) = (1/√(4πDt)) exp(−x²/(4Dt)) in one dimension. This solution spreads over time: the width (standard deviation) grows as √(2Dt)—the characteristic diffusion length. In d dimensions, the spread is similar. This Gaussian spreading is the signature of diffusion: the mean displacement is zero (equal probability left and right), but the root-mean-square displacement grows as √t. This √t scaling distinguishes diffusion from ballistic transport (where displacement grows linearly with time).</p>
-<div class="math-block">Fundamental solution: c(x,t) = (4πDt)^{-d/2} exp(−|x|²/4Dt)
-Diffusion length: σ = √(2Dt)  grows as √t</div>
-<h2>Random Walks and Brownian Motion</h2>
-<p>Diffusion emerges from the microscopic random motion of molecules. Einstein's 1905 paper on Brownian motion showed that the mean squared displacement of a particle undergoing random collisions grows as ⟨x²⟩ = 2Dt, connecting the macroscopic diffusion coefficient D to microscopic collision rates: D = k_BT/(6πηr) for a sphere of radius r in a fluid of viscosity η. This Einstein relation links thermodynamics (k_BT) to hydrodynamics (η, r)—a deep connection that enabled the first accurate estimate of Avogadro's number from observable quantities. The continuous limit of a random walk is Brownian motion, the mathematical foundation of financial modeling and stochastic calculus.</p>
-<div class="math-block">Einstein: ⟨x²⟩ = 2Dt
-Einstein relation: D = k_BT/(6πηr)  (Stokes-Einstein equation)</div>
-<h2>Heat Equation</h2>
-<p>The diffusion equation with thermal conductivity κ and heat capacity ρc_p is the heat equation: ∂T/∂t = α∇²T, where α = κ/(ρc_p) is thermal diffusivity. It has identical mathematical structure to Fick's law—heat diffuses exactly like molecules. Solving the heat equation predicts temperature evolution in conductors, design requirements for heat sinks, and thermal gradients in building envelopes. Fourier's original analysis of heat conduction in the early 19th century led him to develop the Fourier series and transform—tools that transformed mathematics—all to solve this one PDE.</p>
-<h2>Anomalous Diffusion</h2>
-<p>Classical diffusion has ⟨x²⟩ ∝ t. Many real systems deviate: anomalous diffusion has ⟨x²⟩ ∝ tᵅ. Sub-diffusion (α < 1) occurs in crowded cellular environments where large molecules obstruct motion—protein diffusion in cell membranes, contaminant transport in fractured rock. Super-diffusion (α > 1, including Lévy flights) occurs when rare but very large steps dominate, seen in animal foraging patterns, financial price jumps, and light transport in certain materials. Fractional calculus—differential equations with non-integer order derivatives—describes anomalous diffusion mathematically, extending the classical diffusion equation to capture these non-Gaussian dynamics.</p>
+<p class="lead">Drop a drop of food dye into a glass of still water. Don't stir it. Within an hour, the color has spread throughout the glass — without anything pushing it. The dye molecules moved entirely on their own, from where they were concentrated to where they weren't. This process — diffusion — governs how oxygen moves from your lungs into your blood, how drugs spread through tissue, how pollutants travel through groundwater, and how the smell of baking bread reaches you across the house. A single equation describes all of it.</p>
+<h2>Random Walks: The Microscopic Engine</h2>
+<p>Each dye molecule is constantly colliding with water molecules and bouncing in random directions — millions of times per second. Any single molecule wanders randomly, with no preferred direction. Yet the collective effect of billions of randomly wandering molecules is perfectly orderly: net movement from high concentration to low concentration. This is the central miracle of diffusion. You can predict the macroscopic outcome — spreading from concentrated to dilute — from the purely random microscopic motion.</p>
+<div class="math-block">Random walk in 1D:
+After N steps of length ℓ in random directions:
+Average displacement = 0  (equally likely to go either direction)
+Root-mean-square displacement = ℓ√N
+
+For diffusion: displacement ∝ √(time)
+
+In plain English: a diffusing molecule doesn't travel in straight lines.
+Its typical distance from its starting point grows as the square root of time.
+Double the time → molecule gets only √2 ≈ 1.41 times farther away.</p>
+<h2>Fick's Law: The Macroscopic View</h2>
+<p>Zoom out from individual molecules to the concentration field — how many molecules per unit volume at each point. Fick's First Law states that the flux (net flow of molecules per unit area per unit time) is proportional to the concentration gradient — the steepness of the concentration slope.</p>
+<div class="math-block">Fick's First Law:
+J = -D × (dC/dx)
+
+J = flux (molecules per area per second flowing in x-direction)
+D = diffusion coefficient (how fast this substance diffuses in this medium)
+dC/dx = concentration gradient (how steeply concentration changes with position)
+Minus sign: flow is in the downhill direction (high to low concentration)
+
+In plain English: steeper the concentration slope → faster the net flow.
+D depends on molecule size and medium — O₂ diffuses faster than large proteins.</div>
+<h2>Fick's Second Law: How Concentration Changes Over Time</h2>
+<p>Combining Fick's First Law with conservation of mass — what flows into a region minus what flows out equals the change in concentration — gives Fick's Second Law:</p>
+<div class="math-block">Fick's Second Law (diffusion equation):
+∂C/∂t = D × ∂²C/∂x²
+
+∂C/∂t = how concentration changes over time at a fixed point
+∂²C/∂x² = curvature of the concentration profile (second spatial derivative)
+
+In plain English: concentration rises where the profile is concave up
+(a valley in concentration pulls material in from both sides)
+and falls where it's concave down (a peak spreads outward).</div>
+<p>This equation has exact mathematical solutions. For a droplet of dye starting at x=0, the solution is a Gaussian (bell curve) that spreads over time — the bell gets wider and shorter while its total area stays constant (total dye is conserved). The width of the bell grows as √(Dt): wider diffusion coefficient D or more time t means wider spread.</p>
+<h2>Oxygen in Your Lungs</h2>
+<p>Your lungs have an enormous surface area — about 70 square meters, the size of half a tennis court — across which oxygen diffuses from air (high O₂ concentration) into blood (lower O₂ concentration). The alveolar membranes are only 0.5 micrometers thick, creating a very steep concentration gradient over a very short distance. Fick's Law: steep gradient × large area × thin membrane × high diffusion coefficient of O₂ = enormous flux. Your lungs deliver about 250 milliliters of oxygen to your blood every minute at rest — 3 liters per minute during vigorous exercise — all by passive diffusion, no pumping mechanism needed.</p>
+<h2>Other Applications</h2>
+<p>Diffusion governs how drugs spread through tissue after injection (slower for large molecules, faster for small ones). It determines how quickly dopants spread through silicon wafers in chip manufacturing. It sets the timescale for carbon dioxide to mix through the atmosphere after being emitted. Heat conduction follows the same equation as diffusion — with temperature replacing concentration — explaining why a metal spoon left in hot soup heats up gradually, not instantly.</p>
 <h2>Conclusion</h2>
-<p>Diffusion is one of nature's most fundamental transport mechanisms—the inevitable consequence of random molecular motion in a world with concentration gradients. The diffusion equation's solutions, from Gaussian spreading to the heat equation's temperature evolution, describe phenomena across biology, chemistry, physics, and engineering. The mathematical connection between random walks, Brownian motion, and the diffusion equation reveals that macroscopic transport laws emerge from microscopic randomness—a microcosm of statistical mechanics' central theme that collective behavior can be predicted statistically even when individual behavior is unpredictable.</p>
-
+<p>Diffusion emerges from random molecular motion and produces perfectly predictable spreading from high to low concentration. Fick's Laws quantify this: flux is proportional to the concentration gradient, and concentration evolves according to a partial differential equation whose solutions are spreading Gaussian curves. From oxygen delivery in your lungs to food dye spreading in water to heat traveling through metal, the same mathematics describes all of it — the collective order that emerges from individual randomness.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="stokes-theorem.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Stokes' Theorem: Unifying the Theorems of Vector Calculus</span>
-    </a>
-    <a href="cryptography.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Cryptography: The Mathematics of Secrets</span>
-    </a>
+    <a href="stokes-theorem.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">76</span></a>
+    <a href="cryptography.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">78</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>

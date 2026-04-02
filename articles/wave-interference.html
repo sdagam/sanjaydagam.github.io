@@ -13,24 +13,21 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 :root {
   --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
-  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0;
-  --accent:#2d5be3;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
   --serif:"Instrument Serif",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
   --mono:"JetBrains Mono",monospace;
   --max:700px;
-  --cat-stats-bg:#fff8e1; --cat-stats:#7d6608;
-  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-stats-bg:#fff8e1;   --cat-stats:#7d6608;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
   --cat-physics-bg:#fde8e8; --cat-physics:#922b21;
-  --cat-calc-bg:#e3f0f8; --cat-calc:#1a5276;
-  --cat-cs-bg:#f0ebf8; --cat-cs:#512e5f;
-  --cat-eng-bg:#e8f8ee; --cat-eng:#1e8449;
+  --cat-calc-bg:#e3f0f8;    --cat-calc:#1a5276;
+  --cat-eng-bg:#e8f8ee;     --cat-eng:#1e8449;
 }
 body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
 .site-nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(250,249,246,0.95);
-  backdrop-filter:blur(10px);
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
   border-bottom:1px solid var(--rule);
   padding:0 2rem; height:50px;
   display:flex; align-items:center; gap:0.5rem;
@@ -50,21 +47,16 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
   padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
 }
 .cat-stats   { background:var(--cat-stats-bg);   color:var(--cat-stats);   }
-.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-physics { background:var(--cat-physics-bg); color:var(--cat-physics); }
 .cat-calc    { background:var(--cat-calc-bg);    color:var(--cat-calc);    }
-.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
 .cat-eng     { background:var(--cat-eng-bg);     color:var(--cat-eng);     }
 .article-title {
-  font-family:var(--serif);
-  font-size:clamp(1.8rem,5vw,2.5rem);
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
   line-height:1.2; letter-spacing:-0.02em;
   color:var(--ink); margin-bottom:1rem; font-weight:400;
 }
-.article-meta {
-  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-  font-size:0.8rem; color:var(--ink-4);
-}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
 .article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
 .article-body p { margin-bottom:1.25rem; }
 .article-body p.lead {
@@ -80,28 +72,21 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .math-block {
   font-family:var(--mono); font-size:0.87rem;
   background:var(--surface); border:1px solid var(--rule);
-  border-left:3px solid var(--accent);
-  border-radius:0 6px 6px 0;
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
   padding:0.85rem 1.1rem; margin:1.5rem 0;
   color:var(--ink); overflow-x:auto; line-height:1.6;
 }
 .batch-box {
   background:var(--surface); border:1px solid var(--rule);
-  border-radius:8px; padding:1rem 1.25rem;
-  margin:3rem 0 2rem;
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
   display:grid; grid-template-columns:repeat(3,1fr);
   gap:0.5rem; text-align:center;
 }
-.bi-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:var(--ink-4); margin-bottom:0.2rem;
-}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
 .bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
 .article-nav {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1rem; margin-top:2.5rem;
-  padding-top:2rem; border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
 }
 .article-nav a {
   display:flex; flex-direction:column; gap:0.3rem;
@@ -113,17 +98,9 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 .nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
 .nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
 .nav-next { text-align:right; }
-.back-home {
-  display:inline-flex; align-items:center; gap:0.4rem;
-  margin-top:1.5rem; font-size:0.82rem; font-weight:600;
-  color:var(--accent); text-decoration:none;
-}
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
 .back-home:hover { text-decoration:underline; }
-.article-footer {
-  margin-top:4rem; padding:1.5rem 0;
-  border-top:1px solid var(--rule); text-align:center;
-  font-size:0.78rem; color:var(--ink-4);
-}
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
 @media (max-width:600px) {
   .article-wrap { padding:1.5rem 1.1rem 4rem; }
   .article-nav { grid-template-columns:1fr; }
@@ -132,17 +109,13 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
 </style>
 </head>
 <body>
-
 <nav class="site-nav">
   <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
   <span class="sep">/</span>
   <span class="crumb">Physics Applications</span>
 </nav>
-
 <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
 <main class="article-wrap">
-
   <header class="article-header">
     <span class="cat-badge cat-physics">Physics Applications</span>
     <h1 class="article-title">Wave Interference: How Waves Add and Cancel</h1>
@@ -152,60 +125,55 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-hei
       <span>Group 3 &middot; Jan&ndash;Jun 2025</span>
     </div>
   </header>
-
   <div class="article-body">
-<p class="lead">Noise-canceling headphones silence jet engines. Thin films on camera lenses reduce reflections. Radio antennas use arrays to focus signals directionally. Lasers produce extraordinarily coherent light beams. All of these technologies exploit wave interference—the phenomenon where two waves combine to produce a result that is larger, smaller, or zero depending on their relative phase. Interference is one of physics' most practically powerful phenomena, and its mathematics reveals the wave nature of light, sound, electrons, and quantum particles.</p>
-<h2>The Superposition Principle</h2>
-<p>Waves obey the superposition principle: when two waves occupy the same region, the resulting displacement is simply their sum at each point and time. Two sinusoidal waves with the same frequency and amplitude: y₁ = A sin(kx − ωt) and y₂ = A sin(kx − ωt + φ). Their sum: y₁ + y₂ = 2A cos(φ/2) sin(kx − ωt + φ/2). The amplitude of the combined wave is 2A cos(φ/2), which depends entirely on the phase difference φ. This elegant result encapsulates all of interference: the phase difference determines whether waves reinforce or cancel.</p>
-<div class="math-block">y₁ + y₂ = 2A cos(φ/2) · sin(kx − ωt + φ/2)
-Constructive: φ = 0, 2π, 4π…  →  amplitude 2A
-Destructive: φ = π, 3π, 5π…  →  amplitude 0</div>
-<h2>Young's Double-Slit Experiment</h2>
-<p>Thomas Young's 1801 experiment established light's wave nature by sending light through two narrow slits and observing alternating bright and dark bands on a screen. Bright fringes occur where the path difference from the two slits is an integer multiple of the wavelength: d sin(θ) = mλ. Dark fringes occur where the path difference is a half-integer multiple: d sin(θ) = (m + ½)λ. The fringe spacing Δy = λL/d (where L is the screen distance and d is the slit separation) provides a precise measure of wavelength. This experiment, replicated with electrons, atoms, and even large molecules, is the definitive demonstration of quantum wave-particle duality.</p>
-<div class="math-block">Bright fringes: d·sin(θ) = mλ
-Fringe spacing: Δy = λL/d</div>
-<h2>Thin Film Interference</h2>
-<p>The iridescent colors of soap bubbles and oil slicks arise from thin film interference. Light reflecting from the front and back surfaces of a thin film travels different path lengths, creating a phase difference. An additional phase shift of π occurs when reflecting from a medium of higher refractive index (like air-to-glass). For a film of thickness t and refractive index n, constructive interference in reflection occurs when 2nt = (m + ½)λ (accounting for the phase shift). Different wavelengths (colors) satisfy this condition at different thicknesses, producing the brilliant color variations as film thickness varies across a soap bubble.</p>
-<h2>Noise Cancellation</h2>
-<p>Active noise-canceling headphones implement destructive interference electronically. A microphone measures ambient noise; a digital signal processor computes the inverse waveform (phase-shifted by π); a speaker plays this anti-noise. The two waves—ambient noise and anti-noise—interfere destructively at the listener's ear, attenuating the noise by 20–30 dB. The system must respond faster than the time it takes sound to travel from the microphone to the ear—typically requiring processing delays under 1 millisecond. Imperfect cancellation leaves residuals, which is why noise cancellation works better on steady low-frequency noise (jet engines, HVAC) than on variable high-frequency sounds.</p>
-<h2>Quantum Interference</h2>
-<p>Wave interference isn't limited to classical waves. In quantum mechanics, particles have wave functions that interfere. The double-slit experiment with single electrons produces an interference pattern even when electrons are sent one at a time—each electron interferes with its own wave function. Quantum computers exploit interference deliberately: quantum algorithms amplify amplitudes of correct answers and cancel amplitudes of wrong ones through carefully designed sequences of quantum gates. Shor's factoring algorithm and Grover's search algorithm both rely fundamentally on quantum interference to achieve speedups over classical algorithms.</p>
+<p class="lead">Noise-canceling headphones seem almost magical: you put them on in a loud airplane cabin, and the engine roar disappears. The headphones aren't blocking the sound with padding — they're creating new sound that cancels the old sound out. Two waves arrive at your ear simultaneously, and they add up to silence. This counterintuitive phenomenon is wave interference, and understanding it requires knowing exactly how waves combine mathematically.</p>
+<h2>What Is a Wave?</h2>
+<p>A wave is a repeating disturbance that carries energy through space or a medium. Sound waves are pressure fluctuations in air. Light waves are oscillating electric and magnetic fields. Ocean waves are water surface displacement. All of them share the same basic mathematical description: a repeating pattern that rises to a peak, falls to a trough, and cycles back — described by a sine or cosine function.</p>
+<div class="math-block">Wave: y(x, t) = A · sin(2πx/λ - 2πt/T)
+
+A = amplitude (height of the wave)
+λ = wavelength (distance between peaks)
+T = period (time for one complete cycle)
+
+In plain English: at every location x and time t,
+the wave's displacement is given by this formula.</div>
+<h2>Constructive Interference: Adding Up</h2>
+<p>When two waves meet in the same space, their displacements simply add together at every point — this is the superposition principle. If two waves are perfectly in sync — peaks aligned with peaks, troughs with troughs — their amplitudes add. A wave of height 1 plus another wave of height 1 produces a combined wave of height 2. The result is louder, brighter, or taller than either wave alone. This is constructive interference.</p>
+<p>Concert hall designers use constructive interference deliberately. Sound reflecting off the back wall should arrive at the audience at the same time as sound coming directly from the stage — peaks aligning with peaks — so the reflected sound reinforces rather than muddles the direct sound.</p>
+<h2>Destructive Interference: Canceling Out</h2>
+<p>Now suppose two waves are perfectly out of sync — one wave's peaks align with the other's troughs. Adding them: +1 and -1 at every point gives 0. The waves cancel completely. This is destructive interference — and it's exactly what noise-canceling headphones exploit.</p>
+<p>The headphone microphone samples the incoming engine noise. Electronics flip the wave — turn every peak into a trough and vice versa — and play it back through the speaker a fraction of a second later. The flipped wave and the original noise arrive at your eardrum simultaneously. They cancel, and you hear silence instead of engine roar.</p>
+<div class="math-block">Original noise:    y₁ = A · sin(θ)
+Flipped wave:      y₂ = A · sin(θ + π) = -A · sin(θ)
+Sum at your ear:   y₁ + y₂ = 0</div>
+<p>Adding π (half a cycle) to the phase of a wave flips it. The math is clean: sin(θ) plus sin(θ + π) equals exactly zero at every moment.</p>
+<h2>Partial Interference</h2>
+<p>Most real situations fall between perfect constructive and perfect destructive interference. Two waves slightly out of sync produce a combined wave with a different amplitude and a shifted phase — neither twice as big nor zero. The mathematics of how any two waves combine is captured by the sum-to-product formula from trigonometry, which shows that the combined wave always has the same frequency as the original waves, just with modified amplitude and phase.</p>
+<h2>Other Applications</h2>
+<p>Wave interference explains why thin films of soap create rainbow colors — light waves reflecting off the front and back surfaces of the film interfere, with some colors reinforcing and others canceling depending on film thickness. It explains why radio dead zones exist near buildings — reflected signals cancel direct signals. It's the basis of MRI machines, which use interference patterns of radio waves to image the body. It's how fiber-optic communications send multiple data streams through a single cable simultaneously using different light wavelengths that don't interfere with each other.</p>
 <h2>Conclusion</h2>
-<p>Wave interference is the mathematical consequence of superposition—the simple rule that waves add. From this single principle emerges the rich phenomenology of diffraction patterns, iridescent colors, noise cancellation, and quantum computing. The phase difference between combining waves is the master variable: zero produces amplification, π produces cancellation, and intermediate values produce everything between. Understanding interference means understanding how the world—from optics to acoustics to quantum mechanics—is fundamentally wave-like at its heart.</p>
-
+<p>Wave interference is one of the fundamental phenomena of physics: when two waves meet, they add. If they're in sync, the sum is bigger — constructive interference. If they're out of sync, the sum is smaller — potentially zero in the perfect case of destructive interference. Your noise-canceling headphones harness this mathematics in real time, computing and playing the exact wave needed to cancel incoming noise. The silence you hear is physics doing arithmetic.</p>
   </div>
-
   <div class="batch-box">
     <div><span class="bi-label">Series</span><span class="bi-value">Group 3</span></div>
     <div><span class="bi-label">Period</span><span class="bi-value">Jan &ndash; Jun 2025</span></div>
-    <div><span class="bi-label">Level</span><span class="bi-value">CS/AI &amp; Engineering Depth</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Intermediate</span></div>
   </div>
-
   <nav class="article-nav">
-    <a href="implicit-differentiation.html" class="nav-prev">
-      <span class="nav-label">← Previous</span>
-      <span class="nav-title">Implicit Differentiation: Finding Slopes Without Solving for y</span>
-    </a>
-    <a href="decision-trees.html" class="nav-next">
-      <span class="nav-label">Next →</span>
-      <span class="nav-title">Decision Trees and Random Forests: Learning from Data</span>
-    </a>
+    <a href="implicit-differentiation.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">56</span></a>
+    <a href="decision-trees.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">58</span></a>
   </nav>
-
   <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
-
 </main>
-
 <footer class="article-footer">
   Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
 </footer>
-
 <script>
-window.addEventListener('scroll',function(){
-  var d=document.documentElement;
-  document.getElementById('prog').style.width=Math.min(d.scrollTop/(d.scrollHeight-d.clientHeight)*100,100)+'%';
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
 });
 </script>
-
 </body>
 </html>
