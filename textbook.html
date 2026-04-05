@@ -503,6 +503,50 @@
             .tb-iframe { height: 70vh; }
             .tb-chapters-section, .tb-intro { padding-left: 1.25rem; padding-right: 1.25rem; }
         }
+
+        /* ── Why I wrote this ── */
+        .tb-why {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            padding: 4rem 0 3rem;
+        }
+        .tb-why-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .tb-why-heading { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+        .tb-why-body { display: block; }
+        .tb-why p { font-family: var(--sans); font-size: 0.95rem; color: var(--ink-3); line-height: 1.8; margin-bottom: 1rem; }
+        .tb-why p:last-child { margin-bottom: 0; }
+        .tb-why-quote { background: #1a3a7a; border-radius: 12px; padding: 2rem 1.75rem; position: relative; }
+        .tb-why-quote::before { content: '"'; font-family: var(--serif); font-size: 5rem; color: rgba(200,168,74,0.35); line-height: 1; position: absolute; top: 0.5rem; left: 1.25rem; }
+        .tb-why-quote p { font-family: var(--serif); font-size: 1.05rem; font-style: italic; color: rgba(255,255,255,0.9); line-height: 1.7; margin: 0; padding-top: 1.5rem; }
+        /* ── Khan Academy section ── */
+        .tb-khan {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: var(--cream);
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: 4rem 0;
+        }
+        .tb-khan-inner { max-width: 900px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 3fr 2fr; gap: 3.5rem; align-items: center; }
+        .tb-khan-heading { font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 400; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+        .tb-khan-text { font-family: var(--sans); font-size: 0.95rem; color: var(--ink-3); line-height: 1.8; margin-bottom: 0.9rem; }
+        .tb-khan-card { background: #1a3a7a; border-radius: 14px; padding: 2rem 1.75rem; text-align: center; box-shadow: 0 8px 32px rgba(26,58,122,0.15); }
+        .tb-khan-card-icon { width: 52px; height: 52px; background: rgba(200,168,74,0.15); border: 2px solid rgba(200,168,74,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.3rem; }
+        .tb-khan-card h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: #fff; margin-bottom: 0.65rem; line-height: 1.3; }
+        .tb-khan-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 1.5rem; }
+        @media (max-width: 680px) { .tb-why-body, .tb-khan-inner { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -663,6 +707,7 @@
 
     <!-- ── Why I wrote this ── -->
     <div class="tb-why">
+        <div class="tb-why-inner">
         <h2 class="tb-why-heading">Why I wrote this textbook</h2>
         <div class="tb-why-body">
             <div>
@@ -690,11 +735,8 @@
                     linear algebra was for, it will have been worth writing.
                 </p>
             </div>
-            <div class="tb-why-quote">
-                <p>The most powerful mathematics isn't the kind you do in isolation — it's the kind
-                that reaches into the real world and changes what's possible.</p>
 
-            </div>
+        </div>
         </div>
     </div>
 
@@ -743,29 +785,28 @@
         <div class="tb-khan-inner">
             <div>
                 <h2 class="tb-khan-heading">Better together — Khan Academy &amp; this textbook</h2>
-                <p>
+                <p class="tb-khan-text">
                     This textbook is designed to stand on its own — but it pairs exceptionally well
                     with Sal Khan's linear algebra video lectures. The two resources complement each
                     other in a specific way: Khan Academy excels at building intuition through clear,
                     visual explanations. This textbook adds formal structure, rigorous proofs, and
                     graded problem sets that turn that intuition into lasting mathematical understanding.
                 </p>
-                <p>
+                <p class="tb-khan-text">
                     A natural approach: watch the Khan Academy video for a concept first, let the
                     visual explanation build your intuition, then open the corresponding chapter here
                     to see the formal definitions, work through the theorems, and test yourself with
                     the problem sets. Together they cover the subject from two complementary angles —
                     one emphasizing understanding, the other emphasizing rigor.
                 </p>
-                <p>
+                <p class="tb-khan-text">
                     Khan Academy's linear algebra series is completely free and requires no account.
                 </p>
             </div>
             <div class="tb-khan-card">
                 <div class="tb-khan-card-icon">🎓</div>
                 <h3>Khan Academy<br>Linear Algebra</h3>
-                <p>Free video lectures covering vectors, matrices, transformations, and eigenvalues —
-                the ideal visual companion to this textbook.</p>
+                <p class="tb-khan-card-desc">Free video lectures covering vectors, matrices, transformations, and eigenvalues — the ideal visual companion to this textbook.</p>
                 <a href="https://www.khanacademy.org/math/linear-algebra"
                    target="_blank" rel="noopener" class="tb-btn tb-btn-gold" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;">
                     &#9654; Watch Free Lectures
