@@ -149,6 +149,15 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
     border: none;
     cursor: pointer;
     padding: var(--spacing-xs);
+    /* Safari iOS fixes */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1001;
 }
 
 .nav-toggle span {
@@ -753,8 +762,8 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
 
 @media (max-width: 768px) {
     .nav-links {
-        position: fixed;
-        top: 60px;
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
         background: var(--color-bg);
@@ -762,10 +771,13 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
         padding: var(--spacing-md);
         gap: 0;
         border-bottom: 1px solid var(--color-border);
-        transform: translateY(-100%);
+        transform: translateY(-10px);
         opacity: 0;
         visibility: hidden;
-        transition: var(--transition-medium);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+        z-index: 999;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
     
     .nav-links.active {
@@ -785,6 +797,10 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
     .nav-links a {
         display: block;
         padding: var(--spacing-sm) 0;
+        /* Ensure large enough tap target for iOS */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
     }
     
     .nav-toggle {

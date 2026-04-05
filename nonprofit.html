@@ -514,3 +514,31 @@
   </p>
   <p style="margin-top:0.75rem; font-size:0.8rem; opacity:0.5;">
     Wisconsin Students for Students is a registered 501(c)(3) nonprofit &nbsp;·&n
+    <script>
+    (function() {
+        var toggle = document.querySelector('.nav-toggle');
+        var navLinks = document.querySelector('.nav-links');
+        if (!toggle || !navLinks) return;
+        function doToggle(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+        toggle.addEventListener('click', doToggle, false);
+        toggle.addEventListener('touchend', doToggle, false);
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('touchend', function() {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }, false);
+        });
+        document.addEventListener('touchend', function(e) {
+            if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        }, false);
+    })();
+    </script>
+</body>
