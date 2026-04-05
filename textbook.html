@@ -542,8 +542,8 @@
         .tb-khan-inner { max-width: 900px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 3fr 2fr; gap: 3.5rem; align-items: center; }
         .tb-khan-heading { font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 400; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
         .tb-khan-text { font-family: var(--sans); font-size: 0.95rem; color: var(--ink-3); line-height: 1.8; margin-bottom: 0.9rem; }
-        .tb-khan-card { background: #1a3a7a; border-radius: 14px; padding: 2rem 1.75rem; text-align: center; box-shadow: 0 8px 32px rgba(26,58,122,0.15); }
-        .tb-khan-card-icon { width: 52px; height: 52px; background: rgba(200,168,74,0.15); border: 2px solid rgba(200,168,74,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.3rem; }
+        .tb-khan-card { background: #1a3a7a; border-radius: 14px; padding: 2.75rem 2.25rem; text-align: center; box-shadow: 0 8px 32px rgba(26,58,122,0.2); min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .tb-khan-card-icon { width: 72px; height: 72px; background: rgba(200,168,74,0.12); border: 2.5px solid rgba(200,168,74,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 2rem; }
         .tb-khan-card h3 { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: #fff; margin-bottom: 0.65rem; line-height: 1.3; }
         .tb-khan-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 1.5rem; }
         @media (max-width: 680px) { .tb-why-body, .tb-khan-inner { grid-template-columns: 1fr; } }
@@ -808,7 +808,12 @@
                 <h3>Khan Academy<br>Linear Algebra</h3>
                 <p class="tb-khan-card-desc">Free video lectures covering vectors, matrices, transformations, and eigenvalues — the ideal visual companion to this textbook.</p>
                 <a href="https://www.khanacademy.org/math/linear-algebra"
-                   target="_blank" rel="noopener" class="tb-btn tb-btn-gold" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.5rem;">
+                   target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.75rem;
+                          background:#ffffff;color:#1a3a7a;border:2px solid #a8c0f0;
+                          padding:0.6rem 1.35rem;border-radius:8px;font-family:var(--sans);
+                          font-size:0.82rem;font-weight:600;text-decoration:none;
+                          letter-spacing:0.01em;transition:background 0.15s;">
                     &#9654; Watch Free Lectures
                 </a>
             </div>
