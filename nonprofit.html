@@ -305,7 +305,68 @@
     .hero .hero-sub        { animation-delay: 0.25s; }
     .hero .hero-desc       { animation-delay: 0.3s; }
     .hero .hero-ctas       { animation-delay: 0.4s; }
-  </style>
+  
+    /* ── Mobile nav overrides ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1001;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #1a1a1a;
+      transition: 0.2s;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #f8f7f4;
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+        z-index: 999;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      }
+      .nav-links.active {
+        display: flex !important;
+      }
+      .nav-links li {
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links li:last-child {
+        border-bottom: none;
+      }
+      .nav-links a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0.5rem 0;
+      }
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    </style>
 </head>
 <body>
 
