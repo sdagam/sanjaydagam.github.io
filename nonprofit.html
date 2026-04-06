@@ -33,12 +33,18 @@
 
     /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 1000;
       background: rgba(248,247,244,0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       height: 60px;
     }
     .nav-logo {
@@ -47,7 +53,7 @@
       color: var(--text);
       text-decoration: none;
     }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links { gap: 1.5rem; list-style: none; }
     .nav-links a {
       font-size: 0.875rem; font-weight: 500;
       color: var(--text-muted); text-decoration: none;
