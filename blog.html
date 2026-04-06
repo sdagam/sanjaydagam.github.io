@@ -285,26 +285,31 @@
 
 
   .blog-teaser {
-    background: #ffffff;
+    background: #f4f6fb;
     border-bottom: 1px solid #d0d8ec;
-    padding: 2rem 2rem 1.75rem;
+    padding: 2.5rem 2rem;
   }
   .blog-teaser-inner {
     max-width: 780px;
     margin: 0 auto;
-    border-left: 3px solid #2d5be3;
-    padding-left: 1.25rem;
   }
-  .blog-teaser-inner p {
+  .blog-teaser-card {
+    background: #ffffff;
+    border: 1px solid #d0d8ec;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    border-left: 4px solid #2d5be3;
+  }
+  .blog-teaser-card p {
     font-family: "DM Sans", sans-serif;
     font-size: 0.97rem;
     color: #3a4a6a;
-    line-height: 1.75;
+    line-height: 1.78;
     margin: 0;
   }
   .blog-teaser-link {
     display: inline-block;
-    margin-top: 0.6rem;
+    margin-top: 0.85rem;
     font-size: 0.82rem;
     font-weight: 600;
     color: #2d5be3;
@@ -538,8 +543,10 @@
 <!-- Teaser -->
 <section class="blog-teaser">
   <div class="blog-teaser-inner">
-    <p>I started this blog to fill a gap I kept running into: textbooks written for specialists on one side, pop-science that skips the actual mathematics on the other. Every article here starts from something real and works back to the mathematics behind it — written so a curious middle schooler, a working engineer, and someone who has not thought about math since high school can all come away with something real.</p>
-    <a href="#blog-about-anchor" class="blog-teaser-link">Read more about why I write this blog ↓</a>
+    <div class="blog-teaser-card">
+      <p>I started this blog to fill a gap I kept running into: textbooks written for specialists on one side, pop-science that skips the actual mathematics on the other. Every article here starts from something real and works back to the mathematics behind it — written so a curious middle schooler, a working engineer, and someone who has not thought about math since high school can all come away with something real.</p>
+      <a href="#blog-about-anchor" class="blog-teaser-link">Read more about why I write this blog ↓</a>
+    </div>
   </div>
 </section>
 
@@ -556,7 +563,7 @@
   <div class="about-inner">
     <h2>Why I Write This Blog</h2>
     <p>I started this blog because I kept running into a gap, and it bothered me. On one side were textbooks full of rigorous mathematics, written for specialists who already knew why it mattered. On the other were pop-science articles that waved their hands at the interesting parts and never showed the actual mathematics. Neither one told me what I really wanted to know: how these ideas actually worked, and why anyone cared enough to invent them in the first place.</p>
-    <p>Every article here begins with a real problem, something you can see, touch, or wonder about, and works backward to the mathematics behind it. I am drawn to the places where math meets the physical world: why epidemics accelerate before they slow down, how Google decided which pages mattered, why noise-canceling headphones work, what linear algebra has to do with every image your phone takes. Applied mathematics is full of ideas like these, genuinely surprising and almost never explained the way they deserve to be.</p>
+    <p>Every article here begins with a real problem, something you can see, touch, or wonder about, and works backward to the mathematics behind it. I am drawn to the places where math meets the physical world: why epidemics accelerate before they slow down (see: Epidemic Spreading, #22), why the rich get richer in social networks (see: Scale-Free Networks, #7), why noise-canceling headphones work (see: Wave Interference, #57), what linear algebra has to do with every image your phone takes (see: The Singular Value Decomposition, #91). Applied mathematics is full of ideas like these, genuinely surprising and almost never explained the way they deserve to be.</p>
     <p>My goal is to find the middle ground: rigorous enough to be honest, clear enough that a curious middle schooler, a working engineer, and someone who has not thought about math since high school can all read the same article and come away with something real. Not dumbed down but accessible. There is a difference. One hundred and fifty-six articles. Nine topic areas. If you finish one and think "I did not know math could do that," I have done my job.</p>
     <div class="topic-chips">
       <span class="topic-chip">Statistics & Probability</span>
