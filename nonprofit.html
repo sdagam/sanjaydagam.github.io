@@ -310,24 +310,26 @@
 <body>
 
 <!-- NAV -->
-<nav class="navbar">
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo" style="display:none;"></a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="research.html">Research</a></li>
-      <li><a href="nonprofit.html" class="active">Nonprofit</a></li>
-      <li><a href="blog.html">Applied Math Blog</a></li>
-      <li><a href="textbook.html">Textbook</a></li>
-      <li><a href="mental-health.html">Mental Health Initiative</a></li>
-      <li><a href="apps.html">iOS Apps</a></li>
-      <li><a href="activities.html">Activities</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Toggle navigation" style="display:none;">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" style="display:none;"></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="research.html">Research</a></li>
+                <li><a href="nonprofit.html" class="active">Nonprofit</a></li>
+                <li><a href="blog.html">Applied Math Blog</a></li>
+                <li><a href="textbook.html">Textbook</a></li>
+                <li><a href="mental-health.html">Mental Health Initiative</a></li>
+                <li><a href="apps.html">iOS Apps</a></li>
+                <li><a href="activities.html">Activities</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
 <!-- HERO -->
 <section class="hero">
@@ -510,14 +512,14 @@
 <footer>
   <p>
     <a href="index.html">Sanjay Dagam</a> &nbsp;·&nbsp;
-    <a href="https://wistudents4students.org/" target="_blank">Wisconsin Students for Students</a> &nbsp;·&nbsp;    <a href="mailto:contact@sanjaydagam.com">Contact</a>
+    <a href="https://wistudents4students.org/" target="_blank">Wisconsin Students for Students</a> &nbsp;·&nbsp;    <a href="/cdn-cgi/l/email-protection#d7b4b8b9a3b6b4a397a4b6b9bdb6aeb3b6b0b6baf9b4b8ba">Contact</a>
   </p>
   <p style="margin-top:0.75rem; font-size:0.8rem; opacity:0.5;">
     &copy; 2026 Sanjay Dagam
   </p>
 </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     (function() {
         var toggle = document.querySelector('.nav-toggle');
         var navLinks = document.querySelector('.nav-links');
@@ -538,11 +540,4 @@
         });
         document.addEventListener('touchend', function(e) {
             if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
-                toggle.classList.remove('active');
-            }
-        }, false);
-    })();
-    </script>
-</body>
-</html>
+                navLin
