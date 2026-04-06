@@ -31,36 +31,8 @@
       line-height: 1.6;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(248,247,244,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-    .nav-logo {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.2rem;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-links { gap: 1.5rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.875rem; font-weight: 500;
-      color: var(--text-muted); text-decoration: none;
-      transition: color 0.2s;
-    }
+    /* ── NAV color override only ── */
     .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-
     /* ── HERO ── */
     .hero {
       position: relative;
