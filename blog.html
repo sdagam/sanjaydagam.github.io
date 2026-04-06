@@ -222,9 +222,9 @@
 .no-results p { font-family: "DM Sans", sans-serif; color: #b0b0c8; font-size: .9rem; }
 
 /* ── About ── */
-.blog-about { background: #f4f6fb; border-top: 1px solid #d0d8ec; padding: 3.5rem 2rem; text-align: center; }
-.about-inner { max-width: 620px; margin: 0 auto; }
-.blog-about h2 { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: #0a1830; font-weight: 400; margin-bottom: .9rem; }
+.blog-about { background: #f4f6fb; border-top: 1px solid #d0d8ec; padding: 4rem 2rem; text-align: left; }
+.about-inner { max-width: 780px; margin: 0 auto; }
+.blog-about h2 { font-family: "Instrument Serif", serif; font-size: 1.8rem; color: #0a1830; font-weight: 400; margin-bottom: 1.25rem; text-align: center; }
 .blog-about p { font-family: "DM Sans", sans-serif; font-size: .92rem; color: #4a5a7a; line-height: 1.72; margin-bottom: 1.4rem; }
 .topic-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; }
 .topic-chip { font-family: "DM Sans", sans-serif; font-size: .73rem; padding: .28rem .75rem; border: 1px solid rgba(26,58,122,0.18); border-radius: 2rem; color: #1a3a7a; background: rgba(26,58,122,0.06); }
@@ -282,6 +282,36 @@
 }
 .upcoming-section { display: none; }
 .upcoming-section.visible { display: block; }
+
+
+  .blog-teaser {
+    background: #ffffff;
+    border-bottom: 1px solid #d0d8ec;
+    padding: 2rem 2rem 1.75rem;
+  }
+  .blog-teaser-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    border-left: 3px solid #2d5be3;
+    padding-left: 1.25rem;
+  }
+  .blog-teaser-inner p {
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.97rem;
+    color: #3a4a6a;
+    line-height: 1.75;
+    margin: 0;
+  }
+  .blog-teaser-link {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2d5be3;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .blog-teaser-link:hover { text-decoration: underline; }
 
 </style>
 </head>
@@ -505,6 +535,15 @@
   </div>
 </section>
 
+<!-- Teaser -->
+<section class="blog-teaser">
+  <div class="blog-teaser-inner">
+    <p>I started this blog to fill a gap I kept running into: textbooks written for specialists on one side, pop-science that skips the actual mathematics on the other. Every article here starts from something real and works back to the mathematics behind it — written so a curious middle schooler, a working engineer, and someone who has not thought about math since high school can all come away with something real.</p>
+    <a href="#blog-about-anchor" class="blog-teaser-link">Read more about why I write this blog ↓</a>
+  </div>
+</section>
+
+
 <!-- All articles rendered by JS -->
 <div class="articles-wrap" id="articles-root"></div>
 <div class="no-results" id="no-results">
@@ -513,11 +552,12 @@
 </div>
 
 <!-- About -->
-<section class="blog-about">
+<section class="blog-about" id="blog-about-anchor">
   <div class="about-inner">
-    <h2>About This Blog</h2>
-    <p>Mathematics becomes truly exciting when you see how it powers the world around us. Each article connects a core concept to a real application — written for students with an AP Calculus background who want to explore what comes next.</p>
-    <p>The series follows a deliberate progression: foundations in 2024 → engineering depth in late 2024 → linear algebra in 2025 → differential equations and real analysis in 2026–2027.</p>
+    <h2>Why I Write This Blog</h2>
+    <p>I started this blog because I kept running into a gap, and it bothered me. On one side were textbooks full of rigorous mathematics, written for specialists who already knew why it mattered. On the other were pop-science articles that waved their hands at the interesting parts and never showed the actual mathematics. Neither one told me what I really wanted to know: how these ideas actually worked, and why anyone cared enough to invent them in the first place.</p>
+    <p>Every article here begins with a real problem, something you can see, touch, or wonder about, and works backward to the mathematics behind it. I am drawn to the places where math meets the physical world: why epidemics accelerate before they slow down, how Google decided which pages mattered, why noise-canceling headphones work, what linear algebra has to do with every image your phone takes. Applied mathematics is full of ideas like these, genuinely surprising and almost never explained the way they deserve to be.</p>
+    <p>My goal is to find the middle ground: rigorous enough to be honest, clear enough that a curious middle schooler, a working engineer, and someone who has not thought about math since high school can all read the same article and come away with something real. Not dumbed down but accessible. There is a difference. One hundred and fifty-six articles. Nine topic areas. If you finish one and think "I did not know math could do that," I have done my job.</p>
     <div class="topic-chips">
       <span class="topic-chip">Statistics & Probability</span>
       <span class="topic-chip">Network Science</span>
