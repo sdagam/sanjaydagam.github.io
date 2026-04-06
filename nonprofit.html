@@ -591,7 +591,8 @@
   </p>
 </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
     (function() {
         var toggle = document.querySelector('.nav-toggle');
         var navLinks = document.querySelector('.nav-links');
@@ -605,6 +606,10 @@
         toggle.addEventListener('click', doToggle, false);
         toggle.addEventListener('touchend', doToggle, false);
         navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }, false);
             link.addEventListener('touchend', function() {
                 navLinks.classList.remove('active');
                 toggle.classList.remove('active');
@@ -612,4 +617,11 @@
         });
         document.addEventListener('touchend', function(e) {
             if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
-                navLin
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        }, false);
+    })();
+    </script>
+</body>
+</html>
