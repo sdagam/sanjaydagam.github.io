@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathematical Modeling: From Real World to Equations and Back — Applied Math Blog</title>
+<meta name="description" content="Article 156 of 156 in Sanjay Dagam's Applied Mathematics blog. Mathematical Modeling: From Real World to Equations and Back">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-ra-bg:#e8d5f5;      --cat-ra:#6c3483;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-ra      { background:var(--cat-ra-bg);      color:var(--cat-ra);      }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Differential Equations</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-de">Differential Equations</span>
+    <h1 class="article-title">Mathematical Modeling: From Real World to Equations and Back</h1>
+    <div class="article-meta">
+      <span>#156 of 156</span>
+      <span>January 3, 2027</span>
+      <span>Group 6 &middot; Jul 2026&ndash;Jan 2027</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">In March 2020, a team of epidemiologists at Imperial College London published a report that changed the course of the pandemic. Using a mathematical model of COVID-19 transmission, they estimated that without intervention, the virus would kill 2.2 million people in the US and 500,000 in the UK. The model was not perfect — no model is. It was a deliberate simplification of reality, built from differential equations, probability, and data. But it was good enough to change government policy on multiple continents within days. This is mathematical modeling at its most consequential: translating a messy, complicated world into equations, solving them, and translating the answers back into human decisions.</p>
+<h2>What Is a Mathematical Model?</h2>
+<p>A mathematical model is a set of equations that captures the essential behavior of a real system while ignoring details that don't matter much. The art of modeling is deciding what to keep and what to throw away. Keep too much and the equations become impossible to solve or understand. Throw away too much and the model gives wrong answers. The goal is the simplest model that captures the behavior you care about.</p>
+<p>The Imperial College COVID model was built on the SIR framework — Susceptible, Infected, Recovered — extended with additional compartments for hospitalized and deceased, spatial heterogeneity (the virus spreads differently in cities than rural areas), and age structure (the elderly faced much higher mortality). Hundreds of parameters, but built on the same differential equation foundation as the simplest epidemic model.</p>
+<h2>The Modeling Cycle</h2>
+<p>Mathematical modeling follows a cycle: observe the real system, identify the key variables and relationships, translate those relationships into equations, solve the equations (analytically or numerically), compare predictions to data, and revise the model when predictions fail. The cycle never truly ends — models are always works in progress, refined as new data arrives.</p>
+<div class="math-block">The Modeling Cycle:
+
+Real World → Observe and measure → Identify variables
+     ↑                                      ↓
+Compare/validate                    Build equations
+     ↑                                      ↓
+Revise model ← Predictions fail ← Solve equations
+     ↓                                      ↓
+Accept model ← Predictions match ← Interpret results
+     ↓
+Use for decisions
+
+Every model is wrong. Some models are useful.</div>
+<p>That last line — "every model is wrong, some models are useful" — is attributed to statistician George Box, and it captures the philosopher of mathematical modeling. You're not trying to write down the laws of the universe in full generality. You're trying to build something useful for a specific purpose.</p>
+<h2>Dimensional Analysis: A Powerful First Step</h2>
+<p>Before writing a single equation, good modelers check that the units make sense. If your model predicts that a population doubles in "5 people per square kilometer," something has gone wrong — that's not a time unit. Dimensional analysis — tracking units through every calculation — catches errors before they propagate, and sometimes reveals the structure of the answer before any calculation is done.</p>
+<p>The pendulum period depends on its length L, the gravitational acceleration g (meters per second squared), and possibly mass m. The only combination of L, g, and m with units of time is √(L/g). So the period must be proportional to √(L/g) — with no mass dependence — by dimensional analysis alone. This matches Galileo's observation that pendulums of the same length swing at the same rate regardless of mass, derived from units without solving any differential equation.</p>
+<h2>Model Validation: Earning the Right to Be Believed</h2>
+<p>A model earns credibility by making predictions that can be tested against data it was not used to fit. The Imperial College model was calibrated on early COVID data from China and Italy. Its credibility came from how well it predicted the subsequent trajectory in the UK and US — data it hadn't seen. When predictions match unseen data, confidence in the model grows. When they diverge, the model is revised.</p>
+<p>The 2.2 million figure turned out to be an overestimate of what actually happened in the US — partly because interventions were enacted, partly because the model's assumptions about contact rates were imperfect. Critics who said "the model was wrong" missed the point: the model predicted what would happen without intervention, and with intervention the outcome was different. The model worked as intended.</p>
+<h2>The Breadth of Mathematical Modeling</h2>
+<p>Every article in this series has been a mathematical model: a differential equation for how coffee cools, a graph for how diseases spread on networks, a matrix for how light interacts with tissue in an MRI. Climate models are systems of partial differential equations for atmospheric and ocean circulation. Economic models are systems of equations for supply, demand, and behavior. Structural engineering models are linear systems for how forces propagate through materials. Flight simulators are coupled differential equations for aerodynamics, control systems, and engine performance.</p>
+<h2>Conclusion</h2>
+<p>Mathematical modeling is not about finding the equations of the universe. It's about finding the simplest equations that capture what matters for a specific decision. Every model is wrong — reality is always more complicated than any set of equations.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 6</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul 2026 &ndash; Jan 2027</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="matrix-calculus.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Matrix Calculus: Derivatives of Matrices and the Chain Rule</span></a>
+    <div></div>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

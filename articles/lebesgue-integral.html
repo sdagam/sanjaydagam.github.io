@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lebesgue Integral: Integration Beyond Riemann — Applied Math Blog</title>
+<meta name="description" content="Article 148 of 156 in Sanjay Dagam's Applied Mathematics blog. The Lebesgue Integral: Integration Beyond Riemann">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-ra-bg:#e8d5f5;      --cat-ra:#6c3483;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-ra      { background:var(--cat-ra-bg);      color:var(--cat-ra);      }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Real Analysis</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-ra">Real Analysis</span>
+    <h1 class="article-title">The Lebesgue Integral: Integration Beyond Riemann</h1>
+    <div class="article-meta">
+      <span>#148 of 156</span>
+      <span>October 31, 2026</span>
+      <span>Group 6 &middot; Jul 2026&ndash;Jan 2027</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Here is a function that breaks ordinary calculus: assign the value 1 to every rational number (fractions like 1/2, 3/4, 22/7) and the value 0 to every irrational number (like π, √2, and most numbers on the number line). Now ask: what is the area under this function between 0 and 1? The standard method — dividing the x-axis into thin strips and summing rectangle areas — completely fails. Every strip, no matter how thin, contains both rational and irrational numbers, so it's simultaneously 0 and 1. The method can't decide. In 1902, Henri Lebesgue solved this by slicing the problem differently — not along the x-axis, but along the y-axis. His solution created a more powerful form of integration that handles functions ordinary calculus can't, and in doing so, built the foundation of modern probability theory.</p>
+<h2>Riemann's Approach: Vertical Slices</h2>
+<p>The standard integral you learn in calculus is called the Riemann integral. The idea: divide the x-axis into thin vertical strips, approximate the area of each strip with a rectangle (height = function value, width = strip width), and add them all up. As the strips get thinner, the sum approaches the exact area.</p>
+<p>This works beautifully for smooth, well-behaved functions. A continuous curve? No problem. A function with a few jumps? Still fine. But the rationals-and-irrationals function breaks it — any vertical strip contains both values 0 and 1 at infinitely many points. The approximation never settles down no matter how thin you make the strips.</p>
+<h2>Lebesgue's Approach: Horizontal Slices</h2>
+<p>Lebesgue flipped the question. Instead of asking "what is the function value at each x?" he asked "for which x-values is the function roughly equal to this y-value?"</p>
+<p>Think of it like sorting coins. The Riemann approach is like adding up the value of coins one by one, left to right. Lebesgue's approach is like grouping all the pennies together, counting how many there are, then grouping all the nickels, then the dimes. Same total, but a completely different method — one that works even when the "left to right" order is chaotic.</p>
+<div class="math-block">Riemann: divide the x-axis into strips, sum height × width
+∫f dx ≈ Σ f(xᵢ) · Δx  (sum over x-positions)
+
+Lebesgue: divide the y-axis into levels, sum level × "how much x"
+∫f dx ≈ Σ yⱼ · μ({x : f(x) ≈ yⱼ})
+
+μ = Lebesgue measure — the "how much x" question
+(for simple intervals, it's just the length; for weird sets, it's more subtle)
+
+For the rationals-and-irrationals function:
+Level y=1: the set of rationals, which has measure 0
+Level y=0: the set of irrationals, which has measure 1
+Lebesgue integral = 1 × 0 + 0 × 1 = 0  ← clean answer</div>
+<p>The Lebesgue integral gives the answer 0 immediately — the rationals, despite being "everywhere," take up zero total length (measure zero). The Riemann integral was paralyzed by this function; Lebesgue's approach handles it in two lines.</p>
+<h2>Why This Matters: Swapping Limits and Integrals</h2>
+<p>The real power of the Lebesgue integral isn't that it handles strange functions. It's a theorem called the Dominated Convergence Theorem. In plain English: if you have a sequence of functions that gradually approach a limit, and they're all bounded by some fixed function, then you can swap the order of "take the limit" and "integrate."</p>
+<p>This sounds technical but it's enormously practical. In probability: if a sequence of random variables converges to a limit, their expected values converge to the expected value of the limit — and you can prove this. In Fourier analysis: the integral of an infinite sum of functions equals the sum of the individual integrals — and you can prove this. The Riemann integral has no such theorem. These swaps require extra conditions for Riemann and are simply guaranteed for Lebesgue.</p>
+<h2>Probability Lives Here</h2>
+<p>Modern probability theory is built on the Lebesgue integral. The expected value of any random variable — the average outcome over infinitely many trials — is a Lebesgue integral. The variance, the probability of falling in some range, the entire structure of statistical inference: all Lebesgue integrals over probability measures. The law of large numbers (why sample averages converge to the true mean) is proved using the Dominated Convergence Theorem. Without Lebesgue, the mathematical foundation of statistics would have cracks in it.</p>
+<h2>Conclusion</h2>
+<p>The Riemann integral — slicing the x-axis into vertical strips — fails for certain functions that arise naturally in mathematics and probability. Lebesgue's solution was to slice horizontally instead: group x-values by the function's output level, measure the total x-space at each level, and sum up. This handles everything Riemann can, plus much more. More importantly, it comes with the Dominated Convergence Theorem — the ability to swap limits and integrals freely — which is the key tool in modern probability theory. Lebesgue's 1902 lecture didn't just improve a calculation method. It rebuilt analysis on a foundation strong enough to support all of modern mathematics.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 6</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul 2026 &ndash; Jan 2027</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="kernel-methods.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Kernel Methods: Infinite-Dimensional Feature Spaces</span></a>
+    <a href="numerical-linear-algebra.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Numerical Linear Algebra: Algorithms for Large-Scale Problems</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

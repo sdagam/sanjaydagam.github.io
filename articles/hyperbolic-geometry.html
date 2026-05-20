@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyperbolic Geometry and Networks: Mapping the Internet — Applied Math Blog</title>
+<meta name="description" content="Article 134 of 156 in Sanjay Dagam's Applied Mathematics blog. Hyperbolic Geometry and Networks: Mapping the Internet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-ra-bg:#e8d5f5;      --cat-ra:#6c3483;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-ra      { background:var(--cat-ra-bg);      color:var(--cat-ra);      }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Network Science</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-network">Network Science</span>
+    <h1 class="article-title">Hyperbolic Geometry and Networks: Mapping the Internet</h1>
+    <div class="article-meta">
+      <span>#134 of 156</span>
+      <span>July 25, 2026</span>
+      <span>Group 6 &middot; Jul 2026&ndash;Jan 2027</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">The internet has roughly 70,000 autonomous networks — university systems, ISPs, corporate networks — connected to each other. Every time you load a webpage, your data finds its way through dozens of these networks in milliseconds.</p>
+<h2>Two Kinds of Space</h2>
+<p>You learned Euclidean geometry in school: flat space, where parallel lines never meet and the angles of a triangle add up to exactly 180°. But flat isn't the only possibility. On a sphere (like the surface of the Earth), parallel lines eventually meet — the geometry is positively curved, like the outside of a ball. Hyperbolic geometry is the opposite: negatively curved space, like the inside of a saddle or a Pringle chip. In hyperbolic space, parallel lines diverge, and the angles of a triangle add up to less than 180°.</p>
+<p>The critical property of hyperbolic space: it has exponentially more room as you move outward. In flat space, the area of a circle grows as r² — double the radius, quadruple the area. In hyperbolic space, area grows exponentially with radius. This means hyperbolic space can pack an enormous number of points into a bounded region — far more than flat space can.</p>
+<h2>Why the Internet Is Hyperbolic</h2>
+<p>Real networks — the internet, social networks, protein interaction networks — have a striking property: they're highly hierarchical and their connectivity grows exponentially with distance from any hub. The number of nodes you can reach in k hops grows roughly exponentially with k. This is exactly the growth pattern of hyperbolic space. It's not a coincidence: researchers discovered that the large-scale structure of the internet matches hyperbolic geometry almost perfectly.</p>
+<div class="math-block">Hyperbolic distance between two points:
+cosh(d) = cosh(r₁)cosh(r₂) - sinh(r₁)sinh(r₂)cos(θ₁₂)
+
+r₁, r₂ = distances from the center (like radial coordinates)
+θ₁₂ = angular difference between the two points
+cosh, sinh = hyperbolic cosine and sine functions
+(analogues of regular cosine and sine, but for hyperbolic space)
+
+In plain English: in hyperbolic coordinates, two nodes that are
+close in both radius and angle are likely directly connected.</div>
+<h2>Greedy Routing: Navigate Without a Map</h2>
+<p>Here's the payoff. If you embed the internet's routers into a two-dimensional hyperbolic map — give each router a set of hyperbolic coordinates — then routing becomes trivial: always forward each packet to whichever neighbor is closest in hyperbolic distance to the destination. No global routing tables needed. No central planner. Just local geometry.</p>
+<p>Researchers tested this in 2010 and found something remarkable: greedy hyperbolic routing successfully delivered over 99% of packets on the actual internet topology, using only the coordinates of source and destination. The internet already has the shape of hyperbolic space — it just hadn't been drawn that way yet.</p>
+<h2>The Poincaré Disk: Seeing Hyperbolic Space</h2>
+<p>Hyperbolic space is hard to visualize because we live in flat space. The Poincaré disk is a way to draw it: an infinite hyperbolic plane is mapped into the interior of a disk. Straight lines in hyperbolic space become circular arcs that meet the disk's boundary at right angles. The famous Dutch artist M.C. Escher used exactly this representation in his "Circle Limit" series — the fish and angels that get smaller toward the edge of the circle are actually the same size in hyperbolic space; they just look smaller because the mapping distorts sizes near the boundary.</p>
+<h2>Other Applications</h2>
+<p>Hyperbolic geometry appears in social networks (the "small world" phenomenon — why everyone is six degrees from everyone else — follows naturally from hyperbolic structure), biological networks (protein interactions and metabolic networks are hyperbolic), and machine learning (embedding words or knowledge graphs in hyperbolic space captures hierarchical relationships better than flat space with fewer dimensions). The brain itself may use hyperbolic geometry to organize memory and conceptual hierarchies.</p>
+<h2>Conclusion</h2>
+<p>The internet navigates itself through hyperbolic geometry without knowing it. Because real networks grow exponentially — more nodes reachable with each additional hop — they naturally have the structure of hyperbolic space. Embedding routers in hyperbolic coordinates makes routing trivially simple: always move toward the destination in hyperbolic distance.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 6</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul 2026 &ndash; Jan 2027</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="limits-continuity.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">Limits and Continuity: The Rigorous Foundation of Calculus</span></a>
+    <a href="optimization-landscapes.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Optimization Landscapes: Convexity, Saddles, and Global Minima</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

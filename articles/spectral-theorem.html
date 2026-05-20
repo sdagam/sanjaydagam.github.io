@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectral Theorem: When Matrices Are Diagonalizable — Applied Math Blog</title>
+<meta name="description" content="Article 131 of 156 in Sanjay Dagam's Applied Mathematics blog. Spectral Theorem: When Matrices Are Diagonalizable">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-ra-bg:#e8d5f5;      --cat-ra:#6c3483;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-ra      { background:var(--cat-ra-bg);      color:var(--cat-ra);      }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Linear Algebra</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-la">Linear Algebra</span>
+    <h1 class="article-title">Spectral Theorem: When Matrices Are Diagonalizable</h1>
+    <div class="article-meta">
+      <span>#131 of 156</span>
+      <span>July 4, 2026</span>
+      <span>Group 6 &middot; Jul 2026&ndash;Jan 2027</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Every time a structural engineer tests whether a bridge will vibrate dangerously in the wind, she's looking for the bridge's natural frequencies — the speeds at which it wants to oscillate. Get those frequencies right and the bridge stands for centuries. Get them wrong and you get the Tacoma Narrows Bridge, which shook itself apart in a 40 mph wind in 1940. Finding those frequencies is a matrix problem. And the Spectral Theorem is the mathematical guarantee that the problem always has a clean, complete answer.</p>
+<h2>What Is a Matrix's "Spectrum"?</h2>
+<p>A matrix is a grid of numbers that transforms space — rotating, stretching, or squishing whatever it acts on. Most transformations are complicated: they rotate and stretch simultaneously, in ways that are hard to untangle. But every matrix has special directions — called eigenvectors — that it only stretches or shrinks, never rotates. The stretching factor for each direction is the eigenvalue. Together, the eigenvalues are called the spectrum of the matrix (like the spectrum of light: breaking white light into its component colors).</p>
+<p>For the bridge: the stiffness matrix encodes how every part of the structure pushes and pulls on every other part. Its eigenvalues are the squares of the natural frequencies. Its eigenvectors describe the shapes the bridge takes when it vibrates at each frequency — the "modes." Every real vibration of the bridge is a combination of these modes, like a chord in music being a combination of pure notes.</p>
+<h2>The Spectral Theorem</h2>
+<p>The Spectral Theorem says something beautiful and powerful: if a matrix is symmetric — meaning its grid of numbers is a mirror image across the diagonal — then it can always be completely decomposed into its eigenvectors and eigenvalues. No messy rotations, no complications. Just pure stretching along perpendicular directions.</p>
+<div class="math-block">Spectral Theorem: if A is a symmetric matrix, then
+A = Q D Qᵀ
+
+Q = a matrix whose columns are eigenvectors (all perpendicular to each other)
+D = a diagonal matrix with eigenvalues on the diagonal (zeros everywhere else)
+Qᵀ = Q written with rows and columns swapped
+
+In plain English: any symmetric matrix is just stretching along
+perpendicular axes. Q rotates to those axes, D does the stretching,
+Qᵀ rotates back.</div>
+<p>Symmetric matrices show up constantly in physics and engineering because real physical quantities — stress, energy, inertia — always produce symmetric matrices. The Spectral Theorem guarantees that all of these can be completely understood through their eigenvalues and eigenvectors.</p>
+<h2>Why "Perpendicular" Matters</h2>
+<p>The theorem doesn't just say the eigenvectors exist — it says they're perpendicular to each other. This is what makes the decomposition so useful. Perpendicular directions don't interfere with each other. Each vibration mode of the bridge oscillates independently. You can add them up like independent channels of audio without one contaminating another. Engineers can fix a problem with one mode without disturbing the others.</p>
+<p>After the Tacoma Narrows collapse, engineers used exactly this analysis on the replacement bridge. They computed the eigenvalues and eigenvectors of the stiffness matrix, identified which modes were vulnerable to wind-driven resonance, and redesigned the bridge's cross-section to shift those eigenvalues to safer frequencies. The replacement bridge, opened in 1950, is still standing today.</p>
+<h2>Other Applications</h2>
+<p>Quantum mechanics is built almost entirely on the Spectral Theorem. In quantum physics, every measurable quantity — energy, position, momentum — corresponds to a symmetric matrix (called a Hermitian operator). The Spectral Theorem guarantees that the possible measurement outcomes are always the eigenvalues, and that measurements along different eigenvectors don't interfere. The theorem is why atoms have discrete energy levels, why electrons have definite spins, and why quantum measurements produce definite numbers rather than fuzzy smears. Google's PageRank, facial recognition, and MRI image reconstruction all rely on the same decomposition.</p>
+<h2>Conclusion</h2>
+<p>The Spectral Theorem is mathematics' guarantee of order in what could be chaos. Every symmetric matrix — every physical system described by symmetric equations — can be completely understood through its eigenvalues and perpendicular eigenvectors. For bridge engineers, those eigenvalues are natural frequencies that determine whether a structure stands or shakes itself apart. For quantum physicists, they're the measurable properties of the universe. The theorem says: no matter how complicated the matrix, there's always a clean set of axes where everything becomes simple.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 6</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul 2026 &ndash; Jan 2027</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <div></div>
+    <a href="nonlinear-odes.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Nonlinear Differential Equations: Chaos and Limit Cycles</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>

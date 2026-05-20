@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniform Continuity and Compactness: Fine Distinctions That Matter — Applied Math Blog</title>
+<meta name="description" content="Article 142 of 156 in Sanjay Dagam's Applied Mathematics blog. Uniform Continuity and Compactness: Fine Distinctions That Matter">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+:root {
+  --ink:#0f0f14; --ink-2:#3a3a4a; --ink-3:#72728a; --ink-4:#a0a0b8;
+  --bg:#faf9f6; --surface:#ffffff; --rule:#e8e8f0; --accent:#2d5be3;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",monospace;
+  --max:700px;
+  --cat-la-bg:#d5e8d4;      --cat-la:#2d6a2d;
+  --cat-de-bg:#dae8fc;      --cat-de:#1a5276;
+  --cat-ra-bg:#e8d5f5;      --cat-ra:#6c3483;
+  --cat-network-bg:#fff3e0; --cat-network:#784212;
+  --cat-cs-bg:#f0ebf8;      --cat-cs:#512e5f;
+}
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.7; min-height:100vh; }
+.site-nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(250,249,246,0.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  padding:0 2rem; height:50px;
+  display:flex; align-items:center; gap:0.5rem;
+  font-family:var(--sans); font-size:0.82rem;
+}
+.site-nav a.home { color:var(--accent); text-decoration:none; font-weight:600; }
+.site-nav a.home:hover { text-decoration:underline; }
+.site-nav .sep { color:var(--ink-4); }
+.site-nav .crumb { color:var(--ink-3); }
+.progress-bar { position:fixed; top:50px; left:0; right:0; z-index:99; height:2px; background:var(--rule); }
+.progress-fill { height:100%; background:var(--accent); width:0%; transition:width 0.1s linear; }
+.article-wrap { max-width:var(--max); margin:0 auto; padding:3rem 1.5rem 5rem; }
+.article-header { margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--rule); }
+.cat-badge {
+  display:inline-block; font-size:0.68rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.07em;
+  padding:0.2rem 0.65rem; border-radius:2rem; margin-bottom:1rem;
+}
+.cat-la      { background:var(--cat-la-bg);      color:var(--cat-la);      }
+.cat-de      { background:var(--cat-de-bg);      color:var(--cat-de);      }
+.cat-ra      { background:var(--cat-ra-bg);      color:var(--cat-ra);      }
+.cat-network { background:var(--cat-network-bg); color:var(--cat-network); }
+.cat-cs      { background:var(--cat-cs-bg);      color:var(--cat-cs);      }
+.article-title {
+  font-family:var(--serif); font-size:clamp(1.8rem,5vw,2.5rem);
+  line-height:1.2; letter-spacing:-0.02em;
+  color:var(--ink); margin-bottom:1rem; font-weight:400;
+}
+.article-meta { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; font-size:0.8rem; color:var(--ink-4); }
+.article-body { font-size:1.05rem; line-height:1.82; color:var(--ink-2); }
+.article-body p { margin-bottom:1.25rem; }
+.article-body p.lead {
+  font-size:1.1rem; line-height:1.8; color:var(--ink);
+  border-left:3px solid var(--accent); padding-left:1.1rem;
+  margin-bottom:1.8rem; font-family:var(--serif); font-style:italic;
+}
+.article-body h2 {
+  font-family:var(--serif); font-size:1.3rem; font-weight:400;
+  color:var(--ink); margin:2.5rem 0 0.8rem;
+  padding-top:1.5rem; border-top:1px solid var(--rule);
+}
+.math-block {
+  font-family:var(--mono); font-size:0.87rem;
+  background:var(--surface); border:1px solid var(--rule);
+  border-left:3px solid var(--accent); border-radius:0 6px 6px 0;
+  padding:0.85rem 1.1rem; margin:1.5rem 0;
+  color:var(--ink); overflow-x:auto; line-height:1.6;
+}
+.batch-box {
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:8px; padding:1rem 1.25rem; margin:3rem 0 2rem;
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:0.5rem; text-align:center;
+}
+.bi-label { display:block; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-4); margin-bottom:0.2rem; }
+.bi-value { display:block; font-size:0.85rem; font-weight:500; color:var(--ink); }
+.article-nav {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--rule);
+}
+.article-nav a {
+  display:flex; flex-direction:column; gap:0.3rem;
+  padding:0.85rem 1rem; border:1.5px solid var(--rule);
+  border-radius:8px; text-decoration:none; background:var(--surface);
+  transition:border-color 0.15s, box-shadow 0.15s;
+}
+.article-nav a:hover { border-color:var(--accent); box-shadow:0 2px 12px rgba(45,91,227,0.08); }
+.nav-label { font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); }
+.nav-title { font-size:0.85rem; color:var(--ink); font-weight:500; line-height:1.35; }
+.nav-next { text-align:right; }
+.back-home { display:inline-flex; align-items:center; gap:0.4rem; margin-top:1.5rem; font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none; }
+.back-home:hover { text-decoration:underline; }
+.article-footer { margin-top:4rem; padding:1.5rem 0; border-top:1px solid var(--rule); text-align:center; font-size:0.78rem; color:var(--ink-4); }
+@media (max-width:600px) {
+  .article-wrap { padding:1.5rem 1.1rem 4rem; }
+  .article-nav { grid-template-columns:1fr; }
+  .batch-box { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/sanjaydagam.github.io/blog.html" class="home">Applied Mathematics</a>
+  <span class="sep">/</span>
+  <span class="crumb">Real Analysis</span>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<main class="article-wrap">
+  <header class="article-header">
+    <span class="cat-badge cat-ra">Real Analysis</span>
+    <h1 class="article-title">Uniform Continuity and Compactness: Fine Distinctions That Matter</h1>
+    <div class="article-meta">
+      <span>#142 of 156</span>
+      <span>September 19, 2026</span>
+      <span>Group 6 &middot; Jul 2026&ndash;Jan 2027</span>
+    </div>
+  </header>
+  <div class="article-body">
+<p class="lead">Imagine you're zooming in on a photograph. Most of the photo — faces, backgrounds, text — gets clearer as you zoom in. Every region has a level of zoom where the details snap into focus. But suppose one small part of the photo, no matter how much you zoom in, stays blurry — the blur is infinite and no zoom level ever clears it up. That broken region would ruin any algorithm trying to analyze the photo uniformly. Mathematics has an exact analogue: some functions behave consistently everywhere you look, and some have a region that breaks consistency no matter how closely you examine it. The difference is uniform continuity, and it determines whether many mathematical algorithms work or silently fail.</p>
+<h2>What Continuity Means</h2>
+<p>A function is continuous if it has no sudden jumps. Move the input a tiny bit, and the output moves a tiny bit too — no teleportation. Temperature over the course of a day is continuous. A light switch is not — it jumps from off to on instantly.</p>
+<p>More precisely: a function is continuous at a point if, for any output precision you demand, there's an input precision that guarantees it. Want the output within 0.01 of the target? Fine — stay within 0.001 of the input. Want the output within 0.0001? Stay within 0.00001. You can always find an input precision that works.</p>
+<h2>The Catch: The Precision Can Depend on Where You Are</h2>
+<p>Here's the subtle problem. Consider the function f(x) = 1/x — one divided by x. This function is continuous at every positive x. But look at what happens near zero. At x = 1, the function changes slowly — nudge x by 0.1 and f(x) changes by about 0.1. At x = 0.01, the function changes rapidly — nudge x by 0.001 and f(x) changes by about 10. At x = 0.0001, nudging x by 0.0000001 changes f(x) by 1000.</p>
+<p>The function is continuous everywhere — but the zoom level you need to make it look "flat and smooth" gets finer and finer as you approach zero. There's no single zoom level that works for the whole function.</p>
+<div class="math-block">Continuity at each point:
+For any precision ε you want in the output,
+there exists a zoom level δ (that can depend on WHERE you are)
+such that inputs within δ give outputs within ε.
+
+Uniform Continuity:
+For any precision ε you want in the output,
+there exists ONE zoom level δ (the SAME everywhere)
+such that inputs within δ give outputs within ε — no matter where you are.
+
+f(x) = 1/x on (0,1):  continuous but NOT uniformly continuous
+f(x) = x² on [0,1]:   continuous AND uniformly continuous</div>
+<h2>What Makes the Difference: The Closed Interval</h2>
+<p>Notice that 1/x fails on the open interval (0, 1) — which doesn't include the endpoint 0. On the closed interval [0.1, 1] — stepping back from zero — it becomes uniformly continuous. The problem was at the boundary point 0, which the open interval excludes.</p>
+<p>This leads to one of analysis's most useful theorems: any continuous function on a closed, bounded interval is automatically uniformly continuous. Closed means the endpoints are included. Bounded means it doesn't stretch to infinity. Together — this is called compactness — they force the function to behave consistently across the entire domain. No hidden rogue regions.</p>
+<h2>Why Engineers Care</h2>
+<p>Numerical algorithms that divide an interval into equal pieces and compute the function at each piece rely on the function behaving consistently — the same zoom level working everywhere. If a function is only continuous but not uniformly continuous, an algorithm using equal-sized pieces can get wildly wrong answers near the problematic region. The function 1/x near zero will cause the algorithm to either miss the rapid changes entirely or waste enormous computation trying to zoom in where it's needed.</p>
+<p>Uniform continuity is the property that guarantees equal-piece algorithms work. Compactness — closing the interval — is the guarantee that continuous functions have this property. Engineers who use numerical software on open or unbounded domains discover the difference the hard way.</p>
+<h2>Other Applications</h2>
+<p>Uniform continuity is also what makes the Riemann integral well-defined for continuous functions on closed intervals — each rectangle in the sum is a valid approximation because the function behaves consistently across the rectangle. It's the condition behind Weierstrass's theorem: every continuous function on a closed bounded interval can be approximated as closely as you like by a polynomial. These theorems — so useful in practice — all quietly require uniform continuity, which they get for free from compactness.</p>
+<h2>Conclusion</h2>
+<p>Continuity means no jumps. Uniform continuity means no jumps, and no regions that get increasingly wild as you zoom in. The difference is whether one zoom level works everywhere or needs to keep getting finer in certain spots. Close a bounded interval — include the endpoints — and continuity automatically becomes uniform continuity. This seemingly small distinction is what makes numerical algorithms reliable, integration well-defined, and polynomial approximation theorems possible. The devil, as usual, is at the boundary.</p>
+  </div>
+  <div class="batch-box">
+    <div><span class="bi-label">Series</span><span class="bi-value">Group 6</span></div>
+    <div><span class="bi-label">Period</span><span class="bi-value">Jul 2026 &ndash; Jan 2027</span></div>
+    <div><span class="bi-label">Level</span><span class="bi-value">Advanced</span></div>
+  </div>
+  <nav class="article-nav">
+    <a href="pac-learning.html" class="nav-prev"><span class="nav-label">&larr; Previous</span><span class="nav-title">PAC Learning: The Theory of What Machines Can Learn</span></a>
+    <a href="operator-theory.html" class="nav-next"><span class="nav-label">Next &rarr;</span><span class="nav-title">Operator Theory: Linear Algebra in Infinite Dimensions</span></a>
+  </nav>
+  <a href="/sanjaydagam.github.io/blog.html" class="back-home">&larr; Back to all articles</a>
+</main>
+<footer class="article-footer">
+  Applied Mathematics Blog &nbsp;&middot;&nbsp; Sanjay Dagam &nbsp;&middot;&nbsp; Articles 1&ndash;156
+</footer>
+<script>
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+</script>
+</body>
+</html>
