@@ -104,6 +104,48 @@
         .opp-num em { font-style: normal; color: #F0A070; }
         .opp-lbl { font-size: 0.67rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-top: 0.35rem; }
 
+        /* ── PAPER CTA (inside opportunity band) ── */
+        .opp-divider { max-width: 900px; margin: 2.25rem auto 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .paper-cta {
+            max-width: 900px; margin: 0 auto; padding-top: 2rem;
+            display: flex; flex-wrap: wrap; align-items: center;
+            justify-content: space-between; gap: 1.25rem;
+        }
+        .paper-cta-text { flex: 1 1 300px; }
+        .paper-cta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em;
+            color: #F0A070; display: block; margin-bottom: 0.4rem;
+        }
+        .paper-cta-title { font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: #fff; line-height: 1.25; }
+        .paper-cta-meta { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 0.4rem; }
+        .paper-btns { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .paper-btn {
+            display: inline-block; font-size: 0.82rem; font-weight: 600;
+            padding: 0.7rem 1.3rem; border-radius: 6px; text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, color 0.2s; white-space: nowrap;
+        }
+        .paper-btn-solid { background: var(--ml); color: #fff; }
+        .paper-btn-solid:hover { background: var(--ml-mid); }
+        .paper-btn-ghost { background: transparent; color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.25); }
+        .paper-btn-ghost:hover { border-color: #F0A070; color: #F0A070; }
+
+        /* ── INLINE PDF VIEWER ── */
+        .paper-viewer { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-alt); }
+        .paper-viewer-top {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 0.75rem; padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--border); background: var(--bg-card);
+        }
+        .paper-viewer-name { font-size: 0.82rem; color: var(--muted); }
+        .paper-viewer-top .paper-btn { font-size: 0.75rem; padding: 0.5rem 1rem; }
+        .paper-iframe { width: 100%; height: 680px; border: 0; display: block; background: #fff; }
+        .paper-fallback { padding: 1rem; text-align: center; font-size: 0.82rem; color: var(--muted); }
+        .paper-fallback a { color: var(--ml); font-weight: 600; text-decoration: underline; }
+        @media (max-width: 640px) {
+            .paper-iframe { height: 460px; }
+            .paper-cta { flex-direction: column; align-items: flex-start; }
+        }
+
         /* ── BODY ── */
         .proj-body {
             max-width: 900px; margin: 0 auto;
@@ -402,6 +444,26 @@
     </header>
 
     <!-- OPPORTUNITY BAND -->
+    <section class="opp-band">
+        <div class="opp-inner">
+            <div class="opp-item"><span class="opp-num">399</span><span class="opp-lbl">EPA monitors</span></div>
+            <div class="opp-item"><span class="opp-num">21</span><span class="opp-lbl">Pandora pairs</span></div>
+            <div class="opp-item"><span class="opp-num"><em>1.6 h</em></span><span class="opp-lbl">Summer lead</span></div>
+            <div class="opp-item"><span class="opp-num">2024</span><span class="opp-lbl">Full year analyzed</span></div>
+        </div>
+        <div class="opp-divider"></div>
+        <div class="paper-cta">
+            <div class="paper-cta-text">
+                <span class="paper-cta-label">Full Research Report</span>
+                <div class="paper-cta-title">Read the complete paper</div>
+                <div class="paper-cta-meta">PDF &middot; 28 pages &middot; Regeneron Science Talent Search 2027</div>
+            </div>
+            <div class="paper-btns">
+                <a href="/assets/dagam-2026-tempo-no2-afternoon-minimum.pdf" download class="paper-btn paper-btn-solid">&#8595; Download PDF</a>
+                <a href="#paper" class="paper-btn paper-btn-ghost">Read online &#8595;</a>
+            </div>
+        </div>
+    </section>
 
     <!-- BODY -->
     <div class="proj-body">
@@ -624,6 +686,22 @@
 
 
 
+
+            <!-- Full paper -->
+            <div class="proj-section" id="paper">
+                <div class="proj-section-label">Full Paper</div>
+                <h2>Read the research report</h2>
+                <div class="paper-viewer">
+                    <div class="paper-viewer-top">
+                        <span class="paper-viewer-name">Timing of the Afternoon NO&#8322; Minimum in TEMPO Hourly Observations &middot; 28 pages</span>
+                        <a href="/assets/dagam-2026-tempo-no2-afternoon-minimum.pdf" download class="paper-btn paper-btn-solid">&#8595; Download PDF</a>
+                    </div>
+                    <iframe class="paper-iframe" src="/assets/dagam-2026-tempo-no2-afternoon-minimum.pdf#view=FitH" title="Timing of the Afternoon NO2 Minimum in TEMPO Hourly Observations - research report by Sanjay Dagam" loading="lazy"></iframe>
+                    <div class="paper-fallback">
+                        Viewer not loading? <a href="/assets/dagam-2026-tempo-no2-afternoon-minimum.pdf" download>Download the PDF</a> instead.
+                    </div>
+                </div>
+            </div>
 
         </main>
 
